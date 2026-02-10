@@ -80,7 +80,8 @@ defmodule Stripe.MixProject do
         "GitHub" => @source_url,
         "Changelog" => "#{@source_url}/blob/main/CHANGELOG.md"
       },
-      files: ~w(lib guides .formatter.exs mix.exs README.md LICENSE CHANGELOG.md OPENAPI_VERSION)
+      files:
+        ~w(lib guides .formatter.exs mix.exs README.md LICENSE CHANGELOG.md OPENAPI_VERSION usage-rules.md)
     ]
   end
 
