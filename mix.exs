@@ -52,6 +52,9 @@ defmodule Stripe.MixProject do
       # JSON (heavy payloads — Rust NIF, 2-3x faster than Jason)
       {:rustyjson, "~> 0.3"},
 
+      # Installer
+      {:igniter, "~> 0.7", optional: true},
+
       # Dev/Test
       {:plug, "~> 1.16", only: :test},
       {:mox, "~> 1.1", only: :test},
@@ -88,6 +91,7 @@ defmodule Stripe.MixProject do
       extras: [
         "README.md",
         "guides/getting-started.md",
+        "guides/igniter-installer.md",
         "guides/webhooks.md",
         "guides/connect-and-oauth.md",
         "guides/testing.md",
@@ -97,6 +101,7 @@ defmodule Stripe.MixProject do
       groups_for_extras: [
         Guides: [
           "guides/getting-started.md",
+          "guides/igniter-installer.md",
           "guides/webhooks.md",
           "guides/connect-and-oauth.md",
           "guides/testing.md",

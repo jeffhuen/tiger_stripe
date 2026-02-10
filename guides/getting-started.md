@@ -2,6 +2,33 @@
 
 ## Installation
 
+### With Igniter (recommended for Phoenix)
+
+> **Beta:** The Igniter installer is new and under active testing.
+> [Report issues here.](https://github.com/jeffhuen/stripe_elixir/issues)
+
+If your project uses [Igniter](https://hex.pm/packages/igniter), one command
+adds the dependency and configures everything:
+
+```bash
+mix igniter.install stripe_elixir
+```
+
+This will:
+
+- Add API key config to `config/dev.exs`
+- Add runtime env var config to `config/runtime.exs`
+- Add `Stripe.WebhookPlug` to your endpoint (before `Plug.Parsers`)
+- Scaffold a `StripeWebhookController` with event handler stubs
+- Add the webhook route to your router
+
+Igniter shows a diff of all changes for your approval before writing anything.
+See the [Igniter Installer](igniter-installer.md) guide for a detailed
+walkthrough, or the [Webhooks](webhooks.md) guide for customizing the
+controller.
+
+### Manual
+
 Add `stripe_elixir` to your dependencies in `mix.exs`:
 
 ```elixir

@@ -28,6 +28,23 @@ modules.
 
 ## Installation
 
+### With Igniter (recommended for Phoenix)
+
+> **Beta:** The Igniter installer is new and under active testing.
+> [Report issues here.](https://github.com/jeffhuen/stripe_elixir/issues)
+
+If your project uses [Igniter](https://hex.pm/packages/igniter), one command
+sets up everything — config, webhook plug, controller, and route:
+
+```bash
+mix igniter.install stripe_elixir
+```
+
+See the [Igniter Installer](guides/igniter-installer.md) guide for a detailed
+walkthrough of what the installer does.
+
+### Manual
+
 Add `stripe_elixir` to your dependencies in `mix.exs`:
 
 ```elixir
@@ -143,6 +160,7 @@ client = Stripe.client("sk_test_other_key", max_retries: 5)
 ## Guides
 
 - [Getting Started](guides/getting-started.md) — installation, configuration, first API call, pagination, error handling
+- [Igniter Installer](guides/igniter-installer.md) — one-command Phoenix setup (beta)
 - [Webhooks](guides/webhooks.md) — signature verification, WebhookPlug setup, typed event modules
 - [Connect & OAuth](guides/connect-and-oauth.md) — connected accounts, OAuth flow, multi-tenant patterns
 - [Testing](guides/testing.md) — process-scoped HTTP stubs with `async: true` support
