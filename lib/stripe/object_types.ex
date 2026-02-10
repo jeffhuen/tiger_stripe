@@ -21,8 +21,7 @@ defmodule Stripe.ObjectTypes do
       "billing.alert" => Stripe.Resources.Billing.Alert,
       "billing.alert_triggered" => Stripe.Resources.Billing.AlertTriggered,
       "billing.credit_balance_summary" => Stripe.Resources.Billing.CreditBalanceSummary,
-      "billing.credit_balance_transaction" =>
-        Stripe.Resources.Billing.CreditBalanceTransaction,
+      "billing.credit_balance_transaction" => Stripe.Resources.Billing.CreditBalanceTransaction,
       "billing.credit_grant" => Stripe.Resources.Billing.CreditGrant,
       "billing.meter" => Stripe.Resources.Billing.Meter,
       "billing.meter_event" => Stripe.Resources.Billing.MeterEvent,
@@ -35,8 +34,7 @@ defmodule Stripe.ObjectTypes do
       "cash_balance" => Stripe.Resources.CashBalance,
       "charge" => Stripe.Resources.Charge,
       "checkout.session" => Stripe.Resources.Checkout.Session,
-      "checkout_afterpay_clearpay_payment_method_options" =>
-        Stripe.Resources.AfterpayClearpay,
+      "checkout_afterpay_clearpay_payment_method_options" => Stripe.Resources.AfterpayClearpay,
       "climate.order" => Stripe.Resources.Climate.Order,
       "climate.product" => Stripe.Resources.Climate.Product,
       "climate.supplier" => Stripe.Resources.Climate.Supplier,
@@ -51,8 +49,7 @@ defmodule Stripe.ObjectTypes do
       "connect_embedded_disputes_list_features" => Stripe.Resources.DisputesListFeatures,
       "connect_embedded_financial_account_config_claim" =>
         Stripe.Resources.FinancialAccountConfig,
-      "connect_embedded_financial_account_features" =>
-        Stripe.Resources.FinancialAccountFeatures,
+      "connect_embedded_financial_account_features" => Stripe.Resources.FinancialAccountFeatures,
       "connect_embedded_financial_account_transactions_config_claim" =>
         Stripe.Resources.FinancialAccountTransactionsConfig,
       "connect_embedded_financial_account_transactions_features" =>
@@ -65,11 +62,9 @@ defmodule Stripe.ObjectTypes do
       "connect_embedded_issuing_card_features" => Stripe.Resources.IssuingCardFeatures,
       "connect_embedded_issuing_cards_list_config_claim" =>
         Stripe.Resources.IssuingCardsListConfig,
-      "connect_embedded_issuing_cards_list_features" =>
-        Stripe.Resources.IssuingCardsListFeatures,
+      "connect_embedded_issuing_cards_list_features" => Stripe.Resources.IssuingCardsListFeatures,
       "connect_embedded_payment_disputes_config" => Stripe.Resources.PaymentDisputesConfig,
-      "connect_embedded_payment_disputes_features" =>
-        Stripe.Resources.PaymentDisputesFeatures,
+      "connect_embedded_payment_disputes_features" => Stripe.Resources.PaymentDisputesFeatures,
       "connect_embedded_payments_config_claim" => Stripe.Resources.PaymentsConfig,
       "connect_embedded_payments_features" => Stripe.Resources.PaymentsFeatures,
       "connect_embedded_payouts_config" => Stripe.Resources.PayoutsConfig,
@@ -89,8 +84,7 @@ defmodule Stripe.ObjectTypes do
       "customer_balance_resource_cash_balance_transaction_resource_unapplied_from_payment_transaction" =>
         Stripe.Resources.UnappliedFromPayment,
       "customer_balance_transaction" => Stripe.Resources.CustomerBalanceTransaction,
-      "customer_cash_balance_transaction" =>
-        Stripe.Resources.CustomerCashBalanceTransaction,
+      "customer_cash_balance_transaction" => Stripe.Resources.CustomerCashBalanceTransaction,
       "customer_session" => Stripe.Resources.CustomerSession,
       "deleted_account" => Stripe.Resources.DeletedAccount,
       "deleted_apple_pay_domain" => Stripe.Resources.DeletedApplePayDomain,
@@ -133,18 +127,15 @@ defmodule Stripe.ObjectTypes do
       "file" => Stripe.Resources.File,
       "file_link" => Stripe.Resources.FileLink,
       "financial_connections.account" => Stripe.Resources.FinancialConnections.Account,
-      "financial_connections.account_owner" =>
-        Stripe.Resources.FinancialConnections.AccountOwner,
+      "financial_connections.account_owner" => Stripe.Resources.FinancialConnections.AccountOwner,
       "financial_connections.account_ownership" =>
         Stripe.Resources.FinancialConnections.AccountOwnership,
       "financial_connections.session" => Stripe.Resources.FinancialConnections.Session,
-      "financial_connections.transaction" =>
-        Stripe.Resources.FinancialConnections.Transaction,
+      "financial_connections.transaction" => Stripe.Resources.FinancialConnections.Transaction,
       "forwarding.request" => Stripe.Resources.Forwarding.Request,
       "funding_instructions" => Stripe.Resources.FundingInstructions,
       "funding_instructions_bank_transfer" => Stripe.Resources.BankTransfer,
-      "funding_instructions_bank_transfer_sort_code_record" =>
-        Stripe.Resources.SortCodeRecords,
+      "funding_instructions_bank_transfer_sort_code_record" => Stripe.Resources.SortCodeRecords,
       "identity.verification_report" => Stripe.Resources.Identity.VerificationReport,
       "identity.verification_session" => Stripe.Resources.Identity.VerificationSession,
       "invoice" => Stripe.Resources.Invoice,
@@ -179,8 +170,7 @@ defmodule Stripe.ObjectTypes do
         Stripe.Resources.PaymentIntentAmountDetailsLineItem,
       "payment_intent_next_action_alipay_handle_redirect" =>
         Stripe.Resources.NextActionAlipayHandleRedirect,
-      "payment_intent_next_action_boleto" =>
-        Stripe.Resources.NextActionDisplayBoletoDetails,
+      "payment_intent_next_action_boleto" => Stripe.Resources.NextActionDisplayBoletoDetails,
       "payment_intent_next_action_card_await_notification" =>
         Stripe.Resources.NextActionCardAwaitNotification,
       "payment_intent_next_action_cashapp_handle_redirect_or_display_qr_code" =>
@@ -192,15 +182,13 @@ defmodule Stripe.ObjectTypes do
         Stripe.Resources.NextActionMultibancoDisplayDetails,
       "payment_intent_next_action_display_oxxo_details" =>
         Stripe.Resources.NextActionOxxoDisplayDetails,
-      "payment_intent_next_action_konbini" =>
-        Stripe.Resources.NextActionKonbiniDisplayDetails,
+      "payment_intent_next_action_konbini" => Stripe.Resources.NextActionKonbiniDisplayDetails,
       "payment_intent_next_action_konbini_familymart" => Stripe.Resources.Familymart,
       "payment_intent_next_action_konbini_lawson" => Stripe.Resources.Lawson,
       "payment_intent_next_action_konbini_ministop" => Stripe.Resources.Ministop,
       "payment_intent_next_action_konbini_seicomart" => Stripe.Resources.Seicomart,
       "payment_intent_next_action_konbini_stores" => Stripe.Resources.Stores,
-      "payment_intent_next_action_paynow_display_qr_code" =>
-        Stripe.Resources.PaynowDisplayQrCode,
+      "payment_intent_next_action_paynow_display_qr_code" => Stripe.Resources.PaynowDisplayQrCode,
       "payment_intent_next_action_pix_display_qr_code" => Stripe.Resources.PixDisplayQrCode,
       "payment_intent_next_action_promptpay_display_qr_code" =>
         Stripe.Resources.PromptpayDisplayQrCode,
@@ -215,8 +203,7 @@ defmodule Stripe.ObjectTypes do
         Stripe.Resources.WechatPayRedirectToIosApp,
       "payment_intent_payment_method_options_mandate_options_sepa_debit" =>
         Stripe.Resources.SepaDebitMandateOptions,
-      "payment_intent_processing_customer_notification" =>
-        Stripe.Resources.CustomerNotification,
+      "payment_intent_processing_customer_notification" => Stripe.Resources.CustomerNotification,
       "payment_link" => Stripe.Resources.PaymentLink,
       "payment_links_resource_custom_fields_dropdown_option" =>
         Stripe.Resources.CustomFieldDropdownOption,
@@ -256,8 +243,7 @@ defmodule Stripe.ObjectTypes do
       "radar.payment_evaluation" => Stripe.Resources.Radar.PaymentEvaluation,
       "radar.value_list" => Stripe.Resources.Radar.ValueList,
       "radar.value_list_item" => Stripe.Resources.Radar.ValueListItem,
-      "received_payment_method_details_financial_account" =>
-        Stripe.Resources.FinancialAccount,
+      "received_payment_method_details_financial_account" => Stripe.Resources.FinancialAccount,
       "refund" => Stripe.Resources.Refund,
       "reporting.report_run" => Stripe.Resources.Reporting.ReportRun,
       "reporting.report_type" => Stripe.Resources.Reporting.ReportType,
@@ -269,8 +255,7 @@ defmodule Stripe.ObjectTypes do
       "setup_attempt_payment_method_details_au_becs_debit" => Stripe.Resources.AuBecsDebit,
       "setup_attempt_payment_method_details_card_present" => Stripe.Resources.CardPresent,
       "setup_intent" => Stripe.Resources.SetupIntent,
-      "setup_intent_next_action_redirect_to_url" =>
-        Stripe.Resources.NextActionRedirectToUrl,
+      "setup_intent_next_action_redirect_to_url" => Stripe.Resources.NextActionRedirectToUrl,
       "setup_intent_payment_method_options_card_mandate_options" =>
         Stripe.Resources.MandateOptions,
       "setup_intent_payment_method_options_mandate_options_bacs_debit" =>
@@ -324,8 +309,7 @@ defmodule Stripe.ObjectTypes do
       "treasury.credit_reversal" => Stripe.Resources.Treasury.CreditReversal,
       "treasury.debit_reversal" => Stripe.Resources.Treasury.DebitReversal,
       "treasury.financial_account" => Stripe.Resources.Treasury.FinancialAccount,
-      "treasury.financial_account_features" =>
-        Stripe.Resources.Treasury.FinancialAccountFeatures,
+      "treasury.financial_account_features" => Stripe.Resources.Treasury.FinancialAccountFeatures,
       "treasury.inbound_transfer" => Stripe.Resources.Treasury.InboundTransfer,
       "treasury.outbound_payment" => Stripe.Resources.Treasury.OutboundPayment,
       "treasury.outbound_transfer" => Stripe.Resources.Treasury.OutboundTransfer,
@@ -336,8 +320,7 @@ defmodule Stripe.ObjectTypes do
       "treasury_financial_accounts_resource_aba_record" => Stripe.Resources.Aba,
       "treasury_financial_accounts_resource_aba_toggle_settings" =>
         Stripe.Resources.AbaToggleSettings,
-      "treasury_financial_accounts_resource_closed_status_details" =>
-        Stripe.Resources.Closed,
+      "treasury_financial_accounts_resource_closed_status_details" => Stripe.Resources.Closed,
       "treasury_financial_accounts_resource_financial_addresses_features" =>
         Stripe.Resources.FinancialAddresses,
       "treasury_financial_accounts_resource_inbound_ach_toggle_settings" =>
@@ -352,14 +335,11 @@ defmodule Stripe.ObjectTypes do
         Stripe.Resources.OutboundTransfers,
       "treasury_financial_accounts_resource_platform_restrictions" =>
         Stripe.Resources.PlatformRestriction,
-      "treasury_financial_accounts_resource_status_details" =>
-        Stripe.Resources.StatusDetails,
-      "treasury_financial_accounts_resource_toggle_settings" =>
-        Stripe.Resources.ToggleSettings,
+      "treasury_financial_accounts_resource_status_details" => Stripe.Resources.StatusDetails,
+      "treasury_financial_accounts_resource_toggle_settings" => Stripe.Resources.ToggleSettings,
       "treasury_inbound_transfers_resource_inbound_transfer_resource_status_transitions" =>
         Stripe.Resources.StatusTransitions,
-      "treasury_outbound_transfers_resource_returned_details" =>
-        Stripe.Resources.ReturnedDetails,
+      "treasury_outbound_transfers_resource_returned_details" => Stripe.Resources.ReturnedDetails,
       "treasury_shared_resource_billing_details" => Stripe.Resources.BillingDetails,
       "treasury_shared_resource_initiating_payment_method_details_us_bank_account" =>
         Stripe.Resources.UsBankAccount,
@@ -370,8 +350,7 @@ defmodule Stripe.ObjectTypes do
   def v2_object_name_to_module do
     %{
       "v2.billing.meter_event" => Stripe.Resources.V2.Billing.MeterEvent,
-      "v2.billing.meter_event_adjustment" =>
-        Stripe.Resources.V2.Billing.MeterEventAdjustment,
+      "v2.billing.meter_event_adjustment" => Stripe.Resources.V2.Billing.MeterEventAdjustment,
       "v2.billing.meter_event_session" => Stripe.Resources.V2.Billing.MeterEventSession,
       "v2.core.account" => Stripe.Resources.V2.Core.Account,
       "v2.core.account_link" => Stripe.Resources.V2.Core.AccountLink,

@@ -71,10 +71,9 @@ defmodule Stripe.Generator.ServiceGenerator do
 
     methods =
       service.operations
-      |> Enum.map(fn op ->
+      |> Enum.map_join("\n", fn op ->
         generate_method(op, op.method_name in conflicting_methods, path_specs)
       end)
-      |> Enum.join("\n")
 
     # @moduledoc from resource_docs lookup
     moduledoc_content =
@@ -252,7 +251,7 @@ defmodule Stripe.Generator.ServiceGenerator do
         |> Enum.to_list()
         |> Enum.sort_by(fn {name, _} -> name end)
 
-      field_list = Enum.map(fields, fn {name, _} -> ":#{name}" end) |> Enum.join(", ")
+      field_list = Enum.map_join(fields, ", ", fn {name, _} -> ":#{name}" end)
 
       package_label =
         package
@@ -335,13 +334,12 @@ defmodule Stripe.Generator.ServiceGenerator do
     entries =
       Enum.sort_by(root_entries ++ pkg_entries ++ manual_entries, fn {name, _} -> name end)
 
-    field_list = Enum.map(entries, fn {name, _} -> ":#{name}" end) |> Enum.join(", ")
+    field_list = Enum.map_join(entries, ", ", fn {name, _} -> ":#{name}" end)
 
     label =
       case module do
         Stripe.Services.V1 -> "V1"
         Stripe.Services.V2 -> "V2"
-        other -> inspect(other) |> String.split(".") |> List.last()
       end
 
     content = """
@@ -388,13 +386,7 @@ defmodule Stripe.Generator.ServiceGenerator do
     |> Enum.sort()
   end
 
-  defp aggregate_packages(_module, services) do
-    services
-    |> Enum.map(& &1.package)
-    |> Enum.reject(&(&1 == ""))
-    |> Enum.uniq()
-    |> Enum.sort()
-  end
+  # Catch-all removed — only V1 and V2 aggregate modules exist.
 
   # -- Manual services (not in OpenAPI spec) ------------------------------------
 

@@ -96,8 +96,8 @@ defmodule Stripe.WebhookTest do
     end
 
     test "different secrets produce different signatures" do
-      sig1 = Webhook.compute_signature(12345, "payload", "secret_a")
-      sig2 = Webhook.compute_signature(12345, "payload", "secret_b")
+      sig1 = Webhook.compute_signature(12_345, "payload", "secret_a")
+      sig2 = Webhook.compute_signature(12_345, "payload", "secret_b")
       refute sig1 == sig2
     end
   end

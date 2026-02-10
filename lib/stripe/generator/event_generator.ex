@@ -30,8 +30,7 @@ defmodule Stripe.Generator.EventGenerator do
     entries =
       event_types
       |> Enum.sort_by(fn {type, _} -> type end)
-      |> Enum.map(fn {type, _} -> ~s(    "#{type}") end)
-      |> Enum.join(",\n")
+      |> Enum.map_join(",\n", fn {type, _} -> ~s(    "#{type}") end)
 
     content = """
     #{@file_header}
@@ -68,7 +67,7 @@ defmodule Stripe.Generator.EventGenerator do
     module_name = inspect(module)
 
     # Use schema-declared fields for the struct
-    fields = meta.schema_fields |> Enum.map(fn f -> ":#{f}" end) |> Enum.join(", ")
+    fields = meta.schema_fields |> Enum.map_join(", ", fn f -> ":#{f}" end)
 
     # Generate nested Data module if data has actual properties
     data_tree = build_data_type_tree(meta.data_schema)
@@ -100,8 +99,12 @@ defmodule Stripe.Generator.EventGenerator do
 
     moduledoc =
       case meta.description do
-        nil -> "Event notification for `#{event_type}`."
-        "" -> "Event notification for `#{event_type}`."
+        nil ->
+          "Event notification for `#{event_type}`."
+
+        "" ->
+          "Event notification for `#{event_type}`."
+
         desc ->
           case DocFormatter.html_to_markdown(desc) do
             nil -> "Event notification for `#{event_type}`."
@@ -197,17 +200,15 @@ defmodule Stripe.Generator.EventGenerator do
     child_code =
       children
       |> Enum.sort_by(fn {_, mod_name, _} -> mod_name end)
-      |> Enum.map(fn {_field, mod_name, subtree} ->
+      |> Enum.map_join("\n", fn {_field, mod_name, subtree} ->
         render_data_module(subtree, mod_name)
       end)
-      |> Enum.join("\n")
 
-    fields_str = fields |> Enum.map(fn f -> ":#{f}" end) |> Enum.join(", ")
+    fields_str = fields |> Enum.map_join(", ", fn f -> ":#{f}" end)
 
     type_fields =
       fields
-      |> Enum.map(fn f -> "        #{f}: term()" end)
-      |> Enum.join(",\n")
+      |> Enum.map_join(",\n", fn f -> "        #{f}: term()" end)
 
     typedoc =
       case Map.get(tree, :field_descriptions) do
@@ -228,8 +229,7 @@ defmodule Stripe.Generator.EventGenerator do
         entries =
           children
           |> Enum.sort_by(fn {_, mod, _} -> mod end)
-          |> Enum.map(fn {field, mod, _} -> ~s("#{field}" => #{mod}) end)
-          |> Enum.join(", ")
+          |> Enum.map_join(", ", fn {field, mod, _} -> ~s("#{field}" => #{mod}) end)
 
         "def __inner_types__, do: %{#{entries}}"
       else

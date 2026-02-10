@@ -371,26 +371,27 @@ defmodule Stripe.ClientTest do
       client = Stripe.client("sk_test_123")
       {:ok, _} = Client.request(client, :get, "/v1/charges/ch_1")
 
-      assert_receive {:telemetry_start, ^ref, [:stripe, :request, :start],
-                       %{system_time: _}, %{method: :get, path: "/v1/charges/ch_1"}}
+      assert_receive {:telemetry_start, ^ref, [:stripe, :request, :start], %{system_time: _},
+                      %{method: :get, path: "/v1/charges/ch_1"}}
 
-      assert_receive {:telemetry_stop, ^ref, [:stripe, :request, :stop],
-                       %{duration: duration},
-                       %{
-                         method: :get,
-                         path: "/v1/charges/ch_1",
-                         base_address: :api,
-                         http_status: 200,
-                         num_retries: 0,
-                         request_id: "req_test_123"
-                       }}
+      assert_receive {:telemetry_stop, ^ref, [:stripe, :request, :stop], %{duration: duration},
+                      %{
+                        method: :get,
+                        path: "/v1/charges/ch_1",
+                        base_address: :api,
+                        http_status: 200,
+                        num_retries: 0,
+                        request_id: "req_test_123"
+                      }}
 
       assert is_integer(duration) and duration > 0
     end
 
     test "includes http_status and error on failure", %{ref: ref} do
       Stripe.Test.stub(fn _req ->
-        body = JSON.encode!(%{"error" => %{"type" => "invalid_request_error", "message" => "Bad"}})
+        body =
+          JSON.encode!(%{"error" => %{"type" => "invalid_request_error", "message" => "Bad"}})
+
         {400, [{"request-id", "req_fail"}], body}
       end)
 
@@ -398,12 +399,12 @@ defmodule Stripe.ClientTest do
       {:error, _} = Client.request(client, :get, "/v1/bad")
 
       assert_receive {:telemetry_stop, ^ref, _, %{duration: _},
-                       %{
-                         http_status: 400,
-                         num_retries: 0,
-                         request_id: "req_fail",
-                         error: %Stripe.Error{}
-                       }}
+                      %{
+                        http_status: 400,
+                        num_retries: 0,
+                        request_id: "req_fail",
+                        error: %Stripe.Error{}
+                      }}
     end
 
     test "reports num_retries after retry", %{ref: ref} do
@@ -424,7 +425,7 @@ defmodule Stripe.ClientTest do
       {:ok, _} = Client.request(client, :get, "/v1/charges")
 
       assert_receive {:telemetry_stop, ^ref, _, _,
-                       %{http_status: 200, num_retries: 1, request_id: "req_retry_1"}}
+                      %{http_status: 200, num_retries: 1, request_id: "req_retry_1"}}
     end
 
     test "handles nil request_id when no header present", %{ref: ref} do

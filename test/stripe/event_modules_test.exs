@@ -2,12 +2,12 @@ defmodule Stripe.EventModulesTest do
   use ExUnit.Case, async: true
 
   alias Stripe.Events.{
-    V2CoreAccountCreatedEvent,
-    V2CoreAccountPersonCreatedEvent,
-    V2CoreAccountIncludingConfigurationCustomerUpdatedEvent,
+    UnknownEventNotification,
     V1BillingMeterErrorReportTriggeredEvent,
     V1BillingMeterNoMeterFoundEvent,
-    UnknownEventNotification
+    V2CoreAccountCreatedEvent,
+    V2CoreAccountIncludingConfigurationCustomerUpdatedEvent,
+    V2CoreAccountPersonCreatedEvent
   }
 
   describe "per-event module count" do

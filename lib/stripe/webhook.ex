@@ -50,9 +50,8 @@ defmodule Stripe.Webhook do
 
     # Match Ruby order: parse → verify signature → check timestamp
     with {:ok, timestamp, signatures} <- parse_header(sig_header),
-         :ok <- verify_signature(payload, timestamp, secret, signatures),
-         :ok <- verify_timestamp(timestamp, tolerance) do
-      :ok
+         :ok <- verify_signature(payload, timestamp, secret, signatures) do
+      verify_timestamp(timestamp, tolerance)
     end
   end
 

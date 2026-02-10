@@ -6,7 +6,13 @@ defmodule Stripe.OverridesValidationTest do
   """
   use ExUnit.Case, async: true
 
+  alias Stripe.Generator.EventGenerator
+  alias Stripe.Generator.OpenAPI
   alias Stripe.Generator.Overrides
+  alias Stripe.Generator.ParamsGenerator
+  alias Stripe.Generator.RegistryGenerator
+  alias Stripe.Generator.ResourceGenerator
+  alias Stripe.Generator.ServiceGenerator
 
   describe "override key freshness" do
     setup do
@@ -112,13 +118,13 @@ defmodule Stripe.OverridesValidationTest do
 
   describe "generated file integrity (tuple-level, pre-write)" do
     setup do
-      spec = Stripe.Generator.OpenAPI.parse("priv/openapi/spec3.sdk.json")
+      spec = OpenAPI.parse("priv/openapi/spec3.sdk.json")
 
-      services = Stripe.Generator.ServiceGenerator.generate(spec)
-      resources = Stripe.Generator.ResourceGenerator.generate(spec)
-      params = Stripe.Generator.ParamsGenerator.generate(spec)
-      registries = Stripe.Generator.RegistryGenerator.generate(spec)
-      events = Stripe.Generator.EventGenerator.generate(spec)
+      services = ServiceGenerator.generate(spec)
+      resources = ResourceGenerator.generate(spec)
+      params = ParamsGenerator.generate(spec)
+      registries = RegistryGenerator.generate(spec)
+      events = EventGenerator.generate(spec)
 
       %{
         services: services,

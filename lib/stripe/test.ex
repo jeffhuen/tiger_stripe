@@ -104,8 +104,10 @@ defmodule Stripe.Test do
   """
   @spec allow(pid(), pid()) :: :ok
   def allow(owner_pid \\ self(), child_pid) do
-    NimbleOwnership.allow(@ownership, owner_pid, child_pid, :http)
-    :ok
+    case NimbleOwnership.allow(@ownership, owner_pid, child_pid, :http) do
+      :ok -> :ok
+      {:error, reason} -> raise "Failed to allow stub access: #{inspect(reason)}"
+    end
   end
 
   @doc false

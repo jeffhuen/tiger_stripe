@@ -36,25 +36,24 @@ defmodule Stripe.ListObject do
         nil
 
       %__MODULE__{data: data, has_more: has_more, url: url} ->
-        next =
-          if has_more do
-            last_item = List.last(data)
-            last_id = extract_id(last_item)
-
-            case Client.request(
-                   client,
-                   :get,
-                   url,
-                   Keyword.merge(opts, params: %{"starting_after" => last_id})
-                 ) do
-              {:ok, %__MODULE__{} = next_page} -> next_page
-              _ -> nil
-            end
-          end
-
+        next = if has_more, do: fetch_next_page(client, url, data, opts)
         {data, next}
     end)
     |> Stream.flat_map(& &1)
+  end
+
+  defp fetch_next_page(client, url, data, opts) do
+    last_id = data |> List.last() |> extract_id()
+
+    case Client.request(
+           client,
+           :get,
+           url,
+           Keyword.merge(opts, params: %{"starting_after" => last_id})
+         ) do
+      {:ok, %__MODULE__{} = next_page} -> next_page
+      _ -> nil
+    end
   end
 
   defp extract_id(%{id: id}) when is_binary(id), do: id
@@ -102,21 +101,23 @@ defmodule Stripe.SearchResult do
 
       %__MODULE__{data: data, has_more: has_more, url: url, next_page: next_page_token} ->
         next =
-          if has_more && next_page_token do
-            case Client.request(
-                   client,
-                   :get,
-                   url,
-                   Keyword.merge(opts, params: %{"page" => next_page_token})
-                 ) do
-              {:ok, %__MODULE__{} = next_page} -> next_page
-              _ -> nil
-            end
-          end
+          if has_more && next_page_token, do: fetch_next_page(client, url, next_page_token, opts)
 
         {data, next}
     end)
     |> Stream.flat_map(& &1)
+  end
+
+  defp fetch_next_page(client, url, next_page_token, opts) do
+    case Client.request(
+           client,
+           :get,
+           url,
+           Keyword.merge(opts, params: %{"page" => next_page_token})
+         ) do
+      {:ok, %__MODULE__{} = next_page} -> next_page
+      _ -> nil
+    end
   end
 end
 
@@ -155,20 +156,19 @@ defmodule Stripe.V2.ListObject do
         nil
 
       %__MODULE__{data: data, next_page_url: next_url} ->
-        next =
-          if next_url do
-            # V2 next_page_url is a full URL; extract the path (after the base)
-            path = extract_path(next_url, client)
-
-            case Client.request(client, :get, path, Keyword.merge(opts, api_mode: :v2)) do
-              {:ok, %__MODULE__{} = next_page} -> next_page
-              _ -> nil
-            end
-          end
-
+        next = if next_url, do: fetch_next_page(client, next_url, opts)
         {data, next}
     end)
     |> Stream.flat_map(& &1)
+  end
+
+  defp fetch_next_page(client, next_url, opts) do
+    path = extract_path(next_url, client)
+
+    case Client.request(client, :get, path, Keyword.merge(opts, api_mode: :v2)) do
+      {:ok, %__MODULE__{} = next_page} -> next_page
+      _ -> nil
+    end
   end
 
   defp extract_path(url, client) do

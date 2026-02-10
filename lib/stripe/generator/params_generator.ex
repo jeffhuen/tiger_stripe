@@ -60,7 +60,10 @@ defmodule Stripe.Generator.ParamsGenerator do
       |> Enum.reject(fn p -> p["in"] != "query" end)
       |> Enum.map(fn p ->
         schema = p["schema"] || %{"type" => "string"}
-        schema = if p["description"], do: Map.put(schema, "description", p["description"]), else: schema
+
+        schema =
+          if p["description"], do: Map.put(schema, "description", p["description"]), else: schema
+
         {p["name"], schema}
       end)
       |> Map.new()
@@ -77,11 +80,11 @@ defmodule Stripe.Generator.ParamsGenerator do
     {fields, nested_modules} = extract_params_fields(schema)
     fields = Enum.sort_by(fields, & &1.name)
 
-    struct_fields = Enum.map(fields, fn f -> ":#{f.name}" end) |> Enum.join(", ")
+    struct_fields = Enum.map_join(fields, ", ", fn f -> ":#{f.name}" end)
 
     type_fields =
       fields
-      |> Enum.map(fn f ->
+      |> Enum.map_join(",\n", fn f ->
         type_str = params_typespec(f.type)
 
         type_str =
@@ -93,16 +96,16 @@ defmodule Stripe.Generator.ParamsGenerator do
 
         "        #{f.name}: #{type_str}"
       end)
-      |> Enum.join(",\n")
 
     nested_blocks =
       nested_modules
       |> Enum.sort_by(fn {name, _} -> name end)
-      |> Enum.map(fn {_name, nested} -> generate_nested_params(nested, "  ") end)
-      |> Enum.join("")
+      |> Enum.map_join("", fn {_name, nested} -> generate_nested_params(nested, "  ") end)
 
     # @moduledoc from module name
-    class_name = inspect(module) |> String.split(".") |> List.last() |> String.replace("Params", "")
+    class_name =
+      inspect(module) |> String.split(".") |> List.last() |> String.replace("Params", "")
+
     readable = Macro.underscore(class_name) |> String.replace("_", " ")
     moduledoc = "Parameters for #{readable}."
 
@@ -206,14 +209,13 @@ defmodule Stripe.Generator.ParamsGenerator do
 
   defp generate_nested_params(nested, indent) do
     fields = Enum.sort_by(nested.fields, & &1.name)
-    struct_fields = Enum.map(fields, fn f -> ":#{f.name}" end) |> Enum.join(", ")
+    struct_fields = Enum.map_join(fields, ", ", fn f -> ":#{f.name}" end)
 
     type_fields =
       fields
-      |> Enum.map(fn f ->
+      |> Enum.map_join(",\n", fn f ->
         "#{indent}        #{f.name}: #{params_typespec(f.type)} | nil"
       end)
-      |> Enum.join(",\n")
 
     typedoc =
       case DocFormatter.build_typedoc_table(fields) do

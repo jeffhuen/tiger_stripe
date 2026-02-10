@@ -68,8 +68,7 @@ defmodule Stripe.Generator.DocFormatter do
       Regex.replace(~r/<ul[^>]*>(.*?)<\/ul>/is, html, fn _, inner ->
         items =
           Regex.scan(~r/<li[^>]*>(.*?)<\/li>/is, inner)
-          |> Enum.map(fn [_, text] -> "  * #{String.trim(text)}" end)
-          |> Enum.join("\n")
+          |> Enum.map_join("\n", fn [_, text] -> "  * #{String.trim(text)}" end)
 
         "\n#{items}\n"
       end)
@@ -79,8 +78,7 @@ defmodule Stripe.Generator.DocFormatter do
       items =
         Regex.scan(~r/<li[^>]*>(.*?)<\/li>/is, inner)
         |> Enum.with_index(1)
-        |> Enum.map(fn {[_, text], idx} -> "  #{idx}. #{String.trim(text)}" end)
-        |> Enum.join("\n")
+        |> Enum.map_join("\n", fn {[_, text], idx} -> "  #{idx}. #{String.trim(text)}" end)
 
       "\n#{items}\n"
     end)
@@ -101,12 +99,10 @@ defmodule Stripe.Generator.DocFormatter do
     # Resolve /path relative URLs
     text =
       Regex.replace(~r/\]\(\/([^)]*)\)/, text, fn _, path ->
-        cond do
-          String.starts_with?(path, "docs/") or String.starts_with?(path, "api/") ->
-            "](https://docs.stripe.com/#{path})"
-
-          true ->
-            "](https://stripe.com/#{path})"
+        if String.starts_with?(path, "docs/") or String.starts_with?(path, "api/") do
+          "](https://docs.stripe.com/#{path})"
+        else
+          "](https://stripe.com/#{path})"
         end
       end)
 

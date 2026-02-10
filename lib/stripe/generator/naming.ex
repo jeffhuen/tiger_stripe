@@ -50,8 +50,7 @@ defmodule Stripe.Generator.Naming do
       # Replace bracket notation: [X] → .including.X
       |> String.replace(~r/\[([^\]]+)\]/, ".including.\\1")
       |> String.split(".")
-      |> Enum.map(&Macro.camelize/1)
-      |> Enum.join()
+      |> Enum.map_join(&Macro.camelize/1)
       |> Kernel.<>("Event")
 
     Module.concat(Stripe.Events, class_name)
@@ -66,8 +65,7 @@ defmodule Stripe.Generator.Naming do
   def module_to_path(module) do
     module
     |> Module.split()
-    |> Enum.map(&to_snake_case/1)
-    |> Enum.join("/")
+    |> Enum.map_join("/", &to_snake_case/1)
     |> then(&"lib/#{&1}.ex")
   end
 

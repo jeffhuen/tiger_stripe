@@ -29,11 +29,11 @@ defmodule Stripe.Generator.ResourceGenerator do
     required = resource.required
     expandable_set = MapSet.new(resource.expandable_fields)
 
-    struct_fields = Enum.map(props, fn p -> ":#{p.name}" end) |> Enum.join(", ")
+    struct_fields = Enum.map_join(props, ", ", fn p -> ":#{p.name}" end)
 
     type_fields =
       props
-      |> Enum.map(fn p ->
+      |> Enum.map_join(",\n", fn p ->
         type_str = type_to_typespec(p.type, p.name, resource, resource_ids)
 
         type_str =
@@ -45,11 +45,10 @@ defmodule Stripe.Generator.ResourceGenerator do
 
         "          #{p.name}: #{type_str}"
       end)
-      |> Enum.join(",\n")
 
     expandable_line =
       if resource.expandable_fields != [] do
-        fields = Enum.map(resource.expandable_fields, &"\"#{&1}\"") |> Enum.join(", ")
+        fields = Enum.map_join(resource.expandable_fields, ", ", &"\"#{&1}\"")
         "\n  def expandable_fields, do: [#{fields}]\n"
       else
         ""
@@ -62,10 +61,9 @@ defmodule Stripe.Generator.ResourceGenerator do
         entries =
           resource.inner_types
           |> Enum.sort_by(fn {name, _} -> name end)
-          |> Enum.map(fn {name, inner} ->
+          |> Enum.map_join(",\n", fn {name, inner} ->
             ~s(    "#{name}" => __MODULE__.#{inner.class_name})
           end)
-          |> Enum.join(",\n")
 
         """
 
@@ -125,23 +123,21 @@ defmodule Stripe.Generator.ResourceGenerator do
   defp generate_inner_types(inner_types, indent) do
     inner_types
     |> Enum.sort_by(fn {name, _} -> name end)
-    |> Enum.map(fn {_name, inner} ->
+    |> Enum.map_join("", fn {_name, inner} ->
       generate_inner_type_module(inner, indent)
     end)
-    |> Enum.join("")
   end
 
   defp generate_inner_type_module(inner, indent) do
     props = Enum.sort_by(inner.properties, & &1.name)
-    struct_fields = Enum.map(props, fn p -> ":#{p.name}" end) |> Enum.join(", ")
+    struct_fields = Enum.map_join(props, ", ", fn p -> ":#{p.name}" end)
 
     type_fields =
       props
-      |> Enum.map(fn p ->
+      |> Enum.map_join(",\n", fn p ->
         type_str = simple_typespec(p.type)
         "#{indent}        #{p.name}: #{type_str} | nil"
       end)
-      |> Enum.join(",\n")
 
     nested_blocks = generate_inner_types(inner[:inner_types] || inner.inner_types, indent <> "  ")
 

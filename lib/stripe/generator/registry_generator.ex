@@ -40,13 +40,11 @@ defmodule Stripe.Generator.RegistryGenerator do
 
     v1_map_entries =
       v1_entries
-      |> Enum.map(fn {name, mod} -> ~s(      "#{name}" => #{mod}) end)
-      |> Enum.join(",\n")
+      |> Enum.map_join(",\n", fn {name, mod} -> ~s(      "#{name}" => #{mod}) end)
 
     v2_map_entries =
       v2_entries
-      |> Enum.map(fn {name, mod} -> ~s(      "#{name}" => #{mod}) end)
-      |> Enum.join(",\n")
+      |> Enum.map_join(",\n", fn {name, mod} -> ~s(      "#{name}" => #{mod}) end)
 
     v2_block =
       if v2_entries != [] do
@@ -87,21 +85,19 @@ defmodule Stripe.Generator.RegistryGenerator do
     entries =
       event_types
       |> Enum.sort_by(fn {type, _} -> type end)
-      |> Enum.map(fn {type, %{data_ref: data_ref}} ->
+      |> Enum.map_join(",\n", fn {type, %{data_ref: data_ref}} ->
         ref_str = if data_ref, do: ~s("#{data_ref}"), else: "nil"
         ~s(      "#{type}" => #{ref_str})
       end)
-      |> Enum.join(",\n")
 
     module_entries =
       event_types
       |> Enum.filter(fn {_type, meta} -> meta.kind == "thin" end)
       |> Enum.sort_by(fn {type, _} -> type end)
-      |> Enum.map(fn {type, _} ->
+      |> Enum.map_join(",\n", fn {type, _} ->
         mod = inspect(Naming.event_module(type))
         ~s(      "#{type}" => #{mod})
       end)
-      |> Enum.join(",\n")
 
     content = """
     #{@file_header}

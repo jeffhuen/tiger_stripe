@@ -10,7 +10,13 @@ defmodule Mix.Tasks.Stripe.Generate do
 
   use Mix.Task
 
+  alias Stripe.Generator.EventGenerator
+  alias Stripe.Generator.OpenAPI
   alias Stripe.Generator.Overrides
+  alias Stripe.Generator.ParamsGenerator
+  alias Stripe.Generator.RegistryGenerator
+  alias Stripe.Generator.ResourceGenerator
+  alias Stripe.Generator.ServiceGenerator
 
   @shortdoc "Generate Stripe API modules from OpenAPI spec"
   @endpoint_coverage_floor 532
@@ -47,7 +53,7 @@ defmodule Mix.Tasks.Stripe.Generate do
     end
 
     Mix.shell().info("Parsing OpenAPI spec...")
-    spec = Stripe.Generator.OpenAPI.parse(spec_path)
+    spec = OpenAPI.parse(spec_path)
     Mix.shell().info("  API version: #{spec.api_version}")
     Mix.shell().info("  Resources: #{length(spec.resources)}")
     Mix.shell().info("  Path specs: #{map_size(spec.path_specs)}")
@@ -58,23 +64,23 @@ defmodule Mix.Tasks.Stripe.Generate do
     end
 
     Mix.shell().info("\nGenerating services...")
-    services = Stripe.Generator.ServiceGenerator.generate(spec)
+    services = ServiceGenerator.generate(spec)
     Mix.shell().info("  #{length(services)} service files")
 
     Mix.shell().info("Generating resources...")
-    resources = Stripe.Generator.ResourceGenerator.generate(spec)
+    resources = ResourceGenerator.generate(spec)
     Mix.shell().info("  #{length(resources)} resource files")
 
     Mix.shell().info("Generating params...")
-    params = Stripe.Generator.ParamsGenerator.generate(spec)
+    params = ParamsGenerator.generate(spec)
     Mix.shell().info("  #{length(params)} param files")
 
     Mix.shell().info("Generating registries...")
-    registries = Stripe.Generator.RegistryGenerator.generate(spec)
+    registries = RegistryGenerator.generate(spec)
     Mix.shell().info("  #{length(registries)} registry files")
 
     Mix.shell().info("Generating events...")
-    events = Stripe.Generator.EventGenerator.generate(spec)
+    events = EventGenerator.generate(spec)
     Mix.shell().info("  #{length(events)} event files")
 
     all_files = services ++ resources ++ params ++ registries ++ events
@@ -83,9 +89,9 @@ defmodule Mix.Tasks.Stripe.Generate do
     if dry_run? do
       Mix.shell().info("\n--- DRY RUN (no files written) ---")
 
-      for {path, _content} <- all_files do
+      Enum.each(all_files, fn {path, _content} ->
         Mix.shell().info("  #{path}")
-      end
+      end)
     else
       Mix.shell().info("\nWriting #{length(all_files)} files...")
       write_files(all_files)
@@ -154,34 +160,35 @@ defmodule Mix.Tasks.Stripe.Generate do
   end
 
   defp validate_override_map(override_map, endpoints, label) do
-    for {key, _value} <- override_map,
-        not MapSet.member?(endpoints, key) do
-      Mix.raise("#{label} override references unknown endpoint: #{inspect(key)}")
-    end
+    Enum.each(override_map, fn {key, _value} ->
+      unless MapSet.member?(endpoints, key) do
+        Mix.raise("#{label} override references unknown endpoint: #{inspect(key)}")
+      end
+    end)
   end
 
   defp clean_generated do
-    for dir <- @generated_dirs do
+    Enum.each(@generated_dirs, fn dir ->
       if File.exists?(dir) do
-        File.rm_rf!(dir)
-        Mix.shell().info("  Removed #{dir}/")
+        removed = File.rm_rf!(dir)
+        Mix.shell().info("  Removed #{dir}/ (#{length(removed)} files)")
       end
-    end
+    end)
 
-    for file <- @generated_files do
+    Enum.each(@generated_files, fn file ->
       if File.exists?(file) do
         File.rm!(file)
         Mix.shell().info("  Removed #{file}")
       end
-    end
+    end)
   end
 
   defp write_files(files) do
-    for {path, content} <- files do
+    Enum.each(files, fn {path, content} ->
       dir = Path.dirname(path)
       File.mkdir_p!(dir)
       File.write!(path, content)
-    end
+    end)
   end
 
   defp format_generated(files) do

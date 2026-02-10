@@ -25,7 +25,8 @@ defmodule Stripe.MixProject do
       ],
       dialyzer: [
         plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
-        flags: [:unmatched_returns, :error_handling, :extra_return, :missing_return]
+        flags: [:unmatched_returns, :error_handling, :extra_return, :missing_return],
+        plt_add_apps: [:mix, :ex_unit]
       ]
     ]
   end
@@ -52,6 +53,7 @@ defmodule Stripe.MixProject do
       {:rustyjson, "~> 0.3"},
 
       # Dev/Test
+      {:plug, "~> 1.16", only: :test},
       {:mox, "~> 1.1", only: :test},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},

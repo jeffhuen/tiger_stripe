@@ -88,17 +88,23 @@ defmodule Stripe.Generator.DocFormatterTest do
         "<p>Creates a new <code>charge</code>. See the <a href=\"/docs\">docs</a> for details.</p>"
 
       result = DocFormatter.html_to_markdown(input)
-      assert result == "Creates a new `charge`. See the [docs](https://stripe.com/docs) for details."
+
+      assert result ==
+               "Creates a new `charge`. See the [docs](https://stripe.com/docs) for details."
     end
 
     test "resolves relative /docs/ URLs" do
       input = "<p>See <a href=\"/docs/connect\">Connect</a>.</p>"
-      assert DocFormatter.html_to_markdown(input) == "See [Connect](https://docs.stripe.com/docs/connect)."
+
+      assert DocFormatter.html_to_markdown(input) ==
+               "See [Connect](https://docs.stripe.com/docs/connect)."
     end
 
     test "resolves relative /api/ URLs" do
       input = "<p>See <a href=\"/api/charges\">Charges</a>.</p>"
-      assert DocFormatter.html_to_markdown(input) == "See [Charges](https://docs.stripe.com/api/charges)."
+
+      assert DocFormatter.html_to_markdown(input) ==
+               "See [Charges](https://docs.stripe.com/api/charges)."
     end
 
     test "resolves relative non-docs URLs" do
@@ -132,6 +138,7 @@ defmodule Stripe.Generator.DocFormatterTest do
   describe "resolve_relative_urls/1" do
     test "resolves bare api/ URLs without leading slash" do
       text = "[type=invoiceitem](api/invoices/line_item#type)"
+
       assert DocFormatter.resolve_relative_urls(text) ==
                "[type=invoiceitem](https://docs.stripe.com/api/invoices/line_item#type)"
     end

@@ -70,7 +70,7 @@ defmodule Stripe.Generator.OpenAPI do
     package =
       case resource_meta["in_package"] do
         nil -> ""
-        raw -> raw |> String.split(".") |> Enum.map(&Macro.camelize/1) |> Enum.join(".")
+        raw -> raw |> String.split(".") |> Enum.map_join(".", &Macro.camelize/1)
       end
 
     expandable_fields = schema["x-expandableFields"] || []
@@ -172,7 +172,7 @@ defmodule Stripe.Generator.OpenAPI do
     skip_schemas = Overrides.skip_schemas()
 
     resources
-    |> Enum.reject(fn resource -> MapSet.member?(skip_schemas, resource.schema_id) end)
+    |> Enum.reject(fn resource -> resource.schema_id in skip_schemas end)
     |> Enum.map(fn resource ->
       updated_operations =
         Enum.map(resource.operations, fn op ->
@@ -248,21 +248,19 @@ defmodule Stripe.Generator.OpenAPI do
   end
 
   defp derive_nested_service_class(parent_class, child_class) do
-    cond do
+    if String.starts_with?(child_class, parent_class) do
       # Child starts with full parent: CustomerBalanceTransaction starts with Customer
-      String.starts_with?(child_class, parent_class) ->
-        child_class
-
+      child_class
+    else
       # Child starts with last word of parent: FeeRefund starts with Fee (from ApplicationFee)
-      true ->
-        last_word = parent_class |> split_pascal_case() |> List.last()
+      last_word = parent_class |> split_pascal_case() |> List.last()
 
-        if String.starts_with?(child_class, last_word) do
-          suffix = String.replace_prefix(child_class, last_word, "")
-          parent_class <> suffix
-        else
-          parent_class <> child_class
-        end
+      if String.starts_with?(child_class, last_word) do
+        suffix = String.replace_prefix(child_class, last_word, "")
+        parent_class <> suffix
+      else
+        parent_class <> child_class
+      end
     end
   end
 
@@ -457,7 +455,7 @@ defmodule Stripe.Generator.OpenAPI do
 
         cond do
           # Single ref + string = expandable field pattern
-          length(refs) == 1 && length(strings) >= 1 ->
+          length(refs) == 1 && strings != [] ->
             ref_name = ref_to_name(refs |> hd() |> Map.get("$ref"))
 
             type =
