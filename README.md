@@ -3,15 +3,13 @@
 Elixir SDK and client for the [Stripe API](https://stripe.com/docs/api),
 auto-generated from the official [OpenAPI spec](https://github.com/stripe/openapi).
 
-> **Note:** This is not an official Stripe SDK, but it's built the way one
-> would be. Stripe does not publish a first-party Elixir library. This
-> project is generated from the same
+> **Note:** This is not an official Stripe SDK. Stripe does not publish a
+> first-party Elixir library. This project is generated from the same
 > [OpenAPI spec](https://github.com/stripe/openapi) that Stripe uses to
 > build their official SDKs, follows the same service architecture, and is
 > tested for 1:1 parity against the official
-> [Ruby SDK](https://github.com/stripe/stripe-ruby) (188/188 service files,
-> 561/561 endpoints). If Stripe were to ship an Elixir SDK, it would look
-> like this — with idiomatic Elixir conventions.
+> [Ruby SDK](https://github.com/stripe/stripe-ruby). The goal is an
+> idiomatic Elixir experience with the same API coverage.
 
 ### What's Included
 
@@ -126,7 +124,7 @@ client = Stripe.client("sk_test_other_key", max_retries: 5)
 ### SDK
 
 - **Full API coverage** — every V1 and V2 endpoint from the OpenAPI spec, with
-  dedicated service modules matching the official SDK layout
+  dedicated service modules matching the Ruby SDK layout
 - **Typed resources** — API responses are deserialized into typed Elixir structs
   with `@type t` definitions, expandable field support, and inner types
 - **Typed params** — request parameters have dedicated struct modules with
