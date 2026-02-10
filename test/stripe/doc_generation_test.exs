@@ -6,6 +6,9 @@ defmodule Stripe.DocGenerationTest do
   """
   use ExUnit.Case, async: true
 
+  alias Stripe.Generator.Naming
+  alias Stripe.Generator.OpenAPI
+
   describe "resource documentation" do
     test "V1 resource has @moduledoc from schema" do
       {:docs_v1, _, _, _, moduledoc, _, _} = Code.fetch_docs(Stripe.Resources.Charge)
@@ -25,7 +28,7 @@ defmodule Stripe.DocGenerationTest do
           _ -> false
         end)
 
-      assert length(type_docs) > 0
+      assert type_docs != []
       [{{:type, :t, _}, _, _, typedoc, _}] = type_docs
       assert typedoc != :hidden
       assert typedoc != :none
@@ -51,7 +54,7 @@ defmodule Stripe.DocGenerationTest do
           _ -> false
         end)
 
-      assert length(function_docs) > 0
+      assert function_docs != []
     end
 
     test "V1 service method has @spec" do
@@ -63,7 +66,7 @@ defmodule Stripe.DocGenerationTest do
           _ -> false
         end)
 
-      assert length(create_specs) > 0
+      assert create_specs != []
     end
 
     test "namespace service has descriptive @moduledoc" do
@@ -114,7 +117,7 @@ defmodule Stripe.DocGenerationTest do
           _ -> false
         end)
 
-      assert length(type_docs) > 0
+      assert type_docs != []
       [{{:type, :t, _}, _, _, typedoc, _}] = type_docs
       assert typedoc != :hidden
       assert typedoc != :none
@@ -151,18 +154,53 @@ defmodule Stripe.DocGenerationTest do
   end
 
   describe "deprecated operations" do
-    test "deprecated endpoints have @deprecated attribute" do
-      # Find deprecated operations from the spec
-      spec = Stripe.Generator.OpenAPI.parse("priv/openapi/spec3.sdk.json")
+    test "deprecated endpoints have @deprecated attribute on generated functions" do
+      spec = OpenAPI.parse("priv/openapi/spec3.sdk.json")
 
       deprecated_keys =
         spec.path_specs
         |> Enum.filter(fn {_key, ps} -> ps[:deprecated] == true end)
         |> Enum.map(fn {key, _} -> key end)
+        |> MapSet.new()
 
-      # Verify at least one deprecated operation exists in the spec
-      assert length(deprecated_keys) > 0,
+      assert MapSet.size(deprecated_keys) > 0,
              "Expected at least one deprecated operation in the spec"
+
+      # Build a lookup from "METHOD /path" -> {service_module, function_name}
+      op_lookup =
+        spec.resources
+        |> Enum.flat_map(fn resource ->
+          Enum.map(resource.operations, fn op ->
+            key = "#{String.upcase(to_string(op.http_method))} #{op.path}"
+            package = op.service_package || resource.package
+            mod = Naming.service_module(op.service_class, package)
+            {key, {mod, String.to_atom(op.method_name)}}
+          end)
+        end)
+        |> Map.new()
+
+      # For every deprecated path_spec key that has a matching generated operation,
+      # verify the compiled module carries @deprecated on that function.
+      deprecated_keys
+      |> Enum.each(fn key ->
+        case Map.get(op_lookup, key) do
+          nil ->
+            # No generated operation for this path_spec (possible for edge cases)
+            :ok
+
+          {mod, fun} ->
+            {:docs_v1, _, _, _, _, _, docs} = Code.fetch_docs(mod)
+
+            deprecated_funs =
+              Enum.filter(docs, fn
+                {{:function, ^fun, _arity}, _, _, _, %{deprecated: _}} -> true
+                _ -> false
+              end)
+
+            assert deprecated_funs != [],
+                   "Expected @deprecated on #{inspect(mod)}.#{fun}/4 for #{key}"
+        end
+      end)
     end
   end
 

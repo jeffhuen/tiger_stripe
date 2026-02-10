@@ -21,7 +21,7 @@ defmodule Stripe.Integration.StripeMockTest do
           )
 
   setup_all do
-    case :gen_tcp.connect(~c"localhost", 12111, [], 1_000) do
+    case :gen_tcp.connect(~c"localhost", 12_111, [], 1_000) do
       {:ok, socket} ->
         :gen_tcp.close(socket)
         :ok
@@ -95,7 +95,7 @@ defmodule Stripe.Integration.StripeMockTest do
         |> Enum.take(5)
 
       assert is_list(items)
-      assert length(items) > 0
+      assert items != []
     end
   end
 
@@ -124,10 +124,9 @@ defmodule Stripe.Integration.StripeMockTest do
 
       assert %Stripe.Resources.Charge{} = charge
 
-      # When expanded, balance_transaction should be a struct (not a string ID)
-      if is_map(charge.balance_transaction) do
-        assert %Stripe.Resources.BalanceTransaction{} = charge.balance_transaction
-      end
+      # When expanded, balance_transaction must be a struct (not a string ID).
+      # An unconditional assert so a failed expansion breaks the build.
+      assert %Stripe.Resources.BalanceTransaction{} = charge.balance_transaction
     end
   end
 

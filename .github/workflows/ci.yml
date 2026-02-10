@@ -82,6 +82,57 @@ jobs:
       - name: Parity check (diff_ruby.sh)
         run: bash scripts/diff_ruby.sh
 
+  integration:
+    name: Integration Tests (stripe-mock)
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+
+    services:
+      stripe-mock:
+        image: stripe/stripe-mock:latest
+        ports:
+          - 12111:12111
+
+    strategy:
+      matrix:
+        elixir: ["1.19"]
+        otp: ["27"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
+      - name: Cache deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ matrix.elixir }}-${{ matrix.otp }}-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-${{ matrix.elixir }}-${{ matrix.otp }}-
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Sync OpenAPI spec
+        run: bash scripts/sync_openapi.sh
+
+      - name: Generate SDK
+        run: mix stripe.generate --clean --stats
+
+      - name: Compile
+        run: mix compile
+
+      - name: Run integration tests
+        run: mix test --only integration
+
   preview-drift:
     name: Preview Spec Drift (non-blocking)
     runs-on: ubuntu-latest
