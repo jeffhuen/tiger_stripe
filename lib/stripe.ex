@@ -7,7 +7,7 @@ defmodule Stripe do
   Add your Stripe credentials to your application config:
 
       # config/runtime.exs
-      config :stripe_elixir,
+      config :tiger_stripe,
         api_key: System.fetch_env!("STRIPE_SECRET_KEY"),
         webhook_secret: System.fetch_env!("STRIPE_WEBHOOK_SECRET")
 
@@ -34,7 +34,7 @@ defmodule Stripe do
   Options are resolved in this order (highest wins):
 
     1. Explicit arguments to `client/1` or `client/2`
-    2. Application config (`config :stripe_elixir, ...`)
+    2. Application config (`config :tiger_stripe, ...`)
     3. Struct defaults (e.g. `max_retries: 2`)
 
   ## Supported Config Keys
@@ -67,13 +67,13 @@ defmodule Stripe do
   @doc """
   Create a new Stripe client from application config.
 
-  Reads `:api_key` and other options from `config :stripe_elixir`.
+  Reads `:api_key` and other options from `config :tiger_stripe`.
   Raises if `:api_key` is not configured.
 
   ## Example
 
       # config/runtime.exs
-      config :stripe_elixir, api_key: System.fetch_env!("STRIPE_SECRET_KEY")
+      config :tiger_stripe, api_key: System.fetch_env!("STRIPE_SECRET_KEY")
 
       # Then in your code:
       client = Stripe.client()
@@ -90,7 +90,7 @@ defmodule Stripe do
         raise ArgumentError, """
         Stripe API key not configured. Add to your config:
 
-            config :stripe_elixir, api_key: "sk_test_..."
+            config :tiger_stripe, api_key: "sk_test_..."
 
         Or pass it explicitly:
 
@@ -147,7 +147,7 @@ defmodule Stripe do
         raise ArgumentError, """
         Stripe API key not configured. Add to your config:
 
-            config :stripe_elixir, api_key: "sk_test_..."
+            config :tiger_stripe, api_key: "sk_test_..."
 
         Or pass it explicitly:
 
@@ -158,7 +158,7 @@ defmodule Stripe do
 
   # Read application config and filter to valid Client struct fields.
   defp config_defaults do
-    Application.get_all_env(:stripe_elixir)
+    Application.get_all_env(:tiger_stripe)
     |> Keyword.take(@client_keys)
   end
 end

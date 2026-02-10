@@ -1,4 +1,4 @@
-# stripe_elixir
+# tiger_stripe
 
 Elixir SDK for the Stripe API, auto-generated from the official OpenAPI spec.
 
@@ -71,7 +71,7 @@ plug Stripe.WebhookPlug, path: "/webhook/stripe"
 plug Plug.Parsers, ...
 ```
 
-The secret is read from `config :stripe_elixir, :webhook_secret`.
+The secret is read from `config :tiger_stripe, :webhook_secret`.
 
 For manual verification without the plug:
 
@@ -83,7 +83,7 @@ For manual verification without the plug:
 
 ```elixir
 # config/runtime.exs
-config :stripe_elixir,
+config :tiger_stripe,
   api_key: System.fetch_env!("STRIPE_SECRET_KEY"),
   webhook_secret: System.fetch_env!("STRIPE_WEBHOOK_SECRET")
 ```

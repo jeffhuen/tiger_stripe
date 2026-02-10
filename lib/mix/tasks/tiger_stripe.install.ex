@@ -1,9 +1,9 @@
 if Code.ensure_loaded?(Igniter.Mix.Task) do
-  defmodule Mix.Tasks.StripeElixir.Install do
+  defmodule Mix.Tasks.TigerStripe.Install do
     @moduledoc """
-    Installs and configures stripe_elixir in a Phoenix application.
+    Installs and configures tiger_stripe in a Phoenix application.
 
-        $ mix stripe_elixir.install
+        $ mix tiger_stripe.install
 
     This installer:
 
@@ -19,7 +19,7 @@ if Code.ensure_loaded?(Igniter.Mix.Task) do
     @impl Igniter.Mix.Task
     def info(_argv, _composing_task) do
       %Igniter.Mix.Task.Info{
-        example: "mix stripe_elixir.install"
+        example: "mix tiger_stripe.install"
       }
     end
 
@@ -40,7 +40,7 @@ if Code.ensure_loaded?(Igniter.Mix.Task) do
       Igniter.Project.Config.configure_new(
         igniter,
         "dev.exs",
-        :stripe_elixir,
+        :tiger_stripe,
         [:api_key],
         "sk_test_YOUR_KEY_HERE"
       )
@@ -52,13 +52,13 @@ if Code.ensure_loaded?(Igniter.Mix.Task) do
       igniter
       |> Igniter.Project.Config.configure_runtime_env(
         :prod,
-        :stripe_elixir,
+        :tiger_stripe,
         [:api_key],
         {:code, Sourceror.parse_string!(~S[System.fetch_env!("STRIPE_SECRET_KEY")])}
       )
       |> Igniter.Project.Config.configure_runtime_env(
         :prod,
-        :stripe_elixir,
+        :tiger_stripe,
         [:webhook_secret],
         {:code, Sourceror.parse_string!(~S[System.fetch_env!("STRIPE_WEBHOOK_SECRET")])}
       )
@@ -212,11 +212,11 @@ if Code.ensure_loaded?(Igniter.Mix.Task) do
 
     defp add_next_steps(igniter) do
       Igniter.add_notice(igniter, """
-      stripe_elixir has been installed! Next steps:
+      tiger_stripe has been installed! Next steps:
 
       1. Set your test API key in config/dev.exs:
 
-             config :stripe_elixir, api_key: "sk_test_..."
+             config :tiger_stripe, api_key: "sk_test_..."
 
       2. Set production environment variables:
 

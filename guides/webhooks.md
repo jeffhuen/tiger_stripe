@@ -32,7 +32,7 @@ First, configure your webhook secret (see [Getting Started](getting-started.md))
 
 ```elixir
 # config/runtime.exs
-config :stripe_elixir,
+config :tiger_stripe,
   webhook_secret: System.fetch_env!("STRIPE_WEBHOOK_SECRET")
 ```
 
@@ -51,7 +51,7 @@ plug Plug.Parsers,
   json_decoder: JSON
 ```
 
-The secret is read automatically from `config :stripe_elixir, :webhook_secret`.
+The secret is read automatically from `config :tiger_stripe, :webhook_secret`.
 
 ### Per-Plug Secret Override
 

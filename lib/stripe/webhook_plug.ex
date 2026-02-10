@@ -15,7 +15,7 @@ if Code.ensure_loaded?(Plug.Conn) do
         plug Stripe.WebhookPlug,
           path: "/webhook/stripe"
 
-    The signing secret is read from `config :stripe_elixir, :webhook_secret`.
+    The signing secret is read from `config :tiger_stripe, :webhook_secret`.
 
     To override the secret per-plug (e.g. multiple webhook endpoints):
 
@@ -32,7 +32,7 @@ if Code.ensure_loaded?(Plug.Conn) do
     ## Options
 
       * `:secret` - Signing secret (string or `{mod, fun, args}` MFA tuple).
-        Defaults to `Application.get_env(:stripe_elixir, :webhook_secret)`.
+        Defaults to `Application.get_env(:tiger_stripe, :webhook_secret)`.
       * `:path` - Request path to match (string). Required.
       * `:tolerance` - Maximum event age in seconds (default: 300).
     """
@@ -92,12 +92,12 @@ if Code.ensure_loaded?(Plug.Conn) do
     defp resolve_secret(opts) do
       case Keyword.get(opts, :secret) do
         nil ->
-          case Application.get_env(:stripe_elixir, :webhook_secret) do
+          case Application.get_env(:tiger_stripe, :webhook_secret) do
             nil ->
               raise ArgumentError, """
               Stripe webhook secret not configured. Either:
 
-                  config :stripe_elixir, webhook_secret: "whsec_..."
+                  config :tiger_stripe, webhook_secret: "whsec_..."
 
               Or pass it explicitly:
 

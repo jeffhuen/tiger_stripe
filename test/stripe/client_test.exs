@@ -46,23 +46,23 @@ defmodule Stripe.ClientTest do
     setup do
       # Clean up after each test
       on_exit(fn ->
-        Application.delete_env(:stripe_elixir, :api_key)
-        Application.delete_env(:stripe_elixir, :max_retries)
-        Application.delete_env(:stripe_elixir, :stripe_account)
-        Application.delete_env(:stripe_elixir, :webhook_secret)
+        Application.delete_env(:tiger_stripe, :api_key)
+        Application.delete_env(:tiger_stripe, :max_retries)
+        Application.delete_env(:tiger_stripe, :stripe_account)
+        Application.delete_env(:tiger_stripe, :webhook_secret)
       end)
 
       :ok
     end
 
     test "creates client from application config" do
-      Application.put_env(:stripe_elixir, :api_key, "sk_test_from_config")
+      Application.put_env(:tiger_stripe, :api_key, "sk_test_from_config")
       client = Stripe.client()
       assert client.api_key == "sk_test_from_config"
     end
 
     test "raises when api_key not configured" do
-      Application.delete_env(:stripe_elixir, :api_key)
+      Application.delete_env(:tiger_stripe, :api_key)
 
       assert_raise ArgumentError, ~r/Stripe API key not configured/, fn ->
         Stripe.client()
@@ -70,9 +70,9 @@ defmodule Stripe.ClientTest do
     end
 
     test "merges config options into client" do
-      Application.put_env(:stripe_elixir, :api_key, "sk_test_cfg")
-      Application.put_env(:stripe_elixir, :max_retries, 5)
-      Application.put_env(:stripe_elixir, :stripe_account, "acct_cfg")
+      Application.put_env(:tiger_stripe, :api_key, "sk_test_cfg")
+      Application.put_env(:tiger_stripe, :max_retries, 5)
+      Application.put_env(:tiger_stripe, :stripe_account, "acct_cfg")
 
       client = Stripe.client()
       assert client.api_key == "sk_test_cfg"
@@ -81,8 +81,8 @@ defmodule Stripe.ClientTest do
     end
 
     test "ignores non-client config keys like webhook_secret" do
-      Application.put_env(:stripe_elixir, :api_key, "sk_test_cfg")
-      Application.put_env(:stripe_elixir, :webhook_secret, "whsec_123")
+      Application.put_env(:tiger_stripe, :api_key, "sk_test_cfg")
+      Application.put_env(:tiger_stripe, :webhook_secret, "whsec_123")
 
       client = Stripe.client()
       assert client.api_key == "sk_test_cfg"
@@ -93,16 +93,16 @@ defmodule Stripe.ClientTest do
   describe "client/1 (keyword overrides)" do
     setup do
       on_exit(fn ->
-        Application.delete_env(:stripe_elixir, :api_key)
-        Application.delete_env(:stripe_elixir, :max_retries)
+        Application.delete_env(:tiger_stripe, :api_key)
+        Application.delete_env(:tiger_stripe, :max_retries)
       end)
 
       :ok
     end
 
     test "overrides config with keyword opts" do
-      Application.put_env(:stripe_elixir, :api_key, "sk_test_cfg")
-      Application.put_env(:stripe_elixir, :max_retries, 5)
+      Application.put_env(:tiger_stripe, :api_key, "sk_test_cfg")
+      Application.put_env(:tiger_stripe, :max_retries, 5)
 
       client = Stripe.client(max_retries: 10)
       assert client.api_key == "sk_test_cfg"
@@ -118,20 +118,20 @@ defmodule Stripe.ClientTest do
   describe "client/2 (explicit key + opts)" do
     setup do
       on_exit(fn ->
-        Application.delete_env(:stripe_elixir, :max_retries)
+        Application.delete_env(:tiger_stripe, :max_retries)
       end)
 
       :ok
     end
 
     test "explicit key takes precedence over config" do
-      Application.put_env(:stripe_elixir, :api_key, "sk_test_cfg")
+      Application.put_env(:tiger_stripe, :api_key, "sk_test_cfg")
       client = Stripe.client("sk_test_explicit")
       assert client.api_key == "sk_test_explicit"
     end
 
     test "merges config defaults with explicit opts" do
-      Application.put_env(:stripe_elixir, :max_retries, 5)
+      Application.put_env(:tiger_stripe, :max_retries, 5)
       client = Stripe.client("sk_test_key", stripe_account: "acct_123")
       assert client.api_key == "sk_test_key"
       assert client.max_retries == 5
@@ -139,7 +139,7 @@ defmodule Stripe.ClientTest do
     end
 
     test "explicit opts override config" do
-      Application.put_env(:stripe_elixir, :max_retries, 5)
+      Application.put_env(:tiger_stripe, :max_retries, 5)
       client = Stripe.client("sk_test_key", max_retries: 10)
       assert client.max_retries == 10
     end

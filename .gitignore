@@ -32,3 +32,6 @@ stripe-*.tar
 
 # Internal planning docs
 /the-plan/
+
+# Claude Code
+.claude/

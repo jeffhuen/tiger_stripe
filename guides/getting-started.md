@@ -5,13 +5,13 @@
 ### With Igniter (recommended for Phoenix)
 
 > **Beta:** The Igniter installer is new and under active testing.
-> [Report issues here.](https://github.com/jeffhuen/stripe_elixir/issues)
+> [Report issues here.](https://github.com/jeffhuen/tiger_stripe/issues)
 
 If your project uses [Igniter](https://hex.pm/packages/igniter), one command
 adds the dependency and configures everything:
 
 ```bash
-mix igniter.install stripe_elixir
+mix igniter.install tiger_stripe
 ```
 
 This will:
@@ -29,12 +29,12 @@ controller.
 
 ### Manual
 
-Add `stripe_elixir` to your dependencies in `mix.exs`:
+Add `tiger_stripe` to your dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:stripe_elixir, "~> 0.1.0"}
+    {:tiger_stripe, "~> 0.1.0"}
   ]
 end
 ```
@@ -51,7 +51,7 @@ for production:
 # config/dev.exs
 import Config
 
-config :stripe_elixir,
+config :tiger_stripe,
   api_key: "sk_test_...",
   webhook_secret: "whsec_test_..."
 ```
@@ -61,7 +61,7 @@ config :stripe_elixir,
 import Config
 
 if config_env() == :prod do
-  config :stripe_elixir,
+  config :tiger_stripe,
     api_key: System.fetch_env!("STRIPE_SECRET_KEY"),
     webhook_secret: System.fetch_env!("STRIPE_WEBHOOK_SECRET")
 end
@@ -72,7 +72,7 @@ end
 The only required key is `:api_key`. Everything else has sensible defaults:
 
 ```elixir
-config :stripe_elixir,
+config :tiger_stripe,
   # Required
   api_key: "sk_test_...",
 
@@ -135,7 +135,7 @@ client = Stripe.client("sk_test_other_key", max_retries: 5)
 Options are resolved in this order (highest wins):
 
 1. Explicit arguments to `client/1` or `client/2`
-2. Application config (`config :stripe_elixir, ...`)
+2. Application config (`config :tiger_stripe, ...`)
 3. Struct defaults (e.g. `max_retries: 2`)
 
 Clients are plain structs with no global state — safe for concurrent use
@@ -293,7 +293,7 @@ with exponential backoff and jitter. The library respects Stripe's
 
 ```elixir
 # Via config
-config :stripe_elixir, max_retries: 5
+config :tiger_stripe, max_retries: 5
 
 # Or per-client
 client = Stripe.client(max_retries: 5)

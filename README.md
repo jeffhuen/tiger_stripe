@@ -1,4 +1,4 @@
-# StripeElixir
+# TigerStripe
 
 Elixir SDK and client for the [Stripe API](https://stripe.com/docs/api),
 auto-generated from the official [OpenAPI spec](https://github.com/stripe/openapi).
@@ -29,13 +29,13 @@ modules.
 ### With Igniter (recommended for Phoenix)
 
 > **Beta:** The Igniter installer is new and under active testing.
-> [Report issues here.](https://github.com/jeffhuen/stripe_elixir/issues)
+> [Report issues here.](https://github.com/jeffhuen/tiger_stripe/issues)
 
 If your project uses [Igniter](https://hex.pm/packages/igniter), one command
 sets up everything — config, webhook plug, controller, and route:
 
 ```bash
-mix igniter.install stripe_elixir
+mix igniter.install tiger_stripe
 ```
 
 See the [Igniter Installer](guides/igniter-installer.md) guide for a detailed
@@ -43,12 +43,12 @@ walkthrough of what the installer does.
 
 ### Manual
 
-Add `stripe_elixir` to your dependencies in `mix.exs`:
+Add `tiger_stripe` to your dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:stripe_elixir, "~> 0.1.0"}
+    {:tiger_stripe, "~> 0.1.0"}
   ]
 end
 ```
@@ -59,13 +59,13 @@ Requires Elixir 1.19+ and OTP 27+.
 
 ```elixir
 # config/dev.exs — sandbox credentials
-config :stripe_elixir,
+config :tiger_stripe,
   api_key: "sk_test_...",
   webhook_secret: "whsec_test_..."
 
 # config/runtime.exs — production credentials
 if config_env() == :prod do
-  config :stripe_elixir,
+  config :tiger_stripe,
     api_key: System.fetch_env!("STRIPE_SECRET_KEY"),
     webhook_secret: System.fetch_env!("STRIPE_WEBHOOK_SECRET")
 end
@@ -74,7 +74,7 @@ end
 Optional global defaults (all have sensible defaults if omitted):
 
 ```elixir
-config :stripe_elixir,
+config :tiger_stripe,
   api_key: "sk_test_...",
   webhook_secret: "whsec_...",
   api_version: "2026-01-28.clover",  # pin API version

@@ -1,10 +1,10 @@
 # Igniter Installer
 
 > **Beta:** The Igniter installer is new and under active testing. If you hit
-> an issue, please [open a bug report](https://github.com/jeffhuen/stripe_elixir/issues).
+> an issue, please [open a bug report](https://github.com/jeffhuen/tiger_stripe/issues).
 > You can always fall back to [manual installation](getting-started.md).
 
-The Igniter installer configures `stripe_elixir` in a Phoenix project with a
+The Igniter installer configures `tiger_stripe` in a Phoenix project with a
 single command. It adds config files, wires up webhook verification, scaffolds
 a controller, and adds the route.
 
@@ -21,14 +21,14 @@ you don't have it yet:
 ## Running the Installer
 
 ```bash
-mix igniter.install stripe_elixir
+mix igniter.install tiger_stripe
 ```
 
-If `stripe_elixir` is already in your deps, run the configuration task
+If `tiger_stripe` is already in your deps, run the configuration task
 directly:
 
 ```bash
-mix stripe_elixir.install
+mix tiger_stripe.install
 ```
 
 Both commands do the same thing. The only difference is that
@@ -44,7 +44,7 @@ diff of every change and asks for confirmation before writing anything.
 Adds a placeholder API key to `config/dev.exs`:
 
 ```elixir
-config :stripe_elixir, api_key: "sk_test_YOUR_KEY_HERE"
+config :tiger_stripe, api_key: "sk_test_YOUR_KEY_HERE"
 ```
 
 Replace this with your actual test-mode secret key from the
@@ -56,7 +56,7 @@ Adds production env var config inside the `if config_env() == :prod` block
 in `config/runtime.exs`:
 
 ```elixir
-config :stripe_elixir,
+config :tiger_stripe,
   api_key: System.fetch_env!("STRIPE_SECRET_KEY"),
   webhook_secret: System.fetch_env!("STRIPE_WEBHOOK_SECRET")
 ```
@@ -168,5 +168,5 @@ explaining how to set up webhook handling manually. See the
 Preview changes without writing anything:
 
 ```bash
-mix stripe_elixir.install --dry-run
+mix tiger_stripe.install --dry-run
 ```

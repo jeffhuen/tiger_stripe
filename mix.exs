@@ -1,12 +1,12 @@
 defmodule Stripe.MixProject do
   use Mix.Project
 
-  @source_url "https://github.com/jeffhuen/stripe_elixir"
+  @source_url "https://github.com/jeffhuen/tiger_stripe"
   @version "0.1.0"
 
   def project do
     [
-      app: :stripe_elixir,
+      app: :tiger_stripe,
       version: @version,
       elixir: "~> 1.19",
       start_permanent: Mix.env() == :prod,
@@ -66,7 +66,7 @@ defmodule Stripe.MixProject do
 
   defp package do
     [
-      name: "stripe_elixir",
+      name: "tiger_stripe",
       description:
         "Stripe SDK for Elixir — typed resources, params, and services generated " <>
           "from the official OpenAPI spec. Per-client configuration, automatic retries, " <>
