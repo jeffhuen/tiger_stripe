@@ -11,12 +11,13 @@ defmodule Stripe.EventModulesTest do
   }
 
   describe "per-event module count" do
-    test "21 event module files match Ruby's count" do
-      event_files =
-        Path.wildcard("lib/stripe/events/*.ex")
-        |> Enum.count()
+    test "event module files match Ruby's count" do
+      ruby_events =
+        Path.wildcard("priv/stripe-ruby-master/lib/stripe/events/*.rb") |> Enum.count()
 
-      assert event_files == 21
+      elixir_events = Path.wildcard("lib/stripe/events/*.ex") |> Enum.count()
+      assert ruby_events > 0, "Ruby SDK not synced — no event files found"
+      assert elixir_events == ruby_events
     end
   end
 
@@ -149,8 +150,10 @@ defmodule Stripe.EventModulesTest do
                V1BillingMeterErrorReportTriggeredEvent
     end
 
-    test "registry has 20 entries (all thin events)" do
-      assert map_size(Stripe.EventTypes.event_type_to_module()) == 20
+    test "registry has one entry per event module (except UnknownEventNotification)" do
+      event_modules = Path.wildcard("lib/stripe/events/*.ex") |> Enum.count()
+      # UnknownEventNotification is the catch-all fallback, not in the registry
+      assert map_size(Stripe.EventTypes.event_type_to_module()) == event_modules - 1
     end
   end
 end

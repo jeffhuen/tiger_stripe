@@ -42,11 +42,9 @@ defmodule Stripe.ParityTest do
     end
 
     test "endpoint count floor (regression guard)" do
-      service_endpoints = service_endpoints()
-      count = MapSet.size(service_endpoints)
-
-      assert count >= 560,
-             "Endpoint count dropped to #{count} — expected >= 560 (was 561)"
+      spec_count = spec_endpoints() |> MapSet.size()
+      service_count = service_endpoints() |> MapSet.size()
+      assert service_count >= spec_count - MapSet.size(@spec_only_endpoints)
     end
   end
 
@@ -75,12 +73,11 @@ defmodule Stripe.ParityTest do
                Enum.map_join(extra, "\n", &"  #{&1}")
     end
 
-    test "service file count is 188 for both Ruby and Elixir" do
+    test "service file count matches Ruby" do
       ruby_count = ruby_service_paths() |> MapSet.size()
       elixir_count = elixir_service_paths() |> MapSet.size()
-
-      assert ruby_count == 188, "Ruby service count: #{ruby_count}"
-      assert elixir_count == 188, "Elixir service count: #{elixir_count}"
+      assert ruby_count > 0, "Ruby SDK not synced — no service files found"
+      assert elixir_count == ruby_count
     end
   end
 
