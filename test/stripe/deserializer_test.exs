@@ -136,6 +136,54 @@ defmodule Stripe.DeserializerTest do
     end
   end
 
+  describe "cast/2 deeply nested inner types" do
+    test "casts InvoiceLineItem.Parent.SubscriptionItemDetails to struct" do
+      data = %{
+        "object" => "line_item",
+        "id" => "il_123",
+        "amount" => 1000,
+        "currency" => "usd",
+        "parent" => %{
+          "type" => "subscription_item_details",
+          "subscription_item_details" => %{
+            "invoice_item" => "ii_123",
+            "proration" => true,
+            "proration_details" => %{
+              "credited_items" => %{
+                "invoice" => "in_456",
+                "invoice_line_items" => ["il_789"]
+              }
+            },
+            "subscription" => "sub_123",
+            "subscription_item" => "si_123"
+          },
+          "invoice_item_details" => nil
+        }
+      }
+
+      result = Deserializer.cast(data)
+      assert %Stripe.Resources.InvoiceLineItem{} = result
+      assert %Stripe.Resources.InvoiceLineItem.Parent{} = result.parent
+      assert result.parent.type == "subscription_item_details"
+
+      # Key assertion: nested inner type should be a struct, not a raw map
+      sub_details = result.parent.subscription_item_details
+      assert %Stripe.Resources.InvoiceLineItem.Parent.SubscriptionItemDetails{} = sub_details
+      assert sub_details.proration == true
+      assert sub_details.subscription == "sub_123"
+      assert sub_details.subscription_item == "si_123"
+
+      # 3 levels deep
+      assert %Stripe.Resources.InvoiceLineItem.Parent.SubscriptionItemDetails.ProrationDetails{} =
+               sub_details.proration_details
+
+      assert %Stripe.Resources.InvoiceLineItem.Parent.SubscriptionItemDetails.ProrationDetails.CreditedItems{} =
+               sub_details.proration_details.credited_items
+
+      assert sub_details.proration_details.credited_items.invoice == "in_456"
+    end
+  end
+
   describe "cast/2 expandable fields" do
     test "expandable field as string ID passes through" do
       data = %{

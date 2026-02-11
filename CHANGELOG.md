@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
+## [0.1.4] - 2026-02-11
+
+### Fixed
+
+- Fix inner type deserialization for modules not yet loaded by the BEAM — `function_exported?/3` does not trigger auto-loading, so `__inner_types__` was silently skipped for nested structs like `InvoiceLineItem.Parent.SubscriptionItemDetails`, returning raw string-keyed maps instead of typed structs ([`Code.ensure_loaded!/1`](https://hexdocs.pm/elixir/Code.html#ensure_loaded!/1) is now called before the check)
+
 ## [0.1.3] - 2026-02-10
 
 *Typespecs across all 307 resource modules now reference actual struct types instead of `map()`, improving Dialyzer coverage, IDE autocomplete, and LLM-generated code accuracy.*
@@ -56,6 +62,7 @@ The format is based on [Common Changelog](https://common-changelog.org/).
 - Add telemetry events for request lifecycle observability
 - Add Finch HTTP client with connection pooling (Mint + NimblePool)
 
+[0.1.4]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.0...v0.1.1

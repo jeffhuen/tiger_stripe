@@ -89,6 +89,8 @@ defmodule Stripe.Deserializer do
   end
 
   defp populate_struct(module, data, opts) do
+    Code.ensure_loaded!(module)
+
     inner_types =
       if function_exported?(module, :__inner_types__, 0),
         do: module.__inner_types__(),
@@ -142,6 +144,8 @@ defmodule Stripe.Deserializer do
 
   # Cast a raw map into an inner type struct, recursively casting fields
   defp cast_to_inner_struct(module, %{} = raw, opts) do
+    Code.ensure_loaded!(module)
+
     inner_types =
       if function_exported?(module, :__inner_types__, 0),
         do: module.__inner_types__(),
