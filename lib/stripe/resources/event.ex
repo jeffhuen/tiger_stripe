@@ -68,4 +68,10 @@ defmodule Stripe.Resources.Event do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["data", "request"]
+
+  def __inner_types__ do
+    %{
+      "data" => Stripe.Resources.EventData
+    }
+  end
 end

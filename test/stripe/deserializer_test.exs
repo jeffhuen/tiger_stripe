@@ -262,6 +262,102 @@ defmodule Stripe.DeserializerTest do
     end
   end
 
+  describe "cast/2 event data deserialization" do
+    test "event.data is an EventData struct" do
+      data = %{
+        "object" => "event",
+        "id" => "evt_123",
+        "type" => "invoice.created",
+        "data" => %{
+          "object" => %{
+            "id" => "inv_123",
+            "object" => "invoice",
+            "amount_due" => 5000
+          },
+          "previous_attributes" => nil
+        }
+      }
+
+      result = Deserializer.cast(data)
+      assert %Stripe.Resources.Event{} = result
+      assert %Stripe.Resources.EventData{} = result.data
+    end
+
+    test "event.data.object is cast to typed resource struct" do
+      data = %{
+        "object" => "event",
+        "id" => "evt_123",
+        "type" => "invoice.created",
+        "data" => %{
+          "object" => %{
+            "id" => "inv_123",
+            "object" => "invoice",
+            "amount_due" => 5000
+          },
+          "previous_attributes" => nil
+        }
+      }
+
+      result = Deserializer.cast(data)
+      assert %Stripe.Resources.Invoice{} = result.data.object
+      assert result.data.object.id == "inv_123"
+      assert result.data.object.amount_due == 5000
+    end
+
+    test "event.data.object works with charge type" do
+      data = %{
+        "object" => "event",
+        "id" => "evt_456",
+        "type" => "charge.succeeded",
+        "data" => %{
+          "object" => %{
+            "id" => "ch_789",
+            "object" => "charge",
+            "amount" => 2000,
+            "currency" => "usd"
+          },
+          "previous_attributes" => nil
+        }
+      }
+
+      result = Deserializer.cast(data)
+      assert %Stripe.Resources.Charge{} = result.data.object
+      assert result.data.object.id == "ch_789"
+      assert result.data.object.amount == 2000
+    end
+
+    test "event.data.previous_attributes is nil when absent" do
+      data = %{
+        "object" => "event",
+        "id" => "evt_123",
+        "type" => "invoice.created",
+        "data" => %{
+          "object" => %{"id" => "inv_123", "object" => "invoice"},
+          "previous_attributes" => nil
+        }
+      }
+
+      result = Deserializer.cast(data)
+      assert result.data.previous_attributes == nil
+    end
+
+    test "event.data.previous_attributes is a raw map when present" do
+      data = %{
+        "object" => "event",
+        "id" => "evt_123",
+        "type" => "invoice.updated",
+        "data" => %{
+          "object" => %{"id" => "inv_123", "object" => "invoice"},
+          "previous_attributes" => %{"amount_due" => 3000}
+        }
+      }
+
+      result = Deserializer.cast(data)
+      assert %Stripe.Resources.EventData{} = result.data
+      assert result.data.previous_attributes == %{"amount_due" => 3000}
+    end
+  end
+
   describe "cast/2 V2 objects" do
     test "casts V2 object to struct" do
       data = %{

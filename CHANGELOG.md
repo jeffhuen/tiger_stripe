@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.1
+
+### Bug Fixes
+
+- Fix `event.data` deserialization: `Webhook.construct_event/4` now returns
+  `event.data` as a `%EventData{}` struct with `event.data.object` cast to the
+  correct typed resource (e.g. `%Invoice{}`, `%Charge{}`). Previously,
+  `event.data` was a raw string-keyed map.
+
 ## v0.1.0
 
 Initial release.

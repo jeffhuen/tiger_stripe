@@ -2,7 +2,7 @@ defmodule Stripe.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/jeffhuen/tiger_stripe"
-  @version "0.1.0"
+  @version "0.1.1"
 
   def project do
     [
@@ -68,10 +68,10 @@ defmodule Stripe.MixProject do
     [
       name: "tiger_stripe",
       description:
-        "Stripe SDK for Elixir — typed resources, params, and services generated " <>
-          "from the official OpenAPI spec. Per-client configuration, automatic retries, " <>
-          "streaming pagination, OAuth, telemetry, and webhook signature verification. " <>
-          "1:1 service parity with the official Ruby SDK.",
+        "Complete Stripe SDK for Elixir with 1:1 parity to the official " <>
+          "Ruby SDK. V1+V2 API coverage (190 services, 307 resources, 523 typed params). " <>
+          "Fully typed per-event modules. Modern stack: Finch HTTP/2, RustyJSON, " <>
+          "automatic retries, OAuth, webhooks, telemetry, per-client config, streaming pagination.",
       maintainers: ["Jeff Huen"],
       licenses: ["MIT"],
       links: %{

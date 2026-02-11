@@ -96,25 +96,16 @@ defmodule Stripe.Deserializer do
   defp cast_field(_key, nil, _inner_types, _opts), do: nil
 
   # Field has an inner type mapping and the value is a list → cast each element
-  defp cast_field(key, raw, inner_types, _opts)
+  defp cast_field(key, raw, inner_types, opts)
        when is_map_key(inner_types, key) and is_list(raw) do
     inner_module = Map.fetch!(inner_types, key)
-    Enum.map(raw, &cast_to_inner_struct(inner_module, &1))
+    Enum.map(raw, &cast_to_inner_struct(inner_module, &1, opts))
   end
 
   # Field has an inner type mapping and the value is a map → cast to inner type struct
   defp cast_field(key, %{} = raw, inner_types, opts) when is_map_key(inner_types, key) do
     inner_module = Map.fetch!(inner_types, key)
-    inner_struct = cast_to_inner_struct(inner_module, raw)
-
-    # If the inner type has `data` + `has_more` (embedded list), recursively cast its data items
-    if Map.has_key?(inner_struct, :data) and Map.has_key?(inner_struct, :has_more) and
-         is_list(inner_struct.data) do
-      updated_data = Enum.map(inner_struct.data, &cast(&1, opts))
-      Map.put(inner_struct, :data, updated_data)
-    else
-      inner_struct
-    end
+    cast_to_inner_struct(inner_module, raw, opts)
   end
 
   # Expanded object (map with "object" key, no inner type match) → recursive cast
@@ -133,16 +124,23 @@ defmodule Stripe.Deserializer do
   # Scalar passthrough
   defp cast_field(_key, raw, _inner_types, _opts), do: raw
 
-  # Cast a raw map into an inner type struct (one level only — no deep recursion)
-  defp cast_to_inner_struct(module, %{} = raw) do
+  # Cast a raw map into an inner type struct, recursively casting fields
+  defp cast_to_inner_struct(module, %{} = raw, opts) do
+    inner_types =
+      if function_exported?(module, :__inner_types__, 0),
+        do: module.__inner_types__(),
+        else: %{}
+
     module.__struct__()
     |> Map.keys()
     |> List.delete(:__struct__)
     |> Enum.map(fn atom_key ->
-      {atom_key, Map.get(raw, Atom.to_string(atom_key))}
+      string_key = Atom.to_string(atom_key)
+      raw_value = Map.get(raw, string_key)
+      {atom_key, cast_field(string_key, raw_value, inner_types, opts)}
     end)
     |> then(&struct(module, &1))
   end
 
-  defp cast_to_inner_struct(_module, raw), do: raw
+  defp cast_to_inner_struct(_module, raw, _opts), do: raw
 end

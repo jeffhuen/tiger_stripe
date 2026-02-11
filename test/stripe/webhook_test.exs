@@ -53,6 +53,19 @@ defmodule Stripe.WebhookTest do
       header = generate_header(@payload, timestamp: recent)
       assert {:ok, _event} = Webhook.construct_event(@payload, header, @secret, tolerance: 300)
     end
+
+    test "deserializes event.data.object into typed struct" do
+      payload =
+        ~s({"id":"evt_1","object":"event","type":"invoice.created","data":{"object":{"id":"inv_1","object":"invoice","amount_due":5000},"previous_attributes":null}})
+
+      header = generate_header(payload)
+      assert {:ok, event} = Webhook.construct_event(payload, header, @secret)
+      assert %Stripe.Resources.Event{} = event
+      assert %Stripe.Resources.EventData{} = event.data
+      assert %Stripe.Resources.Invoice{} = event.data.object
+      assert event.data.object.id == "inv_1"
+      assert event.data.object.amount_due == 5000
+    end
   end
 
   describe "verify_header/4" do

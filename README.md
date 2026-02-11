@@ -1,7 +1,7 @@
 # TigerStripe
 
-Elixir SDK and client for the [Stripe API](https://stripe.com/docs/api),
-auto-generated from the official [OpenAPI spec](https://github.com/stripe/openapi).
+Comprehensive Elixir SDK for the [Stripe API](https://stripe.com/docs/api),
+with verified 1:1 feature parity to the official [Ruby SDK](https://github.com/stripe/stripe-ruby).
 
 > **Note:** This is not an official Stripe SDK. Stripe does not publish a
 > first-party Elixir library. This project is generated from the same
@@ -23,6 +23,66 @@ Together, the full V1 + V2 API surface is covered: 190 service modules,
 307 typed resource structs, 523 typed params modules, webhook signature
 verification, OAuth, file uploads, streaming responses, and per-event typed
 modules.
+
+## Coming from the Ruby SDK
+
+TigerStripe has the same API coverage as the official Ruby SDK but follows
+Elixir conventions. Three things work differently:
+
+**Service modules instead of resource methods.** Ruby calls methods on
+resource classes (`Stripe::Charge.create`). Elixir uses dedicated service
+modules — the same internal architecture the Ruby SDK uses, surfaced
+explicitly:
+
+```ruby
+# Ruby
+charge = Stripe::Charge.create({amount: 2000, currency: "usd"})
+```
+
+```elixir
+# Elixir
+{:ok, charge} = Stripe.Services.ChargeService.create(client, %{amount: 2000, currency: "usd"})
+```
+
+**Explicit client argument.** Ruby uses a global `Stripe.api_key`. Elixir
+passes a client struct to every call — no global mutable state, safe for
+concurrent use with multiple API keys or connected accounts:
+
+```ruby
+# Ruby
+Stripe.api_key = "sk_test_..."
+charge = Stripe::Charge.retrieve("ch_123")
+```
+
+```elixir
+# Elixir
+client = Stripe.client()
+{:ok, charge} = Stripe.Services.ChargeService.retrieve(client, "ch_123")
+```
+
+**Tuples instead of exceptions.** Ruby raises `Stripe::StripeError` on
+failure. Elixir returns `{:ok, result}` / `{:error, %Stripe.Error{}}` tuples
+for pattern matching:
+
+```ruby
+# Ruby
+begin
+  charge = Stripe::Charge.create(params)
+rescue Stripe::CardError => e
+  puts e.message
+end
+```
+
+```elixir
+# Elixir
+case Stripe.Services.ChargeService.create(client, params) do
+  {:ok, charge} -> charge
+  {:error, %Stripe.Error{type: :card_error} = err} -> Logger.warning(err.message)
+end
+```
+
+Everything else — endpoint paths, parameter names, resource fields, webhook
+payloads, pagination, file uploads, OAuth — is 1:1 with the Ruby SDK.
 
 ## Installation
 
