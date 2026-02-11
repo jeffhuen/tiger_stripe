@@ -4,12 +4,17 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
+## [0.1.6] - 2026-02-11
+
+### Fixed
+
+- Remove dead `resolve_params_class/1` override lookup — `params_overrides()` is empty, so the pattern match was flagged as unreachable by both Dialyzer and Elixir's type checker ([d07dbf5])
+
 ## [0.1.5] - 2026-02-11
 
 ### Fixed
 
 - Add missing `:context` field to all thin event structs — `fetch_related_object/2` references `Map.get(event, :context)` but the field was absent from the generated struct, producing 18 compiler warnings on Elixir 1.18+ and silently dropping authentication context ([0305b53])
-- Fix `resolve_params_class/1` compiler warning in params generator — `Map.get/2` on the empty `params_overrides()` map triggered "will always return nil" on Elixir 1.18+ ([0305b53])
 
 ## [0.1.4] - 2026-02-11
 
@@ -69,7 +74,9 @@ The format is based on [Common Changelog](https://common-changelog.org/).
 - Add telemetry events for request lifecycle observability
 - Add Finch HTTP client with connection pooling (Mint + NimblePool)
 
+[0.1.6]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.4...v0.1.5
+[d07dbf5]: https://github.com/jeffhuen/tiger_stripe/commit/d07dbf5
 [0.1.4]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.3...v0.1.4
 [0305b53]: https://github.com/jeffhuen/tiger_stripe/commit/0305b53
 [0.1.3]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.2...v0.1.3

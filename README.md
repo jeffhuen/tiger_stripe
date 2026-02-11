@@ -108,7 +108,7 @@ Add `tiger_stripe` to your dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:tiger_stripe, "~> 0.1.5"}
+    {:tiger_stripe, "~> 0.1.6"}
   ]
 end
 ```

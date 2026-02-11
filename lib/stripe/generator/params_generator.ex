@@ -3,7 +3,6 @@ defmodule Stripe.Generator.ParamsGenerator do
 
   alias Stripe.Generator.DocFormatter
   alias Stripe.Generator.Naming
-  alias Stripe.Generator.Overrides
 
   @file_header "# File generated from our OpenAPI spec"
 
@@ -246,16 +245,6 @@ defmodule Stripe.Generator.ParamsGenerator do
   defp params_typespec({:nested, _name}), do: "map()"
   defp params_typespec(_), do: "term()"
 
-  # Dialyzer sees params_overrides() is currently %{} and flags the match as
-  # unreachable. The map is intentionally empty scaffolding for future overrides.
-  @dialyzer {:nowarn_function, resolve_params_class: 1}
-  defp resolve_params_class(op) do
-    key = {to_string(op.http_method), op.path}
-    overrides = Overrides.params_overrides()
-
-    case overrides do
-      %{^key => %{params_class: params_class}} when is_binary(params_class) -> params_class
-      _ -> op.service_class
-    end
-  end
+  # When params_overrides() gains entries, match here like resolve_service/2.
+  defp resolve_params_class(op), do: op.service_class
 end
