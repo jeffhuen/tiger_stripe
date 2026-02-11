@@ -1,5 +1,10 @@
 defmodule Stripe.Deserializer do
-  @moduledoc false
+  @moduledoc """
+  Deserializes JSON strings and raw maps into typed Stripe structs.
+
+  Used internally by the client to cast API responses. Also provides
+  `from_json/1` for manual deserialization of JSON payloads.
+  """
 
   alias Stripe.ObjectTypes
 
