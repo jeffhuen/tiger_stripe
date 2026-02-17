@@ -27,5 +27,33 @@ defmodule Stripe.Params.TestHelpers.Treasury.OutboundPaymentUpdateParams do
             us_domestic_wire: __MODULE__.UsDomesticWire.t() | nil
           }
     defstruct [:ach, :type, :us_domestic_wire]
+
+    defmodule Ach do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `trace_id` - ACH trace ID for funds sent over the `ach` network. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              trace_id: String.t() | nil
+            }
+      defstruct [:trace_id]
+    end
+
+    defmodule UsDomesticWire do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `chips` - CHIPS System Sequence Number (SSN) for funds sent over the `us_domestic_wire` network. Max length: 5000.
+      * `imad` - IMAD for funds sent over the `us_domestic_wire` network. Max length: 5000.
+      * `omad` - OMAD for funds sent over the `us_domestic_wire` network. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              chips: String.t() | nil,
+              imad: String.t() | nil,
+              omad: String.t() | nil
+            }
+      defstruct [:chips, :imad, :omad]
+    end
   end
 end

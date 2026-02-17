@@ -29,5 +29,19 @@ defmodule Stripe.Params.ShippingRateUpdateParams do
             currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil
           }
     defstruct [:currency_options]
+
+    defmodule CurrencyOptions do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `amount` - A non-negative integer in cents representing how much to charge.
+      * `tax_behavior` - Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Possible values: `exclusive`, `inclusive`, `unspecified`.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              tax_behavior: String.t() | nil
+            }
+      defstruct [:amount, :tax_behavior]
+    end
   end
 end

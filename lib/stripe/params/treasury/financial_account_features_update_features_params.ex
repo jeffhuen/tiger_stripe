@@ -68,6 +68,18 @@ defmodule Stripe.Params.Treasury.FinancialAccountFeaturesUpdateFeaturesParams do
             aba: __MODULE__.Aba.t() | nil
           }
     defstruct [:aba]
+
+    defmodule Aba do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Whether the FinancialAccount should have the Feature.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
   end
 
   defmodule InboundTransfers do
@@ -80,6 +92,18 @@ defmodule Stripe.Params.Treasury.FinancialAccountFeaturesUpdateFeaturesParams do
             ach: __MODULE__.Ach.t() | nil
           }
     defstruct [:ach]
+
+    defmodule Ach do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Whether the FinancialAccount should have the Feature.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
   end
 
   defmodule IntraStripeFlows do
@@ -106,6 +130,30 @@ defmodule Stripe.Params.Treasury.FinancialAccountFeaturesUpdateFeaturesParams do
             us_domestic_wire: __MODULE__.UsDomesticWire.t() | nil
           }
     defstruct [:ach, :us_domestic_wire]
+
+    defmodule Ach do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Whether the FinancialAccount should have the Feature.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule UsDomesticWire do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Whether the FinancialAccount should have the Feature.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
   end
 
   defmodule OutboundTransfers do
@@ -120,5 +168,29 @@ defmodule Stripe.Params.Treasury.FinancialAccountFeaturesUpdateFeaturesParams do
             us_domestic_wire: __MODULE__.UsDomesticWire.t() | nil
           }
     defstruct [:ach, :us_domestic_wire]
+
+    defmodule Ach do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Whether the FinancialAccount should have the Feature.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule UsDomesticWire do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Whether the FinancialAccount should have the Feature.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
   end
 end

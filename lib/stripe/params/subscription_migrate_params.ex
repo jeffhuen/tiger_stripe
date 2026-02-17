@@ -25,5 +25,17 @@ defmodule Stripe.Params.SubscriptionMigrateParams do
             type: String.t() | nil
           }
     defstruct [:flexible, :type]
+
+    defmodule Flexible do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `proration_discounts` - Controls how invoices and invoice items display proration amounts and discount amounts. Possible values: `included`, `itemized`.
+      """
+      @type t :: %__MODULE__{
+              proration_discounts: String.t() | nil
+            }
+      defstruct [:proration_discounts]
+    end
   end
 end

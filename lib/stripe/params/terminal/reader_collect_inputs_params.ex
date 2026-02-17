@@ -33,5 +33,67 @@ defmodule Stripe.Params.Terminal.ReaderCollectInputsParams do
             type: String.t() | nil
           }
     defstruct [:custom_text, :required, :selection, :toggles, :type]
+
+    defmodule CustomText do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `description` - The description which will be displayed when collecting this input Max length: 500.
+      * `skip_button` - Custom text for the skip button. Maximum 14 characters. Max length: 14.
+      * `submit_button` - Custom text for the submit button. Maximum 30 characters. Max length: 30.
+      * `title` - The title which will be displayed when collecting this input Max length: 40.
+      """
+      @type t :: %__MODULE__{
+              description: String.t() | nil,
+              skip_button: String.t() | nil,
+              submit_button: String.t() | nil,
+              title: String.t() | nil
+            }
+      defstruct [:description, :skip_button, :submit_button, :title]
+    end
+
+    defmodule Selection do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `choices` - List of choices for the `selection` input
+      """
+      @type t :: %__MODULE__{
+              choices: [__MODULE__.Choices.t()] | nil
+            }
+      defstruct [:choices]
+
+      defmodule Choices do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `id` - The unique identifier for this choice Max length: 50.
+        * `style` - The style of the button which will be shown for this choice. Can be `primary` or `secondary`. Possible values: `primary`, `secondary`.
+        * `text` - The text which will be shown on the button for this choice Max length: 30.
+        """
+        @type t :: %__MODULE__{
+                id: String.t() | nil,
+                style: String.t() | nil,
+                text: String.t() | nil
+              }
+        defstruct [:id, :style, :text]
+      end
+    end
+
+    defmodule Toggles do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `default_value` - The default value of the toggle. Can be `enabled` or `disabled`. Possible values: `disabled`, `enabled`.
+      * `description` - The description which will be displayed for the toggle. Maximum 50 characters. At least one of title or description must be provided. Max length: 50.
+      * `title` - The title which will be displayed for the toggle. Maximum 50 characters. At least one of title or description must be provided. Max length: 50.
+      """
+      @type t :: %__MODULE__{
+              default_value: String.t() | nil,
+              description: String.t() | nil,
+              title: String.t() | nil
+            }
+      defstruct [:default_value, :description, :title]
+    end
   end
 end

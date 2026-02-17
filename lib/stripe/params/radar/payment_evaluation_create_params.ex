@@ -87,5 +87,125 @@ defmodule Stripe.Params.Radar.PaymentEvaluationCreateParams do
       :shipping_details,
       :statement_descriptor
     ]
+
+    defmodule MoneyMovementDetails do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `card` - Describes card money movement details for the payment evaluation.
+      * `money_movement_type` - Describes the type of money movement. Currently only `card` is supported. Possible values: `card`.
+      """
+      @type t :: %__MODULE__{
+              card: __MODULE__.Card.t() | nil,
+              money_movement_type: String.t() | nil
+            }
+      defstruct [:card, :money_movement_type]
+
+      defmodule Card do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `customer_presence` - Describes the presence of the customer during the payment. Possible values: `off_session`, `on_session`.
+        * `payment_type` - Describes the type of payment. Possible values: `one_off`, `recurring`, `setup_one_off`, `setup_recurring`.
+        """
+        @type t :: %__MODULE__{
+                customer_presence: String.t() | nil,
+                payment_type: String.t() | nil
+              }
+        defstruct [:customer_presence, :payment_type]
+      end
+    end
+
+    defmodule PaymentMethodDetails do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `billing_details` - Billing information associated with the payment evaluation.
+      * `payment_method` - ID of the payment method used in this payment evaluation. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              billing_details: __MODULE__.BillingDetails.t() | nil,
+              payment_method: String.t() | nil
+            }
+      defstruct [:billing_details, :payment_method]
+
+      defmodule BillingDetails do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `address` - Billing address.
+        * `email` - Email address.
+        * `name` - Full name. Max length: 5000.
+        * `phone` - Billing phone number (including extension).
+        """
+        @type t :: %__MODULE__{
+                address: __MODULE__.Address.t() | nil,
+                email: String.t() | nil,
+                name: String.t() | nil,
+                phone: String.t() | nil
+              }
+        defstruct [:address, :email, :name, :phone]
+
+        defmodule Address do
+          @moduledoc "Nested parameters."
+
+          @typedoc """
+          * `city` - City, district, suburb, town, or village. Max length: 5000.
+          * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+          * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
+          * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
+          * `postal_code` - ZIP or postal code. Max length: 5000.
+          * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+          """
+          @type t :: %__MODULE__{
+                  city: String.t() | nil,
+                  country: String.t() | nil,
+                  line1: String.t() | nil,
+                  line2: String.t() | nil,
+                  postal_code: String.t() | nil,
+                  state: String.t() | nil
+                }
+          defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+        end
+      end
+    end
+
+    defmodule ShippingDetails do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `address` - Shipping address.
+      * `name` - Shipping name. Max length: 5000.
+      * `phone` - Shipping phone number.
+      """
+      @type t :: %__MODULE__{
+              address: __MODULE__.Address.t() | nil,
+              name: String.t() | nil,
+              phone: String.t() | nil
+            }
+      defstruct [:address, :name, :phone]
+
+      defmodule Address do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `city` - City, district, suburb, town, or village. Max length: 5000.
+        * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+        * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
+        * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
+        * `postal_code` - ZIP or postal code. Max length: 5000.
+        * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                city: String.t() | nil,
+                country: String.t() | nil,
+                line1: String.t() | nil,
+                line2: String.t() | nil,
+                postal_code: String.t() | nil,
+                state: String.t() | nil
+              }
+        defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+      end
+    end
   end
 end

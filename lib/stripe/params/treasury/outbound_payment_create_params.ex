@@ -65,6 +65,50 @@ defmodule Stripe.Params.Treasury.OutboundPaymentCreateParams do
             us_bank_account: __MODULE__.UsBankAccount.t() | nil
           }
     defstruct [:billing_details, :financial_account, :metadata, :type, :us_bank_account]
+
+    defmodule BillingDetails do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `address` - Billing address.
+      * `email` - Email address.
+      * `name` - Full name.
+      * `phone` - Billing phone number (including extension).
+      """
+      @type t :: %__MODULE__{
+              address: map() | nil,
+              email: map() | nil,
+              name: map() | nil,
+              phone: map() | nil
+            }
+      defstruct [:address, :email, :name, :phone]
+    end
+
+    defmodule UsBankAccount do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_holder_type` - Account holder type: individual or company. Possible values: `company`, `individual`.
+      * `account_number` - Account number of the bank account. Max length: 5000.
+      * `account_type` - Account type: checkings or savings. Defaults to checking if omitted. Possible values: `checking`, `savings`.
+      * `financial_connections_account` - The ID of a Financial Connections Account to use as a payment method. Max length: 5000.
+      * `routing_number` - Routing number of the bank account. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_holder_type: String.t() | nil,
+              account_number: String.t() | nil,
+              account_type: String.t() | nil,
+              financial_connections_account: String.t() | nil,
+              routing_number: String.t() | nil
+            }
+      defstruct [
+        :account_holder_type,
+        :account_number,
+        :account_type,
+        :financial_connections_account,
+        :routing_number
+      ]
+    end
   end
 
   defmodule DestinationPaymentMethodOptions do

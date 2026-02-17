@@ -122,6 +122,30 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
             type: String.t() | nil
           }
     defstruct [:hosted_confirmation, :redirect, :type]
+
+    defmodule HostedConfirmation do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `custom_message` - A custom message to display to the customer after the purchase is complete. Max length: 500.
+      """
+      @type t :: %__MODULE__{
+              custom_message: String.t() | nil
+            }
+      defstruct [:custom_message]
+    end
+
+    defmodule Redirect do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `url` - The URL the customer will be redirected to after the purchase is complete. You can embed `{CHECKOUT_SESSION_ID}` into the URL to have the `id` of the completed [checkout session](https://docs.stripe.com/api/checkout/sessions/object#checkout_session_object-id) included.
+      """
+      @type t :: %__MODULE__{
+              url: String.t() | nil
+            }
+      defstruct [:url]
+    end
   end
 
   defmodule AutomaticTax do
@@ -138,6 +162,20 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
             liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
+
+    defmodule Liability do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account` - The connected account being referenced when `type` is `account`.
+      * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+      """
+      @type t :: %__MODULE__{
+              account: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:account, :type]
+    end
   end
 
   defmodule ConsentCollection do
@@ -157,6 +195,19 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
             terms_of_service: String.t() | nil
           }
     defstruct [:payment_method_reuse_agreement, :promotions, :terms_of_service]
+
+    defmodule PaymentMethodReuseAgreement do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `position` - Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's
+      defaults will be used. When set to `hidden`, the payment method reuse agreement text will always be hidden in the UI. Possible values: `auto`, `hidden`.
+      """
+      @type t :: %__MODULE__{
+              position: String.t() | nil
+            }
+      defstruct [:position]
+    end
   end
 
   defmodule CustomFields do
@@ -181,6 +232,80 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
             type: String.t() | nil
           }
     defstruct [:dropdown, :key, :label, :numeric, :optional, :text, :type]
+
+    defmodule Dropdown do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `default_value` - The value that will pre-fill the field on the payment page.Must match a `value` in the `options` array. Max length: 100.
+      * `options` - The options available for the customer to select. Up to 200 options allowed.
+      """
+      @type t :: %__MODULE__{
+              default_value: String.t() | nil,
+              options: [__MODULE__.Options.t()] | nil
+            }
+      defstruct [:default_value, :options]
+
+      defmodule Options do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `label` - The label for the option, displayed to the customer. Up to 100 characters. Max length: 100.
+        * `value` - The value for this option, not displayed to the customer, used by your integration to reconcile the option selected by the customer. Must be unique to this option, alphanumeric, and up to 100 characters. Max length: 100.
+        """
+        @type t :: %__MODULE__{
+                label: String.t() | nil,
+                value: String.t() | nil
+              }
+        defstruct [:label, :value]
+      end
+    end
+
+    defmodule Label do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `custom` - Custom text for the label, displayed to the customer. Up to 50 characters. Max length: 50.
+      * `type` - The type of the label. Possible values: `custom`.
+      """
+      @type t :: %__MODULE__{
+              custom: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:custom, :type]
+    end
+
+    defmodule Numeric do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `default_value` - The value that will pre-fill the field on the payment page. Max length: 255.
+      * `maximum_length` - The maximum character length constraint for the customer's input.
+      * `minimum_length` - The minimum character length requirement for the customer's input.
+      """
+      @type t :: %__MODULE__{
+              default_value: String.t() | nil,
+              maximum_length: integer() | nil,
+              minimum_length: integer() | nil
+            }
+      defstruct [:default_value, :maximum_length, :minimum_length]
+    end
+
+    defmodule Text do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `default_value` - The value that will pre-fill the field on the payment page. Max length: 255.
+      * `maximum_length` - The maximum character length constraint for the customer's input.
+      * `minimum_length` - The minimum character length requirement for the customer's input.
+      """
+      @type t :: %__MODULE__{
+              default_value: String.t() | nil,
+              maximum_length: integer() | nil,
+              minimum_length: integer() | nil
+            }
+      defstruct [:default_value, :maximum_length, :minimum_length]
+    end
   end
 
   defmodule CustomText do
@@ -213,6 +338,52 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
             invoice_data: __MODULE__.InvoiceData.t() | nil
           }
     defstruct [:enabled, :invoice_data]
+
+    defmodule InvoiceData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_tax_ids` - The account tax IDs associated with the invoice.
+      * `custom_fields` - Default custom fields to be displayed on invoices for this customer.
+      * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 1500.
+      * `footer` - Default footer to be displayed on invoices for this customer. Max length: 5000.
+      * `issuer` - The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+      * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+      * `rendering_options` - Default options for invoice PDF rendering for this customer.
+      """
+      @type t :: %__MODULE__{
+              account_tax_ids: map() | nil,
+              custom_fields: map() | nil,
+              description: String.t() | nil,
+              footer: String.t() | nil,
+              issuer: __MODULE__.Issuer.t() | nil,
+              metadata: map() | nil,
+              rendering_options: map() | nil
+            }
+      defstruct [
+        :account_tax_ids,
+        :custom_fields,
+        :description,
+        :footer,
+        :issuer,
+        :metadata,
+        :rendering_options
+      ]
+
+      defmodule Issuer do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `account` - The connected account being referenced when `type` is `account`.
+        * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+        """
+        @type t :: %__MODULE__{
+                account: String.t() | nil,
+                type: String.t() | nil
+              }
+        defstruct [:account, :type]
+      end
+    end
   end
 
   defmodule LineItems do
@@ -231,6 +402,90 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
             quantity: integer() | nil
           }
     defstruct [:adjustable_quantity, :price, :price_data, :quantity]
+
+    defmodule AdjustableQuantity do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Set to true if the quantity can be adjusted to any non-negative Integer.
+      * `maximum` - The maximum quantity the customer can purchase. By default this value is 99. You can specify a value up to 999999.
+      * `minimum` - The minimum quantity the customer can purchase. By default this value is 0. If there is only one item in the cart then that item's quantity cannot go down to 0.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              maximum: integer() | nil,
+              minimum: integer() | nil
+            }
+      defstruct [:enabled, :maximum, :minimum]
+    end
+
+    defmodule PriceData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+      * `product` - The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required. Max length: 5000.
+      * `product_data` - Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+      * `recurring` - The recurring components of a price such as `interval` and `interval_count`.
+      * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
+      * `unit_amount` - A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
+      * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              product: String.t() | nil,
+              product_data: __MODULE__.ProductData.t() | nil,
+              recurring: __MODULE__.Recurring.t() | nil,
+              tax_behavior: String.t() | nil,
+              unit_amount: integer() | nil,
+              unit_amount_decimal: String.t() | nil
+            }
+      defstruct [
+        :currency,
+        :product,
+        :product_data,
+        :recurring,
+        :tax_behavior,
+        :unit_amount,
+        :unit_amount_decimal
+      ]
+
+      defmodule ProductData do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `description` - The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes. Max length: 40000.
+        * `images` - A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+        * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+        * `name` - The product's name, meant to be displayable to the customer. Max length: 5000.
+        * `tax_code` - A [tax code](https://docs.stripe.com/tax/tax-categories) ID. Max length: 5000.
+        * `unit_label` - A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. Max length: 12.
+        """
+        @type t :: %__MODULE__{
+                description: String.t() | nil,
+                images: [String.t()] | nil,
+                metadata: %{String.t() => String.t()} | nil,
+                name: String.t() | nil,
+                tax_code: String.t() | nil,
+                unit_label: String.t() | nil
+              }
+        defstruct [:description, :images, :metadata, :name, :tax_code, :unit_label]
+      end
+
+      defmodule Recurring do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `interval` - Specifies billing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
+        * `interval_count` - The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+        """
+        @type t :: %__MODULE__{
+                interval: String.t() | nil,
+                interval_count: integer() | nil
+              }
+        defstruct [:interval, :interval_count]
+      end
+    end
   end
 
   defmodule NameCollection do
@@ -245,6 +500,34 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
             individual: __MODULE__.Individual.t() | nil
           }
     defstruct [:business, :individual]
+
+    defmodule Business do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Enable business name collection on the payment link. Defaults to `false`.
+      * `optional` - Whether the customer is required to provide their business name before checking out. Defaults to `false`.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              optional: boolean() | nil
+            }
+      defstruct [:enabled, :optional]
+    end
+
+    defmodule Individual do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Enable individual name collection on the payment link. Defaults to `false`.
+      * `optional` - Whether the customer is required to provide their full name before checking out. Defaults to `false`.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              optional: boolean() | nil
+            }
+      defstruct [:enabled, :optional]
+    end
   end
 
   defmodule OptionalItems do
@@ -261,6 +544,22 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
             quantity: integer() | nil
           }
     defstruct [:adjustable_quantity, :price, :quantity]
+
+    defmodule AdjustableQuantity do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Set to true if the quantity can be adjusted to any non-negative integer.
+      * `maximum` - The maximum quantity of this item the customer can purchase. By default this value is 99.
+      * `minimum` - The minimum quantity of this item the customer must purchase, if they choose to purchase it. Because this item is optional, the customer will always be able to remove it from their order, even if the `minimum` configured here is greater than 0. By default this value is 0.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              maximum: integer() | nil,
+              minimum: integer() | nil
+            }
+      defstruct [:enabled, :maximum, :minimum]
+    end
   end
 
   defmodule PaymentIntentData do
@@ -329,6 +628,18 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
             completed_sessions: __MODULE__.CompletedSessions.t() | nil
           }
     defstruct [:completed_sessions]
+
+    defmodule CompletedSessions do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `limit` - The maximum number of checkout sessions that can be completed for the `completed_sessions` restriction to be met.
+      """
+      @type t :: %__MODULE__{
+              limit: integer() | nil
+            }
+      defstruct [:limit]
+    end
   end
 
   defmodule ShippingAddressCollection do
@@ -374,6 +685,56 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
             trial_settings: __MODULE__.TrialSettings.t() | nil
           }
     defstruct [:description, :invoice_settings, :metadata, :trial_period_days, :trial_settings]
+
+    defmodule InvoiceSettings do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `issuer` - The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+      """
+      @type t :: %__MODULE__{
+              issuer: __MODULE__.Issuer.t() | nil
+            }
+      defstruct [:issuer]
+
+      defmodule Issuer do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `account` - The connected account being referenced when `type` is `account`.
+        * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+        """
+        @type t :: %__MODULE__{
+                account: String.t() | nil,
+                type: String.t() | nil
+              }
+        defstruct [:account, :type]
+      end
+    end
+
+    defmodule TrialSettings do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `end_behavior` - Defines how the subscription should behave when the user's free trial ends.
+      """
+      @type t :: %__MODULE__{
+              end_behavior: __MODULE__.EndBehavior.t() | nil
+            }
+      defstruct [:end_behavior]
+
+      defmodule EndBehavior do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `missing_payment_method` - Indicates how the subscription should change when the trial ends if the user did not provide a payment method. Possible values: `cancel`, `create_invoice`, `pause`.
+        """
+        @type t :: %__MODULE__{
+                missing_payment_method: String.t() | nil
+              }
+        defstruct [:missing_payment_method]
+      end
+    end
   end
 
   defmodule TaxIdCollection do

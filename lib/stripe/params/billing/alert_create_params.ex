@@ -33,5 +33,19 @@ defmodule Stripe.Params.Billing.AlertCreateParams do
             recurrence: String.t() | nil
           }
     defstruct [:filters, :gte, :meter, :recurrence]
+
+    defmodule Filters do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `customer` - Limit the scope to this usage alert only to this customer. Max length: 5000.
+      * `type` - What type of filter is being applied to this usage alert. Possible values: `customer`.
+      """
+      @type t :: %__MODULE__{
+              customer: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:customer, :type]
+    end
   end
 end

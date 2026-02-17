@@ -87,6 +87,28 @@ defmodule Stripe.Params.InvoiceLineItemUpdateParams do
       :unit_amount,
       :unit_amount_decimal
     ]
+
+    defmodule ProductData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `description` - The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes. Max length: 40000.
+      * `images` - A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+      * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+      * `name` - The product's name, meant to be displayable to the customer. Max length: 5000.
+      * `tax_code` - A [tax code](https://docs.stripe.com/tax/tax-categories) ID. Max length: 5000.
+      * `unit_label` - A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. Max length: 12.
+      """
+      @type t :: %__MODULE__{
+              description: String.t() | nil,
+              images: [String.t()] | nil,
+              metadata: %{String.t() => String.t()} | nil,
+              name: String.t() | nil,
+              tax_code: String.t() | nil,
+              unit_label: String.t() | nil
+            }
+      defstruct [:description, :images, :metadata, :name, :tax_code, :unit_label]
+    end
   end
 
   defmodule Pricing do

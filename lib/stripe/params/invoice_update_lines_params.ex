@@ -60,5 +60,82 @@ defmodule Stripe.Params.InvoiceUpdateLinesParams do
       :tax_amounts,
       :tax_rates
     ]
+
+    defmodule Period do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `end` - The end of the period, which must be greater than or equal to the start. This value is inclusive. Format: Unix timestamp.
+      * `start` - The start of the period. This value is inclusive. Format: Unix timestamp.
+      """
+      @type t :: %__MODULE__{
+              end: integer() | nil,
+              start: integer() | nil
+            }
+      defstruct [:end, :start]
+    end
+
+    defmodule PriceData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+      * `product` - The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required. Max length: 5000.
+      * `product_data` - Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+      * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
+      * `unit_amount` - A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
+      * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              product: String.t() | nil,
+              product_data: __MODULE__.ProductData.t() | nil,
+              tax_behavior: String.t() | nil,
+              unit_amount: integer() | nil,
+              unit_amount_decimal: String.t() | nil
+            }
+      defstruct [
+        :currency,
+        :product,
+        :product_data,
+        :tax_behavior,
+        :unit_amount,
+        :unit_amount_decimal
+      ]
+
+      defmodule ProductData do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `description` - The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes. Max length: 40000.
+        * `images` - A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+        * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+        * `name` - The product's name, meant to be displayable to the customer. Max length: 5000.
+        * `tax_code` - A [tax code](https://docs.stripe.com/tax/tax-categories) ID. Max length: 5000.
+        * `unit_label` - A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. Max length: 12.
+        """
+        @type t :: %__MODULE__{
+                description: String.t() | nil,
+                images: [String.t()] | nil,
+                metadata: %{String.t() => String.t()} | nil,
+                name: String.t() | nil,
+                tax_code: String.t() | nil,
+                unit_label: String.t() | nil
+              }
+        defstruct [:description, :images, :metadata, :name, :tax_code, :unit_label]
+      end
+    end
+
+    defmodule Pricing do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `price` - The ID of the price object. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              price: String.t() | nil
+            }
+      defstruct [:price]
+    end
   end
 end

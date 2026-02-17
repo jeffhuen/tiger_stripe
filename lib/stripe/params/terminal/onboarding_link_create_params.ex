@@ -27,5 +27,19 @@ defmodule Stripe.Params.Terminal.OnboardingLinkCreateParams do
             apple_terms_and_conditions: __MODULE__.AppleTermsAndConditions.t() | nil
           }
     defstruct [:apple_terms_and_conditions]
+
+    defmodule AppleTermsAndConditions do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `allow_relinking` - Whether the link should also support users relinking their Apple account.
+      * `merchant_display_name` - The business name of the merchant accepting Apple's Terms and Conditions. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              allow_relinking: boolean() | nil,
+              merchant_display_name: String.t() | nil
+            }
+      defstruct [:allow_relinking, :merchant_display_name]
+    end
   end
 end

@@ -33,6 +33,80 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationFinalizeAmountParams do
             service_type: String.t() | nil
           }
     defstruct [:cardholder_prompt_data, :purchase_type, :reported_breakdown, :service_type]
+
+    defmodule CardholderPromptData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `driver_id` - Driver ID. Max length: 5000.
+      * `odometer` - Odometer reading.
+      * `unspecified_id` - An alphanumeric ID. This field is used when a vehicle ID, driver ID, or generic ID is entered by the cardholder, but the merchant or card network did not specify the prompt type. Max length: 5000.
+      * `user_id` - User ID. Max length: 5000.
+      * `vehicle_number` - Vehicle number. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              driver_id: String.t() | nil,
+              odometer: integer() | nil,
+              unspecified_id: String.t() | nil,
+              user_id: String.t() | nil,
+              vehicle_number: String.t() | nil
+            }
+      defstruct [:driver_id, :odometer, :unspecified_id, :user_id, :vehicle_number]
+    end
+
+    defmodule ReportedBreakdown do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `fuel` - Breakdown of fuel portion of the purchase.
+      * `non_fuel` - Breakdown of non-fuel portion of the purchase.
+      * `tax` - Information about tax included in this transaction.
+      """
+      @type t :: %__MODULE__{
+              fuel: __MODULE__.Fuel.t() | nil,
+              non_fuel: __MODULE__.NonFuel.t() | nil,
+              tax: __MODULE__.Tax.t() | nil
+            }
+      defstruct [:fuel, :non_fuel, :tax]
+
+      defmodule Fuel do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `gross_amount_decimal` - Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes. Format: decimal string.
+        """
+        @type t :: %__MODULE__{
+                gross_amount_decimal: String.t() | nil
+              }
+        defstruct [:gross_amount_decimal]
+      end
+
+      defmodule NonFuel do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `gross_amount_decimal` - Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes. Format: decimal string.
+        """
+        @type t :: %__MODULE__{
+                gross_amount_decimal: String.t() | nil
+              }
+        defstruct [:gross_amount_decimal]
+      end
+
+      defmodule Tax do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `local_amount_decimal` - Amount of state or provincial Sales Tax included in the transaction amount. Null if not reported by merchant or not subject to tax. Format: decimal string.
+        * `national_amount_decimal` - Amount of national Sales Tax or VAT included in the transaction amount. Null if not reported by merchant or not subject to tax. Format: decimal string.
+        """
+        @type t :: %__MODULE__{
+                local_amount_decimal: String.t() | nil,
+                national_amount_decimal: String.t() | nil
+              }
+        defstruct [:local_amount_decimal, :national_amount_decimal]
+      end
+    end
   end
 
   defmodule Fuel do

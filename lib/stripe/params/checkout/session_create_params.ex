@@ -251,6 +251,22 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             recovery: __MODULE__.Recovery.t() | nil
           }
     defstruct [:recovery]
+
+    defmodule Recovery do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `allow_promotion_codes` - Enables user redeemable promotion codes on the recovered Checkout Sessions. Defaults to `false`
+      * `enabled` - If `true`, a recovery URL will be generated to recover this Checkout Session if it
+      expires before a successful transaction is completed. It will be attached to the
+      Checkout Session object upon expiration.
+      """
+      @type t :: %__MODULE__{
+              allow_promotion_codes: boolean() | nil,
+              enabled: boolean() | nil
+            }
+      defstruct [:allow_promotion_codes, :enabled]
+    end
   end
 
   defmodule AutomaticTax do
@@ -267,6 +283,20 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
+
+    defmodule Liability do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account` - The connected account being referenced when `type` is `account`.
+      * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+      """
+      @type t :: %__MODULE__{
+              account: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:account, :type]
+    end
   end
 
   defmodule BrandingSettings do
@@ -299,6 +329,38 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       :icon,
       :logo
     ]
+
+    defmodule Icon do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `file` - The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise.
+      * `type` - The type of image for the icon. Must be one of `file` or `url`. Possible values: `file`, `url`.
+      * `url` - The URL of the image. Required if `type` is `url` and disallowed otherwise.
+      """
+      @type t :: %__MODULE__{
+              file: String.t() | nil,
+              type: String.t() | nil,
+              url: String.t() | nil
+            }
+      defstruct [:file, :type, :url]
+    end
+
+    defmodule Logo do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `file` - The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise.
+      * `type` - The type of image for the logo. Must be one of `file` or `url`. Possible values: `file`, `url`.
+      * `url` - The URL of the image. Required if `type` is `url` and disallowed otherwise.
+      """
+      @type t :: %__MODULE__{
+              file: String.t() | nil,
+              type: String.t() | nil,
+              url: String.t() | nil
+            }
+      defstruct [:file, :type, :url]
+    end
   end
 
   defmodule ConsentCollection do
@@ -318,6 +380,19 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             terms_of_service: String.t() | nil
           }
     defstruct [:payment_method_reuse_agreement, :promotions, :terms_of_service]
+
+    defmodule PaymentMethodReuseAgreement do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `position` - Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's
+      defaults will be used. When set to `hidden`, the payment method reuse agreement text will always be hidden in the UI. Possible values: `auto`, `hidden`.
+      """
+      @type t :: %__MODULE__{
+              position: String.t() | nil
+            }
+      defstruct [:position]
+    end
   end
 
   defmodule CustomFields do
@@ -342,6 +417,80 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             type: String.t() | nil
           }
     defstruct [:dropdown, :key, :label, :numeric, :optional, :text, :type]
+
+    defmodule Dropdown do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `default_value` - The value that will pre-fill the field on the payment page.Must match a `value` in the `options` array. Max length: 100.
+      * `options` - The options available for the customer to select. Up to 200 options allowed.
+      """
+      @type t :: %__MODULE__{
+              default_value: String.t() | nil,
+              options: [__MODULE__.Options.t()] | nil
+            }
+      defstruct [:default_value, :options]
+
+      defmodule Options do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `label` - The label for the option, displayed to the customer. Up to 100 characters. Max length: 100.
+        * `value` - The value for this option, not displayed to the customer, used by your integration to reconcile the option selected by the customer. Must be unique to this option, alphanumeric, and up to 100 characters. Max length: 100.
+        """
+        @type t :: %__MODULE__{
+                label: String.t() | nil,
+                value: String.t() | nil
+              }
+        defstruct [:label, :value]
+      end
+    end
+
+    defmodule Label do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `custom` - Custom text for the label, displayed to the customer. Up to 50 characters. Max length: 50.
+      * `type` - The type of the label. Possible values: `custom`.
+      """
+      @type t :: %__MODULE__{
+              custom: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:custom, :type]
+    end
+
+    defmodule Numeric do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `default_value` - The value that will pre-fill the field on the payment page. Max length: 255.
+      * `maximum_length` - The maximum character length constraint for the customer's input.
+      * `minimum_length` - The minimum character length requirement for the customer's input.
+      """
+      @type t :: %__MODULE__{
+              default_value: String.t() | nil,
+              maximum_length: integer() | nil,
+              minimum_length: integer() | nil
+            }
+      defstruct [:default_value, :maximum_length, :minimum_length]
+    end
+
+    defmodule Text do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `default_value` - The value that will pre-fill the field on the payment page. Max length: 255.
+      * `maximum_length` - The maximum character length constraint for the customer's input.
+      * `minimum_length` - The minimum character length requirement for the customer's input.
+      """
+      @type t :: %__MODULE__{
+              default_value: String.t() | nil,
+              maximum_length: integer() | nil,
+              minimum_length: integer() | nil
+            }
+      defstruct [:default_value, :maximum_length, :minimum_length]
+    end
   end
 
   defmodule CustomText do
@@ -406,6 +555,52 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             invoice_data: __MODULE__.InvoiceData.t() | nil
           }
     defstruct [:enabled, :invoice_data]
+
+    defmodule InvoiceData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_tax_ids` - The account tax IDs associated with the invoice.
+      * `custom_fields` - Default custom fields to be displayed on invoices for this customer.
+      * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 1500.
+      * `footer` - Default footer to be displayed on invoices for this customer. Max length: 5000.
+      * `issuer` - The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+      * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+      * `rendering_options` - Default options for invoice PDF rendering for this customer.
+      """
+      @type t :: %__MODULE__{
+              account_tax_ids: map() | nil,
+              custom_fields: map() | nil,
+              description: String.t() | nil,
+              footer: String.t() | nil,
+              issuer: __MODULE__.Issuer.t() | nil,
+              metadata: %{String.t() => String.t()} | nil,
+              rendering_options: map() | nil
+            }
+      defstruct [
+        :account_tax_ids,
+        :custom_fields,
+        :description,
+        :footer,
+        :issuer,
+        :metadata,
+        :rendering_options
+      ]
+
+      defmodule Issuer do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `account` - The connected account being referenced when `type` is `account`.
+        * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+        """
+        @type t :: %__MODULE__{
+                account: String.t() | nil,
+                type: String.t() | nil
+              }
+        defstruct [:account, :type]
+      end
+    end
   end
 
   defmodule LineItems do
@@ -438,6 +633,90 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       :quantity,
       :tax_rates
     ]
+
+    defmodule AdjustableQuantity do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Set to true if the quantity can be adjusted to any non-negative integer.
+      * `maximum` - The maximum quantity the customer can purchase for the Checkout Session. By default this value is 99. You can specify a value up to 999999.
+      * `minimum` - The minimum quantity the customer must purchase for the Checkout Session. By default this value is 0.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              maximum: integer() | nil,
+              minimum: integer() | nil
+            }
+      defstruct [:enabled, :maximum, :minimum]
+    end
+
+    defmodule PriceData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+      * `product` - The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required. Max length: 5000.
+      * `product_data` - Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+      * `recurring` - The recurring components of a price such as `interval` and `interval_count`.
+      * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
+      * `unit_amount` - A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
+      * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              product: String.t() | nil,
+              product_data: __MODULE__.ProductData.t() | nil,
+              recurring: __MODULE__.Recurring.t() | nil,
+              tax_behavior: String.t() | nil,
+              unit_amount: integer() | nil,
+              unit_amount_decimal: String.t() | nil
+            }
+      defstruct [
+        :currency,
+        :product,
+        :product_data,
+        :recurring,
+        :tax_behavior,
+        :unit_amount,
+        :unit_amount_decimal
+      ]
+
+      defmodule ProductData do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `description` - The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes. Max length: 40000.
+        * `images` - A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+        * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+        * `name` - The product's name, meant to be displayable to the customer. Max length: 5000.
+        * `tax_code` - A [tax code](https://docs.stripe.com/tax/tax-categories) ID. Max length: 5000.
+        * `unit_label` - A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. Max length: 12.
+        """
+        @type t :: %__MODULE__{
+                description: String.t() | nil,
+                images: [String.t()] | nil,
+                metadata: %{String.t() => String.t()} | nil,
+                name: String.t() | nil,
+                tax_code: String.t() | nil,
+                unit_label: String.t() | nil
+              }
+        defstruct [:description, :images, :metadata, :name, :tax_code, :unit_label]
+      end
+
+      defmodule Recurring do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `interval` - Specifies billing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
+        * `interval_count` - The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+        """
+        @type t :: %__MODULE__{
+                interval: String.t() | nil,
+                interval_count: integer() | nil
+              }
+        defstruct [:interval, :interval_count]
+      end
+    end
   end
 
   defmodule NameCollection do
@@ -452,6 +731,34 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             individual: __MODULE__.Individual.t() | nil
           }
     defstruct [:business, :individual]
+
+    defmodule Business do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Enable business name collection on the Checkout Session. Defaults to `false`.
+      * `optional` - Whether the customer is required to provide a business name before completing the Checkout Session. Defaults to `false`.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              optional: boolean() | nil
+            }
+      defstruct [:enabled, :optional]
+    end
+
+    defmodule Individual do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Enable individual name collection on the Checkout Session. Defaults to `false`.
+      * `optional` - Whether the customer is required to provide their name before completing the Checkout Session. Defaults to `false`.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              optional: boolean() | nil
+            }
+      defstruct [:enabled, :optional]
+    end
   end
 
   defmodule OptionalItems do
@@ -468,6 +775,22 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             quantity: integer() | nil
           }
     defstruct [:adjustable_quantity, :price, :quantity]
+
+    defmodule AdjustableQuantity do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Set to true if the quantity can be adjusted to any non-negative integer.
+      * `maximum` - The maximum quantity of this item the customer can purchase. By default this value is 99. You can specify a value up to 999999.
+      * `minimum` - The minimum quantity of this item the customer must purchase, if they choose to purchase it. Because this item is optional, the customer will always be able to remove it from their order, even if the `minimum` configured here is greater than 0. By default this value is 0.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              maximum: integer() | nil,
+              minimum: integer() | nil
+            }
+      defstruct [:enabled, :maximum, :minimum]
+    end
   end
 
   defmodule PaymentIntentData do
@@ -539,6 +862,65 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       :transfer_data,
       :transfer_group
     ]
+
+    defmodule Shipping do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `address` - Shipping address.
+      * `carrier` - The delivery service that shipped a physical product, such as Fedex, UPS, USPS, etc. Max length: 5000.
+      * `name` - Recipient name. Max length: 5000.
+      * `phone` - Recipient phone (including extension). Max length: 5000.
+      * `tracking_number` - The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              address: __MODULE__.Address.t() | nil,
+              carrier: String.t() | nil,
+              name: String.t() | nil,
+              phone: String.t() | nil,
+              tracking_number: String.t() | nil
+            }
+      defstruct [:address, :carrier, :name, :phone, :tracking_number]
+
+      defmodule Address do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `city` - City, district, suburb, town, or village. Max length: 5000.
+        * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+        * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
+        * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
+        * `postal_code` - ZIP or postal code. Max length: 5000.
+        * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                city: String.t() | nil,
+                country: String.t() | nil,
+                line1: String.t() | nil,
+                line2: String.t() | nil,
+                postal_code: String.t() | nil,
+                state: String.t() | nil
+              }
+        defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+      end
+    end
+
+    defmodule TransferData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `amount` - The amount that will be transferred automatically when a charge succeeds.
+      * `destination` - If specified, successful charges will be attributed to the destination
+      account for tax reporting, and the funds from charges will be transferred
+      to the destination account. The ID of the resulting transfer will be
+      returned on the successful charge's `transfer` field.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              destination: String.t() | nil
+            }
+      defstruct [:amount, :destination]
+    end
   end
 
   defmodule PaymentMethodData do
@@ -697,6 +1079,1039 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       :us_bank_account,
       :wechat_pay
     ]
+
+    defmodule AcssDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). This is only accepted for Checkout Sessions in `setup` mode. Possible values: `cad`, `usd`.
+      * `mandate_options` - Additional fields for Mandate creation
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`, `on_session`.
+      * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
+      * `verification_method` - Verification method for the intent Possible values: `automatic`, `instant`, `microdeposits`.
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
+              setup_future_usage: String.t() | nil,
+              target_date: String.t() | nil,
+              verification_method: String.t() | nil
+            }
+      defstruct [
+        :currency,
+        :mandate_options,
+        :setup_future_usage,
+        :target_date,
+        :verification_method
+      ]
+
+      defmodule MandateOptions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `custom_mandate_url` - A URL for custom mandate text to render during confirmation step.
+        The URL will be rendered with additional GET parameters `payment_intent` and `payment_intent_client_secret` when confirming a Payment Intent,
+        or `setup_intent` and `setup_intent_client_secret` when confirming a Setup Intent.
+        * `default_for` - List of Stripe products where this mandate can be selected automatically. Only usable in `setup` mode.
+        * `interval_description` - Description of the mandate interval. Only required if 'payment_schedule' parameter is 'interval' or 'combined'. Max length: 500.
+        * `payment_schedule` - Payment schedule for the mandate. Possible values: `combined`, `interval`, `sporadic`.
+        * `transaction_type` - Transaction type of the mandate. Possible values: `business`, `personal`.
+        """
+        @type t :: %__MODULE__{
+                custom_mandate_url: map() | nil,
+                default_for: [String.t()] | nil,
+                interval_description: String.t() | nil,
+                payment_schedule: String.t() | nil,
+                transaction_type: String.t() | nil
+              }
+        defstruct [
+          :custom_mandate_url,
+          :default_for,
+          :interval_description,
+          :payment_schedule,
+          :transaction_type
+        ]
+      end
+    end
+
+    defmodule Affirm do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:capture_method, :setup_future_usage]
+    end
+
+    defmodule AfterpayClearpay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:capture_method, :setup_future_usage]
+    end
+
+    defmodule Alipay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
+    defmodule Alma do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil
+            }
+      defstruct [:capture_method]
+    end
+
+    defmodule AmazonPay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:capture_method, :setup_future_usage]
+    end
+
+    defmodule AuBecsDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil,
+              target_date: String.t() | nil
+            }
+      defstruct [:setup_future_usage, :target_date]
+    end
+
+    defmodule BacsDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `mandate_options` - Additional fields for Mandate creation
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`, `on_session`.
+      * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
+              setup_future_usage: String.t() | nil,
+              target_date: String.t() | nil
+            }
+      defstruct [:mandate_options, :setup_future_usage, :target_date]
+
+      defmodule MandateOptions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `reference_prefix` - Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
+        """
+        @type t :: %__MODULE__{
+                reference_prefix: map() | nil
+              }
+        defstruct [:reference_prefix]
+      end
+    end
+
+    defmodule Bancontact do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
+    defmodule Billie do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil
+            }
+      defstruct [:capture_method]
+    end
+
+    defmodule Boleto do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `expires_after_days` - The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto invoice will expire on Wednesday at 23:59 America/Sao_Paulo time.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`, `on_session`.
+      """
+      @type t :: %__MODULE__{
+              expires_after_days: integer() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:expires_after_days, :setup_future_usage]
+    end
+
+    defmodule Card do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `installments` - Installment options for card payments
+      * `request_extended_authorization` - Request ability to [capture beyond the standard authorization validity window](https://stripe.com/payments/extended-authorization) for this CheckoutSession. Possible values: `if_available`, `never`.
+      * `request_incremental_authorization` - Request ability to [increment the authorization](https://stripe.com/payments/incremental-authorization) for this CheckoutSession. Possible values: `if_available`, `never`.
+      * `request_multicapture` - Request ability to make [multiple captures](https://stripe.com/payments/multicapture) for this CheckoutSession. Possible values: `if_available`, `never`.
+      * `request_overcapture` - Request ability to [overcapture](https://stripe.com/payments/overcapture) for this CheckoutSession. Possible values: `if_available`, `never`.
+      * `request_three_d_secure` - We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine. Possible values: `any`, `automatic`, `challenge`.
+      * `restrictions` - Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `custom`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `off_session`, `on_session`.
+      * `statement_descriptor_suffix_kana` - Provides information about a card payment that customers see on their statements. Concatenated with the Kana prefix (shortened Kana descriptor) or Kana statement descriptor that’s set on the account to form the complete statement descriptor. Maximum 22 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 22 characters. Max length: 22.
+      * `statement_descriptor_suffix_kanji` - Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that’s set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters. Max length: 17.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              installments: __MODULE__.Installments.t() | nil,
+              request_extended_authorization: String.t() | nil,
+              request_incremental_authorization: String.t() | nil,
+              request_multicapture: String.t() | nil,
+              request_overcapture: String.t() | nil,
+              request_three_d_secure: String.t() | nil,
+              restrictions: __MODULE__.Restrictions.t() | nil,
+              setup_future_usage: String.t() | nil,
+              statement_descriptor_suffix_kana: String.t() | nil,
+              statement_descriptor_suffix_kanji: String.t() | nil
+            }
+      defstruct [
+        :capture_method,
+        :installments,
+        :request_extended_authorization,
+        :request_incremental_authorization,
+        :request_multicapture,
+        :request_overcapture,
+        :request_three_d_secure,
+        :restrictions,
+        :setup_future_usage,
+        :statement_descriptor_suffix_kana,
+        :statement_descriptor_suffix_kanji
+      ]
+
+      defmodule Installments do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `enabled` - Setting to true enables installments for this Checkout Session.
+        Setting to false will prevent any installment plan from applying to a payment.
+        """
+        @type t :: %__MODULE__{
+                enabled: boolean() | nil
+              }
+        defstruct [:enabled]
+      end
+
+      defmodule Restrictions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `brands_blocked` - Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
+        """
+        @type t :: %__MODULE__{
+                brands_blocked: [String.t()] | nil
+              }
+        defstruct [:brands_blocked]
+      end
+    end
+
+    defmodule Cashapp do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`, `on_session`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:capture_method, :setup_future_usage]
+    end
+
+    defmodule CustomerBalance do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `bank_transfer` - Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+      * `funding_type` - The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`. Possible values: `bank_transfer`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              bank_transfer: __MODULE__.BankTransfer.t() | nil,
+              funding_type: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:bank_transfer, :funding_type, :setup_future_usage]
+
+      defmodule BankTransfer do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `eu_bank_transfer` - Configuration for eu_bank_transfer funding type.
+        * `requested_address_types` - List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
+
+        Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
+        * `type` - The list of bank transfer types that this PaymentIntent is allowed to use for funding. Possible values: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, `us_bank_transfer`.
+        """
+        @type t :: %__MODULE__{
+                eu_bank_transfer: __MODULE__.EuBankTransfer.t() | nil,
+                requested_address_types: [String.t()] | nil,
+                type: String.t() | nil
+              }
+        defstruct [:eu_bank_transfer, :requested_address_types, :type]
+
+        defmodule EuBankTransfer do
+          @moduledoc "Nested parameters."
+
+          @typedoc """
+          * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Max length: 5000.
+          """
+          @type t :: %__MODULE__{
+                  country: String.t() | nil
+                }
+          defstruct [:country]
+        end
+      end
+    end
+
+    defmodule DemoPay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
+    defmodule Eps do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
+    defmodule Fpx do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
+    defmodule Giropay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
+    defmodule Grabpay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
+    defmodule Ideal do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
+    defmodule KakaoPay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:capture_method, :setup_future_usage]
+    end
+
+    defmodule Klarna do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      * `subscriptions` - Subscription details if the Checkout Session sets up a future subscription.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              setup_future_usage: String.t() | nil,
+              subscriptions: map() | nil
+            }
+      defstruct [:capture_method, :setup_future_usage, :subscriptions]
+    end
+
+    defmodule Konbini do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `expires_after_days` - The number of calendar days (between 1 and 60) after which Konbini payment instructions will expire. For example, if a PaymentIntent is confirmed with Konbini and `expires_after_days` set to 2 on Monday JST, the instructions will expire on Wednesday 23:59:59 JST. Defaults to 3 days.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              expires_after_days: integer() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:expires_after_days, :setup_future_usage]
+    end
+
+    defmodule KrCard do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:capture_method, :setup_future_usage]
+    end
+
+    defmodule Link do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:capture_method, :setup_future_usage]
+    end
+
+    defmodule Mobilepay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:capture_method, :setup_future_usage]
+    end
+
+    defmodule Multibanco do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
+    defmodule NaverPay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:capture_method, :setup_future_usage]
+    end
+
+    defmodule Oxxo do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `expires_after_days` - The number of calendar days before an OXXO voucher expires. For example, if you create an OXXO voucher on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              expires_after_days: integer() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:expires_after_days, :setup_future_usage]
+    end
+
+    defmodule P24 do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      * `tos_shown_and_accepted` - Confirm that the payer has accepted the P24 terms and conditions.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil,
+              tos_shown_and_accepted: boolean() | nil
+            }
+      defstruct [:setup_future_usage, :tos_shown_and_accepted]
+    end
+
+    defmodule Payco do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil
+            }
+      defstruct [:capture_method]
+    end
+
+    defmodule Paynow do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
+    defmodule Paypal do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `preferred_locale` - [Preferred locale](https://docs.stripe.com/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to. Possible values: `cs-CZ`, `da-DK`, `de-AT`, `de-DE`, `de-LU`, `el-GR`, `en-GB`, `en-US`, `es-ES`, `fi-FI`, `fr-BE`, `fr-FR`, `fr-LU`, `hu-HU`, `it-IT`, `nl-BE`, `nl-NL`, `pl-PL`, `pt-PT`, `sk-SK`, `sv-SE`.
+      * `reference` - A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID. Max length: 127.
+      * `risk_correlation_id` - The risk correlation ID for an on-session payment using a saved PayPal payment method. Max length: 32.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+
+      If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`. Possible values: `none`, `off_session`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              preferred_locale: String.t() | nil,
+              reference: String.t() | nil,
+              risk_correlation_id: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [
+        :capture_method,
+        :preferred_locale,
+        :reference,
+        :risk_correlation_id,
+        :setup_future_usage
+      ]
+    end
+
+    defmodule Payto do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `mandate_options` - Additional fields for Mandate creation
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`.
+      """
+      @type t :: %__MODULE__{
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:mandate_options, :setup_future_usage]
+
+      defmodule MandateOptions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `amount` - Amount that will be collected. It is required when `amount_type` is `fixed`.
+        * `amount_type` - The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`. Possible values: `fixed`, `maximum`.
+        * `end_date` - Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
+        * `payment_schedule` - The periodicity at which payments will be collected. Defaults to `adhoc`. Possible values: `adhoc`, `annual`, `daily`, `fortnightly`, `monthly`, `quarterly`, `semi_annual`, `weekly`.
+        * `payments_per_period` - The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
+        * `purpose` - The purpose for which payments are made. Has a default value based on your merchant category code. Possible values: `dependant_support`, `government`, `loan`, `mortgage`, `other`, `pension`, `personal`, `retail`, `salary`, `tax`, `utility`.
+        * `start_date` - Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
+        """
+        @type t :: %__MODULE__{
+                amount: map() | nil,
+                amount_type: String.t() | nil,
+                end_date: map() | nil,
+                payment_schedule: String.t() | nil,
+                payments_per_period: map() | nil,
+                purpose: String.t() | nil,
+                start_date: map() | nil
+              }
+        defstruct [
+          :amount,
+          :amount_type,
+          :end_date,
+          :payment_schedule,
+          :payments_per_period,
+          :purpose,
+          :start_date
+        ]
+      end
+    end
+
+    defmodule Pix do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `amount_includes_iof` - Determines if the amount includes the IOF tax. Defaults to `never`. Possible values: `always`, `never`.
+      * `expires_after_seconds` - The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              amount_includes_iof: String.t() | nil,
+              expires_after_seconds: integer() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:amount_includes_iof, :expires_after_seconds, :setup_future_usage]
+    end
+
+    defmodule RevolutPay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:capture_method, :setup_future_usage]
+    end
+
+    defmodule SamsungPay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil
+            }
+      defstruct [:capture_method]
+    end
+
+    defmodule Satispay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
+      """
+      @type t :: %__MODULE__{
+              capture_method: String.t() | nil
+            }
+      defstruct [:capture_method]
+    end
+
+    defmodule SepaDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `mandate_options` - Additional fields for Mandate creation
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`, `on_session`.
+      * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
+              setup_future_usage: String.t() | nil,
+              target_date: String.t() | nil
+            }
+      defstruct [:mandate_options, :setup_future_usage, :target_date]
+
+      defmodule MandateOptions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `reference_prefix` - Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
+        """
+        @type t :: %__MODULE__{
+                reference_prefix: map() | nil
+              }
+        defstruct [:reference_prefix]
+      end
+    end
+
+    defmodule Sofort do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
+    defmodule Swish do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `reference` - The order reference that will be displayed to customers in the Swish application. Defaults to the `id` of the Payment Intent. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil
+            }
+      defstruct [:reference]
+    end
+
+    defmodule Twint do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
+    defmodule UsBankAccount do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `financial_connections` - Additional fields for Financial Connections Session creation
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`, `on_session`.
+      * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
+      * `verification_method` - Verification method for the intent Possible values: `automatic`, `instant`.
+      """
+      @type t :: %__MODULE__{
+              financial_connections: __MODULE__.FinancialConnections.t() | nil,
+              setup_future_usage: String.t() | nil,
+              target_date: String.t() | nil,
+              verification_method: String.t() | nil
+            }
+      defstruct [:financial_connections, :setup_future_usage, :target_date, :verification_method]
+
+      defmodule FinancialConnections do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `permissions` - The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
+        * `prefetch` - List of data features that you would like to retrieve upon account creation.
+        """
+        @type t :: %__MODULE__{
+                permissions: [String.t()] | nil,
+                prefetch: [String.t()] | nil
+              }
+        defstruct [:permissions, :prefetch]
+      end
+    end
+
+    defmodule WechatPay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `app_id` - The app ID registered with WeChat Pay. Only required when client is ios or android. Max length: 5000.
+      * `client` - The client type that the end customer will pay from Possible values: `android`, `ios`, `web`.
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              app_id: String.t() | nil,
+              client: String.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:app_id, :client, :setup_future_usage]
+    end
   end
 
   defmodule Permissions do
@@ -786,6 +2201,110 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             shipping_rate_data: __MODULE__.ShippingRateData.t() | nil
           }
     defstruct [:shipping_rate, :shipping_rate_data]
+
+    defmodule ShippingRateData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `delivery_estimate` - The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
+      * `display_name` - The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions. Max length: 100.
+      * `fixed_amount` - Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+      * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+      * `tax_behavior` - Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Possible values: `exclusive`, `inclusive`, `unspecified`.
+      * `tax_code` - A [tax code](https://docs.stripe.com/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
+      * `type` - The type of calculation to use on the shipping rate. Possible values: `fixed_amount`.
+      """
+      @type t :: %__MODULE__{
+              delivery_estimate: __MODULE__.DeliveryEstimate.t() | nil,
+              display_name: String.t() | nil,
+              fixed_amount: __MODULE__.FixedAmount.t() | nil,
+              metadata: %{String.t() => String.t()} | nil,
+              tax_behavior: String.t() | nil,
+              tax_code: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [
+        :delivery_estimate,
+        :display_name,
+        :fixed_amount,
+        :metadata,
+        :tax_behavior,
+        :tax_code,
+        :type
+      ]
+
+      defmodule DeliveryEstimate do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `maximum` - The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+        * `minimum` - The lower bound of the estimated range. If empty, represents no lower bound.
+        """
+        @type t :: %__MODULE__{
+                maximum: __MODULE__.Maximum.t() | nil,
+                minimum: __MODULE__.Minimum.t() | nil
+              }
+        defstruct [:maximum, :minimum]
+
+        defmodule Maximum do
+          @moduledoc "Nested parameters."
+
+          @typedoc """
+          * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
+          * `value` - Must be greater than 0.
+          """
+          @type t :: %__MODULE__{
+                  unit: String.t() | nil,
+                  value: integer() | nil
+                }
+          defstruct [:unit, :value]
+        end
+
+        defmodule Minimum do
+          @moduledoc "Nested parameters."
+
+          @typedoc """
+          * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
+          * `value` - Must be greater than 0.
+          """
+          @type t :: %__MODULE__{
+                  unit: String.t() | nil,
+                  value: integer() | nil
+                }
+          defstruct [:unit, :value]
+        end
+      end
+
+      defmodule FixedAmount do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `amount` - A non-negative integer in cents representing how much to charge.
+        * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+        * `currency_options` - Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+        """
+        @type t :: %__MODULE__{
+                amount: integer() | nil,
+                currency: String.t() | nil,
+                currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil
+              }
+        defstruct [:amount, :currency, :currency_options]
+
+        defmodule CurrencyOptions do
+          @moduledoc "Nested parameters."
+
+          @typedoc """
+          * `amount` - A non-negative integer in cents representing how much to charge.
+          * `tax_behavior` - Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Possible values: `exclusive`, `inclusive`, `unspecified`.
+          """
+          @type t :: %__MODULE__{
+                  amount: integer() | nil,
+                  tax_behavior: String.t() | nil
+                }
+          defstruct [:amount, :tax_behavior]
+        end
+      end
+    end
   end
 
   defmodule SubscriptionData do
@@ -840,6 +2359,96 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       :trial_period_days,
       :trial_settings
     ]
+
+    defmodule BillingMode do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `flexible` - Configure behavior for flexible billing mode.
+      * `type` - Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`. Possible values: `classic`, `flexible`.
+      """
+      @type t :: %__MODULE__{
+              flexible: __MODULE__.Flexible.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:flexible, :type]
+
+      defmodule Flexible do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `proration_discounts` - Controls how invoices and invoice items display proration amounts and discount amounts. Possible values: `included`, `itemized`.
+        """
+        @type t :: %__MODULE__{
+                proration_discounts: String.t() | nil
+              }
+        defstruct [:proration_discounts]
+      end
+    end
+
+    defmodule InvoiceSettings do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `issuer` - The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+      """
+      @type t :: %__MODULE__{
+              issuer: __MODULE__.Issuer.t() | nil
+            }
+      defstruct [:issuer]
+
+      defmodule Issuer do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `account` - The connected account being referenced when `type` is `account`.
+        * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+        """
+        @type t :: %__MODULE__{
+                account: String.t() | nil,
+                type: String.t() | nil
+              }
+        defstruct [:account, :type]
+      end
+    end
+
+    defmodule TransferData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `amount_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
+      * `destination` - ID of an existing, connected Stripe account.
+      """
+      @type t :: %__MODULE__{
+              amount_percent: float() | nil,
+              destination: String.t() | nil
+            }
+      defstruct [:amount_percent, :destination]
+    end
+
+    defmodule TrialSettings do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `end_behavior` - Defines how the subscription should behave when the user's free trial ends.
+      """
+      @type t :: %__MODULE__{
+              end_behavior: __MODULE__.EndBehavior.t() | nil
+            }
+      defstruct [:end_behavior]
+
+      defmodule EndBehavior do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `missing_payment_method` - Indicates how the subscription should change when the trial ends if the user did not provide a payment method. Possible values: `cancel`, `create_invoice`, `pause`.
+        """
+        @type t :: %__MODULE__{
+                missing_payment_method: String.t() | nil
+              }
+        defstruct [:missing_payment_method]
+      end
+    end
   end
 
   defmodule TaxIdCollection do
@@ -866,5 +2475,17 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             link: __MODULE__.Link.t() | nil
           }
     defstruct [:link]
+
+    defmodule Link do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `display` - Specifies whether Checkout should display Link as a payment option. By default, Checkout will display all the supported wallets that the Checkout Session was created with. This is the `auto` behavior, and it is the default choice. Possible values: `auto`, `never`.
+      """
+      @type t :: %__MODULE__{
+              display: String.t() | nil
+            }
+      defstruct [:display]
+    end
   end
 end

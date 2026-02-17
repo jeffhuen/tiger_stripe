@@ -197,6 +197,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Affirm do
@@ -209,6 +221,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule AfterpayClearpay do
@@ -221,6 +245,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Alipay do
@@ -233,6 +269,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Alma do
@@ -245,6 +293,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule AmazonPay do
@@ -257,6 +317,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule ApplePay do
@@ -269,6 +341,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule ApplePayLater do
@@ -281,6 +365,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule AuBecsDebit do
@@ -293,6 +389,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule BacsDebit do
@@ -305,6 +413,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Bancontact do
@@ -317,6 +437,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Billie do
@@ -329,6 +461,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Blik do
@@ -341,6 +485,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Boleto do
@@ -353,6 +509,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Card do
@@ -365,6 +533,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule CartesBancaires do
@@ -377,6 +557,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Cashapp do
@@ -389,6 +581,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Crypto do
@@ -401,6 +605,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule CustomerBalance do
@@ -413,6 +629,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Eps do
@@ -425,6 +653,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Fpx do
@@ -437,6 +677,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule FrMealVoucherConecs do
@@ -449,6 +701,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Giropay do
@@ -461,6 +725,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule GooglePay do
@@ -473,6 +749,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Grabpay do
@@ -485,6 +773,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Ideal do
@@ -497,6 +797,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Jcb do
@@ -509,6 +821,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule KakaoPay do
@@ -521,6 +845,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Klarna do
@@ -533,6 +869,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Konbini do
@@ -545,6 +893,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule KrCard do
@@ -557,6 +917,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Link do
@@ -569,6 +941,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule MbWay do
@@ -581,6 +965,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Mobilepay do
@@ -593,6 +989,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Multibanco do
@@ -605,6 +1013,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule NaverPay do
@@ -617,6 +1037,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule NzBankAccount do
@@ -629,6 +1061,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Oxxo do
@@ -641,6 +1085,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule P24 do
@@ -653,6 +1109,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule PayByBank do
@@ -665,6 +1133,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Payco do
@@ -677,6 +1157,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Paynow do
@@ -689,6 +1181,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Paypal do
@@ -701,6 +1205,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Payto do
@@ -713,6 +1229,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Pix do
@@ -725,6 +1253,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Promptpay do
@@ -737,6 +1277,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule RevolutPay do
@@ -749,6 +1301,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule SamsungPay do
@@ -761,6 +1325,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Satispay do
@@ -773,6 +1349,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule SepaDebit do
@@ -785,6 +1373,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Sofort do
@@ -797,6 +1397,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Swish do
@@ -809,6 +1421,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Twint do
@@ -821,6 +1445,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule UsBankAccount do
@@ -833,6 +1469,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule WechatPay do
@@ -845,6 +1493,18 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 
   defmodule Zip do
@@ -857,5 +1517,17 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
             display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
   end
 end

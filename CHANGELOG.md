@@ -4,6 +4,18 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
+## [0.1.8] - 2026-02-16
+
+### Changed
+
+- Bump RustyJSON to 0.3.9
+- Eliminate dynamic atom creation in code generator to follow Elixir best practices
+
+### Fixed
+
+- Fix generated typespecs for deeply nested parameter modules — previously only first-level children were emitted, leaving ~960 Dialyzer warnings for missing types
+- Normalize error returns in `WebhookPlug` so the `with` chain handles a single consistent shape
+
 ## [0.1.7] - 2026-02-12
 
 ### Fixed
@@ -82,6 +94,8 @@ The format is based on [Common Changelog](https://common-changelog.org/).
 - Add telemetry events for request lifecycle observability
 - Add Finch HTTP client with connection pooling (Mint + NimblePool)
 
+[0.1.8]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.7...v0.1.8
+[0.1.7]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.4...v0.1.5
 [d07dbf5]: https://github.com/jeffhuen/tiger_stripe/commit/d07dbf5

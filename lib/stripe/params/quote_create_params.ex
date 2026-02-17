@@ -85,6 +85,20 @@ defmodule Stripe.Params.QuoteCreateParams do
             liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
+
+    defmodule Liability do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account` - The connected account being referenced when `type` is `account`.
+      * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+      """
+      @type t :: %__MODULE__{
+              account: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:account, :type]
+    end
   end
 
   defmodule FromQuote do
@@ -113,6 +127,20 @@ defmodule Stripe.Params.QuoteCreateParams do
             issuer: __MODULE__.Issuer.t() | nil
           }
     defstruct [:days_until_due, :issuer]
+
+    defmodule Issuer do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account` - The connected account being referenced when `type` is `account`.
+      * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+      """
+      @type t :: %__MODULE__{
+              account: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:account, :type]
+    end
   end
 
   defmodule LineItems do
@@ -133,6 +161,49 @@ defmodule Stripe.Params.QuoteCreateParams do
             tax_rates: map() | nil
           }
     defstruct [:discounts, :price, :price_data, :quantity, :tax_rates]
+
+    defmodule PriceData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+      * `product` - The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. Max length: 5000.
+      * `recurring` - The recurring components of a price such as `interval` and `interval_count`.
+      * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
+      * `unit_amount` - A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+      * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              product: String.t() | nil,
+              recurring: __MODULE__.Recurring.t() | nil,
+              tax_behavior: String.t() | nil,
+              unit_amount: integer() | nil,
+              unit_amount_decimal: String.t() | nil
+            }
+      defstruct [
+        :currency,
+        :product,
+        :recurring,
+        :tax_behavior,
+        :unit_amount,
+        :unit_amount_decimal
+      ]
+
+      defmodule Recurring do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `interval` - Specifies billing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
+        * `interval_count` - The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+        """
+        @type t :: %__MODULE__{
+                interval: String.t() | nil,
+                interval_count: integer() | nil
+              }
+        defstruct [:interval, :interval_count]
+      end
+    end
   end
 
   defmodule SubscriptionData do
@@ -153,5 +224,31 @@ defmodule Stripe.Params.QuoteCreateParams do
             trial_period_days: map() | nil
           }
     defstruct [:billing_mode, :description, :effective_date, :metadata, :trial_period_days]
+
+    defmodule BillingMode do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `flexible` - Configure behavior for flexible billing mode.
+      * `type` - Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`. Possible values: `classic`, `flexible`.
+      """
+      @type t :: %__MODULE__{
+              flexible: __MODULE__.Flexible.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:flexible, :type]
+
+      defmodule Flexible do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `proration_discounts` - Controls how invoices and invoice items display proration amounts and discount amounts. Possible values: `included`, `itemized`.
+        """
+        @type t :: %__MODULE__{
+                proration_discounts: String.t() | nil
+              }
+        defstruct [:proration_discounts]
+      end
+    end
   end
 end

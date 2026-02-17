@@ -91,6 +91,80 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationCreateParams do
             service_type: String.t() | nil
           }
     defstruct [:cardholder_prompt_data, :purchase_type, :reported_breakdown, :service_type]
+
+    defmodule CardholderPromptData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `driver_id` - Driver ID. Max length: 5000.
+      * `odometer` - Odometer reading.
+      * `unspecified_id` - An alphanumeric ID. This field is used when a vehicle ID, driver ID, or generic ID is entered by the cardholder, but the merchant or card network did not specify the prompt type. Max length: 5000.
+      * `user_id` - User ID. Max length: 5000.
+      * `vehicle_number` - Vehicle number. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              driver_id: String.t() | nil,
+              odometer: integer() | nil,
+              unspecified_id: String.t() | nil,
+              user_id: String.t() | nil,
+              vehicle_number: String.t() | nil
+            }
+      defstruct [:driver_id, :odometer, :unspecified_id, :user_id, :vehicle_number]
+    end
+
+    defmodule ReportedBreakdown do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `fuel` - Breakdown of fuel portion of the purchase.
+      * `non_fuel` - Breakdown of non-fuel portion of the purchase.
+      * `tax` - Information about tax included in this transaction.
+      """
+      @type t :: %__MODULE__{
+              fuel: __MODULE__.Fuel.t() | nil,
+              non_fuel: __MODULE__.NonFuel.t() | nil,
+              tax: __MODULE__.Tax.t() | nil
+            }
+      defstruct [:fuel, :non_fuel, :tax]
+
+      defmodule Fuel do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `gross_amount_decimal` - Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes. Format: decimal string.
+        """
+        @type t :: %__MODULE__{
+                gross_amount_decimal: String.t() | nil
+              }
+        defstruct [:gross_amount_decimal]
+      end
+
+      defmodule NonFuel do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `gross_amount_decimal` - Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes. Format: decimal string.
+        """
+        @type t :: %__MODULE__{
+                gross_amount_decimal: String.t() | nil
+              }
+        defstruct [:gross_amount_decimal]
+      end
+
+      defmodule Tax do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `local_amount_decimal` - Amount of state or provincial Sales Tax included in the transaction amount. Null if not reported by merchant or not subject to tax. Format: decimal string.
+        * `national_amount_decimal` - Amount of national Sales Tax or VAT included in the transaction amount. Null if not reported by merchant or not subject to tax. Format: decimal string.
+        """
+        @type t :: %__MODULE__{
+                local_amount_decimal: String.t() | nil,
+                national_amount_decimal: String.t() | nil
+              }
+        defstruct [:local_amount_decimal, :national_amount_decimal]
+      end
+    end
   end
 
   defmodule Fuel do
@@ -177,6 +251,54 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationCreateParams do
             merchant_dispute_risk: __MODULE__.MerchantDisputeRisk.t() | nil
           }
     defstruct [:card_testing_risk, :fraud_risk, :merchant_dispute_risk]
+
+    defmodule CardTestingRisk do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `invalid_account_number_decline_rate_past_hour` - The % of declines due to a card number not existing in the past hour, taking place at the same merchant. Higher rates correspond to a greater probability of card testing activity, meaning bad actors may be attempting different card number combinations to guess a correct one. Takes on values between 0 and 100.
+      * `invalid_credentials_decline_rate_past_hour` - The % of declines due to incorrect verification data (like CVV or expiry) in the past hour, taking place at the same merchant. Higher rates correspond to a greater probability of bad actors attempting to utilize valid card credentials at merchants with verification requirements. Takes on values between 0 and 100.
+      * `risk_level` - The likelihood that this authorization is associated with card testing activity. This is assessed by evaluating decline activity over the last hour. Possible values: `elevated`, `highest`, `low`, `normal`, `not_assessed`, `unknown`.
+      """
+      @type t :: %__MODULE__{
+              invalid_account_number_decline_rate_past_hour: integer() | nil,
+              invalid_credentials_decline_rate_past_hour: integer() | nil,
+              risk_level: String.t() | nil
+            }
+      defstruct [
+        :invalid_account_number_decline_rate_past_hour,
+        :invalid_credentials_decline_rate_past_hour,
+        :risk_level
+      ]
+    end
+
+    defmodule FraudRisk do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `level` - Stripe’s assessment of the likelihood of fraud on an authorization. Possible values: `elevated`, `highest`, `low`, `normal`, `not_assessed`, `unknown`.
+      * `score` - Stripe’s numerical model score assessing the likelihood of fraudulent activity. A higher score means a higher likelihood of fraudulent activity, and anything above 25 is considered high risk.
+      """
+      @type t :: %__MODULE__{
+              level: String.t() | nil,
+              score: float() | nil
+            }
+      defstruct [:level, :score]
+    end
+
+    defmodule MerchantDisputeRisk do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `dispute_rate` - The dispute rate observed across all Stripe Issuing authorizations for this merchant. For example, a value of 50 means 50% of authorizations from this merchant on Stripe Issuing have resulted in a dispute. Higher values mean a higher likelihood the authorization is disputed. Takes on values between 0 and 100.
+      * `risk_level` - The likelihood that authorizations from this merchant will result in a dispute based on their history on Stripe Issuing. Possible values: `elevated`, `highest`, `low`, `normal`, `not_assessed`, `unknown`.
+      """
+      @type t :: %__MODULE__{
+              dispute_rate: integer() | nil,
+              risk_level: String.t() | nil
+            }
+      defstruct [:dispute_rate, :risk_level]
+    end
   end
 
   defmodule VerificationData do
@@ -206,5 +328,31 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationCreateParams do
       :expiry_check,
       :three_d_secure
     ]
+
+    defmodule AuthenticationExemption do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `claimed_by` - The entity that requested the exemption, either the acquiring merchant or the Issuing user. Possible values: `acquirer`, `issuer`.
+      * `type` - The specific exemption claimed for this authorization. Possible values: `low_value_transaction`, `transaction_risk_analysis`, `unknown`.
+      """
+      @type t :: %__MODULE__{
+              claimed_by: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:claimed_by, :type]
+    end
+
+    defmodule ThreeDSecure do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `result` - The outcome of the 3D Secure authentication request. Possible values: `attempt_acknowledged`, `authenticated`, `failed`, `required`.
+      """
+      @type t :: %__MODULE__{
+              result: String.t() | nil
+            }
+      defstruct [:result]
+    end
   end
 end

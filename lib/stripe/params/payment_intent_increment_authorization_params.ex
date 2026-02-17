@@ -77,6 +77,30 @@ defmodule Stripe.Params.PaymentIntentIncrementAuthorizationParams do
             inputs: __MODULE__.Inputs.t() | nil
           }
     defstruct [:inputs]
+
+    defmodule Inputs do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `tax` - Tax arguments for automations
+      """
+      @type t :: %__MODULE__{
+              tax: __MODULE__.Tax.t() | nil
+            }
+      defstruct [:tax]
+
+      defmodule Tax do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `calculation` - The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
+        """
+        @type t :: %__MODULE__{
+                calculation: map() | nil
+              }
+        defstruct [:calculation]
+      end
+    end
   end
 
   defmodule PaymentDetails do

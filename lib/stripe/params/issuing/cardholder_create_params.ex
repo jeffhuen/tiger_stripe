@@ -57,6 +57,28 @@ defmodule Stripe.Params.Issuing.CardholderCreateParams do
             address: __MODULE__.Address.t() | nil
           }
     defstruct [:address]
+
+    defmodule Address do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village. Max length: 5000.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
+      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
+      * `postal_code` - ZIP or postal code. Max length: 5000.
+      * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+    end
   end
 
   defmodule Company do
@@ -89,6 +111,76 @@ defmodule Stripe.Params.Issuing.CardholderCreateParams do
             verification: __MODULE__.Verification.t() | nil
           }
     defstruct [:card_issuing, :dob, :first_name, :last_name, :verification]
+
+    defmodule CardIssuing do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `user_terms_acceptance` - Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+      """
+      @type t :: %__MODULE__{
+              user_terms_acceptance: __MODULE__.UserTermsAcceptance.t() | nil
+            }
+      defstruct [:user_terms_acceptance]
+
+      defmodule UserTermsAcceptance do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `date` - The Unix timestamp marking when the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users. Format: Unix timestamp.
+        * `ip` - The IP address from which the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
+        * `user_agent` - The user agent of the browser from which the cardholder accepted the Authorized User Terms.
+        """
+        @type t :: %__MODULE__{
+                date: integer() | nil,
+                ip: String.t() | nil,
+                user_agent: map() | nil
+              }
+        defstruct [:date, :ip, :user_agent]
+      end
+    end
+
+    defmodule Dob do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `day` - The day of birth, between 1 and 31.
+      * `month` - The month of birth, between 1 and 12.
+      * `year` - The four-digit year of birth.
+      """
+      @type t :: %__MODULE__{
+              day: integer() | nil,
+              month: integer() | nil,
+              year: integer() | nil
+            }
+      defstruct [:day, :month, :year]
+    end
+
+    defmodule Verification do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `document` - An identifying document, either a passport or local ID card.
+      """
+      @type t :: %__MODULE__{
+              document: __MODULE__.Document.t() | nil
+            }
+      defstruct [:document]
+
+      defmodule Document do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `back` - The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. Max length: 5000.
+        * `front` - The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                back: String.t() | nil,
+                front: String.t() | nil
+              }
+        defstruct [:back, :front]
+      end
+    end
   end
 
   defmodule SpendingControls do
@@ -118,5 +210,21 @@ defmodule Stripe.Params.Issuing.CardholderCreateParams do
       :spending_limits,
       :spending_limits_currency
     ]
+
+    defmodule SpendingLimits do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `amount` - Maximum amount allowed to spend per interval.
+      * `categories` - Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
+      * `interval` - Interval (or event) to which the amount applies. Possible values: `all_time`, `daily`, `monthly`, `per_authorization`, `weekly`, `yearly`.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              categories: [String.t()] | nil,
+              interval: String.t() | nil
+            }
+      defstruct [:amount, :categories, :interval]
+    end
   end
 end

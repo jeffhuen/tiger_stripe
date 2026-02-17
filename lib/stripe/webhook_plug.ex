@@ -63,7 +63,7 @@ if Code.ensure_loaded?(Plug.Conn) do
       tolerance = Keyword.get(opts, :tolerance, 300)
 
       with {:ok, body, conn} <- read_body(conn),
-           sig_header when is_binary(sig_header) <- get_sig_header(conn),
+           {:ok, sig_header} <- get_sig_header(conn),
            {:ok, event} <-
              Stripe.Webhook.construct_event(body, sig_header, secret, tolerance: tolerance) do
         assign(conn, :stripe_event, event)
@@ -73,19 +73,20 @@ if Code.ensure_loaded?(Plug.Conn) do
           |> put_resp_content_type("text/plain")
           |> send_resp(400, message || "Webhook verification failed")
           |> halt()
-
-        nil ->
-          conn
-          |> put_resp_content_type("text/plain")
-          |> send_resp(400, "Missing Stripe-Signature header")
-          |> halt()
       end
     end
 
     defp get_sig_header(conn) do
       case get_req_header(conn, "stripe-signature") do
-        [header | _] -> header
-        [] -> nil
+        [header | _] ->
+          {:ok, header}
+
+        [] ->
+          {:error,
+           %Stripe.Error{
+             type: :signature_verification_error,
+             message: "Missing Stripe-Signature header"
+           }}
       end
     end
 

@@ -69,5 +69,17 @@ defmodule Stripe.Params.AccountExternalAccountUpdateParams do
               __MODULE__.BankAccountOwnershipVerification.t() | nil
           }
     defstruct [:bank_account_ownership_verification]
+
+    defmodule BankAccountOwnershipVerification do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil
+            }
+      defstruct [:files]
+    end
   end
 end

@@ -106,6 +106,20 @@ defmodule Stripe.Params.CreditNotePreviewParams do
             type: String.t() | nil
           }
     defstruct [:amount_refunded, :payment_record_refund, :refund, :type]
+
+    defmodule PaymentRecordRefund do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `payment_record` - The ID of the PaymentRecord with the refund to link to this credit note. Max length: 5000.
+      * `refund_group` - The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              payment_record: String.t() | nil,
+              refund_group: String.t() | nil
+            }
+      defstruct [:payment_record, :refund_group]
+    end
   end
 
   defmodule ShippingCost do

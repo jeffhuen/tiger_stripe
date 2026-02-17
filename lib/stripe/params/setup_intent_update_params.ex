@@ -232,6 +232,279 @@ defmodule Stripe.Params.SetupIntentUpdateParams do
       :wechat_pay,
       :zip
     ]
+
+    defmodule AcssDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_number` - Customer's bank account number. Max length: 5000.
+      * `institution_number` - Institution number of the customer's bank. Max length: 5000.
+      * `transit_number` - Transit number of the customer's bank. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_number: String.t() | nil,
+              institution_number: String.t() | nil,
+              transit_number: String.t() | nil
+            }
+      defstruct [:account_number, :institution_number, :transit_number]
+    end
+
+    defmodule AuBecsDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_number` - The account number for the bank account. Max length: 5000.
+      * `bsb_number` - Bank-State-Branch number of the bank account. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_number: String.t() | nil,
+              bsb_number: String.t() | nil
+            }
+      defstruct [:account_number, :bsb_number]
+    end
+
+    defmodule BacsDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_number` - Account number of the bank account that the funds will be debited from. Max length: 5000.
+      * `sort_code` - Sort code of the bank account. (e.g., `10-20-30`) Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_number: String.t() | nil,
+              sort_code: String.t() | nil
+            }
+      defstruct [:account_number, :sort_code]
+    end
+
+    defmodule BillingDetails do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `address` - Billing address.
+      * `email` - Email address.
+      * `name` - Full name.
+      * `phone` - Billing phone number (including extension).
+      * `tax_id` - Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              address: map() | nil,
+              email: map() | nil,
+              name: map() | nil,
+              phone: map() | nil,
+              tax_id: String.t() | nil
+            }
+      defstruct [:address, :email, :name, :phone, :tax_id]
+    end
+
+    defmodule Boleto do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `tax_id` - The tax ID of the customer (CPF for individual consumers or CNPJ for businesses consumers) Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              tax_id: String.t() | nil
+            }
+      defstruct [:tax_id]
+    end
+
+    defmodule Eps do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `bank` - The customer's bank. Possible values: `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, `vr_bank_braunau`. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              bank: String.t() | nil
+            }
+      defstruct [:bank]
+    end
+
+    defmodule Fpx do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_holder_type` - Account holder type for FPX transaction Possible values: `company`, `individual`. Max length: 5000.
+      * `bank` - The customer's bank. Possible values: `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_of_china`, `bank_rakyat`, `bsn`, `cimb`, `deutsche_bank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2e`, `maybank2u`, `ocbc`, `pb_enterprise`, `public_bank`, `rhb`, `standard_chartered`, `uob`. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_holder_type: String.t() | nil,
+              bank: String.t() | nil
+            }
+      defstruct [:account_holder_type, :bank]
+    end
+
+    defmodule Ideal do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `bank` - The customer's bank. Only use this parameter for existing customers. Don't use it for new customers. Possible values: `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, `yoursafe`. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              bank: String.t() | nil
+            }
+      defstruct [:bank]
+    end
+
+    defmodule Klarna do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `dob` - Customer's date of birth
+      """
+      @type t :: %__MODULE__{
+              dob: __MODULE__.Dob.t() | nil
+            }
+      defstruct [:dob]
+
+      defmodule Dob do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `day` - The day of birth, between 1 and 31.
+        * `month` - The month of birth, between 1 and 12.
+        * `year` - The four-digit year of birth.
+        """
+        @type t :: %__MODULE__{
+                day: integer() | nil,
+                month: integer() | nil,
+                year: integer() | nil
+              }
+        defstruct [:day, :month, :year]
+      end
+    end
+
+    defmodule NaverPay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `funding` - Whether to use Naver Pay points or a card to fund this transaction. If not provided, this defaults to `card`. Possible values: `card`, `points`.
+      """
+      @type t :: %__MODULE__{
+              funding: String.t() | nil
+            }
+      defstruct [:funding]
+    end
+
+    defmodule NzBankAccount do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_holder_name` - The name on the bank account. Only required if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod’s billing details. Max length: 5000.
+      * `account_number` - The account number for the bank account. Max length: 5000.
+      * `bank_code` - The numeric code for the bank account's bank. Max length: 5000.
+      * `branch_code` - The numeric code for the bank account's bank branch. Max length: 5000.
+      * `reference` - Max length: 128.
+      * `suffix` - The suffix of the bank account number. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_holder_name: String.t() | nil,
+              account_number: String.t() | nil,
+              bank_code: String.t() | nil,
+              branch_code: String.t() | nil,
+              reference: String.t() | nil,
+              suffix: String.t() | nil
+            }
+      defstruct [
+        :account_holder_name,
+        :account_number,
+        :bank_code,
+        :branch_code,
+        :reference,
+        :suffix
+      ]
+    end
+
+    defmodule P24 do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `bank` - The customer's bank. Possible values: `alior_bank`, `bank_millennium`, `bank_nowy_bfg_sa`, `bank_pekao_sa`, `banki_spbdzielcze`, `blik`, `bnp_paribas`, `boz`, `citi_handlowy`, `credit_agricole`, `envelobank`, `etransfer_pocztowy24`, `getin_bank`, `ideabank`, `ing`, `inteligo`, `mbank_mtransfer`, `nest_przelew`, `noble_pay`, `pbac_z_ipko`, `plus_bank`, `santander_przelew24`, `tmobile_usbugi_bankowe`, `toyota_bank`, `velobank`, `volkswagen_bank`.
+      """
+      @type t :: %__MODULE__{
+              bank: String.t() | nil
+            }
+      defstruct [:bank]
+    end
+
+    defmodule Payto do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_number` - The account number for the bank account. Max length: 5000.
+      * `bsb_number` - Bank-State-Branch number of the bank account. Max length: 5000.
+      * `pay_id` - The PayID alias for the bank account. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_number: String.t() | nil,
+              bsb_number: String.t() | nil,
+              pay_id: String.t() | nil
+            }
+      defstruct [:account_number, :bsb_number, :pay_id]
+    end
+
+    defmodule RadarOptions do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `session` - A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              session: String.t() | nil
+            }
+      defstruct [:session]
+    end
+
+    defmodule SepaDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `iban` - IBAN of the bank account. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              iban: String.t() | nil
+            }
+      defstruct [:iban]
+    end
+
+    defmodule Sofort do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `country` - Two-letter ISO code representing the country the bank account is located in. Possible values: `AT`, `BE`, `DE`, `ES`, `IT`, `NL`.
+      """
+      @type t :: %__MODULE__{
+              country: String.t() | nil
+            }
+      defstruct [:country]
+    end
+
+    defmodule UsBankAccount do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_holder_type` - Account holder type: individual or company. Possible values: `company`, `individual`.
+      * `account_number` - Account number of the bank account. Max length: 5000.
+      * `account_type` - Account type: checkings or savings. Defaults to checking if omitted. Possible values: `checking`, `savings`.
+      * `financial_connections_account` - The ID of a Financial Connections Account to use as a payment method. Max length: 5000.
+      * `routing_number` - Routing number of the bank account. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_holder_type: String.t() | nil,
+              account_number: String.t() | nil,
+              account_type: String.t() | nil,
+              financial_connections_account: String.t() | nil,
+              routing_number: String.t() | nil
+            }
+      defstruct [
+        :account_holder_type,
+        :account_number,
+        :account_type,
+        :financial_connections_account,
+        :routing_number
+      ]
+    end
   end
 
   defmodule PaymentMethodOptions do
@@ -276,5 +549,419 @@ defmodule Stripe.Params.SetupIntentUpdateParams do
       :sepa_debit,
       :us_bank_account
     ]
+
+    defmodule AcssDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Possible values: `cad`, `usd`.
+      * `mandate_options` - Additional fields for Mandate creation
+      * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
+              verification_method: String.t() | nil
+            }
+      defstruct [:currency, :mandate_options, :verification_method]
+
+      defmodule MandateOptions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `custom_mandate_url` - A URL for custom mandate text to render during confirmation step.
+        The URL will be rendered with additional GET parameters `payment_intent` and `payment_intent_client_secret` when confirming a Payment Intent,
+        or `setup_intent` and `setup_intent_client_secret` when confirming a Setup Intent.
+        * `default_for` - List of Stripe products where this mandate can be selected automatically.
+        * `interval_description` - Description of the mandate interval. Only required if 'payment_schedule' parameter is 'interval' or 'combined'. Max length: 500.
+        * `payment_schedule` - Payment schedule for the mandate. Possible values: `combined`, `interval`, `sporadic`.
+        * `transaction_type` - Transaction type of the mandate. Possible values: `business`, `personal`.
+        """
+        @type t :: %__MODULE__{
+                custom_mandate_url: map() | nil,
+                default_for: [String.t()] | nil,
+                interval_description: String.t() | nil,
+                payment_schedule: String.t() | nil,
+                transaction_type: String.t() | nil
+              }
+        defstruct [
+          :custom_mandate_url,
+          :default_for,
+          :interval_description,
+          :payment_schedule,
+          :transaction_type
+        ]
+      end
+    end
+
+    defmodule BacsDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `mandate_options` - Additional fields for Mandate creation
+      """
+      @type t :: %__MODULE__{
+              mandate_options: __MODULE__.MandateOptions.t() | nil
+            }
+      defstruct [:mandate_options]
+
+      defmodule MandateOptions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `reference_prefix` - Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
+        """
+        @type t :: %__MODULE__{
+                reference_prefix: map() | nil
+              }
+        defstruct [:reference_prefix]
+      end
+    end
+
+    defmodule Card do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `mandate_options` - Configuration options for setting up an eMandate for cards issued in India.
+      * `moto` - When specified, this parameter signals that a card has been collected
+      as MOTO (Mail Order Telephone Order) and thus out of scope for SCA. This
+      parameter can only be provided during confirmation.
+      * `network` - Selected network to process this SetupIntent on. Depends on the available networks of the card attached to the SetupIntent. Can be only set confirm-time. Possible values: `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `girocard`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `unknown`, `visa`. Max length: 5000.
+      * `request_three_d_secure` - We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine. Possible values: `any`, `automatic`, `challenge`.
+      * `three_d_secure` - If 3D Secure authentication was performed with a third-party provider,
+      the authentication details to use for this setup.
+      """
+      @type t :: %__MODULE__{
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
+              moto: boolean() | nil,
+              network: String.t() | nil,
+              request_three_d_secure: String.t() | nil,
+              three_d_secure: __MODULE__.ThreeDSecure.t() | nil
+            }
+      defstruct [:mandate_options, :moto, :network, :request_three_d_secure, :three_d_secure]
+
+      defmodule MandateOptions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `amount` - Amount to be charged for future payments.
+        * `amount_type` - One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param. Possible values: `fixed`, `maximum`.
+        * `currency` - Currency in which future payments will be charged. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+        * `description` - A description of the mandate or subscription that is meant to be displayed to the customer. Max length: 200.
+        * `end_date` - End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date. Format: Unix timestamp.
+        * `interval` - Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`. Possible values: `day`, `month`, `sporadic`, `week`, `year`.
+        * `interval_count` - The number of intervals between payments. For example, `interval=month` and `interval_count=3` indicates one payment every three months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks). This parameter is optional when `interval=sporadic`.
+        * `reference` - Unique identifier for the mandate or subscription. Max length: 80.
+        * `start_date` - Start date of the mandate or subscription. Start date should not be lesser than yesterday. Format: Unix timestamp.
+        * `supported_types` - Specifies the type of mandates supported. Possible values are `india`.
+        """
+        @type t :: %__MODULE__{
+                amount: integer() | nil,
+                amount_type: String.t() | nil,
+                currency: String.t() | nil,
+                description: String.t() | nil,
+                end_date: integer() | nil,
+                interval: String.t() | nil,
+                interval_count: integer() | nil,
+                reference: String.t() | nil,
+                start_date: integer() | nil,
+                supported_types: [String.t()] | nil
+              }
+        defstruct [
+          :amount,
+          :amount_type,
+          :currency,
+          :description,
+          :end_date,
+          :interval,
+          :interval_count,
+          :reference,
+          :start_date,
+          :supported_types
+        ]
+      end
+
+      defmodule ThreeDSecure do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `ares_trans_status` - The `transStatus` returned from the card Issuer’s ACS in the ARes. Possible values: `A`, `C`, `I`, `N`, `R`, `U`, `Y`.
+        * `cryptogram` - The cryptogram, also known as the "authentication value" (AAV, CAVV or
+        AEVV). This value is 20 bytes, base64-encoded into a 28-character string.
+        (Most 3D Secure providers will return the base64-encoded version, which
+        is what you should specify here.) Max length: 5000.
+        * `electronic_commerce_indicator` - The Electronic Commerce Indicator (ECI) is returned by your 3D Secure
+        provider and indicates what degree of authentication was performed. Possible values: `01`, `02`, `05`, `06`, `07`.
+        * `network_options` - Network specific 3DS fields. Network specific arguments require an
+        explicit card brand choice. The parameter `payment_method_options.card.network`
+        must be populated accordingly
+        * `requestor_challenge_indicator` - The challenge indicator (`threeDSRequestorChallengeInd`) which was requested in the
+        AReq sent to the card Issuer's ACS. A string containing 2 digits from 01-99. Max length: 2.
+        * `transaction_id` - For 3D Secure 1, the XID. For 3D Secure 2, the Directory Server
+        Transaction ID (dsTransID). Max length: 5000.
+        * `version` - The version of 3D Secure that was performed. Possible values: `1.0.2`, `2.1.0`, `2.2.0`, `2.3.0`, `2.3.1`.
+        """
+        @type t :: %__MODULE__{
+                ares_trans_status: String.t() | nil,
+                cryptogram: String.t() | nil,
+                electronic_commerce_indicator: String.t() | nil,
+                network_options: __MODULE__.NetworkOptions.t() | nil,
+                requestor_challenge_indicator: String.t() | nil,
+                transaction_id: String.t() | nil,
+                version: String.t() | nil
+              }
+        defstruct [
+          :ares_trans_status,
+          :cryptogram,
+          :electronic_commerce_indicator,
+          :network_options,
+          :requestor_challenge_indicator,
+          :transaction_id,
+          :version
+        ]
+
+        defmodule NetworkOptions do
+          @moduledoc "Nested parameters."
+
+          @typedoc """
+          * `cartes_bancaires` - Cartes Bancaires-specific 3DS fields.
+          """
+          @type t :: %__MODULE__{
+                  cartes_bancaires: __MODULE__.CartesBancaires.t() | nil
+                }
+          defstruct [:cartes_bancaires]
+
+          defmodule CartesBancaires do
+            @moduledoc "Nested parameters."
+
+            @typedoc """
+            * `cb_avalgo` - The cryptogram calculation algorithm used by the card Issuer's ACS
+            to calculate the Authentication cryptogram. Also known as `cavvAlgorithm`.
+            messageExtension: CB-AVALGO Possible values: `0`, `1`, `2`, `3`, `4`, `A`.
+            * `cb_exemption` - The exemption indicator returned from Cartes Bancaires in the ARes.
+            message extension: CB-EXEMPTION; string (4 characters)
+            This is a 3 byte bitmap (low significant byte first and most significant
+            bit first) that has been Base64 encoded Max length: 4.
+            * `cb_score` - The risk score returned from Cartes Bancaires in the ARes.
+            message extension: CB-SCORE; numeric value 0-99
+            """
+            @type t :: %__MODULE__{
+                    cb_avalgo: String.t() | nil,
+                    cb_exemption: String.t() | nil,
+                    cb_score: integer() | nil
+                  }
+            defstruct [:cb_avalgo, :cb_exemption, :cb_score]
+          end
+        end
+      end
+    end
+
+    defmodule Klarna do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `currency` - The currency of the SetupIntent. Three letter ISO currency code. Format: ISO 4217 currency code.
+      * `on_demand` - On-demand details if setting up a payment method for on-demand payments.
+      * `preferred_locale` - Preferred language of the Klarna authorization page that the customer is redirected to Possible values: `cs-CZ`, `da-DK`, `de-AT`, `de-CH`, `de-DE`, `el-GR`, `en-AT`, `en-AU`, `en-BE`, `en-CA`, `en-CH`, `en-CZ`, `en-DE`, `en-DK`, `en-ES`, `en-FI`, `en-FR`, `en-GB`, `en-GR`, `en-IE`, `en-IT`, `en-NL`, `en-NO`, `en-NZ`, `en-PL`, `en-PT`, `en-RO`, `en-SE`, `en-US`, `es-ES`, `es-US`, `fi-FI`, `fr-BE`, `fr-CA`, `fr-CH`, `fr-FR`, `it-CH`, `it-IT`, `nb-NO`, `nl-BE`, `nl-NL`, `pl-PL`, `pt-PT`, `ro-RO`, `sv-FI`, `sv-SE`.
+      * `subscriptions` - Subscription details if setting up or charging a subscription
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              on_demand: __MODULE__.OnDemand.t() | nil,
+              preferred_locale: String.t() | nil,
+              subscriptions: map() | nil
+            }
+      defstruct [:currency, :on_demand, :preferred_locale, :subscriptions]
+
+      defmodule OnDemand do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `average_amount` - Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+        * `maximum_amount` - The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+        * `minimum_amount` - The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+        * `purchase_interval` - Interval at which the customer is making purchases Possible values: `day`, `month`, `week`, `year`.
+        * `purchase_interval_count` - The number of `purchase_interval` between charges
+        """
+        @type t :: %__MODULE__{
+                average_amount: integer() | nil,
+                maximum_amount: integer() | nil,
+                minimum_amount: integer() | nil,
+                purchase_interval: String.t() | nil,
+                purchase_interval_count: integer() | nil
+              }
+        defstruct [
+          :average_amount,
+          :maximum_amount,
+          :minimum_amount,
+          :purchase_interval,
+          :purchase_interval_count
+        ]
+      end
+    end
+
+    defmodule Link do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `persistent_token` - [Deprecated] This is a legacy parameter that no longer has any function. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              persistent_token: String.t() | nil
+            }
+      defstruct [:persistent_token]
+    end
+
+    defmodule Paypal do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `billing_agreement_id` - The PayPal Billing Agreement ID (BAID). This is an ID generated by PayPal which represents the mandate between the merchant and the customer. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              billing_agreement_id: String.t() | nil
+            }
+      defstruct [:billing_agreement_id]
+    end
+
+    defmodule Payto do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `mandate_options` - Additional fields for Mandate creation.
+      """
+      @type t :: %__MODULE__{
+              mandate_options: __MODULE__.MandateOptions.t() | nil
+            }
+      defstruct [:mandate_options]
+
+      defmodule MandateOptions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `amount` - Amount that will be collected. It is required when `amount_type` is `fixed`.
+        * `amount_type` - The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`. Possible values: `fixed`, `maximum`.
+        * `end_date` - Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
+        * `payment_schedule` - The periodicity at which payments will be collected. Defaults to `adhoc`. Possible values: `adhoc`, `annual`, `daily`, `fortnightly`, `monthly`, `quarterly`, `semi_annual`, `weekly`.
+        * `payments_per_period` - The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
+        * `purpose` - The purpose for which payments are made. Has a default value based on your merchant category code. Possible values: `dependant_support`, `government`, `loan`, `mortgage`, `other`, `pension`, `personal`, `retail`, `salary`, `tax`, `utility`.
+        * `start_date` - Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
+        """
+        @type t :: %__MODULE__{
+                amount: map() | nil,
+                amount_type: String.t() | nil,
+                end_date: map() | nil,
+                payment_schedule: String.t() | nil,
+                payments_per_period: map() | nil,
+                purpose: String.t() | nil,
+                start_date: map() | nil
+              }
+        defstruct [
+          :amount,
+          :amount_type,
+          :end_date,
+          :payment_schedule,
+          :payments_per_period,
+          :purpose,
+          :start_date
+        ]
+      end
+    end
+
+    defmodule SepaDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `mandate_options` - Additional fields for Mandate creation
+      """
+      @type t :: %__MODULE__{
+              mandate_options: __MODULE__.MandateOptions.t() | nil
+            }
+      defstruct [:mandate_options]
+
+      defmodule MandateOptions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `reference_prefix` - Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
+        """
+        @type t :: %__MODULE__{
+                reference_prefix: map() | nil
+              }
+        defstruct [:reference_prefix]
+      end
+    end
+
+    defmodule UsBankAccount do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `financial_connections` - Additional fields for Financial Connections Session creation
+      * `mandate_options` - Additional fields for Mandate creation
+      * `networks` - Additional fields for network related functions
+      * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+      """
+      @type t :: %__MODULE__{
+              financial_connections: __MODULE__.FinancialConnections.t() | nil,
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
+              networks: __MODULE__.Networks.t() | nil,
+              verification_method: String.t() | nil
+            }
+      defstruct [:financial_connections, :mandate_options, :networks, :verification_method]
+
+      defmodule FinancialConnections do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `filters` - Provide filters for the linked accounts that the customer can select for the payment method.
+        * `permissions` - The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
+        * `prefetch` - List of data features that you would like to retrieve upon account creation.
+        * `return_url` - For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                filters: __MODULE__.Filters.t() | nil,
+                permissions: [String.t()] | nil,
+                prefetch: [String.t()] | nil,
+                return_url: String.t() | nil
+              }
+        defstruct [:filters, :permissions, :prefetch, :return_url]
+
+        defmodule Filters do
+          @moduledoc "Nested parameters."
+
+          @typedoc """
+          * `account_subcategories` - The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
+          """
+          @type t :: %__MODULE__{
+                  account_subcategories: [String.t()] | nil
+                }
+          defstruct [:account_subcategories]
+        end
+      end
+
+      defmodule MandateOptions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `collection_method` - The method used to collect offline mandate customer acceptance. Possible values: `paper`.
+        """
+        @type t :: %__MODULE__{
+                collection_method: String.t() | nil
+              }
+        defstruct [:collection_method]
+      end
+
+      defmodule Networks do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `requested` - Triggers validations to run across the selected networks
+        """
+        @type t :: %__MODULE__{
+                requested: [String.t()] | nil
+              }
+        defstruct [:requested]
+      end
+    end
   end
 end

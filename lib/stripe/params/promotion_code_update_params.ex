@@ -27,5 +27,17 @@ defmodule Stripe.Params.PromotionCodeUpdateParams do
             currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil
           }
     defstruct [:currency_options]
+
+    defmodule CurrencyOptions do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `minimum_amount` - Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
+      """
+      @type t :: %__MODULE__{
+              minimum_amount: integer() | nil
+            }
+      defstruct [:minimum_amount]
+    end
   end
 end

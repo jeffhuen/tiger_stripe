@@ -85,6 +85,44 @@ defmodule Stripe.Params.PriceCreateParams do
             unit_amount_decimal: String.t() | nil
           }
     defstruct [:custom_unit_amount, :tax_behavior, :tiers, :unit_amount, :unit_amount_decimal]
+
+    defmodule CustomUnitAmount do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
+      * `maximum` - The maximum unit amount the customer can specify for this item.
+      * `minimum` - The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+      * `preset` - The starting unit amount which can be updated by the customer.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              maximum: integer() | nil,
+              minimum: integer() | nil,
+              preset: integer() | nil
+            }
+      defstruct [:enabled, :maximum, :minimum, :preset]
+    end
+
+    defmodule Tiers do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `flat_amount` - The flat billing amount for an entire tier, regardless of the number of units in the tier.
+      * `flat_amount_decimal` - Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set. Format: decimal string.
+      * `unit_amount` - The per unit billing amount for each individual unit for which this tier applies.
+      * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+      * `up_to` - Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
+      """
+      @type t :: %__MODULE__{
+              flat_amount: integer() | nil,
+              flat_amount_decimal: String.t() | nil,
+              unit_amount: integer() | nil,
+              unit_amount_decimal: String.t() | nil,
+              up_to: map() | nil
+            }
+      defstruct [:flat_amount, :flat_amount_decimal, :unit_amount, :unit_amount_decimal, :up_to]
+    end
   end
 
   defmodule CustomUnitAmount do

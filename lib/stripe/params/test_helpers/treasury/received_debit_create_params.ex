@@ -43,5 +43,21 @@ defmodule Stripe.Params.TestHelpers.Treasury.ReceivedDebitCreateParams do
             us_bank_account: __MODULE__.UsBankAccount.t() | nil
           }
     defstruct [:type, :us_bank_account]
+
+    defmodule UsBankAccount do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_holder_name` - The bank account holder's name. Max length: 5000.
+      * `account_number` - The bank account number. Max length: 5000.
+      * `routing_number` - The bank account's routing number. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_holder_name: String.t() | nil,
+              account_number: String.t() | nil,
+              routing_number: String.t() | nil
+            }
+      defstruct [:account_holder_name, :account_number, :routing_number]
+    end
   end
 end

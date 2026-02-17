@@ -41,6 +41,467 @@ defmodule Stripe.Params.TokenCreateParams do
             tos_shown_and_accepted: boolean() | nil
           }
     defstruct [:business_type, :company, :individual, :tos_shown_and_accepted]
+
+    defmodule Company do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `address` - The company's primary address.
+      * `address_kana` - The Kana variation of the company's primary address (Japan only).
+      * `address_kanji` - The Kanji variation of the company's primary address (Japan only).
+      * `directors_provided` - Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
+      * `directorship_declaration` - This hash is used to attest that the directors information provided to Stripe is both current and correct.
+      * `executives_provided` - Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
+      * `export_license_id` - The export license ID number of the company, also referred as Import Export Code (India only). Max length: 5000.
+      * `export_purpose_code` - The purpose code to use for export transactions (India only). Max length: 5000.
+      * `name` - The company's legal name. Max length: 100.
+      * `name_kana` - The Kana variation of the company's legal name (Japan only). Max length: 100.
+      * `name_kanji` - The Kanji variation of the company's legal name (Japan only). Max length: 100.
+      * `owners_provided` - Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
+      * `ownership_declaration` - This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
+      * `ownership_declaration_shown_and_signed` - Whether the user described by the data in the token has been shown the Ownership Declaration and indicated that it is correct.
+      * `ownership_exemption_reason` - This value is used to determine if a business is exempt from providing ultimate beneficial owners. See [this support article](https://support.stripe.com/questions/exemption-from-providing-ownership-details) and [changelog](https://docs.stripe.com/changelog/acacia/2025-01-27/ownership-exemption-reason-accounts-api) for more details. Possible values: `qualified_entity_exceeds_ownership_threshold`, `qualifies_as_financial_institution`.
+      * `phone` - The company's phone number (used for verification). Max length: 5000.
+      * `registration_date` - When the business was incorporated or registered.
+      * `registration_number` - The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong). Max length: 5000.
+      * `representative_declaration` - This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+      * `structure` - The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value. Possible values: `free_zone_establishment`, `free_zone_llc`, `government_instrumentality`, `governmental_unit`, `incorporated_non_profit`, `incorporated_partnership`, `limited_liability_partnership`, `llc`, `multi_member_llc`, `private_company`, `private_corporation`, `private_partnership`, `public_company`, `public_corporation`, `public_partnership`, `registered_charity`, `single_member_llc`, `sole_establishment`, `sole_proprietorship`, `tax_exempt_government_instrumentality`, `unincorporated_association`, `unincorporated_non_profit`, `unincorporated_partnership`.
+      * `tax_id` - The business ID number of the company, as appropriate for the company’s country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.) Max length: 5000.
+      * `tax_id_registrar` - The jurisdiction in which the `tax_id` is registered (Germany-based companies only). Max length: 5000.
+      * `vat_id` - The VAT number of the company. Max length: 5000.
+      * `verification` - Information on the verification state of the company.
+      """
+      @type t :: %__MODULE__{
+              address: __MODULE__.Address.t() | nil,
+              address_kana: __MODULE__.AddressKana.t() | nil,
+              address_kanji: __MODULE__.AddressKanji.t() | nil,
+              directors_provided: boolean() | nil,
+              directorship_declaration: __MODULE__.DirectorshipDeclaration.t() | nil,
+              executives_provided: boolean() | nil,
+              export_license_id: String.t() | nil,
+              export_purpose_code: String.t() | nil,
+              name: String.t() | nil,
+              name_kana: String.t() | nil,
+              name_kanji: String.t() | nil,
+              owners_provided: boolean() | nil,
+              ownership_declaration: __MODULE__.OwnershipDeclaration.t() | nil,
+              ownership_declaration_shown_and_signed: boolean() | nil,
+              ownership_exemption_reason: String.t() | nil,
+              phone: String.t() | nil,
+              registration_date: map() | nil,
+              registration_number: String.t() | nil,
+              representative_declaration: __MODULE__.RepresentativeDeclaration.t() | nil,
+              structure: String.t() | nil,
+              tax_id: String.t() | nil,
+              tax_id_registrar: String.t() | nil,
+              vat_id: String.t() | nil,
+              verification: __MODULE__.Verification.t() | nil
+            }
+      defstruct [
+        :address,
+        :address_kana,
+        :address_kanji,
+        :directors_provided,
+        :directorship_declaration,
+        :executives_provided,
+        :export_license_id,
+        :export_purpose_code,
+        :name,
+        :name_kana,
+        :name_kanji,
+        :owners_provided,
+        :ownership_declaration,
+        :ownership_declaration_shown_and_signed,
+        :ownership_exemption_reason,
+        :phone,
+        :registration_date,
+        :registration_number,
+        :representative_declaration,
+        :structure,
+        :tax_id,
+        :tax_id_registrar,
+        :vat_id,
+        :verification
+      ]
+
+      defmodule Address do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `city` - City, district, suburb, town, or village. Max length: 100.
+        * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+        * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 200.
+        * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 200.
+        * `postal_code` - ZIP or postal code. Max length: 5000.
+        * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                city: String.t() | nil,
+                country: String.t() | nil,
+                line1: String.t() | nil,
+                line2: String.t() | nil,
+                postal_code: String.t() | nil,
+                state: String.t() | nil
+              }
+        defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+      end
+
+      defmodule AddressKana do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `city` - City or ward. Max length: 5000.
+        * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+        * `line1` - Block or building number. Max length: 5000.
+        * `line2` - Building details. Max length: 5000.
+        * `postal_code` - Postal code. Max length: 5000.
+        * `state` - Prefecture. Max length: 5000.
+        * `town` - Town or cho-me. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                city: String.t() | nil,
+                country: String.t() | nil,
+                line1: String.t() | nil,
+                line2: String.t() | nil,
+                postal_code: String.t() | nil,
+                state: String.t() | nil,
+                town: String.t() | nil
+              }
+        defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+      end
+
+      defmodule AddressKanji do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `city` - City or ward. Max length: 5000.
+        * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+        * `line1` - Block or building number. Max length: 5000.
+        * `line2` - Building details. Max length: 5000.
+        * `postal_code` - Postal code. Max length: 5000.
+        * `state` - Prefecture. Max length: 5000.
+        * `town` - Town or cho-me. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                city: String.t() | nil,
+                country: String.t() | nil,
+                line1: String.t() | nil,
+                line2: String.t() | nil,
+                postal_code: String.t() | nil,
+                state: String.t() | nil,
+                town: String.t() | nil
+              }
+        defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+      end
+
+      defmodule DirectorshipDeclaration do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `date` - The Unix timestamp marking when the directorship declaration attestation was made. Format: Unix timestamp.
+        * `ip` - The IP address from which the directorship declaration attestation was made.
+        * `user_agent` - The user agent of the browser from which the directorship declaration attestation was made. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                date: integer() | nil,
+                ip: String.t() | nil,
+                user_agent: String.t() | nil
+              }
+        defstruct [:date, :ip, :user_agent]
+      end
+
+      defmodule OwnershipDeclaration do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `date` - The Unix timestamp marking when the beneficial owner attestation was made. Format: Unix timestamp.
+        * `ip` - The IP address from which the beneficial owner attestation was made.
+        * `user_agent` - The user agent of the browser from which the beneficial owner attestation was made. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                date: integer() | nil,
+                ip: String.t() | nil,
+                user_agent: String.t() | nil
+              }
+        defstruct [:date, :ip, :user_agent]
+      end
+
+      defmodule RepresentativeDeclaration do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `date` - The Unix timestamp marking when the representative declaration attestation was made. Format: Unix timestamp.
+        * `ip` - The IP address from which the representative declaration attestation was made.
+        * `user_agent` - The user agent of the browser from which the representative declaration attestation was made. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                date: integer() | nil,
+                ip: String.t() | nil,
+                user_agent: String.t() | nil
+              }
+        defstruct [:date, :ip, :user_agent]
+      end
+
+      defmodule Verification do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `document` - A document verifying the business.
+        """
+        @type t :: %__MODULE__{
+                document: __MODULE__.Document.t() | nil
+              }
+        defstruct [:document]
+
+        defmodule Document do
+          @moduledoc "Nested parameters."
+
+          @typedoc """
+          * `back` - The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+          * `front` - The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+          """
+          @type t :: %__MODULE__{
+                  back: String.t() | nil,
+                  front: String.t() | nil
+                }
+          defstruct [:back, :front]
+        end
+      end
+    end
+
+    defmodule Individual do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `address` - The individual's primary address.
+      * `address_kana` - The Kana variation of the individual's primary address (Japan only).
+      * `address_kanji` - The Kanji variation of the individual's primary address (Japan only).
+      * `dob` - The individual's date of birth.
+      * `email` - The individual's email address.
+      * `first_name` - The individual's first name. Max length: 100.
+      * `first_name_kana` - The Kana variation of the individual's first name (Japan only). Max length: 5000.
+      * `first_name_kanji` - The Kanji variation of the individual's first name (Japan only). Max length: 5000.
+      * `full_name_aliases` - A list of alternate names or aliases that the individual is known by.
+      * `gender` - The individual's gender
+      * `id_number` - The government-issued ID number of the individual, as appropriate for the representative's country. (Examples are a Social Security Number in the U.S., or a Social Insurance Number in Canada). Instead of the number itself, you can also provide a [PII token created with Stripe.js](https://stripe.com/js/tokens/create_token?type=pii). Max length: 5000.
+      * `id_number_secondary` - The government-issued secondary ID number of the individual, as appropriate for the representative's country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token created with Stripe.js](https://stripe.com/js/tokens/create_token?type=pii). Max length: 5000.
+      * `last_name` - The individual's last name. Max length: 100.
+      * `last_name_kana` - The Kana variation of the individual's last name (Japan only). Max length: 5000.
+      * `last_name_kanji` - The Kanji variation of the individual's last name (Japan only). Max length: 5000.
+      * `maiden_name` - The individual's maiden name. Max length: 5000.
+      * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+      * `phone` - The individual's phone number.
+      * `political_exposure` - Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction. Possible values: `existing`, `none`.
+      * `registered_address` - The individual's registered address.
+      * `relationship` - Describes the person’s relationship to the account.
+      * `ssn_last_4` - The last four digits of the individual's Social Security Number (U.S. only). Max length: 5000.
+      * `verification` - The individual's verification document information.
+      """
+      @type t :: %__MODULE__{
+              address: __MODULE__.Address.t() | nil,
+              address_kana: __MODULE__.AddressKana.t() | nil,
+              address_kanji: __MODULE__.AddressKanji.t() | nil,
+              dob: map() | nil,
+              email: String.t() | nil,
+              first_name: String.t() | nil,
+              first_name_kana: String.t() | nil,
+              first_name_kanji: String.t() | nil,
+              full_name_aliases: map() | nil,
+              gender: String.t() | nil,
+              id_number: String.t() | nil,
+              id_number_secondary: String.t() | nil,
+              last_name: String.t() | nil,
+              last_name_kana: String.t() | nil,
+              last_name_kanji: String.t() | nil,
+              maiden_name: String.t() | nil,
+              metadata: map() | nil,
+              phone: String.t() | nil,
+              political_exposure: String.t() | nil,
+              registered_address: __MODULE__.RegisteredAddress.t() | nil,
+              relationship: __MODULE__.Relationship.t() | nil,
+              ssn_last_4: String.t() | nil,
+              verification: __MODULE__.Verification.t() | nil
+            }
+      defstruct [
+        :address,
+        :address_kana,
+        :address_kanji,
+        :dob,
+        :email,
+        :first_name,
+        :first_name_kana,
+        :first_name_kanji,
+        :full_name_aliases,
+        :gender,
+        :id_number,
+        :id_number_secondary,
+        :last_name,
+        :last_name_kana,
+        :last_name_kanji,
+        :maiden_name,
+        :metadata,
+        :phone,
+        :political_exposure,
+        :registered_address,
+        :relationship,
+        :ssn_last_4,
+        :verification
+      ]
+
+      defmodule Address do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `city` - City, district, suburb, town, or village. Max length: 100.
+        * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+        * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 200.
+        * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 200.
+        * `postal_code` - ZIP or postal code. Max length: 5000.
+        * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                city: String.t() | nil,
+                country: String.t() | nil,
+                line1: String.t() | nil,
+                line2: String.t() | nil,
+                postal_code: String.t() | nil,
+                state: String.t() | nil
+              }
+        defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+      end
+
+      defmodule AddressKana do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `city` - City or ward. Max length: 5000.
+        * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+        * `line1` - Block or building number. Max length: 5000.
+        * `line2` - Building details. Max length: 5000.
+        * `postal_code` - Postal code. Max length: 5000.
+        * `state` - Prefecture. Max length: 5000.
+        * `town` - Town or cho-me. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                city: String.t() | nil,
+                country: String.t() | nil,
+                line1: String.t() | nil,
+                line2: String.t() | nil,
+                postal_code: String.t() | nil,
+                state: String.t() | nil,
+                town: String.t() | nil
+              }
+        defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+      end
+
+      defmodule AddressKanji do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `city` - City or ward. Max length: 5000.
+        * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+        * `line1` - Block or building number. Max length: 5000.
+        * `line2` - Building details. Max length: 5000.
+        * `postal_code` - Postal code. Max length: 5000.
+        * `state` - Prefecture. Max length: 5000.
+        * `town` - Town or cho-me. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                city: String.t() | nil,
+                country: String.t() | nil,
+                line1: String.t() | nil,
+                line2: String.t() | nil,
+                postal_code: String.t() | nil,
+                state: String.t() | nil,
+                town: String.t() | nil
+              }
+        defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+      end
+
+      defmodule RegisteredAddress do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `city` - City, district, suburb, town, or village. Max length: 100.
+        * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+        * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 200.
+        * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 200.
+        * `postal_code` - ZIP or postal code. Max length: 5000.
+        * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                city: String.t() | nil,
+                country: String.t() | nil,
+                line1: String.t() | nil,
+                line2: String.t() | nil,
+                postal_code: String.t() | nil,
+                state: String.t() | nil
+              }
+        defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+      end
+
+      defmodule Relationship do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `director` - Whether the person is a director of the account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
+        * `executive` - Whether the person has significant responsibility to control, manage, or direct the organization.
+        * `owner` - Whether the person is an owner of the account’s legal entity.
+        * `percent_ownership` - The percent owned by the person of the account's legal entity.
+        * `title` - The person's title (e.g., CEO, Support Engineer). Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                director: boolean() | nil,
+                executive: boolean() | nil,
+                owner: boolean() | nil,
+                percent_ownership: map() | nil,
+                title: String.t() | nil
+              }
+        defstruct [:director, :executive, :owner, :percent_ownership, :title]
+      end
+
+      defmodule Verification do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `additional_document` - A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
+        * `document` - An identifying document, either a passport or local ID card.
+        """
+        @type t :: %__MODULE__{
+                additional_document: __MODULE__.AdditionalDocument.t() | nil,
+                document: __MODULE__.Document.t() | nil
+              }
+        defstruct [:additional_document, :document]
+
+        defmodule AdditionalDocument do
+          @moduledoc "Nested parameters."
+
+          @typedoc """
+          * `back` - The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+          * `front` - The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+          """
+          @type t :: %__MODULE__{
+                  back: String.t() | nil,
+                  front: String.t() | nil
+                }
+          defstruct [:back, :front]
+        end
+
+        defmodule Document do
+          @moduledoc "Nested parameters."
+
+          @typedoc """
+          * `back` - The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+          * `front` - The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+          """
+          @type t :: %__MODULE__{
+                  back: String.t() | nil,
+                  front: String.t() | nil
+                }
+          defstruct [:back, :front]
+        end
+      end
+    end
   end
 
   defmodule BankAccount do
@@ -180,6 +641,299 @@ defmodule Stripe.Params.TokenCreateParams do
       :us_cfpb_data,
       :verification
     ]
+
+    defmodule AdditionalTosAcceptances do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account` - Details on the legal guardian's acceptance of the main Stripe service agreement.
+      """
+      @type t :: %__MODULE__{
+              account: __MODULE__.Account.t() | nil
+            }
+      defstruct [:account]
+
+      defmodule Account do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `date` - The Unix timestamp marking when the account representative accepted the service agreement. Format: Unix timestamp.
+        * `ip` - The IP address from which the account representative accepted the service agreement.
+        * `user_agent` - The user agent of the browser from which the account representative accepted the service agreement.
+        """
+        @type t :: %__MODULE__{
+                date: integer() | nil,
+                ip: String.t() | nil,
+                user_agent: map() | nil
+              }
+        defstruct [:date, :ip, :user_agent]
+      end
+    end
+
+    defmodule Address do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village. Max length: 100.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 200.
+      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 200.
+      * `postal_code` - ZIP or postal code. Max length: 5000.
+      * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+    end
+
+    defmodule AddressKana do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City or ward. Max length: 5000.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Block or building number. Max length: 5000.
+      * `line2` - Building details. Max length: 5000.
+      * `postal_code` - Postal code. Max length: 5000.
+      * `state` - Prefecture. Max length: 5000.
+      * `town` - Town or cho-me. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil,
+              town: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+    end
+
+    defmodule AddressKanji do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City or ward. Max length: 5000.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Block or building number. Max length: 5000.
+      * `line2` - Building details. Max length: 5000.
+      * `postal_code` - Postal code. Max length: 5000.
+      * `state` - Prefecture. Max length: 5000.
+      * `town` - Town or cho-me. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil,
+              town: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+    end
+
+    defmodule Documents do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `company_authorization` - One or more documents that demonstrate proof that this person is authorized to represent the company.
+      * `passport` - One or more documents showing the person's passport page with photo and personal data.
+      * `visa` - One or more documents showing the person's visa required for living in the country where they are residing.
+      """
+      @type t :: %__MODULE__{
+              company_authorization: __MODULE__.CompanyAuthorization.t() | nil,
+              passport: __MODULE__.Passport.t() | nil,
+              visa: __MODULE__.Visa.t() | nil
+            }
+      defstruct [:company_authorization, :passport, :visa]
+
+      defmodule CompanyAuthorization do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+        """
+        @type t :: %__MODULE__{
+                files: [map()] | nil
+              }
+        defstruct [:files]
+      end
+
+      defmodule Passport do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+        """
+        @type t :: %__MODULE__{
+                files: [map()] | nil
+              }
+        defstruct [:files]
+      end
+
+      defmodule Visa do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+        """
+        @type t :: %__MODULE__{
+                files: [map()] | nil
+              }
+        defstruct [:files]
+      end
+    end
+
+    defmodule RegisteredAddress do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village. Max length: 100.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 200.
+      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 200.
+      * `postal_code` - ZIP or postal code. Max length: 5000.
+      * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+    end
+
+    defmodule Relationship do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `authorizer` - Whether the person is the authorizer of the account's representative.
+      * `director` - Whether the person is a director of the account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
+      * `executive` - Whether the person has significant responsibility to control, manage, or direct the organization.
+      * `legal_guardian` - Whether the person is the legal guardian of the account's representative.
+      * `owner` - Whether the person is an owner of the account’s legal entity.
+      * `percent_ownership` - The percent owned by the person of the account's legal entity.
+      * `representative` - Whether the person is authorized as the primary representative of the account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
+      * `title` - The person's title (e.g., CEO, Support Engineer). Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              authorizer: boolean() | nil,
+              director: boolean() | nil,
+              executive: boolean() | nil,
+              legal_guardian: boolean() | nil,
+              owner: boolean() | nil,
+              percent_ownership: map() | nil,
+              representative: boolean() | nil,
+              title: String.t() | nil
+            }
+      defstruct [
+        :authorizer,
+        :director,
+        :executive,
+        :legal_guardian,
+        :owner,
+        :percent_ownership,
+        :representative,
+        :title
+      ]
+    end
+
+    defmodule UsCfpbData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `ethnicity_details` - The persons ethnicity details
+      * `race_details` - The persons race details
+      * `self_identified_gender` - The persons self-identified gender Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              ethnicity_details: __MODULE__.EthnicityDetails.t() | nil,
+              race_details: __MODULE__.RaceDetails.t() | nil,
+              self_identified_gender: String.t() | nil
+            }
+      defstruct [:ethnicity_details, :race_details, :self_identified_gender]
+
+      defmodule EthnicityDetails do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `ethnicity` - The persons ethnicity
+        * `ethnicity_other` - Please specify your origin, when other is selected. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                ethnicity: [String.t()] | nil,
+                ethnicity_other: String.t() | nil
+              }
+        defstruct [:ethnicity, :ethnicity_other]
+      end
+
+      defmodule RaceDetails do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `race` - The persons race.
+        * `race_other` - Please specify your race, when other is selected. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                race: [String.t()] | nil,
+                race_other: String.t() | nil
+              }
+        defstruct [:race, :race_other]
+      end
+    end
+
+    defmodule Verification do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `additional_document` - A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
+      * `document` - An identifying document, either a passport or local ID card.
+      """
+      @type t :: %__MODULE__{
+              additional_document: __MODULE__.AdditionalDocument.t() | nil,
+              document: __MODULE__.Document.t() | nil
+            }
+      defstruct [:additional_document, :document]
+
+      defmodule AdditionalDocument do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `back` - The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+        * `front` - The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+        """
+        @type t :: %__MODULE__{
+                back: String.t() | nil,
+                front: String.t() | nil
+              }
+        defstruct [:back, :front]
+      end
+
+      defmodule Document do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `back` - The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+        * `front` - The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+        """
+        @type t :: %__MODULE__{
+                back: String.t() | nil,
+                front: String.t() | nil
+              }
+        defstruct [:back, :front]
+      end
+    end
   end
 
   defmodule Pii do

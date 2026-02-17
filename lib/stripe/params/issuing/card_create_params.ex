@@ -103,6 +103,52 @@ defmodule Stripe.Params.Issuing.CardCreateParams do
       :service,
       :type
     ]
+
+    defmodule Address do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village. Max length: 5000.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
+      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
+      * `postal_code` - ZIP or postal code. Max length: 5000.
+      * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+    end
+
+    defmodule AddressValidation do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `mode` - The address validation capabilities to use. Possible values: `disabled`, `normalization_only`, `validation_and_normalization`.
+      """
+      @type t :: %__MODULE__{
+              mode: String.t() | nil
+            }
+      defstruct [:mode]
+    end
+
+    defmodule Customs do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `eori_number` - The Economic Operators Registration and Identification (EORI) number to use for Customs. Required for bulk shipments to Europe. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              eori_number: String.t() | nil
+            }
+      defstruct [:eori_number]
+    end
   end
 
   defmodule SpendingControls do
@@ -129,5 +175,21 @@ defmodule Stripe.Params.Issuing.CardCreateParams do
       :blocked_merchant_countries,
       :spending_limits
     ]
+
+    defmodule SpendingLimits do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `amount` - Maximum amount allowed to spend per interval.
+      * `categories` - Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
+      * `interval` - Interval (or event) to which the amount applies. Possible values: `all_time`, `daily`, `monthly`, `per_authorization`, `weekly`, `yearly`.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              categories: [String.t()] | nil,
+              interval: String.t() | nil
+            }
+      defstruct [:amount, :categories, :interval]
+    end
   end
 end

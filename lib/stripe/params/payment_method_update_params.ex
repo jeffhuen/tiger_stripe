@@ -65,6 +65,18 @@ defmodule Stripe.Params.PaymentMethodUpdateParams do
             networks: __MODULE__.Networks.t() | nil
           }
     defstruct [:exp_month, :exp_year, :networks]
+
+    defmodule Networks do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preferred` - The customer's preferred card network for co-branded cards. Supports `cartes_bancaires`, `mastercard`, or `visa`. Selection of a network that does not apply to the card will be stored as `invalid_preference` on the card. Possible values: `cartes_bancaires`, `mastercard`, `visa`.
+      """
+      @type t :: %__MODULE__{
+              preferred: String.t() | nil
+            }
+      defstruct [:preferred]
+    end
   end
 
   defmodule Payto do

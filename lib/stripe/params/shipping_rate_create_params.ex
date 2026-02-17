@@ -46,6 +46,34 @@ defmodule Stripe.Params.ShippingRateCreateParams do
             minimum: __MODULE__.Minimum.t() | nil
           }
     defstruct [:maximum, :minimum]
+
+    defmodule Maximum do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
+      * `value` - Must be greater than 0.
+      """
+      @type t :: %__MODULE__{
+              unit: String.t() | nil,
+              value: integer() | nil
+            }
+      defstruct [:unit, :value]
+    end
+
+    defmodule Minimum do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
+      * `value` - Must be greater than 0.
+      """
+      @type t :: %__MODULE__{
+              unit: String.t() | nil,
+              value: integer() | nil
+            }
+      defstruct [:unit, :value]
+    end
   end
 
   defmodule FixedAmount do
@@ -62,5 +90,19 @@ defmodule Stripe.Params.ShippingRateCreateParams do
             currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil
           }
     defstruct [:amount, :currency, :currency_options]
+
+    defmodule CurrencyOptions do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `amount` - A non-negative integer in cents representing how much to charge.
+      * `tax_behavior` - Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Possible values: `exclusive`, `inclusive`, `unspecified`.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              tax_behavior: String.t() | nil
+            }
+      defstruct [:amount, :tax_behavior]
+    end
   end
 end

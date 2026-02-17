@@ -102,7 +102,7 @@ defmodule Stripe.Generator.Naming do
       if parents == [] do
         Stripe.Services
       else
-        Module.concat([Stripe.Services | Enum.map(parents, &String.to_atom/1)])
+        Module.concat([Stripe.Services | parents])
       end
 
     Module.concat(base, "#{leaf}Service")
@@ -115,7 +115,7 @@ defmodule Stripe.Generator.Naming do
   end
 
   defp build_module(root, class_name, package) do
-    segments = String.split(package, ".") |> Enum.map(&String.to_atom/1)
-    Module.concat([root | segments] ++ [String.to_atom(class_name)])
+    segments = String.split(package, ".")
+    Module.concat([root | segments] ++ [class_name])
   end
 end

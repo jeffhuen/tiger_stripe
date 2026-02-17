@@ -326,6 +326,22 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
             dob: __MODULE__.Dob.t() | nil
           }
     defstruct [:dob]
+
+    defmodule Dob do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `day` - The day of birth, between 1 and 31.
+      * `month` - The month of birth, between 1 and 12.
+      * `year` - The four-digit year of birth.
+      """
+      @type t :: %__MODULE__{
+              day: integer() | nil,
+              month: integer() | nil,
+              year: integer() | nil
+            }
+      defstruct [:day, :month, :year]
+    end
   end
 
   defmodule NaverPay do

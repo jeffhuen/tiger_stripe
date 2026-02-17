@@ -31,5 +31,31 @@ defmodule Stripe.Params.Billing.CreditBalanceSummaryRetrieveParams do
             type: String.t() | nil
           }
     defstruct [:applicability_scope, :credit_grant, :type]
+
+    defmodule ApplicabilityScope do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `price_type` - The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`. Possible values: `metered`.
+      * `prices` - A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+      """
+      @type t :: %__MODULE__{
+              price_type: String.t() | nil,
+              prices: [__MODULE__.Prices.t()] | nil
+            }
+      defstruct [:price_type, :prices]
+
+      defmodule Prices do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `id` - The price ID this credit grant should apply to. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                id: String.t() | nil
+              }
+        defstruct [:id]
+      end
+    end
   end
 end

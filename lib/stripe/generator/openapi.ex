@@ -473,7 +473,9 @@ defmodule Stripe.Generator.OpenAPI do
 
   defp do_resolve_type(field_name, %{"type" => "object"} = schema, schema_index) do
     if Map.has_key?(schema, "additionalProperties") and schema["additionalProperties"] != false do
-      {value_type, inner_types} = resolve_type(field_name, schema["additionalProperties"], schema_index)
+      {value_type, inner_types} =
+        resolve_type(field_name, schema["additionalProperties"], schema_index)
+
       {{:map, value_type}, inner_types}
     else
       {:map, %{}}
@@ -580,7 +582,7 @@ defmodule Stripe.Generator.OpenAPI do
     %{
       method_name: op["method_name"],
       method_type: op["method_type"],
-      http_method: String.to_atom(op["operation"]),
+      http_method: String.to_existing_atom(op["operation"]),
       path: path,
       path_params: path_params,
       service_class: service_class,

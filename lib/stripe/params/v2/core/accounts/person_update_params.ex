@@ -121,6 +121,22 @@ defmodule Stripe.Params.V2.Core.Accounts.PersonUpdateParams do
             account: __MODULE__.Account.t() | nil
           }
     defstruct [:account]
+
+    defmodule Account do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `date` - The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z. Format: date-time.
+      * `ip` - The IP address from which the Account's representative accepted the terms of service.
+      * `user_agent` - The user agent of the browser from which the Account's representative accepted the terms of service.
+      """
+      @type t :: %__MODULE__{
+              date: String.t() | nil,
+              ip: String.t() | nil,
+              user_agent: String.t() | nil
+            }
+      defstruct [:date, :ip, :user_agent]
+    end
   end
 
   defmodule Address do
@@ -187,6 +203,104 @@ defmodule Stripe.Params.V2.Core.Accounts.PersonUpdateParams do
       :secondary_verification,
       :visa
     ]
+
+    defmodule CompanyAuthorization do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+      * `type` - The format of the document. Currently supports `files` only. Possible values: `files`.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil,
+              type: String.t() | nil
+            }
+      defstruct [:files, :type]
+    end
+
+    defmodule Passport do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+      * `type` - The format of the document. Currently supports `files` only. Possible values: `files`.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil,
+              type: String.t() | nil
+            }
+      defstruct [:files, :type]
+    end
+
+    defmodule PrimaryVerification do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `front_back` - The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+      * `type` - The format of the verification document. Currently supports `front_back` only. Possible values: `front_back`.
+      """
+      @type t :: %__MODULE__{
+              front_back: __MODULE__.FrontBack.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:front_back, :type]
+
+      defmodule FrontBack do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `back` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+        * `front` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+        """
+        @type t :: %__MODULE__{
+                back: String.t() | nil,
+                front: String.t() | nil
+              }
+        defstruct [:back, :front]
+      end
+    end
+
+    defmodule SecondaryVerification do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `front_back` - The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens referring to each side of the document.
+      * `type` - The format of the verification document. Currently supports `front_back` only. Possible values: `front_back`.
+      """
+      @type t :: %__MODULE__{
+              front_back: __MODULE__.FrontBack.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:front_back, :type]
+
+      defmodule FrontBack do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `back` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+        * `front` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+        """
+        @type t :: %__MODULE__{
+                back: String.t() | nil,
+                front: String.t() | nil
+              }
+        defstruct [:back, :front]
+      end
+    end
+
+    defmodule Visa do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+      * `type` - The format of the document. Currently supports `files` only. Possible values: `files`.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil,
+              type: String.t() | nil
+            }
+      defstruct [:files, :type]
+    end
   end
 
   defmodule IdNumbers do
@@ -250,6 +364,54 @@ defmodule Stripe.Params.V2.Core.Accounts.PersonUpdateParams do
             kanji: __MODULE__.Kanji.t() | nil
           }
     defstruct [:kana, :kanji]
+
+    defmodule Kana do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+      * `line1` - Address line 1 (e.g., street, PO Box, or company name).
+      * `line2` - Address line 2 (e.g., apartment, suite, unit, or building).
+      * `postal_code` - ZIP or postal code.
+      * `state` - State, county, province, or region.
+      * `town` - Town or district.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil,
+              town: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+    end
+
+    defmodule Kanji do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+      * `line1` - Address line 1 (e.g., street, PO Box, or company name).
+      * `line2` - Address line 2 (e.g., apartment, suite, unit, or building).
+      * `postal_code` - ZIP or postal code.
+      * `state` - State, county, province, or region.
+      * `town` - Town or district.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil,
+              town: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+    end
   end
 
   defmodule ScriptNames do
@@ -264,5 +426,33 @@ defmodule Stripe.Params.V2.Core.Accounts.PersonUpdateParams do
             kanji: __MODULE__.Kanji.t() | nil
           }
     defstruct [:kana, :kanji]
+
+    defmodule Kana do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `given_name` - The person's first or given name.
+      * `surname` - The person's last or family name.
+      """
+      @type t :: %__MODULE__{
+              given_name: String.t() | nil,
+              surname: String.t() | nil
+            }
+      defstruct [:given_name, :surname]
+    end
+
+    defmodule Kanji do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `given_name` - The person's first or given name.
+      * `surname` - The person's last or family name.
+      """
+      @type t :: %__MODULE__{
+              given_name: String.t() | nil,
+              surname: String.t() | nil
+            }
+      defstruct [:given_name, :surname]
+    end
   end
 end

@@ -71,6 +71,134 @@ defmodule Stripe.Params.BillingPortal.ConfigurationCreateParams do
       :subscription_cancel,
       :subscription_update
     ]
+
+    defmodule CustomerUpdate do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `allowed_updates` - The types of customer updates that are supported. When empty, customers are not updateable.
+      * `enabled` - Whether the feature is enabled.
+      """
+      @type t :: %__MODULE__{
+              allowed_updates: map() | nil,
+              enabled: boolean() | nil
+            }
+      defstruct [:allowed_updates, :enabled]
+    end
+
+    defmodule InvoiceHistory do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the feature is enabled.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil
+            }
+      defstruct [:enabled]
+    end
+
+    defmodule PaymentMethodUpdate do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the feature is enabled.
+      * `payment_method_configuration` - The [Payment Method Configuration](https://docs.stripe.com/api/payment_method_configurations) to use for this portal session. When specified, customers will be able to update their payment method to one of the options specified by the payment method configuration. If not set or set to an empty string, the default payment method configuration is used.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              payment_method_configuration: map() | nil
+            }
+      defstruct [:enabled, :payment_method_configuration]
+    end
+
+    defmodule SubscriptionCancel do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `cancellation_reason` - Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
+      * `enabled` - Whether the feature is enabled.
+      * `mode` - Whether to cancel subscriptions immediately or at the end of the billing period. Possible values: `at_period_end`, `immediately`.
+      * `proration_behavior` - Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`, which is only compatible with `mode=immediately`. Passing `always_invoice` will result in an error. No prorations are generated when canceling a subscription at the end of its natural billing period. Possible values: `always_invoice`, `create_prorations`, `none`.
+      """
+      @type t :: %__MODULE__{
+              cancellation_reason: __MODULE__.CancellationReason.t() | nil,
+              enabled: boolean() | nil,
+              mode: String.t() | nil,
+              proration_behavior: String.t() | nil
+            }
+      defstruct [:cancellation_reason, :enabled, :mode, :proration_behavior]
+
+      defmodule CancellationReason do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `enabled` - Whether the feature is enabled.
+        * `options` - Which cancellation reasons will be given as options to the customer.
+        """
+        @type t :: %__MODULE__{
+                enabled: boolean() | nil,
+                options: map() | nil
+              }
+        defstruct [:enabled, :options]
+      end
+    end
+
+    defmodule SubscriptionUpdate do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `billing_cycle_anchor` - Determines the value to use for the billing cycle anchor on subscription updates. Valid values are `now` or `unchanged`, and the default value is `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle). Possible values: `now`, `unchanged`.
+      * `default_allowed_updates` - The types of subscription updates that are supported. When empty, subscriptions are not updateable.
+      * `enabled` - Whether the feature is enabled.
+      * `products` - The list of up to 10 products that support subscription updates.
+      * `proration_behavior` - Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`. Possible values: `always_invoice`, `create_prorations`, `none`.
+      * `schedule_at_period_end` - Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
+      * `trial_update_behavior` - The behavior when updating a subscription that is trialing. Possible values: `continue_trial`, `end_trial`.
+      """
+      @type t :: %__MODULE__{
+              billing_cycle_anchor: String.t() | nil,
+              default_allowed_updates: map() | nil,
+              enabled: boolean() | nil,
+              products: map() | nil,
+              proration_behavior: String.t() | nil,
+              schedule_at_period_end: __MODULE__.ScheduleAtPeriodEnd.t() | nil,
+              trial_update_behavior: String.t() | nil
+            }
+      defstruct [
+        :billing_cycle_anchor,
+        :default_allowed_updates,
+        :enabled,
+        :products,
+        :proration_behavior,
+        :schedule_at_period_end,
+        :trial_update_behavior
+      ]
+
+      defmodule ScheduleAtPeriodEnd do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `conditions` - List of conditions. When any condition is true, the update will be scheduled at the end of the current period.
+        """
+        @type t :: %__MODULE__{
+                conditions: [__MODULE__.Conditions.t()] | nil
+              }
+        defstruct [:conditions]
+
+        defmodule Conditions do
+          @moduledoc "Nested parameters."
+
+          @typedoc """
+          * `type` - The type of condition. Possible values: `decreasing_item_amount`, `shortening_interval`.
+          """
+          @type t :: %__MODULE__{
+                  type: String.t() | nil
+                }
+          defstruct [:type]
+        end
+      end
+    end
   end
 
   defmodule LoginPage do

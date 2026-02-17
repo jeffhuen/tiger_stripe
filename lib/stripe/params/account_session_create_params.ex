@@ -81,5 +81,558 @@ defmodule Stripe.Params.AccountSessionCreateParams do
       :tax_registrations,
       :tax_settings
     ]
+
+    defmodule AccountManagement do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `disable_stripe_user_authentication` - Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
+        * `external_account_collection` - Whether external account collection is enabled. This feature can only be `false` for accounts where you’re responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
+        """
+        @type t :: %__MODULE__{
+                disable_stripe_user_authentication: boolean() | nil,
+                external_account_collection: boolean() | nil
+              }
+        defstruct [:disable_stripe_user_authentication, :external_account_collection]
+      end
+    end
+
+    defmodule AccountOnboarding do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `disable_stripe_user_authentication` - Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
+        * `external_account_collection` - Whether external account collection is enabled. This feature can only be `false` for accounts where you’re responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
+        """
+        @type t :: %__MODULE__{
+                disable_stripe_user_authentication: boolean() | nil,
+                external_account_collection: boolean() | nil
+              }
+        defstruct [:disable_stripe_user_authentication, :external_account_collection]
+      end
+    end
+
+    defmodule Balances do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `disable_stripe_user_authentication` - Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
+        * `edit_payout_schedule` - Whether to allow payout schedule to be changed. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+        * `external_account_collection` - Whether external account collection is enabled. This feature can only be `false` for accounts where you’re responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
+        * `instant_payouts` - Whether instant payouts are enabled for this component.
+        * `standard_payouts` - Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+        """
+        @type t :: %__MODULE__{
+                disable_stripe_user_authentication: boolean() | nil,
+                edit_payout_schedule: boolean() | nil,
+                external_account_collection: boolean() | nil,
+                instant_payouts: boolean() | nil,
+                standard_payouts: boolean() | nil
+              }
+        defstruct [
+          :disable_stripe_user_authentication,
+          :edit_payout_schedule,
+          :external_account_collection,
+          :instant_payouts,
+          :standard_payouts
+        ]
+      end
+    end
+
+    defmodule DisputesList do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `capture_payments` - Whether to allow capturing and cancelling payment intents. This is `true` by default.
+        * `destination_on_behalf_of_charge_management` - Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
+        * `dispute_management` - Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
+        * `refund_management` - Whether sending refunds is enabled. This is `true` by default.
+        """
+        @type t :: %__MODULE__{
+                capture_payments: boolean() | nil,
+                destination_on_behalf_of_charge_management: boolean() | nil,
+                dispute_management: boolean() | nil,
+                refund_management: boolean() | nil
+              }
+        defstruct [
+          :capture_payments,
+          :destination_on_behalf_of_charge_management,
+          :dispute_management,
+          :refund_management
+        ]
+      end
+    end
+
+    defmodule Documents do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - An empty list, because this embedded component has no features.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: map() | nil
+            }
+      defstruct [:enabled, :features]
+    end
+
+    defmodule FinancialAccount do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `disable_stripe_user_authentication` - Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
+        * `external_account_collection` - Whether external account collection is enabled. This feature can only be `false` for accounts where you’re responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
+        * `send_money` - Whether to allow sending money.
+        * `transfer_balance` - Whether to allow transferring balance.
+        """
+        @type t :: %__MODULE__{
+                disable_stripe_user_authentication: boolean() | nil,
+                external_account_collection: boolean() | nil,
+                send_money: boolean() | nil,
+                transfer_balance: boolean() | nil
+              }
+        defstruct [
+          :disable_stripe_user_authentication,
+          :external_account_collection,
+          :send_money,
+          :transfer_balance
+        ]
+      end
+    end
+
+    defmodule FinancialAccountTransactions do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `card_spend_dispute_management` - Whether to allow card spend dispute management features.
+        """
+        @type t :: %__MODULE__{
+                card_spend_dispute_management: boolean() | nil
+              }
+        defstruct [:card_spend_dispute_management]
+      end
+    end
+
+    defmodule InstantPayoutsPromotion do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `disable_stripe_user_authentication` - Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
+        * `external_account_collection` - Whether external account collection is enabled. This feature can only be `false` for accounts where you’re responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
+        * `instant_payouts` - Whether instant payouts are enabled for this component.
+        """
+        @type t :: %__MODULE__{
+                disable_stripe_user_authentication: boolean() | nil,
+                external_account_collection: boolean() | nil,
+                instant_payouts: boolean() | nil
+              }
+        defstruct [
+          :disable_stripe_user_authentication,
+          :external_account_collection,
+          :instant_payouts
+        ]
+      end
+    end
+
+    defmodule IssuingCard do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `card_management` - Whether to allow card management features.
+        * `card_spend_dispute_management` - Whether to allow card spend dispute management features.
+        * `cardholder_management` - Whether to allow cardholder management features.
+        * `spend_control_management` - Whether to allow spend control management features.
+        """
+        @type t :: %__MODULE__{
+                card_management: boolean() | nil,
+                card_spend_dispute_management: boolean() | nil,
+                cardholder_management: boolean() | nil,
+                spend_control_management: boolean() | nil
+              }
+        defstruct [
+          :card_management,
+          :card_spend_dispute_management,
+          :cardholder_management,
+          :spend_control_management
+        ]
+      end
+    end
+
+    defmodule IssuingCardsList do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `card_management` - Whether to allow card management features.
+        * `card_spend_dispute_management` - Whether to allow card spend dispute management features.
+        * `cardholder_management` - Whether to allow cardholder management features.
+        * `disable_stripe_user_authentication` - Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
+        * `spend_control_management` - Whether to allow spend control management features.
+        """
+        @type t :: %__MODULE__{
+                card_management: boolean() | nil,
+                card_spend_dispute_management: boolean() | nil,
+                cardholder_management: boolean() | nil,
+                disable_stripe_user_authentication: boolean() | nil,
+                spend_control_management: boolean() | nil
+              }
+        defstruct [
+          :card_management,
+          :card_spend_dispute_management,
+          :cardholder_management,
+          :disable_stripe_user_authentication,
+          :spend_control_management
+        ]
+      end
+    end
+
+    defmodule NotificationBanner do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `disable_stripe_user_authentication` - Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
+        * `external_account_collection` - Whether external account collection is enabled. This feature can only be `false` for accounts where you’re responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
+        """
+        @type t :: %__MODULE__{
+                disable_stripe_user_authentication: boolean() | nil,
+                external_account_collection: boolean() | nil
+              }
+        defstruct [:disable_stripe_user_authentication, :external_account_collection]
+      end
+    end
+
+    defmodule PaymentDetails do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `capture_payments` - Whether to allow capturing and cancelling payment intents. This is `true` by default.
+        * `destination_on_behalf_of_charge_management` - Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
+        * `dispute_management` - Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
+        * `refund_management` - Whether sending refunds is enabled. This is `true` by default.
+        """
+        @type t :: %__MODULE__{
+                capture_payments: boolean() | nil,
+                destination_on_behalf_of_charge_management: boolean() | nil,
+                dispute_management: boolean() | nil,
+                refund_management: boolean() | nil
+              }
+        defstruct [
+          :capture_payments,
+          :destination_on_behalf_of_charge_management,
+          :dispute_management,
+          :refund_management
+        ]
+      end
+    end
+
+    defmodule PaymentDisputes do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `destination_on_behalf_of_charge_management` - Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
+        * `dispute_management` - Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
+        * `refund_management` - Whether sending refunds is enabled. This is `true` by default.
+        """
+        @type t :: %__MODULE__{
+                destination_on_behalf_of_charge_management: boolean() | nil,
+                dispute_management: boolean() | nil,
+                refund_management: boolean() | nil
+              }
+        defstruct [
+          :destination_on_behalf_of_charge_management,
+          :dispute_management,
+          :refund_management
+        ]
+      end
+    end
+
+    defmodule Payments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `capture_payments` - Whether to allow capturing and cancelling payment intents. This is `true` by default.
+        * `destination_on_behalf_of_charge_management` - Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
+        * `dispute_management` - Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
+        * `refund_management` - Whether sending refunds is enabled. This is `true` by default.
+        """
+        @type t :: %__MODULE__{
+                capture_payments: boolean() | nil,
+                destination_on_behalf_of_charge_management: boolean() | nil,
+                dispute_management: boolean() | nil,
+                refund_management: boolean() | nil
+              }
+        defstruct [
+          :capture_payments,
+          :destination_on_behalf_of_charge_management,
+          :dispute_management,
+          :refund_management
+        ]
+      end
+    end
+
+    defmodule PayoutDetails do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - An empty list, because this embedded component has no features.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: map() | nil
+            }
+      defstruct [:enabled, :features]
+    end
+
+    defmodule Payouts do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - The list of features enabled in the embedded component.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: __MODULE__.Features.t() | nil
+            }
+      defstruct [:enabled, :features]
+
+      defmodule Features do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `disable_stripe_user_authentication` - Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
+        * `edit_payout_schedule` - Whether to allow payout schedule to be changed. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+        * `external_account_collection` - Whether external account collection is enabled. This feature can only be `false` for accounts where you’re responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
+        * `instant_payouts` - Whether instant payouts are enabled for this component.
+        * `standard_payouts` - Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+        """
+        @type t :: %__MODULE__{
+                disable_stripe_user_authentication: boolean() | nil,
+                edit_payout_schedule: boolean() | nil,
+                external_account_collection: boolean() | nil,
+                instant_payouts: boolean() | nil,
+                standard_payouts: boolean() | nil
+              }
+        defstruct [
+          :disable_stripe_user_authentication,
+          :edit_payout_schedule,
+          :external_account_collection,
+          :instant_payouts,
+          :standard_payouts
+        ]
+      end
+    end
+
+    defmodule PayoutsList do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - An empty list, because this embedded component has no features.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: map() | nil
+            }
+      defstruct [:enabled, :features]
+    end
+
+    defmodule TaxRegistrations do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - An empty list, because this embedded component has no features.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: map() | nil
+            }
+      defstruct [:enabled, :features]
+    end
+
+    defmodule TaxSettings do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Whether the embedded component is enabled.
+      * `features` - An empty list, because this embedded component has no features.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              features: map() | nil
+            }
+      defstruct [:enabled, :features]
+    end
   end
 end

@@ -118,6 +118,58 @@ defmodule Stripe.Params.AccountCreateParams do
       :support_url,
       :url
     ]
+
+    defmodule AnnualRevenue do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `amount` - A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+      * `fiscal_year_end` - The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              currency: String.t() | nil,
+              fiscal_year_end: String.t() | nil
+            }
+      defstruct [:amount, :currency, :fiscal_year_end]
+    end
+
+    defmodule MonthlyEstimatedRevenue do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `amount` - A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              currency: String.t() | nil
+            }
+      defstruct [:amount, :currency]
+    end
+
+    defmodule SupportAddress do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village. Max length: 100.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 200.
+      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 200.
+      * `postal_code` - ZIP or postal code. Max length: 5000.
+      * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+    end
   end
 
   defmodule Capabilities do
@@ -313,6 +365,738 @@ defmodule Stripe.Params.AccountCreateParams do
       :us_bank_transfer_payments,
       :zip_payments
     ]
+
+    defmodule AcssDebitPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule AffirmPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule AfterpayClearpayPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule AlmaPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule AmazonPayPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule AuBecsDebitPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule BacsDebitPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule BancontactPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule BankTransferPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule BilliePayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule BlikPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule BoletoPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule CardIssuing do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule CardPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule CartesBancairesPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule CashappPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule CryptoPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule EpsPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule FpxPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule GbBankTransferPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule GiropayPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule GrabpayPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule IdealPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule IndiaInternationalPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule JcbPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule JpBankTransferPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule KakaoPayPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule KlarnaPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule KonbiniPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule KrCardPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule LegacyPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule LinkPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule MbWayPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule MobilepayPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule MultibancoPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule MxBankTransferPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule NaverPayPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule NzBankAccountBecsDebitPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule OxxoPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule P24Payments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule PayByBankPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule PaycoPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule PaynowPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule PaytoPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule PixPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule PromptpayPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule RevolutPayPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule SamsungPayPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule SatispayPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule SepaBankTransferPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule SepaDebitPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule SofortPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule SwishPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule TaxReportingUs1099K do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule TaxReportingUs1099Misc do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule Transfers do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule Treasury do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule TwintPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule UsBankAccountAchPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule UsBankTransferPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule ZipPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
   end
 
   defmodule Company do
@@ -393,6 +1177,150 @@ defmodule Stripe.Params.AccountCreateParams do
       :vat_id,
       :verification
     ]
+
+    defmodule Address do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village. Max length: 100.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 200.
+      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 200.
+      * `postal_code` - ZIP or postal code. Max length: 5000.
+      * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+    end
+
+    defmodule AddressKana do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City or ward. Max length: 5000.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Block or building number. Max length: 5000.
+      * `line2` - Building details. Max length: 5000.
+      * `postal_code` - Postal code. Max length: 5000.
+      * `state` - Prefecture. Max length: 5000.
+      * `town` - Town or cho-me. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil,
+              town: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+    end
+
+    defmodule AddressKanji do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City or ward. Max length: 5000.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Block or building number. Max length: 5000.
+      * `line2` - Building details. Max length: 5000.
+      * `postal_code` - Postal code. Max length: 5000.
+      * `state` - Prefecture. Max length: 5000.
+      * `town` - Town or cho-me. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil,
+              town: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+    end
+
+    defmodule DirectorshipDeclaration do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `date` - The Unix timestamp marking when the directorship declaration attestation was made. Format: Unix timestamp.
+      * `ip` - The IP address from which the directorship declaration attestation was made.
+      * `user_agent` - The user agent of the browser from which the directorship declaration attestation was made. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              date: integer() | nil,
+              ip: String.t() | nil,
+              user_agent: String.t() | nil
+            }
+      defstruct [:date, :ip, :user_agent]
+    end
+
+    defmodule OwnershipDeclaration do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `date` - The Unix timestamp marking when the beneficial owner attestation was made. Format: Unix timestamp.
+      * `ip` - The IP address from which the beneficial owner attestation was made.
+      * `user_agent` - The user agent of the browser from which the beneficial owner attestation was made. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              date: integer() | nil,
+              ip: String.t() | nil,
+              user_agent: String.t() | nil
+            }
+      defstruct [:date, :ip, :user_agent]
+    end
+
+    defmodule RepresentativeDeclaration do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `date` - The Unix timestamp marking when the representative declaration attestation was made. Format: Unix timestamp.
+      * `ip` - The IP address from which the representative declaration attestation was made.
+      * `user_agent` - The user agent of the browser from which the representative declaration attestation was made. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              date: integer() | nil,
+              ip: String.t() | nil,
+              user_agent: String.t() | nil
+            }
+      defstruct [:date, :ip, :user_agent]
+    end
+
+    defmodule Verification do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `document` - A document verifying the business.
+      """
+      @type t :: %__MODULE__{
+              document: __MODULE__.Document.t() | nil
+            }
+      defstruct [:document]
+
+      defmodule Document do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `back` - The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+        * `front` - The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+        """
+        @type t :: %__MODULE__{
+                back: String.t() | nil,
+                front: String.t() | nil
+              }
+        defstruct [:back, :front]
+      end
+    end
   end
 
   defmodule Controller do
@@ -411,6 +1339,42 @@ defmodule Stripe.Params.AccountCreateParams do
             stripe_dashboard: __MODULE__.StripeDashboard.t() | nil
           }
     defstruct [:fees, :losses, :requirement_collection, :stripe_dashboard]
+
+    defmodule Fees do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `payer` - A value indicating the responsible payer of Stripe fees on this account. Defaults to `account`. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior). Possible values: `account`, `application`.
+      """
+      @type t :: %__MODULE__{
+              payer: String.t() | nil
+            }
+      defstruct [:payer]
+    end
+
+    defmodule Losses do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `payments` - A value indicating who is liable when this account can't pay back negative balances resulting from payments. Defaults to `stripe`. Possible values: `application`, `stripe`.
+      """
+      @type t :: %__MODULE__{
+              payments: String.t() | nil
+            }
+      defstruct [:payments]
+    end
+
+    defmodule StripeDashboard do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Whether this account should have access to the full Stripe Dashboard (`full`), to the Express Dashboard (`express`), or to no Stripe-hosted dashboard (`none`). Defaults to `full`. Possible values: `express`, `full`, `none`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
   end
 
   defmodule Documents do
@@ -453,6 +1417,142 @@ defmodule Stripe.Params.AccountCreateParams do
       :proof_of_registration,
       :proof_of_ultimate_beneficial_ownership
     ]
+
+    defmodule BankAccountOwnershipVerification do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil
+            }
+      defstruct [:files]
+    end
+
+    defmodule CompanyLicense do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil
+            }
+      defstruct [:files]
+    end
+
+    defmodule CompanyMemorandumOfAssociation do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil
+            }
+      defstruct [:files]
+    end
+
+    defmodule CompanyMinisterialDecree do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil
+            }
+      defstruct [:files]
+    end
+
+    defmodule CompanyRegistrationVerification do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil
+            }
+      defstruct [:files]
+    end
+
+    defmodule CompanyTaxIdVerification do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil
+            }
+      defstruct [:files]
+    end
+
+    defmodule ProofOfAddress do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil
+            }
+      defstruct [:files]
+    end
+
+    defmodule ProofOfRegistration do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      * `signer` - Information regarding the person signing the document if applicable.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil,
+              signer: __MODULE__.Signer.t() | nil
+            }
+      defstruct [:files, :signer]
+
+      defmodule Signer do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `person` - The token of the person signing the document, if applicable. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                person: String.t() | nil
+              }
+        defstruct [:person]
+      end
+    end
+
+    defmodule ProofOfUltimateBeneficialOwnership do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      * `signer` - Information regarding the person signing the document if applicable.
+      """
+      @type t :: %__MODULE__{
+              files: [String.t()] | nil,
+              signer: __MODULE__.Signer.t() | nil
+            }
+      defstruct [:files, :signer]
+
+      defmodule Signer do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `person` - The token of the person signing the document, if applicable. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                person: String.t() | nil
+              }
+        defstruct [:person]
+      end
+    end
   end
 
   defmodule Groups do
@@ -545,6 +1645,160 @@ defmodule Stripe.Params.AccountCreateParams do
       :ssn_last_4,
       :verification
     ]
+
+    defmodule Address do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village. Max length: 100.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 200.
+      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 200.
+      * `postal_code` - ZIP or postal code. Max length: 5000.
+      * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+    end
+
+    defmodule AddressKana do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City or ward. Max length: 5000.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Block or building number. Max length: 5000.
+      * `line2` - Building details. Max length: 5000.
+      * `postal_code` - Postal code. Max length: 5000.
+      * `state` - Prefecture. Max length: 5000.
+      * `town` - Town or cho-me. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil,
+              town: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+    end
+
+    defmodule AddressKanji do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City or ward. Max length: 5000.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Block or building number. Max length: 5000.
+      * `line2` - Building details. Max length: 5000.
+      * `postal_code` - Postal code. Max length: 5000.
+      * `state` - Prefecture. Max length: 5000.
+      * `town` - Town or cho-me. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil,
+              town: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+    end
+
+    defmodule RegisteredAddress do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village. Max length: 100.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 200.
+      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 200.
+      * `postal_code` - ZIP or postal code. Max length: 5000.
+      * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+    end
+
+    defmodule Relationship do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `director` - Whether the person is a director of the account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
+      * `executive` - Whether the person has significant responsibility to control, manage, or direct the organization.
+      * `owner` - Whether the person is an owner of the account’s legal entity.
+      * `percent_ownership` - The percent owned by the person of the account's legal entity.
+      * `title` - The person's title (e.g., CEO, Support Engineer). Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              director: boolean() | nil,
+              executive: boolean() | nil,
+              owner: boolean() | nil,
+              percent_ownership: map() | nil,
+              title: String.t() | nil
+            }
+      defstruct [:director, :executive, :owner, :percent_ownership, :title]
+    end
+
+    defmodule Verification do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `additional_document` - A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
+      * `document` - An identifying document, either a passport or local ID card.
+      """
+      @type t :: %__MODULE__{
+              additional_document: __MODULE__.AdditionalDocument.t() | nil,
+              document: __MODULE__.Document.t() | nil
+            }
+      defstruct [:additional_document, :document]
+
+      defmodule AdditionalDocument do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `back` - The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+        * `front` - The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+        """
+        @type t :: %__MODULE__{
+                back: String.t() | nil,
+                front: String.t() | nil
+              }
+        defstruct [:back, :front]
+      end
+
+      defmodule Document do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `back` - The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+        * `front` - The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+        """
+        @type t :: %__MODULE__{
+                back: String.t() | nil,
+                front: String.t() | nil
+              }
+        defstruct [:back, :front]
+      end
+    end
   end
 
   defmodule Settings do
@@ -580,6 +1834,202 @@ defmodule Stripe.Params.AccountCreateParams do
       :payouts,
       :treasury
     ]
+
+    defmodule BacsDebitPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `display_name` - The Bacs Direct Debit Display Name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. If you don't set the display name before requesting Bacs capability, it's automatically set as "Stripe" and the account is onboarded to Stripe branding, which is free.
+      """
+      @type t :: %__MODULE__{
+              display_name: String.t() | nil
+            }
+      defstruct [:display_name]
+    end
+
+    defmodule Branding do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `icon` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) An icon for the account. Must be square and at least 128px x 128px. Max length: 5000.
+      * `logo` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) A logo for the account that will be used in Checkout instead of the icon and without the account's name next to it if provided. Must be at least 128px x 128px. Max length: 5000.
+      * `primary_color` - A CSS hex color value representing the primary branding color for this account. Max length: 5000.
+      * `secondary_color` - A CSS hex color value representing the secondary branding color for this account. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              icon: String.t() | nil,
+              logo: String.t() | nil,
+              primary_color: String.t() | nil,
+              secondary_color: String.t() | nil
+            }
+      defstruct [:icon, :logo, :primary_color, :secondary_color]
+    end
+
+    defmodule CardIssuing do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `tos_acceptance` - Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
+      """
+      @type t :: %__MODULE__{
+              tos_acceptance: __MODULE__.TosAcceptance.t() | nil
+            }
+      defstruct [:tos_acceptance]
+
+      defmodule TosAcceptance do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `date` - The Unix timestamp marking when the account representative accepted the service agreement. Format: Unix timestamp.
+        * `ip` - The IP address from which the account representative accepted the service agreement.
+        * `user_agent` - The user agent of the browser from which the account representative accepted the service agreement.
+        """
+        @type t :: %__MODULE__{
+                date: integer() | nil,
+                ip: String.t() | nil,
+                user_agent: map() | nil
+              }
+        defstruct [:date, :ip, :user_agent]
+      end
+    end
+
+    defmodule CardPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `decline_on` - Automatically declines certain charge types regardless of whether the card issuer accepted or declined the charge.
+      * `statement_descriptor_prefix` - The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge. `statement_descriptor_prefix` is useful for maximizing descriptor space for the dynamic portion. Max length: 10.
+      * `statement_descriptor_prefix_kana` - The Kana variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kana` specified on the charge. `statement_descriptor_prefix_kana` is useful for maximizing descriptor space for the dynamic portion.
+      * `statement_descriptor_prefix_kanji` - The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kanji` specified on the charge. `statement_descriptor_prefix_kanji` is useful for maximizing descriptor space for the dynamic portion.
+      """
+      @type t :: %__MODULE__{
+              decline_on: __MODULE__.DeclineOn.t() | nil,
+              statement_descriptor_prefix: String.t() | nil,
+              statement_descriptor_prefix_kana: map() | nil,
+              statement_descriptor_prefix_kanji: map() | nil
+            }
+      defstruct [
+        :decline_on,
+        :statement_descriptor_prefix,
+        :statement_descriptor_prefix_kana,
+        :statement_descriptor_prefix_kanji
+      ]
+
+      defmodule DeclineOn do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `avs_failure` - Whether Stripe automatically declines charges with an incorrect ZIP or postal code. This setting only applies when a ZIP or postal code is provided and they fail bank verification.
+        * `cvc_failure` - Whether Stripe automatically declines charges with an incorrect CVC. This setting only applies when a CVC is provided and it fails bank verification.
+        """
+        @type t :: %__MODULE__{
+                avs_failure: boolean() | nil,
+                cvc_failure: boolean() | nil
+              }
+        defstruct [:avs_failure, :cvc_failure]
+      end
+    end
+
+    defmodule Invoices do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `hosted_payment_method_save` - Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page. Possible values: `always`, `never`, `offer`.
+      """
+      @type t :: %__MODULE__{
+              hosted_payment_method_save: String.t() | nil
+            }
+      defstruct [:hosted_payment_method_save]
+    end
+
+    defmodule Payments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `statement_descriptor` - The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a `statement_descriptor_prefix`, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the `statement_descriptor` text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the [account settings documentation](https://docs.stripe.com/get-started/account/statement-descriptors). Max length: 22.
+      * `statement_descriptor_kana` - The Kana variation of `statement_descriptor` used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors). Max length: 22.
+      * `statement_descriptor_kanji` - The Kanji variation of `statement_descriptor` used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors). Max length: 22.
+      """
+      @type t :: %__MODULE__{
+              statement_descriptor: String.t() | nil,
+              statement_descriptor_kana: String.t() | nil,
+              statement_descriptor_kanji: String.t() | nil
+            }
+      defstruct [:statement_descriptor, :statement_descriptor_kana, :statement_descriptor_kanji]
+    end
+
+    defmodule Payouts do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `debit_negative_balances` - A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://stripe.com/connect/account-balances).
+      * `schedule` - Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+      * `statement_descriptor` - The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard. Max length: 22.
+      """
+      @type t :: %__MODULE__{
+              debit_negative_balances: boolean() | nil,
+              schedule: __MODULE__.Schedule.t() | nil,
+              statement_descriptor: String.t() | nil
+            }
+      defstruct [:debit_negative_balances, :schedule, :statement_descriptor]
+
+      defmodule Schedule do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `delay_days` - The number of days charge funds are held before being paid out. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `interval` is `manual`. [Learn more about controlling payout delay days](https://stripe.com/connect/manage-payout-schedule).
+        * `interval` - How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`. Possible values: `daily`, `manual`, `monthly`, `weekly`. Max length: 5000.
+        * `monthly_anchor` - The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
+        * `monthly_payout_days` - The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
+        * `weekly_anchor` - The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. Required and applicable only if `interval` is `weekly`. Possible values: `friday`, `monday`, `saturday`, `sunday`, `thursday`, `tuesday`, `wednesday`. Max length: 5000.
+        * `weekly_payout_days` - The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. Required and applicable only if `interval` is `weekly`.
+        """
+        @type t :: %__MODULE__{
+                delay_days: map() | nil,
+                interval: String.t() | nil,
+                monthly_anchor: integer() | nil,
+                monthly_payout_days: [integer()] | nil,
+                weekly_anchor: String.t() | nil,
+                weekly_payout_days: [String.t()] | nil
+              }
+        defstruct [
+          :delay_days,
+          :interval,
+          :monthly_anchor,
+          :monthly_payout_days,
+          :weekly_anchor,
+          :weekly_payout_days
+        ]
+      end
+    end
+
+    defmodule Treasury do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `tos_acceptance` - Details on the account's acceptance of the Stripe Treasury Services Agreement.
+      """
+      @type t :: %__MODULE__{
+              tos_acceptance: __MODULE__.TosAcceptance.t() | nil
+            }
+      defstruct [:tos_acceptance]
+
+      defmodule TosAcceptance do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `date` - The Unix timestamp marking when the account representative accepted the service agreement. Format: Unix timestamp.
+        * `ip` - The IP address from which the account representative accepted the service agreement.
+        * `user_agent` - The user agent of the browser from which the account representative accepted the service agreement.
+        """
+        @type t :: %__MODULE__{
+                date: integer() | nil,
+                ip: String.t() | nil,
+                user_agent: map() | nil
+              }
+        defstruct [:date, :ip, :user_agent]
+      end
+    end
   end
 
   defmodule TosAcceptance do

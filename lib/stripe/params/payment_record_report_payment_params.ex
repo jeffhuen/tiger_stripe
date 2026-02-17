@@ -121,6 +121,60 @@ defmodule Stripe.Params.PaymentRecordReportPaymentParams do
             type: String.t() | nil
           }
     defstruct [:billing_details, :custom, :payment_method, :type]
+
+    defmodule BillingDetails do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `address` - The billing address associated with the method of payment.
+      * `email` - The billing email associated with the method of payment.
+      * `name` - The billing name associated with the method of payment. Max length: 5000.
+      * `phone` - The billing phone number associated with the method of payment.
+      """
+      @type t :: %__MODULE__{
+              address: __MODULE__.Address.t() | nil,
+              email: String.t() | nil,
+              name: String.t() | nil,
+              phone: String.t() | nil
+            }
+      defstruct [:address, :email, :name, :phone]
+
+      defmodule Address do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `city` - City, district, suburb, town, or village. Max length: 5000.
+        * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+        * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
+        * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
+        * `postal_code` - ZIP or postal code. Max length: 5000.
+        * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                city: String.t() | nil,
+                country: String.t() | nil,
+                line1: String.t() | nil,
+                line2: String.t() | nil,
+                postal_code: String.t() | nil,
+                state: String.t() | nil
+              }
+        defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+      end
+    end
+
+    defmodule Custom do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `display_name` - Display name for the custom (user-defined) payment method type used to make this payment. Max length: 5000.
+      * `type` - The custom payment method type associated with this payment. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              display_name: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:display_name, :type]
+    end
   end
 
   defmodule ProcessorDetails do
@@ -135,6 +189,18 @@ defmodule Stripe.Params.PaymentRecordReportPaymentParams do
             type: String.t() | nil
           }
     defstruct [:custom, :type]
+
+    defmodule Custom do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `payment_reference` - An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              payment_reference: String.t() | nil
+            }
+      defstruct [:payment_reference]
+    end
   end
 
   defmodule ShippingDetails do
@@ -151,5 +217,27 @@ defmodule Stripe.Params.PaymentRecordReportPaymentParams do
             phone: String.t() | nil
           }
     defstruct [:address, :name, :phone]
+
+    defmodule Address do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village. Max length: 5000.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
+      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
+      * `postal_code` - ZIP or postal code. Max length: 5000.
+      * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+    end
   end
 end

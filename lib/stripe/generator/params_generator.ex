@@ -155,12 +155,11 @@ defmodule Stripe.Generator.ParamsGenerator do
     class_name = Macro.camelize(name)
     nested_required = MapSet.new(schema["required"] || [])
 
-    nested_fields =
-      props
-      |> Enum.map(fn {n, p} ->
-        {t, _} = resolve_param_type(n, p)
+    {nested_fields, child_nested} =
+      Enum.reduce(props, {[], %{}}, fn {n, p}, {fields_acc, nested_acc} ->
+        {t, sub_nested} = resolve_param_type(n, p)
 
-        %{
+        field = %{
           name: n,
           type: t,
           required: MapSet.member?(nested_required, n),
@@ -169,10 +168,19 @@ defmodule Stripe.Generator.ParamsGenerator do
           format: p["format"],
           max_length: p["maxLength"]
         }
-      end)
-      |> Enum.sort_by(& &1.name)
 
-    nested = %{class_name: class_name, fields: nested_fields, required: nested_required}
+        {[field | fields_acc], Map.merge(nested_acc, sub_nested)}
+      end)
+
+    nested_fields = Enum.sort_by(nested_fields, & &1.name)
+
+    nested = %{
+      class_name: class_name,
+      fields: nested_fields,
+      required: nested_required,
+      children: child_nested
+    }
+
     {{:nested, class_name}, %{name => nested}}
   end
 
@@ -203,6 +211,7 @@ defmodule Stripe.Generator.ParamsGenerator do
   defp resolve_param_type(_name, %{"type" => "integer"}), do: {:integer, %{}}
   defp resolve_param_type(_name, %{"type" => "number"}), do: {:float, %{}}
   defp resolve_param_type(_name, %{"type" => "boolean"}), do: {:boolean, %{}}
+
   defp resolve_param_type(name, %{"type" => "object", "additionalProperties" => add_props})
        when add_props != false do
     {value_type, nested} = resolve_param_type(name, add_props)
@@ -228,6 +237,15 @@ defmodule Stripe.Generator.ParamsGenerator do
         table -> "\n#{indent}  @typedoc \"\"\"\n#{table}\n#{indent}  \"\"\""
       end
 
+    children = Map.get(nested, :children, %{})
+
+    child_blocks =
+      children
+      |> Enum.sort_by(fn {name, _} -> name end)
+      |> Enum.map_join("", fn {_name, child} ->
+        generate_nested_params(child, indent <> "  ")
+      end)
+
     """
 
     #{indent}defmodule #{nested.class_name} do
@@ -237,7 +255,7 @@ defmodule Stripe.Generator.ParamsGenerator do
     #{type_fields}
     #{indent}    }
     #{indent}  defstruct [#{struct_fields}]
-    #{indent}end
+    #{child_blocks}#{indent}end
     """
   end
 

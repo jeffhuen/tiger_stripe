@@ -131,6 +131,84 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
             tax_rates: map() | nil
           }
     defstruct [:discounts, :metadata, :period, :price, :price_data, :quantity, :tax_rates]
+
+    defmodule Discounts do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `coupon` - ID of the coupon to create a new discount for. Max length: 5000.
+      * `discount` - ID of an existing discount on the object (or one of its ancestors) to reuse. Max length: 5000.
+      * `promotion_code` - ID of the promotion code to create a new discount for. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              coupon: String.t() | nil,
+              discount: String.t() | nil,
+              promotion_code: String.t() | nil
+            }
+      defstruct [:coupon, :discount, :promotion_code]
+    end
+
+    defmodule Period do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `end` - End of the invoice item period.
+      * `start` - Start of the invoice item period.
+      """
+      @type t :: %__MODULE__{
+              end: __MODULE__.End.t() | nil,
+              start: __MODULE__.Start.t() | nil
+            }
+      defstruct [:end, :start]
+
+      defmodule End do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `timestamp` - A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`. Format: Unix timestamp.
+        * `type` - Select how to calculate the end of the invoice item period. Possible values: `min_item_period_end`, `timestamp`.
+        """
+        @type t :: %__MODULE__{
+                timestamp: integer() | nil,
+                type: String.t() | nil
+              }
+        defstruct [:timestamp, :type]
+      end
+
+      defmodule Start do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `timestamp` - A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`. Format: Unix timestamp.
+        * `type` - Select how to calculate the start of the invoice item period. Possible values: `max_item_period_start`, `now`, `timestamp`.
+        """
+        @type t :: %__MODULE__{
+                timestamp: integer() | nil,
+                type: String.t() | nil
+              }
+        defstruct [:timestamp, :type]
+      end
+    end
+
+    defmodule PriceData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+      * `product` - The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. Max length: 5000.
+      * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
+      * `unit_amount` - A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge or a negative integer representing the amount to credit to the customer.
+      * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              product: String.t() | nil,
+              tax_behavior: String.t() | nil,
+              unit_amount: integer() | nil,
+              unit_amount_decimal: String.t() | nil
+            }
+      defstruct [:currency, :product, :tax_behavior, :unit_amount, :unit_amount_decimal]
+    end
   end
 
   defmodule AutomaticTax do
@@ -145,6 +223,20 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
             liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
+
+    defmodule Liability do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account` - The connected account being referenced when `type` is `account`.
+      * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+      """
+      @type t :: %__MODULE__{
+              account: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:account, :type]
+    end
   end
 
   defmodule CancellationDetails do
@@ -173,6 +265,20 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
             issuer: __MODULE__.Issuer.t() | nil
           }
     defstruct [:account_tax_ids, :issuer]
+
+    defmodule Issuer do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account` - The connected account being referenced when `type` is `account`.
+      * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+      """
+      @type t :: %__MODULE__{
+              account: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:account, :type]
+    end
   end
 
   defmodule Items do
@@ -217,6 +323,49 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
       :quantity,
       :tax_rates
     ]
+
+    defmodule PriceData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+      * `product` - The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. Max length: 5000.
+      * `recurring` - The recurring components of a price such as `interval` and `interval_count`.
+      * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
+      * `unit_amount` - A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+      * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              product: String.t() | nil,
+              recurring: __MODULE__.Recurring.t() | nil,
+              tax_behavior: String.t() | nil,
+              unit_amount: integer() | nil,
+              unit_amount_decimal: String.t() | nil
+            }
+      defstruct [
+        :currency,
+        :product,
+        :recurring,
+        :tax_behavior,
+        :unit_amount,
+        :unit_amount_decimal
+      ]
+
+      defmodule Recurring do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `interval` - Specifies billing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
+        * `interval_count` - The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+        """
+        @type t :: %__MODULE__{
+                interval: String.t() | nil,
+                interval_count: integer() | nil
+              }
+        defstruct [:interval, :interval_count]
+      end
+    end
   end
 
   defmodule PaymentSettings do
@@ -233,6 +382,41 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
             save_default_payment_method: String.t() | nil
           }
     defstruct [:payment_method_options, :payment_method_types, :save_default_payment_method]
+
+    defmodule PaymentMethodOptions do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `acss_debit` - This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice’s PaymentIntent.
+      * `bancontact` - This sub-hash contains details about the Bancontact payment method options to pass to the invoice’s PaymentIntent.
+      * `card` - This sub-hash contains details about the Card payment method options to pass to the invoice’s PaymentIntent.
+      * `customer_balance` - This sub-hash contains details about the Bank transfer payment method options to pass to the invoice’s PaymentIntent.
+      * `konbini` - This sub-hash contains details about the Konbini payment method options to pass to the invoice’s PaymentIntent.
+      * `payto` - This sub-hash contains details about the PayTo payment method options to pass to the invoice’s PaymentIntent.
+      * `sepa_debit` - This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice’s PaymentIntent.
+      * `us_bank_account` - This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice’s PaymentIntent.
+      """
+      @type t :: %__MODULE__{
+              acss_debit: map() | nil,
+              bancontact: map() | nil,
+              card: map() | nil,
+              customer_balance: map() | nil,
+              konbini: map() | nil,
+              payto: map() | nil,
+              sepa_debit: map() | nil,
+              us_bank_account: map() | nil
+            }
+      defstruct [
+        :acss_debit,
+        :bancontact,
+        :card,
+        :customer_balance,
+        :konbini,
+        :payto,
+        :sepa_debit,
+        :us_bank_account
+      ]
+    end
   end
 
   defmodule TrialSettings do
@@ -245,5 +429,17 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
             end_behavior: __MODULE__.EndBehavior.t() | nil
           }
     defstruct [:end_behavior]
+
+    defmodule EndBehavior do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `missing_payment_method` - Indicates how the subscription should change when the trial ends if the user did not provide a payment method. Possible values: `cancel`, `create_invoice`, `pause`.
+      """
+      @type t :: %__MODULE__{
+              missing_payment_method: String.t() | nil
+            }
+      defstruct [:missing_payment_method]
+    end
   end
 end

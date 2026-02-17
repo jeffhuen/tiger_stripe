@@ -49,6 +49,18 @@ defmodule Stripe.Params.PaymentRecordReportRefundParams do
             type: String.t() | nil
           }
     defstruct [:custom, :type]
+
+    defmodule Custom do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `refund_reference` - A reference to the external refund. This field must be unique across all refunds. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              refund_reference: String.t() | nil
+            }
+      defstruct [:refund_reference]
+    end
   end
 
   defmodule Refunded do

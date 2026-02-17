@@ -99,6 +99,30 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
             type: String.t() | nil
           }
     defstruct [:hosted_confirmation, :redirect, :type]
+
+    defmodule HostedConfirmation do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `custom_message` - A custom message to display to the customer after the purchase is complete. Max length: 500.
+      """
+      @type t :: %__MODULE__{
+              custom_message: String.t() | nil
+            }
+      defstruct [:custom_message]
+    end
+
+    defmodule Redirect do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `url` - The URL the customer will be redirected to after the purchase is complete. You can embed `{CHECKOUT_SESSION_ID}` into the URL to have the `id` of the completed [checkout session](https://docs.stripe.com/api/checkout/sessions/object#checkout_session_object-id) included.
+      """
+      @type t :: %__MODULE__{
+              url: String.t() | nil
+            }
+      defstruct [:url]
+    end
   end
 
   defmodule AutomaticTax do
@@ -115,6 +139,20 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
             liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
+
+    defmodule Liability do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account` - The connected account being referenced when `type` is `account`.
+      * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+      """
+      @type t :: %__MODULE__{
+              account: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:account, :type]
+    end
   end
 
   defmodule CustomText do
@@ -147,6 +185,52 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
             invoice_data: __MODULE__.InvoiceData.t() | nil
           }
     defstruct [:enabled, :invoice_data]
+
+    defmodule InvoiceData do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_tax_ids` - The account tax IDs associated with the invoice.
+      * `custom_fields` - Default custom fields to be displayed on invoices for this customer.
+      * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 1500.
+      * `footer` - Default footer to be displayed on invoices for this customer. Max length: 5000.
+      * `issuer` - The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+      * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+      * `rendering_options` - Default options for invoice PDF rendering for this customer.
+      """
+      @type t :: %__MODULE__{
+              account_tax_ids: map() | nil,
+              custom_fields: map() | nil,
+              description: String.t() | nil,
+              footer: String.t() | nil,
+              issuer: __MODULE__.Issuer.t() | nil,
+              metadata: map() | nil,
+              rendering_options: map() | nil
+            }
+      defstruct [
+        :account_tax_ids,
+        :custom_fields,
+        :description,
+        :footer,
+        :issuer,
+        :metadata,
+        :rendering_options
+      ]
+
+      defmodule Issuer do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `account` - The connected account being referenced when `type` is `account`.
+        * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+        """
+        @type t :: %__MODULE__{
+                account: String.t() | nil,
+                type: String.t() | nil
+              }
+        defstruct [:account, :type]
+      end
+    end
   end
 
   defmodule LineItems do
@@ -163,6 +247,22 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
             quantity: integer() | nil
           }
     defstruct [:adjustable_quantity, :id, :quantity]
+
+    defmodule AdjustableQuantity do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `enabled` - Set to true if the quantity can be adjusted to any non-negative Integer.
+      * `maximum` - The maximum quantity the customer can purchase. By default this value is 99. You can specify a value up to 999999.
+      * `minimum` - The minimum quantity the customer can purchase. By default this value is 0. If there is only one item in the cart then that item's quantity cannot go down to 0.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              maximum: integer() | nil,
+              minimum: integer() | nil
+            }
+      defstruct [:enabled, :maximum, :minimum]
+    end
   end
 
   defmodule PaymentIntentData do
@@ -221,6 +321,32 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
             trial_settings: map() | nil
           }
     defstruct [:invoice_settings, :metadata, :trial_period_days, :trial_settings]
+
+    defmodule InvoiceSettings do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `issuer` - The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+      """
+      @type t :: %__MODULE__{
+              issuer: __MODULE__.Issuer.t() | nil
+            }
+      defstruct [:issuer]
+
+      defmodule Issuer do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `account` - The connected account being referenced when `type` is `account`.
+        * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+        """
+        @type t :: %__MODULE__{
+                account: String.t() | nil,
+                type: String.t() | nil
+              }
+        defstruct [:account, :type]
+      end
+    end
   end
 
   defmodule TaxIdCollection do

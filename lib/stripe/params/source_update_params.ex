@@ -39,6 +39,58 @@ defmodule Stripe.Params.SourceUpdateParams do
             notification_method: String.t() | nil
           }
     defstruct [:acceptance, :amount, :currency, :interval, :notification_method]
+
+    defmodule Acceptance do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `date` - The Unix timestamp (in seconds) when the mandate was accepted or refused by the customer. Format: Unix timestamp.
+      * `ip` - The IP address from which the mandate was accepted or refused by the customer.
+      * `offline` - The parameters required to store a mandate accepted offline. Should only be set if `mandate[type]` is `offline`
+      * `online` - The parameters required to store a mandate accepted online. Should only be set if `mandate[type]` is `online`
+      * `status` - The status of the mandate acceptance. Either `accepted` (the mandate was accepted) or `refused` (the mandate was refused). Possible values: `accepted`, `pending`, `refused`, `revoked`. Max length: 5000.
+      * `type` - The type of acceptance information included with the mandate. Either `online` or `offline` Possible values: `offline`, `online`. Max length: 5000.
+      * `user_agent` - The user agent of the browser from which the mandate was accepted or refused by the customer. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              date: integer() | nil,
+              ip: String.t() | nil,
+              offline: __MODULE__.Offline.t() | nil,
+              online: __MODULE__.Online.t() | nil,
+              status: String.t() | nil,
+              type: String.t() | nil,
+              user_agent: String.t() | nil
+            }
+      defstruct [:date, :ip, :offline, :online, :status, :type, :user_agent]
+
+      defmodule Offline do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `contact_email` - An email to contact you with if a copy of the mandate is requested, required if `type` is `offline`.
+        """
+        @type t :: %__MODULE__{
+                contact_email: String.t() | nil
+              }
+        defstruct [:contact_email]
+      end
+
+      defmodule Online do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `date` - The Unix timestamp (in seconds) when the mandate was accepted or refused by the customer. Format: Unix timestamp.
+        * `ip` - The IP address from which the mandate was accepted or refused by the customer.
+        * `user_agent` - The user agent of the browser from which the mandate was accepted or refused by the customer. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                date: integer() | nil,
+                ip: String.t() | nil,
+                user_agent: String.t() | nil
+              }
+        defstruct [:date, :ip, :user_agent]
+      end
+    end
   end
 
   defmodule Owner do
@@ -57,6 +109,28 @@ defmodule Stripe.Params.SourceUpdateParams do
             phone: String.t() | nil
           }
     defstruct [:address, :email, :name, :phone]
+
+    defmodule Address do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village. Max length: 5000.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
+      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
+      * `postal_code` - ZIP or postal code. Max length: 5000.
+      * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+    end
   end
 
   defmodule SourceOrder do
@@ -71,5 +145,69 @@ defmodule Stripe.Params.SourceUpdateParams do
             shipping: __MODULE__.Shipping.t() | nil
           }
     defstruct [:items, :shipping]
+
+    defmodule Items do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `amount`
+      * `currency` - Format: ISO 4217 currency code.
+      * `description` - Max length: 1000.
+      * `parent` - The ID of the SKU being ordered. Max length: 5000.
+      * `quantity` - The quantity of this order item. When type is `sku`, this is the number of instances of the SKU to be ordered.
+      * `type` - Possible values: `discount`, `shipping`, `sku`, `tax`. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              currency: String.t() | nil,
+              description: String.t() | nil,
+              parent: String.t() | nil,
+              quantity: integer() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:amount, :currency, :description, :parent, :quantity, :type]
+    end
+
+    defmodule Shipping do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `address` - Shipping address.
+      * `carrier` - The delivery service that shipped a physical product, such as Fedex, UPS, USPS, etc. Max length: 5000.
+      * `name` - Recipient name. Max length: 5000.
+      * `phone` - Recipient phone (including extension). Max length: 5000.
+      * `tracking_number` - The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              address: __MODULE__.Address.t() | nil,
+              carrier: String.t() | nil,
+              name: String.t() | nil,
+              phone: String.t() | nil,
+              tracking_number: String.t() | nil
+            }
+      defstruct [:address, :carrier, :name, :phone, :tracking_number]
+
+      defmodule Address do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `city` - City, district, suburb, town, or village. Max length: 5000.
+        * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+        * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
+        * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
+        * `postal_code` - ZIP or postal code. Max length: 5000.
+        * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                city: String.t() | nil,
+                country: String.t() | nil,
+                line1: String.t() | nil,
+                line2: String.t() | nil,
+                postal_code: String.t() | nil,
+                state: String.t() | nil
+              }
+        defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+      end
+    end
   end
 end

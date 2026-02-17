@@ -75,5 +75,19 @@ defmodule Stripe.Params.SubscriptionItemCreateParams do
             unit_amount_decimal: String.t() | nil
           }
     defstruct [:currency, :product, :recurring, :tax_behavior, :unit_amount, :unit_amount_decimal]
+
+    defmodule Recurring do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `interval` - Specifies billing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
+      * `interval_count` - The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+      """
+      @type t :: %__MODULE__{
+              interval: String.t() | nil,
+              interval_count: integer() | nil
+            }
+      defstruct [:interval, :interval_count]
+    end
   end
 end

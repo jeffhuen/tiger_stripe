@@ -33,5 +33,17 @@ defmodule Stripe.Params.CustomerFundingInstructionsCreateFundingInstructionsPara
             type: String.t() | nil
           }
     defstruct [:eu_bank_transfer, :requested_address_types, :type]
+
+    defmodule EuBankTransfer do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              country: String.t() | nil
+            }
+      defstruct [:country]
+    end
   end
 end

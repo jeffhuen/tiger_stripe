@@ -107,6 +107,22 @@ defmodule Stripe.Params.AccountPersonCreateParams do
             account: __MODULE__.Account.t() | nil
           }
     defstruct [:account]
+
+    defmodule Account do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `date` - The Unix timestamp marking when the account representative accepted the service agreement. Format: Unix timestamp.
+      * `ip` - The IP address from which the account representative accepted the service agreement.
+      * `user_agent` - The user agent of the browser from which the account representative accepted the service agreement.
+      """
+      @type t :: %__MODULE__{
+              date: integer() | nil,
+              ip: String.t() | nil,
+              user_agent: map() | nil
+            }
+      defstruct [:date, :ip, :user_agent]
+    end
   end
 
   defmodule Address do
@@ -193,6 +209,42 @@ defmodule Stripe.Params.AccountPersonCreateParams do
             visa: __MODULE__.Visa.t() | nil
           }
     defstruct [:company_authorization, :passport, :visa]
+
+    defmodule CompanyAuthorization do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      """
+      @type t :: %__MODULE__{
+              files: [map()] | nil
+            }
+      defstruct [:files]
+    end
+
+    defmodule Passport do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      """
+      @type t :: %__MODULE__{
+              files: [map()] | nil
+            }
+      defstruct [:files]
+    end
+
+    defmodule Visa do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+      """
+      @type t :: %__MODULE__{
+              files: [map()] | nil
+            }
+      defstruct [:files]
+    end
   end
 
   defmodule RegisteredAddress do
@@ -266,6 +318,34 @@ defmodule Stripe.Params.AccountPersonCreateParams do
             self_identified_gender: String.t() | nil
           }
     defstruct [:ethnicity_details, :race_details, :self_identified_gender]
+
+    defmodule EthnicityDetails do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `ethnicity` - The persons ethnicity
+      * `ethnicity_other` - Please specify your origin, when other is selected. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              ethnicity: [String.t()] | nil,
+              ethnicity_other: String.t() | nil
+            }
+      defstruct [:ethnicity, :ethnicity_other]
+    end
+
+    defmodule RaceDetails do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `race` - The persons race.
+      * `race_other` - Please specify your race, when other is selected. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              race: [String.t()] | nil,
+              race_other: String.t() | nil
+            }
+      defstruct [:race, :race_other]
+    end
   end
 
   defmodule Verification do
@@ -280,5 +360,33 @@ defmodule Stripe.Params.AccountPersonCreateParams do
             document: __MODULE__.Document.t() | nil
           }
     defstruct [:additional_document, :document]
+
+    defmodule AdditionalDocument do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `back` - The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+      * `front` - The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+      """
+      @type t :: %__MODULE__{
+              back: String.t() | nil,
+              front: String.t() | nil
+            }
+      defstruct [:back, :front]
+    end
+
+    defmodule Document do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `back` - The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+      * `front` - The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size. Max length: 500.
+      """
+      @type t :: %__MODULE__{
+              back: String.t() | nil,
+              front: String.t() | nil
+            }
+      defstruct [:back, :front]
+    end
   end
 end

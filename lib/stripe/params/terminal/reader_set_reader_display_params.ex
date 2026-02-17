@@ -31,5 +31,21 @@ defmodule Stripe.Params.Terminal.ReaderSetReaderDisplayParams do
             total: integer() | nil
           }
     defstruct [:currency, :line_items, :tax, :total]
+
+    defmodule LineItems do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `amount` - The price of the item in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+      * `description` - The description or name of the item. Max length: 5000.
+      * `quantity` - The quantity of the line item being purchased.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              description: String.t() | nil,
+              quantity: integer() | nil
+            }
+      defstruct [:amount, :description, :quantity]
+    end
   end
 end

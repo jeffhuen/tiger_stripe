@@ -98,6 +98,30 @@ defmodule Stripe.Params.PaymentIntentConfirmParams do
             inputs: __MODULE__.Inputs.t() | nil
           }
     defstruct [:inputs]
+
+    defmodule Inputs do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `tax` - Tax arguments for automations
+      """
+      @type t :: %__MODULE__{
+              tax: __MODULE__.Tax.t() | nil
+            }
+      defstruct [:tax]
+
+      defmodule Tax do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `calculation` - The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
+        """
+        @type t :: %__MODULE__{
+                calculation: map() | nil
+              }
+        defstruct [:calculation]
+      end
+    end
   end
 
   defmodule PaymentMethodData do
@@ -274,6 +298,279 @@ defmodule Stripe.Params.PaymentIntentConfirmParams do
       :wechat_pay,
       :zip
     ]
+
+    defmodule AcssDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_number` - Customer's bank account number. Max length: 5000.
+      * `institution_number` - Institution number of the customer's bank. Max length: 5000.
+      * `transit_number` - Transit number of the customer's bank. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_number: String.t() | nil,
+              institution_number: String.t() | nil,
+              transit_number: String.t() | nil
+            }
+      defstruct [:account_number, :institution_number, :transit_number]
+    end
+
+    defmodule AuBecsDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_number` - The account number for the bank account. Max length: 5000.
+      * `bsb_number` - Bank-State-Branch number of the bank account. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_number: String.t() | nil,
+              bsb_number: String.t() | nil
+            }
+      defstruct [:account_number, :bsb_number]
+    end
+
+    defmodule BacsDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_number` - Account number of the bank account that the funds will be debited from. Max length: 5000.
+      * `sort_code` - Sort code of the bank account. (e.g., `10-20-30`) Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_number: String.t() | nil,
+              sort_code: String.t() | nil
+            }
+      defstruct [:account_number, :sort_code]
+    end
+
+    defmodule BillingDetails do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `address` - Billing address.
+      * `email` - Email address.
+      * `name` - Full name.
+      * `phone` - Billing phone number (including extension).
+      * `tax_id` - Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              address: map() | nil,
+              email: map() | nil,
+              name: map() | nil,
+              phone: map() | nil,
+              tax_id: String.t() | nil
+            }
+      defstruct [:address, :email, :name, :phone, :tax_id]
+    end
+
+    defmodule Boleto do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `tax_id` - The tax ID of the customer (CPF for individual consumers or CNPJ for businesses consumers) Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              tax_id: String.t() | nil
+            }
+      defstruct [:tax_id]
+    end
+
+    defmodule Eps do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `bank` - The customer's bank. Possible values: `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, `vr_bank_braunau`. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              bank: String.t() | nil
+            }
+      defstruct [:bank]
+    end
+
+    defmodule Fpx do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_holder_type` - Account holder type for FPX transaction Possible values: `company`, `individual`. Max length: 5000.
+      * `bank` - The customer's bank. Possible values: `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_of_china`, `bank_rakyat`, `bsn`, `cimb`, `deutsche_bank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2e`, `maybank2u`, `ocbc`, `pb_enterprise`, `public_bank`, `rhb`, `standard_chartered`, `uob`. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_holder_type: String.t() | nil,
+              bank: String.t() | nil
+            }
+      defstruct [:account_holder_type, :bank]
+    end
+
+    defmodule Ideal do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `bank` - The customer's bank. Only use this parameter for existing customers. Don't use it for new customers. Possible values: `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, `yoursafe`. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              bank: String.t() | nil
+            }
+      defstruct [:bank]
+    end
+
+    defmodule Klarna do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `dob` - Customer's date of birth
+      """
+      @type t :: %__MODULE__{
+              dob: __MODULE__.Dob.t() | nil
+            }
+      defstruct [:dob]
+
+      defmodule Dob do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `day` - The day of birth, between 1 and 31.
+        * `month` - The month of birth, between 1 and 12.
+        * `year` - The four-digit year of birth.
+        """
+        @type t :: %__MODULE__{
+                day: integer() | nil,
+                month: integer() | nil,
+                year: integer() | nil
+              }
+        defstruct [:day, :month, :year]
+      end
+    end
+
+    defmodule NaverPay do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `funding` - Whether to use Naver Pay points or a card to fund this transaction. If not provided, this defaults to `card`. Possible values: `card`, `points`.
+      """
+      @type t :: %__MODULE__{
+              funding: String.t() | nil
+            }
+      defstruct [:funding]
+    end
+
+    defmodule NzBankAccount do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_holder_name` - The name on the bank account. Only required if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod’s billing details. Max length: 5000.
+      * `account_number` - The account number for the bank account. Max length: 5000.
+      * `bank_code` - The numeric code for the bank account's bank. Max length: 5000.
+      * `branch_code` - The numeric code for the bank account's bank branch. Max length: 5000.
+      * `reference` - Max length: 128.
+      * `suffix` - The suffix of the bank account number. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_holder_name: String.t() | nil,
+              account_number: String.t() | nil,
+              bank_code: String.t() | nil,
+              branch_code: String.t() | nil,
+              reference: String.t() | nil,
+              suffix: String.t() | nil
+            }
+      defstruct [
+        :account_holder_name,
+        :account_number,
+        :bank_code,
+        :branch_code,
+        :reference,
+        :suffix
+      ]
+    end
+
+    defmodule P24 do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `bank` - The customer's bank. Possible values: `alior_bank`, `bank_millennium`, `bank_nowy_bfg_sa`, `bank_pekao_sa`, `banki_spbdzielcze`, `blik`, `bnp_paribas`, `boz`, `citi_handlowy`, `credit_agricole`, `envelobank`, `etransfer_pocztowy24`, `getin_bank`, `ideabank`, `ing`, `inteligo`, `mbank_mtransfer`, `nest_przelew`, `noble_pay`, `pbac_z_ipko`, `plus_bank`, `santander_przelew24`, `tmobile_usbugi_bankowe`, `toyota_bank`, `velobank`, `volkswagen_bank`.
+      """
+      @type t :: %__MODULE__{
+              bank: String.t() | nil
+            }
+      defstruct [:bank]
+    end
+
+    defmodule Payto do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_number` - The account number for the bank account. Max length: 5000.
+      * `bsb_number` - Bank-State-Branch number of the bank account. Max length: 5000.
+      * `pay_id` - The PayID alias for the bank account. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_number: String.t() | nil,
+              bsb_number: String.t() | nil,
+              pay_id: String.t() | nil
+            }
+      defstruct [:account_number, :bsb_number, :pay_id]
+    end
+
+    defmodule RadarOptions do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `session` - A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              session: String.t() | nil
+            }
+      defstruct [:session]
+    end
+
+    defmodule SepaDebit do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `iban` - IBAN of the bank account. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              iban: String.t() | nil
+            }
+      defstruct [:iban]
+    end
+
+    defmodule Sofort do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `country` - Two-letter ISO code representing the country the bank account is located in. Possible values: `AT`, `BE`, `DE`, `ES`, `IT`, `NL`.
+      """
+      @type t :: %__MODULE__{
+              country: String.t() | nil
+            }
+      defstruct [:country]
+    end
+
+    defmodule UsBankAccount do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account_holder_type` - Account holder type: individual or company. Possible values: `company`, `individual`.
+      * `account_number` - Account number of the bank account. Max length: 5000.
+      * `account_type` - Account type: checkings or savings. Defaults to checking if omitted. Possible values: `checking`, `savings`.
+      * `financial_connections_account` - The ID of a Financial Connections Account to use as a payment method. Max length: 5000.
+      * `routing_number` - Routing number of the bank account. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              account_holder_type: String.t() | nil,
+              account_number: String.t() | nil,
+              account_type: String.t() | nil,
+              financial_connections_account: String.t() | nil,
+              routing_number: String.t() | nil
+            }
+      defstruct [
+        :account_holder_type,
+        :account_number,
+        :account_type,
+        :financial_connections_account,
+        :routing_number
+      ]
+    end
   end
 
   defmodule PaymentMethodOptions do

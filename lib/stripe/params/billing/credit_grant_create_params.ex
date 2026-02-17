@@ -55,6 +55,20 @@ defmodule Stripe.Params.Billing.CreditGrantCreateParams do
             type: String.t() | nil
           }
     defstruct [:monetary, :type]
+
+    defmodule Monetary do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `currency` - Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter. Format: ISO 4217 currency code.
+      * `value` - A positive integer representing the amount of the credit grant.
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              value: integer() | nil
+            }
+      defstruct [:currency, :value]
+    end
   end
 
   defmodule ApplicabilityConfig do
@@ -67,5 +81,31 @@ defmodule Stripe.Params.Billing.CreditGrantCreateParams do
             scope: __MODULE__.Scope.t() | nil
           }
     defstruct [:scope]
+
+    defmodule Scope do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `price_type` - The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`. Possible values: `metered`.
+      * `prices` - A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+      """
+      @type t :: %__MODULE__{
+              price_type: String.t() | nil,
+              prices: [__MODULE__.Prices.t()] | nil
+            }
+      defstruct [:price_type, :prices]
+
+      defmodule Prices do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `id` - The price ID this credit grant should apply to. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                id: String.t() | nil
+              }
+        defstruct [:id]
+      end
+    end
   end
 end

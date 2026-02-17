@@ -328,5 +328,2075 @@ defmodule Stripe.Params.Tax.RegistrationCreateParams do
       :zm,
       :zw
     ]
+
+    defmodule Ae do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Al do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Am do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Ao do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule At do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Au do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Aw do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Az do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Ba do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Bb do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Bd do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Be do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Bf do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Bg do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Bh do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Bj do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Bs do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule By do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Ca do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `province_standard` - Options for the provincial tax registration.
+      * `type` - Type of registration to be created in Canada. Possible values: `province_standard`, `simplified`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              province_standard: __MODULE__.ProvinceStandard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:province_standard, :type]
+
+      defmodule ProvinceStandard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `province` - Two-letter CA province code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                province: String.t() | nil
+              }
+        defstruct [:province]
+      end
+    end
+
+    defmodule Cd do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Ch do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Cl do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Cm do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Co do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Cr do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Cv do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Cy do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Cz do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule De do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Dk do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Ec do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Ee do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Eg do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Es do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Et do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Fi do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Fr do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Gb do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Ge do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Gn do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Gr do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Hr do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Hu do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Id do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Ie do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule In do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Is do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule It do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Jp do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Ke do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Kg do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Kh do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Kr do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Kz do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule La do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Lt do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Lu do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Lv do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Ma do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Md do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Me do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Mk do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Mr do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Mt do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Mx do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule My do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Ng do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Nl do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule No do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Np do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Nz do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Om do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Pe do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Ph do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Pl do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Pt do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Ro do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Rs do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Ru do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Sa do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Se do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Sg do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Si do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Sk do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Sn do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Sr do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Th do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Tj do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Tr do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Tw do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Tz do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Ua do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Ug do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Us do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `local_amusement_tax` - Options for the local amusement tax registration.
+      * `local_lease_tax` - Options for the local lease tax registration.
+      * `state` - Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+      * `state_sales_tax` - Options for the state sales tax registration.
+      * `type` - Type of registration to be created in the US. Possible values: `local_amusement_tax`, `local_lease_tax`, `state_communications_tax`, `state_retail_delivery_fee`, `state_sales_tax`.
+      """
+      @type t :: %__MODULE__{
+              local_amusement_tax: __MODULE__.LocalAmusementTax.t() | nil,
+              local_lease_tax: __MODULE__.LocalLeaseTax.t() | nil,
+              state: String.t() | nil,
+              state_sales_tax: __MODULE__.StateSalesTax.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:local_amusement_tax, :local_lease_tax, :state, :state_sales_tax, :type]
+
+      defmodule LocalAmusementTax do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `jurisdiction` - A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago), `02154` (Arlington Heights), `06613` (Bloomington), `10906` (Campton Hills), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), and `68081` (Schiller Park). Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                jurisdiction: String.t() | nil
+              }
+        defstruct [:jurisdiction]
+      end
+
+      defmodule LocalLeaseTax do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `jurisdiction` - A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago). Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                jurisdiction: String.t() | nil
+              }
+        defstruct [:jurisdiction]
+      end
+
+      defmodule StateSalesTax do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `elections` - Elections for the state sales tax registration.
+        """
+        @type t :: %__MODULE__{
+                elections: [__MODULE__.Elections.t()] | nil
+              }
+        defstruct [:elections]
+
+        defmodule Elections do
+          @moduledoc "Nested parameters."
+
+          @typedoc """
+          * `jurisdiction` - A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `003` (Allegheny County) and `60000` (Philadelphia City). Max length: 5000.
+          * `type` - The type of the election for the state sales tax registration. Possible values: `local_use_tax`, `simplified_sellers_use_tax`, `single_local_use_tax`.
+          """
+          @type t :: %__MODULE__{
+                  jurisdiction: String.t() | nil,
+                  type: String.t() | nil
+                }
+          defstruct [:jurisdiction, :type]
+        end
+      end
+    end
+
+    defmodule Uy do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Uz do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Vn do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Za do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
+
+    defmodule Zm do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
+    defmodule Zw do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `standard` - Options for the standard registration.
+      * `type` - Type of registration to be created in `country`. Possible values: `standard`.
+      """
+      @type t :: %__MODULE__{
+              standard: __MODULE__.Standard.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:standard, :type]
+
+      defmodule Standard do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `place_of_supply_scheme` - Place of supply scheme used in an standard registration. Possible values: `inbound_goods`, `standard`.
+        """
+        @type t :: %__MODULE__{
+                place_of_supply_scheme: String.t() | nil
+              }
+        defstruct [:place_of_supply_scheme]
+      end
+    end
   end
 end

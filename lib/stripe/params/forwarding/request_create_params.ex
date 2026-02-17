@@ -33,5 +33,19 @@ defmodule Stripe.Params.Forwarding.RequestCreateParams do
             headers: [__MODULE__.Headers.t()] | nil
           }
     defstruct [:body, :headers]
+
+    defmodule Headers do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `name` - The header name. Max length: 5000.
+      * `value` - The header value. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              name: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:name, :value]
+    end
   end
 end

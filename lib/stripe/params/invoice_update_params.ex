@@ -103,6 +103,20 @@ defmodule Stripe.Params.InvoiceUpdateParams do
             liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
+
+    defmodule Liability do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `account` - The connected account being referenced when `type` is `account`.
+      * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+      """
+      @type t :: %__MODULE__{
+              account: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:account, :type]
+    end
   end
 
   defmodule Issuer do
@@ -133,6 +147,41 @@ defmodule Stripe.Params.InvoiceUpdateParams do
             payment_method_types: map() | nil
           }
     defstruct [:default_mandate, :payment_method_options, :payment_method_types]
+
+    defmodule PaymentMethodOptions do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `acss_debit` - If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice’s PaymentIntent.
+      * `bancontact` - If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice’s PaymentIntent.
+      * `card` - If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice’s PaymentIntent.
+      * `customer_balance` - If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice’s PaymentIntent.
+      * `konbini` - If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice’s PaymentIntent.
+      * `payto` - If paying by `payto`, this sub-hash contains details about the PayTo payment method options to pass to the invoice’s PaymentIntent.
+      * `sepa_debit` - If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice’s PaymentIntent.
+      * `us_bank_account` - If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice’s PaymentIntent.
+      """
+      @type t :: %__MODULE__{
+              acss_debit: map() | nil,
+              bancontact: map() | nil,
+              card: map() | nil,
+              customer_balance: map() | nil,
+              konbini: map() | nil,
+              payto: map() | nil,
+              sepa_debit: map() | nil,
+              us_bank_account: map() | nil
+            }
+      defstruct [
+        :acss_debit,
+        :bancontact,
+        :card,
+        :customer_balance,
+        :konbini,
+        :payto,
+        :sepa_debit,
+        :us_bank_account
+      ]
+    end
   end
 
   defmodule Rendering do
@@ -151,5 +200,19 @@ defmodule Stripe.Params.InvoiceUpdateParams do
             template_version: map() | nil
           }
     defstruct [:amount_tax_display, :pdf, :template, :template_version]
+
+    defmodule Pdf do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `page_size` - Page size for invoice PDF. Can be set to `a4`, `letter`, or `auto`.
+      If set to `auto`, invoice PDF page size defaults to `a4` for customers with
+      Japanese locale and `letter` for customers with other locales. Possible values: `a4`, `auto`, `letter`.
+      """
+      @type t :: %__MODULE__{
+              page_size: String.t() | nil
+            }
+      defstruct [:page_size]
+    end
   end
 end
