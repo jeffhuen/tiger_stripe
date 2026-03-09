@@ -69,9 +69,9 @@ defmodule Stripe.Params.CreditNotePreviewLinesPreviewLinesParams do
     * `description` - The description of the credit note line item. Only valid when the `type` is `custom_line_item`. Max length: 5000.
     * `invoice_line_item` - The invoice line item to credit. Only valid when the `type` is `invoice_line_item`. Max length: 5000.
     * `quantity` - The line item quantity to credit.
-    * `tax_amounts` - A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
-    * `tax_rates` - The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
-    * `type` - Type of the credit note line item, one of `invoice_line_item` or `custom_line_item` Possible values: `custom_line_item`, `invoice_line_item`.
+    * `tax_amounts` - A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
+    * `tax_rates` - The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
+    * `type` - Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. `custom_line_item` is not valid when the invoice is set up with `automatic_tax[enabled]=true`. Possible values: `custom_line_item`, `invoice_line_item`.
     * `unit_amount` - The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
     * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
     """

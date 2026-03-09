@@ -109,6 +109,7 @@ defmodule Stripe.Resources.Tax.Registration do
     * `kr`
     * `kz`
     * `la`
+    * `lk`
     * `lt`
     * `lu`
     * `lv`
@@ -211,6 +212,7 @@ defmodule Stripe.Resources.Tax.Registration do
             kr: __MODULE__.Kr.t() | nil,
             kz: __MODULE__.Kz.t() | nil,
             la: __MODULE__.La.t() | nil,
+            lk: __MODULE__.Lk.t() | nil,
             lt: __MODULE__.Lt.t() | nil,
             lu: __MODULE__.Lu.t() | nil,
             lv: __MODULE__.Lv.t() | nil,
@@ -313,6 +315,7 @@ defmodule Stripe.Resources.Tax.Registration do
       :kr,
       :kz,
       :la,
+      :lk,
       :lt,
       :lu,
       :lv,
@@ -1460,6 +1463,18 @@ defmodule Stripe.Resources.Tax.Registration do
       defstruct [:type]
     end
 
+    defmodule Lk do
+      @moduledoc "Nested struct within the parent resource."
+
+      @typedoc """
+      * `type` - Type of registration in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
     defmodule Lt do
       @moduledoc "Nested struct within the parent resource."
 
@@ -2409,6 +2424,7 @@ defmodule Stripe.Resources.Tax.Registration do
         "kr" => __MODULE__.Kr,
         "kz" => __MODULE__.Kz,
         "la" => __MODULE__.La,
+        "lk" => __MODULE__.Lk,
         "lt" => __MODULE__.Lt,
         "lu" => __MODULE__.Lu,
         "lv" => __MODULE__.Lv,

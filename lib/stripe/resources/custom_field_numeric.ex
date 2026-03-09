@@ -5,7 +5,7 @@ defmodule Stripe.Resources.CustomFieldNumeric do
   """
 
   @typedoc """
-  * `default_value` - The value that will pre-fill the field on the payment page. Max length: 5000. Nullable.
+  * `default_value` - The value that pre-fills the field on the payment page. Max length: 5000. Nullable.
   * `maximum_length` - The maximum character length constraint for the customer's input. Nullable.
   * `minimum_length` - The minimum character length requirement for the customer's input. Nullable.
   * `value` - The value entered by the customer, containing only digits. Max length: 5000. Nullable.

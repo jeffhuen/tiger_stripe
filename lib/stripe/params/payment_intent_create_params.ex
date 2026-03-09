@@ -157,7 +157,7 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
 
     Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
 
-    For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+    For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
     * `line_items` - A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
     * `shipping` - Contains information about the shipping portion of the amount.
     * `tax` - Contains information about the tax portion of the amount.

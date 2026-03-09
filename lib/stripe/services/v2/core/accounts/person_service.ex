@@ -22,7 +22,7 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonService do
   end
 
   @doc """
-  Delete a person
+  Delete a Person
 
   Delete a Person associated with an Account.
   """
@@ -38,7 +38,7 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonService do
   end
 
   @doc """
-  List persons
+  List Persons
 
   Returns a paginated list of Persons associated with an Account.
   """
@@ -54,7 +54,7 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonService do
   end
 
   @doc """
-  Retrieve a person
+  Retrieve a Person
 
   Retrieves a Person associated with an Account.
   """
