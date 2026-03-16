@@ -4,7 +4,18 @@ defmodule Stripe.Events.V2CoreAccountIncludingFutureRequirementsUpdatedEvent do
   Occurs when an Account's future requirements are updated.
   """
 
-  defstruct [:changes, :context, :created, :data, :id, :livemode, :object, :related_object, :type]
+  defstruct [
+    :changes,
+    :context,
+    :created,
+    :data,
+    :id,
+    :livemode,
+    :object,
+    :reason,
+    :related_object,
+    :type
+  ]
 
   def lookup_type, do: "v2.core.account[future_requirements].updated"
 

@@ -293,7 +293,7 @@ defmodule Stripe.Resources.PaymentLink do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `default_value` - The value that will pre-fill on the payment page. Max length: 5000. Nullable.
+      * `default_value` - The value that pre-fills on the payment page. Max length: 5000. Nullable.
       * `options` - The options available for the customer to select. Up to 200 options allowed.
       """
       @type t :: %__MODULE__{
@@ -321,7 +321,7 @@ defmodule Stripe.Resources.PaymentLink do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `default_value` - The value that will pre-fill the field on the payment page. Max length: 5000. Nullable.
+      * `default_value` - The value that pre-fills the field on the payment page. Max length: 5000. Nullable.
       * `maximum_length` - The maximum character length constraint for the customer's input. Nullable.
       * `minimum_length` - The minimum character length requirement for the customer's input. Nullable.
       """
@@ -337,7 +337,7 @@ defmodule Stripe.Resources.PaymentLink do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `default_value` - The value that will pre-fill the field on the payment page. Max length: 5000. Nullable.
+      * `default_value` - The value that pre-fills the field on the payment page. Max length: 5000. Nullable.
       * `maximum_length` - The maximum character length constraint for the customer's input. Nullable.
       * `minimum_length` - The minimum character length requirement for the customer's input. Nullable.
       """
@@ -380,7 +380,7 @@ defmodule Stripe.Resources.PaymentLink do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `message` - Text may be up to 1200 characters in length. Max length: 500.
+      * `message` - Text can be up to 1200 characters in length. Max length: 500.
       """
       @type t :: %__MODULE__{
               message: String.t() | nil
@@ -392,7 +392,7 @@ defmodule Stripe.Resources.PaymentLink do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `message` - Text may be up to 1200 characters in length. Max length: 500.
+      * `message` - Text can be up to 1200 characters in length. Max length: 500.
       """
       @type t :: %__MODULE__{
               message: String.t() | nil
@@ -404,7 +404,7 @@ defmodule Stripe.Resources.PaymentLink do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `message` - Text may be up to 1200 characters in length. Max length: 500.
+      * `message` - Text can be up to 1200 characters in length. Max length: 500.
       """
       @type t :: %__MODULE__{
               message: String.t() | nil
@@ -416,7 +416,7 @@ defmodule Stripe.Resources.PaymentLink do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `message` - Text may be up to 1200 characters in length. Max length: 500.
+      * `message` - Text can be up to 1200 characters in length. Max length: 500.
       """
       @type t :: %__MODULE__{
               message: String.t() | nil

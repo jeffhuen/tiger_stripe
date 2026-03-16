@@ -1154,7 +1154,7 @@ defmodule Stripe.Resources.PaymentIntent do
           @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
-          * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
+          * `country` - The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
           """
           @type t :: %__MODULE__{
                   country: String.t() | nil
@@ -1805,6 +1805,7 @@ defmodule Stripe.Resources.PaymentIntent do
 
       When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`, `on_session`.
       * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
+      * `transaction_purpose` - The purpose of the transaction. Possible values: `goods`, `other`, `services`, `unspecified`.
       * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
       """
       @type t :: %__MODULE__{
@@ -1812,6 +1813,7 @@ defmodule Stripe.Resources.PaymentIntent do
               mandate_options: __MODULE__.MandateOptions.t() | nil,
               setup_future_usage: String.t() | nil,
               target_date: String.t() | nil,
+              transaction_purpose: String.t() | nil,
               verification_method: String.t() | nil
             }
       defstruct [
@@ -1819,6 +1821,7 @@ defmodule Stripe.Resources.PaymentIntent do
         :mandate_options,
         :setup_future_usage,
         :target_date,
+        :transaction_purpose,
         :verification_method
       ]
 

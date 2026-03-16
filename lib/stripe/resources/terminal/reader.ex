@@ -11,7 +11,7 @@ defmodule Stripe.Resources.Terminal.Reader do
   @typedoc """
   * `action` - The most recent action performed by the reader. Nullable. Expandable.
   * `device_sw_version` - The current software version of the reader. Max length: 5000. Nullable.
-  * `device_type` - Device type of the reader. Possible values: `bbpos_chipper2x`, `bbpos_wisepad3`, `bbpos_wisepos_e`, `mobile_phone_reader`, `simulated_stripe_s700`, `simulated_wisepos_e`, `stripe_m2`, `stripe_s700`, `verifone_P400`.
+  * `device_type` - Device type of the reader. Possible values: `bbpos_chipper2x`, `bbpos_wisepad3`, `bbpos_wisepos_e`, `mobile_phone_reader`, `simulated_stripe_s700`, `simulated_stripe_s710`, `simulated_wisepos_e`, `stripe_m2`, `stripe_s700`, `stripe_s710`, `verifone_P400`.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `ip_address` - The local IP address of the reader. Max length: 5000. Nullable.
   * `label` - Custom label given to the reader for easier identification. Max length: 5000.
