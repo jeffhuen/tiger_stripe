@@ -12,7 +12,7 @@ defmodule Stripe.Resources.PromotionCode do
 
   @typedoc """
   * `active` - Whether the promotion code is currently active. A promotion code is only active if the coupon is also valid.
-  * `code` - The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for each customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), and digits (0-9). Max length: 5000.
+  * `code` - The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for each customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), digits (0-9), and dashes (-). Max length: 5000.
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `customer` - The customer who can use this promotion code. Nullable. Expandable.
   * `customer_account` - The account representing the customer who can use this promotion code. Max length: 5000. Nullable.

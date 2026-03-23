@@ -17,7 +17,18 @@ defmodule Stripe.Events.V2CoreAccountPersonCreatedEvent do
     defstruct [:account_id]
   end
 
-  defstruct [:context, :created, :data, :id, :livemode, :object, :related_object, :type]
+  defstruct [
+    :changes,
+    :context,
+    :created,
+    :data,
+    :id,
+    :livemode,
+    :object,
+    :reason,
+    :related_object,
+    :type
+  ]
 
   def lookup_type, do: "v2.core.account_person.created"
 

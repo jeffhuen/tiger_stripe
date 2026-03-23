@@ -17,7 +17,18 @@ defmodule Stripe.Events.V2CoreAccountIncludingConfigurationCustomerCapabilitySta
     defstruct [:updated_capability]
   end
 
-  defstruct [:changes, :context, :created, :data, :id, :livemode, :object, :related_object, :type]
+  defstruct [
+    :changes,
+    :context,
+    :created,
+    :data,
+    :id,
+    :livemode,
+    :object,
+    :reason,
+    :related_object,
+    :type
+  ]
 
   def lookup_type, do: "v2.core.account[configuration.customer].capability_status_updated"
 

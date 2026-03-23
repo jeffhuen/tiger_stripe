@@ -3,7 +3,7 @@ defmodule Stripe.Resources.V2.Billing.MeterEvent do
   @moduledoc """
   Meter Event
 
-  Fix me empty_doc_string.
+  A Meter Event is a usage record that captures billable activity for usage-based billing. Meter Events contain an event name, timestamp, and payload with customer mapping and usage value, enabling accurate usage tracking and billing.
   """
 
   @typedoc """

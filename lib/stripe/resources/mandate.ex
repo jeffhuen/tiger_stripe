@@ -177,18 +177,29 @@ defmodule Stripe.Resources.Mandate do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
+      * `display_name` - The display name for the account on this mandate. Max length: 5000. Nullable.
       * `network_status` - The status of the mandate on the Bacs network. Can be one of `pending`, `revoked`, `refused`, or `accepted`. Possible values: `accepted`, `pending`, `refused`, `revoked`.
       * `reference` - The unique reference identifying the mandate on the Bacs network. Max length: 5000.
       * `revocation_reason` - When the mandate is revoked on the Bacs network this field displays the reason for the revocation. Possible values: `account_closed`, `bank_account_restricted`, `bank_ownership_changed`, `could_not_process`, `debit_not_authorized`. Nullable.
+      * `service_user_number` - The service user number for the account on this mandate. Max length: 5000. Nullable.
       * `url` - The URL that will contain the mandate that the customer has signed. Max length: 5000.
       """
       @type t :: %__MODULE__{
+              display_name: String.t() | nil,
               network_status: String.t() | nil,
               reference: String.t() | nil,
               revocation_reason: String.t() | nil,
+              service_user_number: String.t() | nil,
               url: String.t() | nil
             }
-      defstruct [:network_status, :reference, :revocation_reason, :url]
+      defstruct [
+        :display_name,
+        :network_status,
+        :reference,
+        :revocation_reason,
+        :service_user_number,
+        :url
+      ]
     end
 
     defmodule Paypal do

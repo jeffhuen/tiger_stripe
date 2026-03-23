@@ -14,7 +14,7 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
   * `product_code` - The product code of the line item, such as an SKU. Required for L3 rates. At most 12 characters long. Max length: 5000. Nullable.
   * `product_name` - The product name of the line item. Required for L3 rates. At most 1024 characters long.
 
-  For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters. Max length: 5000.
+  For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters. Max length: 5000.
   * `quantity` - The quantity of items. Required for L3 rates. An integer greater than 0.
   * `tax` - Contains information about the tax on the item. Nullable. Expandable.
   * `unit_cost` - The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.

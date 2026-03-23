@@ -230,30 +230,14 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
-    * `card_issuer_decline` - Stripe Radar's evaluation of the likelihood of a card issuer decline on this payment. Nullable.
     * `evaluated_at` - The timestamp when the evaluation was performed. Format: Unix timestamp.
     * `fraudulent_dispute`
     """
     @type t :: %__MODULE__{
-            card_issuer_decline: __MODULE__.CardIssuerDecline.t() | nil,
             evaluated_at: integer() | nil,
             fraudulent_dispute: __MODULE__.FraudulentDispute.t() | nil
           }
-    defstruct [:card_issuer_decline, :evaluated_at, :fraudulent_dispute]
-
-    defmodule CardIssuerDecline do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `model_score` - Stripe Radar's evaluation of the likelihood that the payment will be declined by the card issuer. Scores range from 0 to 100, with higher values indicating a higher likelihood of decline.
-      * `recommended_action` - Recommended action based on the model score. Possible values are `block` and `continue`. Possible values: `block`, `continue`.
-      """
-      @type t :: %__MODULE__{
-              model_score: float() | nil,
-              recommended_action: String.t() | nil
-            }
-      defstruct [:model_score, :recommended_action]
-    end
+    defstruct [:evaluated_at, :fraudulent_dispute]
 
     defmodule FraudulentDispute do
       @moduledoc "Nested struct within the parent resource."
@@ -271,7 +255,6 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
 
     def __inner_types__ do
       %{
-        "card_issuer_decline" => __MODULE__.CardIssuerDecline,
         "fraudulent_dispute" => __MODULE__.FraudulentDispute
       }
     end
