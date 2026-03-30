@@ -1217,12 +1217,14 @@ defmodule Stripe.Resources.Charge do
       * `incremental_authorization_supported` - Whether this [PaymentIntent](https://docs.stripe.com/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
       * `issuer` - The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.) Max length: 5000. Nullable.
       * `last4` - The last four digits of the card. Max length: 5000. Nullable.
+      * `location` - ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to. Max length: 5000.
       * `network` - Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`. Max length: 5000. Nullable.
       * `network_transaction_id` - This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise. Max length: 5000. Nullable.
       * `offline` - Details about payments collected offline. Nullable.
       * `overcapture_supported` - Defines whether the authorized amount can be over-captured or not
       * `preferred_locales` - The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip. Nullable.
       * `read_method` - How card details were read in this transaction. Possible values: `contact_emv`, `contactless_emv`, `contactless_magstripe_mode`, `magnetic_stripe_fallback`, `magnetic_stripe_track2`. Nullable.
+      * `reader` - ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on. Max length: 5000.
       * `receipt` - A collection of fields required to be displayed on receipts. Only required for EMV transactions. Nullable.
       * `wallet`
       """
@@ -1244,12 +1246,14 @@ defmodule Stripe.Resources.Charge do
               incremental_authorization_supported: boolean() | nil,
               issuer: String.t() | nil,
               last4: String.t() | nil,
+              location: String.t() | nil,
               network: String.t() | nil,
               network_transaction_id: String.t() | nil,
               offline: Stripe.Resources.Offline.t() | nil,
               overcapture_supported: boolean() | nil,
               preferred_locales: [String.t()] | nil,
               read_method: String.t() | nil,
+              reader: String.t() | nil,
               receipt: __MODULE__.Receipt.t() | nil,
               wallet: __MODULE__.Wallet.t() | nil
             }
@@ -1271,12 +1275,14 @@ defmodule Stripe.Resources.Charge do
         :incremental_authorization_supported,
         :issuer,
         :last4,
+        :location,
         :network,
         :network_transaction_id,
         :offline,
         :overcapture_supported,
         :preferred_locales,
         :read_method,
+        :reader,
         :receipt,
         :wallet
       ]
@@ -1471,10 +1477,12 @@ defmodule Stripe.Resources.Charge do
       * `iin` - Issuer identification number of the card. (For internal use only and not typically available in standard API requests.) Max length: 5000. Nullable.
       * `issuer` - The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.) Max length: 5000. Nullable.
       * `last4` - The last four digits of the card. Max length: 5000. Nullable.
+      * `location` - ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to. Max length: 5000.
       * `network` - Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`. Max length: 5000. Nullable.
       * `network_transaction_id` - This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise. Max length: 5000. Nullable.
       * `preferred_locales` - The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip. Nullable.
       * `read_method` - How card details were read in this transaction. Possible values: `contact_emv`, `contactless_emv`, `contactless_magstripe_mode`, `magnetic_stripe_fallback`, `magnetic_stripe_track2`. Nullable.
+      * `reader` - ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on. Max length: 5000.
       * `receipt` - A collection of fields required to be displayed on receipts. Only required for EMV transactions. Nullable.
       """
       @type t :: %__MODULE__{
@@ -1491,10 +1499,12 @@ defmodule Stripe.Resources.Charge do
               iin: String.t() | nil,
               issuer: String.t() | nil,
               last4: String.t() | nil,
+              location: String.t() | nil,
               network: String.t() | nil,
               network_transaction_id: String.t() | nil,
               preferred_locales: [String.t()] | nil,
               read_method: String.t() | nil,
+              reader: String.t() | nil,
               receipt: Stripe.Resources.Receipt.t() | nil
             }
       defstruct [
@@ -1511,10 +1521,12 @@ defmodule Stripe.Resources.Charge do
         :iin,
         :issuer,
         :last4,
+        :location,
         :network,
         :network_transaction_id,
         :preferred_locales,
         :read_method,
+        :reader,
         :receipt
       ]
     end

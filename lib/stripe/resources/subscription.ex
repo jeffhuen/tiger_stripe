@@ -539,7 +539,7 @@ defmodule Stripe.Resources.Subscription do
             @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
-            * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
+            * `country` - The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
             """
             @type t :: %__MODULE__{
                     country: String.t() | nil
