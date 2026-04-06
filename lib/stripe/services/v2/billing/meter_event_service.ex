@@ -3,12 +3,12 @@ defmodule Stripe.Services.V2.Billing.MeterEventService do
   @moduledoc """
   Meter Event
 
-  Fix me empty_doc_string.
+  A Meter Event is a usage record that captures billable activity for usage-based billing. Meter Events contain an event name, timestamp, and payload with customer mapping and usage value, enabling accurate usage tracking and billing.
   """
   alias Stripe.Client
 
   @doc """
-  Create a billing meter event with synchronous validation
+  Create a Meter Event with synchronous validation
 
   Creates a meter event. Events are validated synchronously, but are processed asynchronously. Supports up to 1,000 events per second in livemode. For higher rate-limits, please use meter event streams instead.
   """

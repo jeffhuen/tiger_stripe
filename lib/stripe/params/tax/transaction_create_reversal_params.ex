@@ -4,7 +4,7 @@ defmodule Stripe.Params.Tax.TransactionCreateReversalParams do
 
   @typedoc """
   * `expand` - Specifies which fields in the response should be expanded.
-  * `flat_amount` - A flat amount to reverse across the entire transaction, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative. This value represents the total amount to refund from the transaction, including taxes.
+  * `flat_amount` - A flat amount to reverse across the entire transaction, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units) in negative. This value represents the total amount to refund from the transaction, including taxes.
   * `line_items` - The line item amounts to reverse.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `mode` - If `partial`, the provided line item or shipping cost amounts are reversed. If `full`, the original transaction is fully reversed. Possible values: `full`, `partial`.
@@ -38,8 +38,8 @@ defmodule Stripe.Params.Tax.TransactionCreateReversalParams do
     @moduledoc "Nested parameters."
 
     @typedoc """
-    * `amount` - The amount to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative.
-    * `amount_tax` - The amount of tax to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative.
+    * `amount` - The amount to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units) in negative.
+    * `amount_tax` - The amount of tax to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units) in negative.
     * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     * `original_line_item` - The `id` of the line item to reverse in the original transaction. Max length: 5000.
     * `quantity` - The quantity reversed. Appears in [tax exports](https://docs.stripe.com/tax/reports), but does not affect the amount of tax reversed.
@@ -60,8 +60,8 @@ defmodule Stripe.Params.Tax.TransactionCreateReversalParams do
     @moduledoc "Nested parameters."
 
     @typedoc """
-    * `amount` - The amount to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative.
-    * `amount_tax` - The amount of tax to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative.
+    * `amount` - The amount to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units) in negative.
+    * `amount_tax` - The amount of tax to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units) in negative.
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,

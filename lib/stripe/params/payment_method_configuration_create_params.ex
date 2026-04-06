@@ -59,6 +59,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
   * `sofort` - Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
   * `swish` - Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
   * `twint` - Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
+  * `upi` - Unified Payment Interface (UPI) is India's leading payment method with exponential growth since it launched in 2016.
   * `us_bank_account` - Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
   * `wechat_pay` - WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
   * `zip` - Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
@@ -120,6 +121,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
           sofort: __MODULE__.Sofort.t() | nil,
           swish: __MODULE__.Swish.t() | nil,
           twint: __MODULE__.Twint.t() | nil,
+          upi: __MODULE__.Upi.t() | nil,
           us_bank_account: __MODULE__.UsBankAccount.t() | nil,
           wechat_pay: __MODULE__.WechatPay.t() | nil,
           zip: __MODULE__.Zip.t() | nil
@@ -182,6 +184,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     :sofort,
     :swish,
     :twint,
+    :upi,
     :us_bank_account,
     :wechat_pay,
     :zip
@@ -1436,6 +1439,30 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
   end
 
   defmodule Twint do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `display_preference` - Whether or not the payment method should be displayed.
+    """
+    @type t :: %__MODULE__{
+            display_preference: __MODULE__.DisplayPreference.t() | nil
+          }
+    defstruct [:display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              preference: String.t() | nil
+            }
+      defstruct [:preference]
+    end
+  end
+
+  defmodule Upi do
     @moduledoc "Nested parameters."
 
     @typedoc """

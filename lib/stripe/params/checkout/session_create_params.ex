@@ -48,6 +48,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
   * `excluded_payment_method_types` - A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
   * `expand` - Specifies which fields in the response should be expanded.
   * `expires_at` - The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation. Format: Unix timestamp.
+  * `integration_identifier` - The integration identifier for this Checkout Session. Multiple Checkout Sessions can have the same integration identifier. Max length: 200.
   * `invoice_creation` - Generate a post-purchase Invoice for one-time payments.
   * `line_items` - A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
 
@@ -122,7 +123,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
   information from the successful Checkout Session on your page, read the
   guide on [customizing your success page](https://docs.stripe.com/payments/checkout/custom-success-page).
   * `tax_id_collection` - Controls tax ID collection during checkout.
-  * `ui_mode` - The UI mode of the Session. Defaults to `hosted`. Possible values: `custom`, `embedded`, `hosted`.
+  * `ui_mode` - The UI mode of the Session. Defaults to `hosted`. Possible values: `elements`, `embedded_page`, `form`, `hosted_page`.
   * `wallet_options` - Wallet-specific configuration.
   """
   @type t :: %__MODULE__{
@@ -147,6 +148,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
           excluded_payment_method_types: [String.t()] | nil,
           expand: [String.t()] | nil,
           expires_at: integer() | nil,
+          integration_identifier: String.t() | nil,
           invoice_creation: __MODULE__.InvoiceCreation.t() | nil,
           line_items: [__MODULE__.LineItems.t()] | nil,
           locale: String.t() | nil,
@@ -199,6 +201,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     :excluded_payment_method_types,
     :expand,
     :expires_at,
+    :integration_identifier,
     :invoice_creation,
     :line_items,
     :locale,
@@ -422,7 +425,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       @moduledoc "Nested parameters."
 
       @typedoc """
-      * `default_value` - The value that will pre-fill the field on the payment page.Must match a `value` in the `options` array. Max length: 100.
+      * `default_value` - The value that pre-fills the field on the payment page.Must match a `value` in the `options` array. Max length: 100.
       * `options` - The options available for the customer to select. Up to 200 options allowed.
       """
       @type t :: %__MODULE__{
@@ -464,7 +467,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       @moduledoc "Nested parameters."
 
       @typedoc """
-      * `default_value` - The value that will pre-fill the field on the payment page. Max length: 255.
+      * `default_value` - The value that pre-fills the field on the payment page. Max length: 255.
       * `maximum_length` - The maximum character length constraint for the customer's input.
       * `minimum_length` - The minimum character length requirement for the customer's input.
       """
@@ -480,7 +483,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       @moduledoc "Nested parameters."
 
       @typedoc """
-      * `default_value` - The value that will pre-fill the field on the payment page. Max length: 255.
+      * `default_value` - The value that pre-fills the field on the payment page. Max length: 255.
       * `maximum_length` - The maximum character length constraint for the customer's input.
       * `minimum_length` - The minimum character length requirement for the customer's input.
       """
@@ -952,6 +955,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     * `boleto` - contains details about the Boleto payment method options.
     * `card` - contains details about the Card payment method options.
     * `cashapp` - contains details about the Cashapp Pay payment method options.
+    * `crypto` - contains details about the Crypto payment method options.
     * `customer_balance` - contains details about the Customer Balance payment method options.
     * `demo_pay` - contains details about the DemoPay payment method options.
     * `eps` - contains details about the EPS payment method options.
@@ -982,6 +986,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     * `sofort` - contains details about the Sofort payment method options.
     * `swish` - contains details about the Swish payment method options.
     * `twint` - contains details about the TWINT payment method options.
+    * `upi` - contains details about the UPI payment method options.
     * `us_bank_account` - contains details about the Us Bank Account payment method options.
     * `wechat_pay` - contains details about the WeChat Pay payment method options.
     """
@@ -999,6 +1004,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             boleto: __MODULE__.Boleto.t() | nil,
             card: __MODULE__.Card.t() | nil,
             cashapp: __MODULE__.Cashapp.t() | nil,
+            crypto: __MODULE__.Crypto.t() | nil,
             customer_balance: __MODULE__.CustomerBalance.t() | nil,
             demo_pay: __MODULE__.DemoPay.t() | nil,
             eps: __MODULE__.Eps.t() | nil,
@@ -1029,6 +1035,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             sofort: __MODULE__.Sofort.t() | nil,
             swish: __MODULE__.Swish.t() | nil,
             twint: __MODULE__.Twint.t() | nil,
+            upi: __MODULE__.Upi.t() | nil,
             us_bank_account: __MODULE__.UsBankAccount.t() | nil,
             wechat_pay: __MODULE__.WechatPay.t() | nil
           }
@@ -1046,6 +1053,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       :boleto,
       :card,
       :cashapp,
+      :crypto,
       :customer_balance,
       :demo_pay,
       :eps,
@@ -1076,6 +1084,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       :sofort,
       :swish,
       :twint,
+      :upi,
       :us_bank_account,
       :wechat_pay
     ]
@@ -1429,6 +1438,24 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       defstruct [:capture_method, :setup_future_usage]
     end
 
+    defmodule Crypto do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
+      """
+      @type t :: %__MODULE__{
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:setup_future_usage]
+    end
+
     defmodule CustomerBalance do
       @moduledoc "Nested parameters."
 
@@ -1471,7 +1498,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
           @moduledoc "Nested parameters."
 
           @typedoc """
-          * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Max length: 5000.
+          * `country` - The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`. Max length: 5000.
           """
           @type t :: %__MODULE__{
                   country: String.t() | nil
@@ -2053,6 +2080,38 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       defstruct [:setup_future_usage]
     end
 
+    defmodule Upi do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `mandate_options` - Additional fields for Mandate creation
+      * `setup_future_usage` - Possible values: `none`, `off_session`, `on_session`.
+      """
+      @type t :: %__MODULE__{
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:mandate_options, :setup_future_usage]
+
+      defmodule MandateOptions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `amount` - Amount to be charged for future payments.
+        * `amount_type` - One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param. Possible values: `fixed`, `maximum`.
+        * `description` - A description of the mandate or subscription that is meant to be displayed to the customer. Max length: 20.
+        * `end_date` - End date of the mandate or subscription. Format: Unix timestamp.
+        """
+        @type t :: %__MODULE__{
+                amount: integer() | nil,
+                amount_type: String.t() | nil,
+                description: String.t() | nil,
+                end_date: integer() | nil
+              }
+        defstruct [:amount, :amount_type, :description, :end_date]
+      end
+    end
+
     defmodule UsBankAccount do
       @moduledoc "Nested parameters."
 
@@ -2323,6 +2382,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     * `invoice_settings` - All invoices will be billed using the specified settings.
     * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
     * `on_behalf_of` - The account on behalf of which to charge, for each of the subscription's invoices.
+    * `pending_invoice_item_interval` - Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
     * `proration_behavior` - Determines how to handle prorations resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`. Possible values: `create_prorations`, `none`.
     * `transfer_data` - If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
     * `trial_end` - Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future. Format: Unix timestamp.
@@ -2338,6 +2398,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
             metadata: %{String.t() => String.t()} | nil,
             on_behalf_of: String.t() | nil,
+            pending_invoice_item_interval: __MODULE__.PendingInvoiceItemInterval.t() | nil,
             proration_behavior: String.t() | nil,
             transfer_data: __MODULE__.TransferData.t() | nil,
             trial_end: integer() | nil,
@@ -2353,6 +2414,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
       :invoice_settings,
       :metadata,
       :on_behalf_of,
+      :pending_invoice_item_interval,
       :proration_behavior,
       :transfer_data,
       :trial_end,
@@ -2410,6 +2472,20 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
               }
         defstruct [:account, :type]
       end
+    end
+
+    defmodule PendingInvoiceItemInterval do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `interval` - Specifies invoicing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
+      * `interval_count` - The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+      """
+      @type t :: %__MODULE__{
+              interval: String.t() | nil,
+              interval_count: integer() | nil
+            }
+      defstruct [:interval, :interval_count]
     end
 
     defmodule TransferData do

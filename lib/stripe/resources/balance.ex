@@ -16,7 +16,7 @@ defmodule Stripe.Resources.Balance do
   * `connect_reserved` - Funds held due to negative balances on connected accounts where [account.controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. You can find the connect reserve balance for each currency and payment type in the `source_types` property. Expandable.
   * `instant_available` - Funds that you can pay out using Instant Payouts. Expandable.
   * `issuing` - Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `balance`.
   * `pending` - Funds that aren't available in the balance yet. You can find the pending balance for each currency and each payment type in the `source_types` property. Expandable.
   * `refund_and_dispute_prefunding` - Expandable.

@@ -9,7 +9,7 @@ defmodule Stripe.Resources.Issuing.PhysicalBundle do
   @typedoc """
   * `features` - Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `name` - Friendly display name. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `issuing.physical_bundle`.
   * `status` - Whether this physical bundle can be used to create cards. Possible values: `active`, `inactive`, `review`.

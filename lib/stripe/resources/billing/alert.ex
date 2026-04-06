@@ -9,7 +9,7 @@ defmodule Stripe.Resources.Billing.Alert do
   @typedoc """
   * `alert_type` - Defines the type of the alert. Possible values: `usage_threshold`.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `billing.alert`.
   * `status` - Status of the alert. This can be active, inactive or archived. Possible values: `active`, `archived`, `inactive`. Nullable.
   * `title` - Title of the alert. Max length: 5000.

@@ -5,7 +5,7 @@ defmodule Stripe.Resources.Coupon do
 
   A coupon contains information about a percent-off or amount-off discount you
   might want to apply to a customer. Coupons may be applied to [subscriptions](https://api.stripe.com#subscriptions), [invoices](https://api.stripe.com#invoices),
-  [checkout sessions](https://docs.stripe.com/api/checkout/sessions), [quotes](https://api.stripe.com#quotes), and more. Coupons do not work with conventional one-off [charges](https://api.stripe.com#create_charge) or [payment intents](https://docs.stripe.com/api/payment_intents).
+  [checkout sessions](https://docs.stripe.com/api/checkout/sessions), [quotes](https://api.stripe.com#quotes), and more. Coupons do not work with conventional one-off [charges](https://docs.stripe.com/api/charges/create) or [payment intents](https://docs.stripe.com/api/payment_intents).
   """
 
   @typedoc """
@@ -17,7 +17,7 @@ defmodule Stripe.Resources.Coupon do
   * `duration` - One of `forever`, `once`, or `repeating`. Describes how long a customer who applies this coupon will get the discount. Possible values: `forever`, `once`, `repeating`.
   * `duration_in_months` - If `duration` is `repeating`, the number of months the coupon applies. Null if coupon `duration` is `forever` or `once`. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `max_redemptions` - Maximum number of times this coupon can be redeemed, in total, across all customers, before it is no longer valid. Nullable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `name` - Name of the coupon displayed to customers on for instance invoices or receipts. Max length: 5000. Nullable.

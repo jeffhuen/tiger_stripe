@@ -17,10 +17,10 @@ defmodule Stripe.Resources.Topup do
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
   * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 5000. Nullable.
   * `expected_availability_date` - Date the funds are expected to arrive in your Stripe account for payouts. This factors in delays like weekends or bank holidays. May not be specified depending on status of top-up. Nullable.
-  * `failure_code` - Error code explaining reason for top-up failure if available (see [the errors section](https://docs.stripe.com/api#errors) for a list of codes). Max length: 5000. Nullable.
+  * `failure_code` - Error code explaining reason for top-up failure if available (see [the errors section](https://docs.stripe.com/api/errors) for a list of codes). Max length: 5000. Nullable.
   * `failure_message` - Message to user further explaining reason for top-up failure if available. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `topup`.
   * `source` - The source field is deprecated. It might not always be present in the API response. Nullable. Expandable.

@@ -2,6 +2,8 @@
 defmodule Stripe.Resources.V2.Billing.MeterEventSession do
   @moduledoc """
   Meter Event Session
+
+  A Meter Event Session is an authentication session for the high-throughput meter event API. Meter Event Sessions provide temporary authentication tokens with expiration times, enabling secure and efficient bulk submission of usage events.
   """
 
   @typedoc """

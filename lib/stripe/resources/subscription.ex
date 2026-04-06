@@ -36,16 +36,17 @@ defmodule Stripe.Resources.Subscription do
   * `invoice_settings` - Expandable.
   * `items` - List of subscription items, each with an attached price. Expandable.
   * `latest_invoice` - The most recent invoice this subscription has generated over its lifecycle (for example, when it cycles or is updated). Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `next_pending_invoice_item_invoice` - Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at `pending_invoice_item_interval`. Format: Unix timestamp. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `subscription`.
   * `on_behalf_of` - The account (if any) the charge was made on behalf of for charges associated with this subscription. See the [Connect documentation](https://docs.stripe.com/connect/subscriptions#on-behalf-of) for details. Nullable. Expandable.
   * `pause_collection` - If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment). Nullable. Expandable.
   * `payment_settings` - Payment settings passed on to invoices created by the subscription. Nullable. Expandable.
-  * `pending_invoice_item_interval` - Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval. Nullable. Expandable.
+  * `pending_invoice_item_interval` - Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval. Nullable. Expandable.
   * `pending_setup_intent` - You can use this [SetupIntent](https://docs.stripe.com/api/setup_intents) to collect user authentication when creating a subscription without immediate payment or updating a subscription's payment method, allowing you to optimize for off-session payments. Learn more in the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication#scenario-2). Nullable. Expandable.
   * `pending_update` - If specified, [pending updates](https://docs.stripe.com/billing/subscriptions/pending-updates) that will be applied to the subscription once the `latest_invoice` has been paid. Nullable. Expandable.
+  * `presentment_details` - Expandable.
   * `schedule` - The schedule attached to the subscription Nullable. Expandable.
   * `start_date` - Date when the subscription was first created. The date might differ from the `created` date due to backdating. Format: Unix timestamp.
   * `status` - Possible values are `incomplete`, `incomplete_expired`, `trialing`, `active`, `past_due`, `canceled`, `unpaid`, or `paused`. 
@@ -103,6 +104,7 @@ defmodule Stripe.Resources.Subscription do
           pending_invoice_item_interval: __MODULE__.PendingInvoiceItemInterval.t(),
           pending_setup_intent: String.t() | Stripe.Resources.SetupIntent.t(),
           pending_update: __MODULE__.PendingUpdate.t(),
+          presentment_details: __MODULE__.PresentmentDetails.t() | nil,
           schedule: String.t() | Stripe.Resources.SubscriptionSchedule.t(),
           start_date: integer(),
           status: String.t(),
@@ -151,6 +153,7 @@ defmodule Stripe.Resources.Subscription do
     :pending_invoice_item_interval,
     :pending_setup_intent,
     :pending_update,
+    :presentment_details,
     :schedule,
     :start_date,
     :status,
@@ -186,6 +189,7 @@ defmodule Stripe.Resources.Subscription do
       "pending_invoice_item_interval",
       "pending_setup_intent",
       "pending_update",
+      "presentment_details",
       "schedule",
       "test_clock",
       "transfer_data",
@@ -302,7 +306,7 @@ defmodule Stripe.Resources.Subscription do
     @typedoc """
     * `comment` - Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user. Max length: 5000. Nullable.
     * `feedback` - The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user. Possible values: `customer_service`, `low_quality`, `missing_features`, `other`, `switched_service`, `too_complex`, `too_expensive`, `unused`. Nullable.
-    * `reason` - Why this subscription was canceled. Possible values: `cancellation_requested`, `payment_disputed`, `payment_failed`. Nullable.
+    * `reason` - Why this subscription was canceled. Possible values: `canceled_by_retention_policy`, `cancellation_requested`, `payment_disputed`, `payment_failed`. Nullable.
     """
     @type t :: %__MODULE__{
             comment: String.t() | nil,
@@ -368,7 +372,7 @@ defmodule Stripe.Resources.Subscription do
     @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
-    * `behavior` - The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`. Possible values: `keep_as_draft`, `mark_uncollectible`, `void`.
+    * `behavior` - The payment collection behavior for this subscription while paused. Possible values: `keep_as_draft`, `mark_uncollectible`, `void`.
     * `resumes_at` - The time after which the subscription will resume collecting payments. Format: Unix timestamp. Nullable.
     """
     @type t :: %__MODULE__{
@@ -432,7 +436,7 @@ defmodule Stripe.Resources.Subscription do
 
         @typedoc """
         * `mandate_options`
-        * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+        * `verification_method` - Bank account verification method. The default value is `automatic`. Possible values: `automatic`, `instant`, `microdeposits`.
         """
         @type t :: %__MODULE__{
                 mandate_options: __MODULE__.MandateOptions.t() | nil,
@@ -490,7 +494,7 @@ defmodule Stripe.Resources.Subscription do
           @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
-          * `amount` - Amount to be charged for future payments. Nullable.
+          * `amount` - Amount to be charged for future payments, specified in the presentment currency. Nullable.
           * `amount_type` - One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param. Possible values: `fixed`, `maximum`. Nullable.
           * `description` - A description of the mandate or subscription that is meant to be displayed to the customer. Max length: 200. Nullable.
           """
@@ -539,7 +543,7 @@ defmodule Stripe.Resources.Subscription do
             @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
-            * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
+            * `country` - The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
             """
             @type t :: %__MODULE__{
                     country: String.t() | nil
@@ -600,7 +604,7 @@ defmodule Stripe.Resources.Subscription do
 
         @typedoc """
         * `financial_connections`
-        * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+        * `verification_method` - Bank account verification method. The default value is `automatic`. Possible values: `automatic`, `instant`, `microdeposits`.
         """
         @type t :: %__MODULE__{
                 financial_connections: __MODULE__.FinancialConnections.t() | nil,
@@ -708,6 +712,18 @@ defmodule Stripe.Resources.Subscription do
     ]
   end
 
+  defmodule PresentmentDetails do
+    @moduledoc "Nested struct within the parent resource."
+
+    @typedoc """
+    * `presentment_currency` - Currency used for customer payments. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            presentment_currency: String.t() | nil
+          }
+    defstruct [:presentment_currency]
+  end
+
   defmodule TransferData do
     @moduledoc "Nested struct within the parent resource."
 
@@ -765,6 +781,7 @@ defmodule Stripe.Resources.Subscription do
       "payment_settings" => __MODULE__.PaymentSettings,
       "pending_invoice_item_interval" => __MODULE__.PendingInvoiceItemInterval,
       "pending_update" => __MODULE__.PendingUpdate,
+      "presentment_details" => __MODULE__.PresentmentDetails,
       "transfer_data" => __MODULE__.TransferData,
       "trial_settings" => __MODULE__.TrialSettings
     }

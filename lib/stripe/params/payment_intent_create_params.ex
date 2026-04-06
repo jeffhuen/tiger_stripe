@@ -157,7 +157,7 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
 
     Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
 
-    For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+    For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
     * `line_items` - A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
     * `shipping` - Contains information about the shipping portion of the amount.
     * `tax` - Contains information about the tax portion of the amount.
@@ -233,8 +233,6 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
     This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
     * `order_reference` - A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 
-    Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
-
     For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
     """
     @type t :: %__MODULE__{
@@ -299,7 +297,8 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
     * `sofort` - If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
     * `swish` - If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
     * `twint` - If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
-    * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `cashapp`, `crypto`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `us_bank_account`, `wechat_pay`, `zip`.
+    * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `cashapp`, `crypto`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
+    * `upi` - If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
     * `us_bank_account` - If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
     * `wechat_pay` - If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
     * `zip` - If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -357,6 +356,7 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
             swish: map() | nil,
             twint: map() | nil,
             type: String.t() | nil,
+            upi: __MODULE__.Upi.t() | nil,
             us_bank_account: __MODULE__.UsBankAccount.t() | nil,
             wechat_pay: map() | nil,
             zip: map() | nil
@@ -414,6 +414,7 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
       :swish,
       :twint,
       :type,
+      :upi,
       :us_bank_account,
       :wechat_pay,
       :zip
@@ -666,6 +667,36 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
       defstruct [:country]
     end
 
+    defmodule Upi do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `mandate_options` - Configuration options for setting up an eMandate
+      """
+      @type t :: %__MODULE__{
+              mandate_options: __MODULE__.MandateOptions.t() | nil
+            }
+      defstruct [:mandate_options]
+
+      defmodule MandateOptions do
+        @moduledoc "Nested parameters."
+
+        @typedoc """
+        * `amount` - Amount to be charged for future payments.
+        * `amount_type` - One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param. Possible values: `fixed`, `maximum`.
+        * `description` - A description of the mandate or subscription that is meant to be displayed to the customer. Max length: 20.
+        * `end_date` - End date of the mandate or subscription. Format: Unix timestamp.
+        """
+        @type t :: %__MODULE__{
+                amount: integer() | nil,
+                amount_type: String.t() | nil,
+                description: String.t() | nil,
+                end_date: integer() | nil
+              }
+        defstruct [:amount, :amount_type, :description, :end_date]
+      end
+    end
+
     defmodule UsBankAccount do
       @moduledoc "Nested parameters."
 
@@ -746,6 +777,7 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
     * `sofort` - If this is a `sofort` PaymentMethod, this sub-hash contains details about the SOFORT payment method options.
     * `swish` - If this is a `Swish` PaymentMethod, this sub-hash contains details about the Swish payment method options.
     * `twint` - If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
+    * `upi` - If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
     * `us_bank_account` - If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
     * `wechat_pay` - If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
     * `zip` - If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
@@ -800,6 +832,7 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
             sofort: map() | nil,
             swish: map() | nil,
             twint: map() | nil,
+            upi: map() | nil,
             us_bank_account: map() | nil,
             wechat_pay: map() | nil,
             zip: map() | nil
@@ -854,6 +887,7 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
       :sofort,
       :swish,
       :twint,
+      :upi,
       :us_bank_account,
       :wechat_pay,
       :zip

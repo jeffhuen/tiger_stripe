@@ -8,7 +8,7 @@ defmodule Stripe.Services.V2.Core.AccountTokenService do
   alias Stripe.Client
 
   @doc """
-  Create an Account Token
+  Create an account token
 
   Creates an Account Token.
   """
@@ -24,7 +24,7 @@ defmodule Stripe.Services.V2.Core.AccountTokenService do
   end
 
   @doc """
-  Retrieve an Account Token
+  Retrieve an account token
 
   Retrieves an Account Token.
   """
