@@ -9,7 +9,7 @@ defmodule Stripe.Resources.Mandate do
   @typedoc """
   * `customer_acceptance` - Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `multi_use` - Expandable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `mandate`.
   * `on_behalf_of` - The account (if any) that the mandate is intended for. Max length: 5000.
@@ -118,6 +118,7 @@ defmodule Stripe.Resources.Mandate do
     * `revolut_pay`
     * `sepa_debit`
     * `type` - This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method. Max length: 5000.
+    * `upi`
     * `us_bank_account`
     """
     @type t :: %__MODULE__{
@@ -138,6 +139,7 @@ defmodule Stripe.Resources.Mandate do
             revolut_pay: Stripe.Resources.RevolutPay.t() | nil,
             sepa_debit: Stripe.Resources.SepaDebit.t() | nil,
             type: String.t() | nil,
+            upi: Stripe.Resources.UPI.t() | nil,
             us_bank_account: Stripe.Resources.UsBankAccount.t() | nil
           }
     defstruct [
@@ -158,6 +160,7 @@ defmodule Stripe.Resources.Mandate do
       :revolut_pay,
       :sepa_debit,
       :type,
+      :upi,
       :us_bank_account
     ]
 
@@ -177,18 +180,29 @@ defmodule Stripe.Resources.Mandate do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
+      * `display_name` - The display name for the account on this mandate. Max length: 5000. Nullable.
       * `network_status` - The status of the mandate on the Bacs network. Can be one of `pending`, `revoked`, `refused`, or `accepted`. Possible values: `accepted`, `pending`, `refused`, `revoked`.
       * `reference` - The unique reference identifying the mandate on the Bacs network. Max length: 5000.
       * `revocation_reason` - When the mandate is revoked on the Bacs network this field displays the reason for the revocation. Possible values: `account_closed`, `bank_account_restricted`, `bank_ownership_changed`, `could_not_process`, `debit_not_authorized`. Nullable.
+      * `service_user_number` - The service user number for the account on this mandate. Max length: 5000. Nullable.
       * `url` - The URL that will contain the mandate that the customer has signed. Max length: 5000.
       """
       @type t :: %__MODULE__{
+              display_name: String.t() | nil,
               network_status: String.t() | nil,
               reference: String.t() | nil,
               revocation_reason: String.t() | nil,
+              service_user_number: String.t() | nil,
               url: String.t() | nil
             }
-      defstruct [:network_status, :reference, :revocation_reason, :url]
+      defstruct [
+        :display_name,
+        :network_status,
+        :reference,
+        :revocation_reason,
+        :service_user_number,
+        :url
+      ]
     end
 
     defmodule Paypal do

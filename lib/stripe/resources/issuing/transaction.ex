@@ -21,7 +21,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
   * `dispute` - If you've disputed the transaction, the ID of the dispute. Nullable. Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `merchant_amount` - The amount that the merchant will receive, denominated in `merchant_currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). It will be different from `amount` if the merchant is taking payment in a different currency.
   * `merchant_currency` - The currency with which the merchant is taking payment. Format: ISO 4217 currency code.
   * `merchant_data` - Expandable.

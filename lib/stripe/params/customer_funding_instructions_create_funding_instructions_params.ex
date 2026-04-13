@@ -38,7 +38,7 @@ defmodule Stripe.Params.CustomerFundingInstructionsCreateFundingInstructionsPara
       @moduledoc "Nested parameters."
 
       @typedoc """
-      * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Max length: 5000.
+      * `country` - The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`. Max length: 5000.
       """
       @type t :: %__MODULE__{
               country: String.t() | nil

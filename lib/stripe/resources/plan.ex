@@ -23,7 +23,7 @@ defmodule Stripe.Resources.Plan do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `interval` - The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
   * `interval_count` - The number of intervals (specified in the `interval` attribute) between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `meter` - The meter tracking the usage of a metered price Max length: 5000. Nullable.
   * `nickname` - A brief description of the plan, hidden from customers. Max length: 5000. Nullable.

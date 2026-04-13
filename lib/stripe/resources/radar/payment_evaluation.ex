@@ -12,12 +12,13 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
   * `customer_details` - Expandable.
   * `events` - Event information associated with the payment evaluation, such as refunds, dispute, early fraud warnings, or user interventions. Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `insights` - Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `radar.payment_evaluation`.
   * `outcome` - Indicates the final outcome for the payment evaluation. Nullable. Expandable.
   * `payment_details` - Expandable.
+  * `recommended_action` - Recommended action based on the score of the fraudulent_payment signal. Possible values are `block` and `continue`. Possible values: `block`, `continue`.
+  * `signals` - Expandable.
   """
   @type t :: %__MODULE__{
           client_device_metadata_details: __MODULE__.ClientDeviceMetadataDetails.t() | nil,
@@ -25,12 +26,13 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
           customer_details: __MODULE__.CustomerDetails.t() | nil,
           events: [__MODULE__.Events.t()] | nil,
           id: String.t(),
-          insights: __MODULE__.Insights.t(),
           livemode: boolean(),
           metadata: %{String.t() => String.t()},
           object: String.t(),
           outcome: __MODULE__.Outcome.t() | nil,
-          payment_details: __MODULE__.PaymentDetails.t() | nil
+          payment_details: __MODULE__.PaymentDetails.t() | nil,
+          recommended_action: String.t(),
+          signals: __MODULE__.Signals.t()
         }
 
   defstruct [
@@ -39,12 +41,13 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     :customer_details,
     :events,
     :id,
-    :insights,
     :livemode,
     :metadata,
     :object,
     :outcome,
-    :payment_details
+    :payment_details,
+    :recommended_action,
+    :signals
   ]
 
   @object_name "radar.payment_evaluation"
@@ -55,9 +58,9 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
       "client_device_metadata_details",
       "customer_details",
       "events",
-      "insights",
       "outcome",
-      "payment_details"
+      "payment_details",
+      "signals"
     ]
 
   defmodule ClientDeviceMetadataDetails do
@@ -222,57 +225,6 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
         "refunded" => __MODULE__.Refunded,
         "user_intervention_raised" => __MODULE__.UserInterventionRaised,
         "user_intervention_resolved" => __MODULE__.UserInterventionResolved
-      }
-    end
-  end
-
-  defmodule Insights do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `card_issuer_decline` - Stripe Radar's evaluation of the likelihood of a card issuer decline on this payment. Nullable.
-    * `evaluated_at` - The timestamp when the evaluation was performed. Format: Unix timestamp.
-    * `fraudulent_dispute`
-    """
-    @type t :: %__MODULE__{
-            card_issuer_decline: __MODULE__.CardIssuerDecline.t() | nil,
-            evaluated_at: integer() | nil,
-            fraudulent_dispute: __MODULE__.FraudulentDispute.t() | nil
-          }
-    defstruct [:card_issuer_decline, :evaluated_at, :fraudulent_dispute]
-
-    defmodule CardIssuerDecline do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `model_score` - Stripe Radar's evaluation of the likelihood that the payment will be declined by the card issuer. Scores range from 0 to 100, with higher values indicating a higher likelihood of decline.
-      * `recommended_action` - Recommended action based on the model score. Possible values are `block` and `continue`. Possible values: `block`, `continue`.
-      """
-      @type t :: %__MODULE__{
-              model_score: float() | nil,
-              recommended_action: String.t() | nil
-            }
-      defstruct [:model_score, :recommended_action]
-    end
-
-    defmodule FraudulentDispute do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `recommended_action` - Recommended action based on the risk score. Possible values are `block` and `continue`. Possible values: `block`, `continue`.
-      * `risk_score` - Stripe Radar’s evaluation of the risk level of the payment. Possible values for evaluated payments are between 0 and 100, with higher scores indicating higher risk.
-      """
-      @type t :: %__MODULE__{
-              recommended_action: String.t() | nil,
-              risk_score: integer() | nil
-            }
-      defstruct [:recommended_action, :risk_score]
-    end
-
-    def __inner_types__ do
-      %{
-        "card_issuer_decline" => __MODULE__.CardIssuerDecline,
-        "fraudulent_dispute" => __MODULE__.FraudulentDispute
       }
     end
   end
@@ -571,14 +523,48 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     end
   end
 
+  defmodule Signals do
+    @moduledoc "Nested struct within the parent resource."
+
+    @typedoc """
+    * `fraudulent_payment`
+    """
+    @type t :: %__MODULE__{
+            fraudulent_payment: __MODULE__.FraudulentPayment.t() | nil
+          }
+    defstruct [:fraudulent_payment]
+
+    defmodule FraudulentPayment do
+      @moduledoc "Nested struct within the parent resource."
+
+      @typedoc """
+      * `evaluated_at` - The time when this signal was evaluated. Format: Unix timestamp.
+      * `risk_level` - Risk level of this signal, based on the score. Possible values: `elevated`, `highest`, `normal`.
+      * `score` - Score for this insight. Possible values for evaluated payments are -1 and any value between 0 and 100. The value is returned with two decimal places. A score of -1 indicates a test integration and higher scores indicate a higher likelihood of the signal being true.
+      """
+      @type t :: %__MODULE__{
+              evaluated_at: integer() | nil,
+              risk_level: String.t() | nil,
+              score: float() | nil
+            }
+      defstruct [:evaluated_at, :risk_level, :score]
+    end
+
+    def __inner_types__ do
+      %{
+        "fraudulent_payment" => __MODULE__.FraudulentPayment
+      }
+    end
+  end
+
   def __inner_types__ do
     %{
       "client_device_metadata_details" => __MODULE__.ClientDeviceMetadataDetails,
       "customer_details" => __MODULE__.CustomerDetails,
       "events" => __MODULE__.Events,
-      "insights" => __MODULE__.Insights,
       "outcome" => __MODULE__.Outcome,
-      "payment_details" => __MODULE__.PaymentDetails
+      "payment_details" => __MODULE__.PaymentDetails,
+      "signals" => __MODULE__.Signals
     }
   end
 end

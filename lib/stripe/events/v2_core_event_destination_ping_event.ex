@@ -4,7 +4,18 @@ defmodule Stripe.Events.V2CoreEventDestinationPingEvent do
   A ping event used to test the connection to an EventDestination.
   """
 
-  defstruct [:context, :created, :data, :id, :livemode, :object, :related_object, :type]
+  defstruct [
+    :changes,
+    :context,
+    :created,
+    :data,
+    :id,
+    :livemode,
+    :object,
+    :reason,
+    :related_object,
+    :type
+  ]
 
   def lookup_type, do: "v2.core.event_destination.ping"
 

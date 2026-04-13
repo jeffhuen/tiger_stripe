@@ -10,14 +10,16 @@ defmodule Stripe.Resources.Terminal.Configuration do
   @typedoc """
   * `bbpos_wisepad3` - Expandable.
   * `bbpos_wisepos_e` - Expandable.
+  * `cellular` - Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `is_account_default` - Whether this Configuration is the default for your account Nullable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `name` - String indicating the name of the Configuration object, set by the user Max length: 5000. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `terminal.configuration`.
   * `offline` - Expandable.
   * `reboot_window` - Expandable.
   * `stripe_s700` - Expandable.
+  * `stripe_s710` - Expandable.
   * `tipping` - Expandable.
   * `verifone_p400` - Expandable.
   * `wifi` - Expandable.
@@ -25,6 +27,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
   @type t :: %__MODULE__{
           bbpos_wisepad3: __MODULE__.BbposWisepad3.t() | nil,
           bbpos_wisepos_e: __MODULE__.BbposWiseposE.t() | nil,
+          cellular: __MODULE__.Cellular.t() | nil,
           id: String.t(),
           is_account_default: boolean(),
           livemode: boolean(),
@@ -33,6 +36,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
           offline: __MODULE__.Offline.t() | nil,
           reboot_window: __MODULE__.RebootWindow.t() | nil,
           stripe_s700: __MODULE__.StripeS700.t() | nil,
+          stripe_s710: __MODULE__.StripeS710.t() | nil,
           tipping: __MODULE__.Tipping.t() | nil,
           verifone_p400: __MODULE__.VerifoneP400.t() | nil,
           wifi: __MODULE__.Wifi.t() | nil
@@ -41,6 +45,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
   defstruct [
     :bbpos_wisepad3,
     :bbpos_wisepos_e,
+    :cellular,
     :id,
     :is_account_default,
     :livemode,
@@ -49,6 +54,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     :offline,
     :reboot_window,
     :stripe_s700,
+    :stripe_s710,
     :tipping,
     :verifone_p400,
     :wifi
@@ -61,9 +67,11 @@ defmodule Stripe.Resources.Terminal.Configuration do
     do: [
       "bbpos_wisepad3",
       "bbpos_wisepos_e",
+      "cellular",
       "offline",
       "reboot_window",
       "stripe_s700",
+      "stripe_s710",
       "tipping",
       "verifone_p400",
       "wifi"
@@ -93,6 +101,18 @@ defmodule Stripe.Resources.Terminal.Configuration do
     defstruct [:splashscreen]
   end
 
+  defmodule Cellular do
+    @moduledoc "Nested struct within the parent resource."
+
+    @typedoc """
+    * `enabled` - Whether a cellular-capable reader can connect to the internet over cellular.
+    """
+    @type t :: %__MODULE__{
+            enabled: boolean() | nil
+          }
+    defstruct [:enabled]
+  end
+
   defmodule Offline do
     @moduledoc "Nested struct within the parent resource."
 
@@ -120,6 +140,18 @@ defmodule Stripe.Resources.Terminal.Configuration do
   end
 
   defmodule StripeS700 do
+    @moduledoc "Nested struct within the parent resource."
+
+    @typedoc """
+    * `splashscreen` - A File ID representing an image to display on the reader
+    """
+    @type t :: %__MODULE__{
+            splashscreen: String.t() | Stripe.Resources.File.t() | nil
+          }
+    defstruct [:splashscreen]
+  end
+
+  defmodule StripeS710 do
     @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
@@ -667,9 +699,11 @@ defmodule Stripe.Resources.Terminal.Configuration do
     %{
       "bbpos_wisepad3" => __MODULE__.BbposWisepad3,
       "bbpos_wisepos_e" => __MODULE__.BbposWiseposE,
+      "cellular" => __MODULE__.Cellular,
       "offline" => __MODULE__.Offline,
       "reboot_window" => __MODULE__.RebootWindow,
       "stripe_s700" => __MODULE__.StripeS700,
+      "stripe_s710" => __MODULE__.StripeS710,
       "tipping" => __MODULE__.Tipping,
       "verifone_p400" => __MODULE__.VerifoneP400,
       "wifi" => __MODULE__.Wifi

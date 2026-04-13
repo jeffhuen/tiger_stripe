@@ -3,6 +3,8 @@ defmodule Stripe.Resources.Account do
   @moduledoc """
   Account
 
+  For new integrations, we recommend using the [Accounts v2 API](https://docs.stripe.com/api/v2/core/accounts), in place of /v1/accounts and /v1/customers to represent a user.
+
   This is an object representing a Stripe account. You can retrieve it to see
   properties on the account like its current requirements or if the account is
   enabled to make live charges or receive payouts.
@@ -258,6 +260,7 @@ defmodule Stripe.Resources.Account do
     * `transfers` - The status of the transfers capability of the account, or whether your platform can transfer funds to the account. Possible values: `active`, `inactive`, `pending`.
     * `treasury` - The status of the banking capability, or whether the account can have bank accounts. Possible values: `active`, `inactive`, `pending`.
     * `twint_payments` - The status of the TWINT capability of the account, or whether the account can directly process TWINT charges. Possible values: `active`, `inactive`, `pending`.
+    * `upi_payments` - The status of the upi payments capability of the account, or whether the account can directly process upi charges. Possible values: `active`, `inactive`, `pending`.
     * `us_bank_account_ach_payments` - The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges. Possible values: `active`, `inactive`, `pending`.
     * `us_bank_transfer_payments` - The status of the US customer_balance payments (USD currency) capability of the account, or whether the account can directly process US customer_balance charges. Possible values: `active`, `inactive`, `pending`.
     * `zip_payments` - The status of the Zip capability of the account, or whether the account can directly process Zip charges. Possible values: `active`, `inactive`, `pending`.
@@ -321,6 +324,7 @@ defmodule Stripe.Resources.Account do
             transfers: String.t() | nil,
             treasury: String.t() | nil,
             twint_payments: String.t() | nil,
+            upi_payments: String.t() | nil,
             us_bank_account_ach_payments: String.t() | nil,
             us_bank_transfer_payments: String.t() | nil,
             zip_payments: String.t() | nil
@@ -384,6 +388,7 @@ defmodule Stripe.Resources.Account do
       :transfers,
       :treasury,
       :twint_payments,
+      :upi_payments,
       :us_bank_account_ach_payments,
       :us_bank_transfer_payments,
       :zip_payments

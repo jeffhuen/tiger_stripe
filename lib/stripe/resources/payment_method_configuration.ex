@@ -54,7 +54,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   * `konbini` - Expandable.
   * `kr_card` - Expandable.
   * `link` - Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `mb_way` - Expandable.
   * `mobilepay` - Expandable.
   * `multibanco` - Expandable.
@@ -79,6 +79,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   * `sofort` - Expandable.
   * `swish` - Expandable.
   * `twint` - Expandable.
+  * `upi` - Expandable.
   * `us_bank_account` - Expandable.
   * `wechat_pay` - Expandable.
   * `zip` - Expandable.
@@ -143,6 +144,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
           sofort: __MODULE__.Sofort.t() | nil,
           swish: __MODULE__.Swish.t() | nil,
           twint: __MODULE__.Twint.t() | nil,
+          upi: __MODULE__.Upi.t() | nil,
           us_bank_account: __MODULE__.UsBankAccount.t() | nil,
           wechat_pay: __MODULE__.WechatPay.t() | nil,
           zip: __MODULE__.Zip.t() | nil
@@ -208,6 +210,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     :sofort,
     :swish,
     :twint,
+    :upi,
     :us_bank_account,
     :wechat_pay,
     :zip
@@ -269,6 +272,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
       "sofort",
       "swish",
       "twint",
+      "upi",
       "us_bank_account",
       "wechat_pay",
       "zip"
@@ -2110,6 +2114,42 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     end
   end
 
+  defmodule Upi do
+    @moduledoc "Nested struct within the parent resource."
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: __MODULE__.DisplayPreference.t() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc "Nested struct within the parent resource."
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
   defmodule UsBankAccount do
     @moduledoc "Nested struct within the parent resource."
 
@@ -2271,6 +2311,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
       "sofort" => __MODULE__.Sofort,
       "swish" => __MODULE__.Swish,
       "twint" => __MODULE__.Twint,
+      "upi" => __MODULE__.Upi,
       "us_bank_account" => __MODULE__.UsBankAccount,
       "wechat_pay" => __MODULE__.WechatPay,
       "zip" => __MODULE__.Zip
