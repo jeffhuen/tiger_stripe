@@ -234,6 +234,7 @@ defmodule Stripe.Params.AccountCreateParams do
     * `transfers` - The transfers capability.
     * `treasury` - The treasury capability.
     * `twint_payments` - The twint_payments capability.
+    * `upi_payments` - The upi_payments capability.
     * `us_bank_account_ach_payments` - The us_bank_account_ach_payments capability.
     * `us_bank_transfer_payments` - The us_bank_transfer_payments capability.
     * `zip_payments` - The zip_payments capability.
@@ -298,6 +299,7 @@ defmodule Stripe.Params.AccountCreateParams do
             transfers: __MODULE__.Transfers.t() | nil,
             treasury: __MODULE__.Treasury.t() | nil,
             twint_payments: __MODULE__.TwintPayments.t() | nil,
+            upi_payments: __MODULE__.UpiPayments.t() | nil,
             us_bank_account_ach_payments: __MODULE__.UsBankAccountAchPayments.t() | nil,
             us_bank_transfer_payments: __MODULE__.UsBankTransferPayments.t() | nil,
             zip_payments: __MODULE__.ZipPayments.t() | nil
@@ -361,6 +363,7 @@ defmodule Stripe.Params.AccountCreateParams do
       :transfers,
       :treasury,
       :twint_payments,
+      :upi_payments,
       :us_bank_account_ach_payments,
       :us_bank_transfer_payments,
       :zip_payments
@@ -1051,6 +1054,18 @@ defmodule Stripe.Params.AccountCreateParams do
     end
 
     defmodule TwintPayments do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+      """
+      @type t :: %__MODULE__{
+              requested: boolean() | nil
+            }
+      defstruct [:requested]
+    end
+
+    defmodule UpiPayments do
       @moduledoc "Nested parameters."
 
       @typedoc """

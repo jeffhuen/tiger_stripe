@@ -5,10 +5,10 @@ defmodule Stripe.Resources.Tax.CalculationLineItem do
   """
 
   @typedoc """
-  * `amount` - The line item amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
-  * `amount_tax` - The amount of tax calculated for this line item, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+  * `amount` - The line item amount in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
+  * `amount_tax` - The amount of tax calculated for this line item, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `tax.calculation_line_item`.
   * `product` - The ID of an existing [Product](https://docs.stripe.com/api/products/object). Max length: 5000. Nullable.
@@ -57,12 +57,12 @@ defmodule Stripe.Resources.Tax.CalculationLineItem do
     @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
-    * `amount` - The amount of tax, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+    * `amount` - The amount of tax, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
     * `jurisdiction`
     * `sourcing` - Indicates whether the jurisdiction was determined by the origin (merchant's address) or destination (customer's address). Possible values: `destination`, `origin`.
     * `tax_rate_details` - Details regarding the rate for this tax. This field will be `null` when the tax is not imposed, for example if the product is exempt from tax. Nullable.
     * `taxability_reason` - The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported. Possible values: `customer_exempt`, `not_collecting`, `not_subject_to_tax`, `not_supported`, `portion_product_exempt`, `portion_reduced_rated`, `portion_standard_rated`, `product_exempt`, `product_exempt_holiday`, `proportionally_rated`, `reduced_rated`, `reverse_charge`, `standard_rated`, `taxable_basis_reduced`, `zero_rated`.
-    * `taxable_amount` - The amount on which tax is calculated, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+    * `taxable_amount` - The amount on which tax is calculated, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,

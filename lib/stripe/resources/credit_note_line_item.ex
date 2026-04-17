@@ -13,7 +13,8 @@ defmodule Stripe.Resources.CreditNoteLineItem do
   * `discount_amounts` - The amount of discount calculated per discount for this line item Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `invoice_line_item` - ID of the invoice line item being credited Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `credit_note_line_item`.
   * `pretax_credit_amounts` - The pretax credit amounts (ex: discount, credit grants, etc) for this line item. Expandable.
   * `quantity` - The number of units of product being credited. Nullable.
@@ -31,6 +32,7 @@ defmodule Stripe.Resources.CreditNoteLineItem do
           id: String.t(),
           invoice_line_item: String.t() | nil,
           livemode: boolean(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           pretax_credit_amounts: [__MODULE__.PretaxCreditAmounts.t()],
           quantity: integer(),
@@ -49,6 +51,7 @@ defmodule Stripe.Resources.CreditNoteLineItem do
     :id,
     :invoice_line_item,
     :livemode,
+    :metadata,
     :object,
     :pretax_credit_amounts,
     :quantity,

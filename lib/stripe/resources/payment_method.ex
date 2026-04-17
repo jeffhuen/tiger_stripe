@@ -46,7 +46,7 @@ defmodule Stripe.Resources.PaymentMethod do
   * `konbini` - Expandable.
   * `kr_card` - Expandable.
   * `link` - Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `mb_way` - Expandable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `mobilepay` - Expandable.
@@ -71,7 +71,8 @@ defmodule Stripe.Resources.PaymentMethod do
   * `sofort` - Expandable.
   * `swish` - Expandable.
   * `twint` - Expandable.
-  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `card`, `card_present`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `interac_present`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `card`, `card_present`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `interac_present`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `upi` - Expandable.
   * `us_bank_account` - Expandable.
   * `wechat_pay` - Expandable.
   * `zip` - Expandable.
@@ -138,6 +139,7 @@ defmodule Stripe.Resources.PaymentMethod do
           swish: map() | nil,
           twint: map() | nil,
           type: String.t(),
+          upi: __MODULE__.Upi.t() | nil,
           us_bank_account: __MODULE__.UsBankAccount.t() | nil,
           wechat_pay: map() | nil,
           zip: map() | nil
@@ -205,6 +207,7 @@ defmodule Stripe.Resources.PaymentMethod do
     :swish,
     :twint,
     :type,
+    :upi,
     :us_bank_account,
     :wechat_pay,
     :zip
@@ -268,6 +271,7 @@ defmodule Stripe.Resources.PaymentMethod do
       "sofort",
       "swish",
       "twint",
+      "upi",
       "us_bank_account",
       "wechat_pay",
       "zip"
@@ -487,12 +491,14 @@ defmodule Stripe.Resources.PaymentMethod do
           * `incremental_authorization_supported` - Whether this [PaymentIntent](https://docs.stripe.com/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
           * `issuer` - The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.) Max length: 5000. Nullable.
           * `last4` - The last four digits of the card. Max length: 5000. Nullable.
+          * `location` - ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to. Max length: 5000.
           * `network` - Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`. Max length: 5000. Nullable.
           * `network_transaction_id` - This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise. Max length: 5000. Nullable.
           * `offline` - Details about payments collected offline. Nullable.
           * `overcapture_supported` - Defines whether the authorized amount can be over-captured or not
           * `preferred_locales` - The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip. Nullable.
           * `read_method` - How card details were read in this transaction. Possible values: `contact_emv`, `contactless_emv`, `contactless_magstripe_mode`, `magnetic_stripe_fallback`, `magnetic_stripe_track2`. Nullable.
+          * `reader` - ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on. Max length: 5000.
           * `receipt` - A collection of fields required to be displayed on receipts. Only required for EMV transactions. Nullable.
           * `wallet`
           """
@@ -514,12 +520,14 @@ defmodule Stripe.Resources.PaymentMethod do
                   incremental_authorization_supported: boolean() | nil,
                   issuer: String.t() | nil,
                   last4: String.t() | nil,
+                  location: String.t() | nil,
                   network: String.t() | nil,
                   network_transaction_id: String.t() | nil,
                   offline: Stripe.Resources.Offline.t() | nil,
                   overcapture_supported: boolean() | nil,
                   preferred_locales: [String.t()] | nil,
                   read_method: String.t() | nil,
+                  reader: String.t() | nil,
                   receipt: __MODULE__.Receipt.t() | nil,
                   wallet: __MODULE__.Wallet.t() | nil
                 }
@@ -541,12 +549,14 @@ defmodule Stripe.Resources.PaymentMethod do
             :incremental_authorization_supported,
             :issuer,
             :last4,
+            :location,
             :network,
             :network_transaction_id,
             :offline,
             :overcapture_supported,
             :preferred_locales,
             :read_method,
+            :reader,
             :receipt,
             :wallet
           ]
@@ -1148,6 +1158,18 @@ defmodule Stripe.Resources.PaymentMethod do
     defstruct [:country]
   end
 
+  defmodule Upi do
+    @moduledoc "Nested struct within the parent resource."
+
+    @typedoc """
+    * `vpa` - Customer's unique Virtual Payment Address Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            vpa: String.t() | nil
+          }
+    defstruct [:vpa]
+  end
+
   defmodule UsBankAccount do
     @moduledoc "Nested struct within the parent resource."
 
@@ -1270,6 +1292,7 @@ defmodule Stripe.Resources.PaymentMethod do
       "samsung_pay" => Stripe.Resources.SamsungPay,
       "sepa_debit" => __MODULE__.SepaDebit,
       "sofort" => __MODULE__.Sofort,
+      "upi" => __MODULE__.Upi,
       "us_bank_account" => __MODULE__.UsBankAccount
     }
   end

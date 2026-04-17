@@ -19,7 +19,7 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
   * `hosted_regulatory_receipt_url` - A [hosted transaction receipt](https://docs.stripe.com/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `linked_flows` - Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `treasury.inbound_transfer`.
   * `origin_payment_method` - The origin payment method to be debited for an InboundTransfer. Max length: 5000. Nullable.

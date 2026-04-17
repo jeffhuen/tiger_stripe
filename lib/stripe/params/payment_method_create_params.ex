@@ -59,7 +59,8 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
   * `sofort` - If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
   * `swish` - If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
   * `twint` - If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
-  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `card`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `card`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `upi` - If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
   * `us_bank_account` - If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
   * `wechat_pay` - If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
   * `zip` - If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -122,6 +123,7 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
           swish: map() | nil,
           twint: map() | nil,
           type: String.t() | nil,
+          upi: __MODULE__.Upi.t() | nil,
           us_bank_account: __MODULE__.UsBankAccount.t() | nil,
           wechat_pay: map() | nil,
           zip: map() | nil
@@ -185,6 +187,7 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
     :swish,
     :twint,
     :type,
+    :upi,
     :us_bank_account,
     :wechat_pay,
     :zip
@@ -447,6 +450,36 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
             country: String.t() | nil
           }
     defstruct [:country]
+  end
+
+  defmodule Upi do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `mandate_options` - Configuration options for setting up an eMandate
+    """
+    @type t :: %__MODULE__{
+            mandate_options: __MODULE__.MandateOptions.t() | nil
+          }
+    defstruct [:mandate_options]
+
+    defmodule MandateOptions do
+      @moduledoc "Nested parameters."
+
+      @typedoc """
+      * `amount` - Amount to be charged for future payments.
+      * `amount_type` - One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param. Possible values: `fixed`, `maximum`.
+      * `description` - A description of the mandate or subscription that is meant to be displayed to the customer. Max length: 20.
+      * `end_date` - End date of the mandate or subscription. Format: Unix timestamp.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              amount_type: String.t() | nil,
+              description: String.t() | nil,
+              end_date: integer() | nil
+            }
+      defstruct [:amount, :amount_type, :description, :end_date]
+    end
   end
 
   defmodule UsBankAccount do

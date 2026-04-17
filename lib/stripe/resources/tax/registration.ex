@@ -17,7 +17,7 @@ defmodule Stripe.Resources.Tax.Registration do
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `expires_at` - If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `tax.registration`.
   * `status` - The status of the registration. This field is present for convenience and can be deduced from `active_from` and `expires_at`. Possible values: `active`, `expired`, `scheduled`.
   """
@@ -109,6 +109,7 @@ defmodule Stripe.Resources.Tax.Registration do
     * `kr`
     * `kz`
     * `la`
+    * `lk`
     * `lt`
     * `lu`
     * `lv`
@@ -211,6 +212,7 @@ defmodule Stripe.Resources.Tax.Registration do
             kr: __MODULE__.Kr.t() | nil,
             kz: __MODULE__.Kz.t() | nil,
             la: __MODULE__.La.t() | nil,
+            lk: __MODULE__.Lk.t() | nil,
             lt: __MODULE__.Lt.t() | nil,
             lu: __MODULE__.Lu.t() | nil,
             lv: __MODULE__.Lv.t() | nil,
@@ -313,6 +315,7 @@ defmodule Stripe.Resources.Tax.Registration do
       :kr,
       :kz,
       :la,
+      :lk,
       :lt,
       :lu,
       :lv,
@@ -1460,6 +1463,18 @@ defmodule Stripe.Resources.Tax.Registration do
       defstruct [:type]
     end
 
+    defmodule Lk do
+      @moduledoc "Nested struct within the parent resource."
+
+      @typedoc """
+      * `type` - Type of registration in `country`. Possible values: `simplified`.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil
+            }
+      defstruct [:type]
+    end
+
     defmodule Lt do
       @moduledoc "Nested struct within the parent resource."
 
@@ -2409,6 +2424,7 @@ defmodule Stripe.Resources.Tax.Registration do
         "kr" => __MODULE__.Kr,
         "kz" => __MODULE__.Kz,
         "la" => __MODULE__.La,
+        "lk" => __MODULE__.Lk,
         "lt" => __MODULE__.Lt,
         "lu" => __MODULE__.Lu,
         "lv" => __MODULE__.Lv,

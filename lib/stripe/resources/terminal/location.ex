@@ -17,7 +17,7 @@ defmodule Stripe.Resources.Terminal.Location do
   * `display_name_kana` - The Kana variation of the display name of the location. Max length: 5000.
   * `display_name_kanji` - The Kanji variation of the display name of the location. Max length: 5000.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `terminal.location`.
   * `phone` - The phone number of the location. Max length: 5000.

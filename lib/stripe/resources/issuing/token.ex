@@ -12,7 +12,7 @@ defmodule Stripe.Resources.Issuing.Token do
   * `device_fingerprint` - The hashed ID derived from the device ID from the card network associated with the token. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `last4` - The last four digits of the token. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `network` - The token service provider / card network associated with the token. Possible values: `mastercard`, `visa`.
   * `network_data` - Expandable.
   * `network_updated_at` - Time at which the token was last updated by the card network. Measured in seconds since the Unix epoch. Format: Unix timestamp.
@@ -123,7 +123,7 @@ defmodule Stripe.Resources.Issuing.Token do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `card_reference_id` - A unique reference ID from Visa to represent the card account number. Max length: 5000.
+      * `card_reference_id` - A unique reference ID from Visa to represent the card account number. Max length: 5000. Nullable.
       * `token_reference_id` - The network-unique identifier for the token. Max length: 5000.
       * `token_requestor_id` - The ID of the entity requesting tokenization, specific to Visa. Max length: 5000.
       * `token_risk_score` - Degree of risk associated with the token between `01` and `99`, with higher number indicating higher risk. A `00` value indicates the token was not scored by Visa. Max length: 5000.

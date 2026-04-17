@@ -21,7 +21,7 @@ defmodule Stripe.Resources.SetupAttempt do
 
   Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `setup_attempt`.
   * `on_behalf_of` - The value of [on_behalf_of](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-on_behalf_of) on the SetupIntent at the time of this confirmation. Nullable. Expandable.
   * `payment_method` - ID of the payment method used with this SetupAttempt. Expandable.
@@ -109,6 +109,7 @@ defmodule Stripe.Resources.SetupAttempt do
     * `sepa_debit`
     * `sofort`
     * `type` - The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method. Max length: 5000.
+    * `upi`
     * `us_bank_account`
     """
     @type t :: %__MODULE__{
@@ -134,6 +135,7 @@ defmodule Stripe.Resources.SetupAttempt do
             sepa_debit: map() | nil,
             sofort: __MODULE__.Sofort.t() | nil,
             type: String.t() | nil,
+            upi: map() | nil,
             us_bank_account: Stripe.Resources.UsBankAccount.t() | nil
           }
     defstruct [
@@ -159,6 +161,7 @@ defmodule Stripe.Resources.SetupAttempt do
       :sepa_debit,
       :sofort,
       :type,
+      :upi,
       :us_bank_account
     ]
 

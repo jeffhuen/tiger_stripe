@@ -17,7 +17,7 @@ defmodule Stripe.Resources.Treasury.ReceivedCredit do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `initiating_payment_method_details` - Expandable.
   * `linked_flows` - Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `network` - The rails used to send the funds. Possible values: `ach`, `card`, `stripe`, `us_domestic_wire`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `treasury.received_credit`.
   * `reversal_details` - Details describing when a ReceivedCredit may be reversed. Nullable. Expandable.

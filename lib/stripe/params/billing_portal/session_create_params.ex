@@ -3,7 +3,7 @@ defmodule Stripe.Params.BillingPortal.SessionCreateParams do
   @moduledoc "Parameters for session create."
 
   @typedoc """
-  * `configuration` - The ID of an existing [configuration](https://docs.stripe.com/api/customer_portal/configuration) to use for this session, describing its functionality and features. If not specified, the session uses the default configuration. Max length: 5000.
+  * `configuration` - The ID of an existing [configuration](https://docs.stripe.com/api/customer_portal/configurations) to use for this session, describing its functionality and features. If not specified, the session uses the default configuration. Max length: 5000.
   * `customer` - The ID of an existing customer. Max length: 5000.
   * `customer_account` - The ID of an existing account. Max length: 5000.
   * `expand` - Specifies which fields in the response should be expanded.

@@ -16,7 +16,7 @@ defmodule Stripe.Resources.ConfirmationToken do
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `expires_at` - Time at which this ConfirmationToken expires and can no longer be used to confirm a PaymentIntent or SetupIntent. Format: Unix timestamp. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `mandate_data` - Data used for generating a Mandate. Nullable. Expandable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `confirmation_token`.
   * `payment_intent` - ID of the PaymentIntent that this ConfirmationToken was used to confirm, or null if this ConfirmationToken has not yet been used. Max length: 5000. Nullable.
@@ -252,7 +252,8 @@ defmodule Stripe.Resources.ConfirmationToken do
     * `sofort`
     * `swish`
     * `twint`
-    * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `card`, `card_present`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `interac_present`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `us_bank_account`, `wechat_pay`, `zip`.
+    * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `card`, `card_present`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `interac_present`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
+    * `upi`
     * `us_bank_account`
     * `wechat_pay`
     * `zip`
@@ -312,6 +313,7 @@ defmodule Stripe.Resources.ConfirmationToken do
             swish: map() | nil,
             twint: map() | nil,
             type: String.t() | nil,
+            upi: __MODULE__.Upi.t() | nil,
             us_bank_account: __MODULE__.UsBankAccount.t() | nil,
             wechat_pay: map() | nil,
             zip: map() | nil
@@ -371,6 +373,7 @@ defmodule Stripe.Resources.ConfirmationToken do
       :swish,
       :twint,
       :type,
+      :upi,
       :us_bank_account,
       :wechat_pay,
       :zip
@@ -590,12 +593,14 @@ defmodule Stripe.Resources.ConfirmationToken do
             * `incremental_authorization_supported` - Whether this [PaymentIntent](https://docs.stripe.com/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
             * `issuer` - The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.) Max length: 5000. Nullable.
             * `last4` - The last four digits of the card. Max length: 5000. Nullable.
+            * `location` - ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to. Max length: 5000.
             * `network` - Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`. Max length: 5000. Nullable.
             * `network_transaction_id` - This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise. Max length: 5000. Nullable.
             * `offline` - Details about payments collected offline. Nullable.
             * `overcapture_supported` - Defines whether the authorized amount can be over-captured or not
             * `preferred_locales` - The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip. Nullable.
             * `read_method` - How card details were read in this transaction. Possible values: `contact_emv`, `contactless_emv`, `contactless_magstripe_mode`, `magnetic_stripe_fallback`, `magnetic_stripe_track2`. Nullable.
+            * `reader` - ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on. Max length: 5000.
             * `receipt` - A collection of fields required to be displayed on receipts. Only required for EMV transactions. Nullable.
             * `wallet`
             """
@@ -617,12 +622,14 @@ defmodule Stripe.Resources.ConfirmationToken do
                     incremental_authorization_supported: boolean() | nil,
                     issuer: String.t() | nil,
                     last4: String.t() | nil,
+                    location: String.t() | nil,
                     network: String.t() | nil,
                     network_transaction_id: String.t() | nil,
                     offline: Stripe.Resources.Offline.t() | nil,
                     overcapture_supported: boolean() | nil,
                     preferred_locales: [String.t()] | nil,
                     read_method: String.t() | nil,
+                    reader: String.t() | nil,
                     receipt: __MODULE__.Receipt.t() | nil,
                     wallet: __MODULE__.Wallet.t() | nil
                   }
@@ -644,12 +651,14 @@ defmodule Stripe.Resources.ConfirmationToken do
               :incremental_authorization_supported,
               :issuer,
               :last4,
+              :location,
               :network,
               :network_transaction_id,
               :offline,
               :overcapture_supported,
               :preferred_locales,
               :read_method,
+              :reader,
               :receipt,
               :wallet
             ]
@@ -1239,6 +1248,18 @@ defmodule Stripe.Resources.ConfirmationToken do
       defstruct [:country]
     end
 
+    defmodule Upi do
+      @moduledoc "Nested struct within the parent resource."
+
+      @typedoc """
+      * `vpa` - Customer's unique Virtual Payment Address Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              vpa: String.t() | nil
+            }
+      defstruct [:vpa]
+    end
+
     defmodule UsBankAccount do
       @moduledoc "Nested struct within the parent resource."
 
@@ -1352,6 +1373,7 @@ defmodule Stripe.Resources.ConfirmationToken do
         "payto" => __MODULE__.Payto,
         "sepa_debit" => __MODULE__.SepaDebit,
         "sofort" => __MODULE__.Sofort,
+        "upi" => __MODULE__.Upi,
         "us_bank_account" => __MODULE__.UsBankAccount
       }
     end

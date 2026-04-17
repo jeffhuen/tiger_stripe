@@ -258,17 +258,17 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationCreateParams do
       @typedoc """
       * `invalid_account_number_decline_rate_past_hour` - The % of declines due to a card number not existing in the past hour, taking place at the same merchant. Higher rates correspond to a greater probability of card testing activity, meaning bad actors may be attempting different card number combinations to guess a correct one. Takes on values between 0 and 100.
       * `invalid_credentials_decline_rate_past_hour` - The % of declines due to incorrect verification data (like CVV or expiry) in the past hour, taking place at the same merchant. Higher rates correspond to a greater probability of bad actors attempting to utilize valid card credentials at merchants with verification requirements. Takes on values between 0 and 100.
-      * `risk_level` - The likelihood that this authorization is associated with card testing activity. This is assessed by evaluating decline activity over the last hour. Possible values: `elevated`, `highest`, `low`, `normal`, `not_assessed`, `unknown`.
+      * `level` - The likelihood that this authorization is associated with card testing activity. This is assessed by evaluating decline activity over the last hour. Possible values: `elevated`, `highest`, `low`, `normal`, `not_assessed`, `unknown`.
       """
       @type t :: %__MODULE__{
               invalid_account_number_decline_rate_past_hour: integer() | nil,
               invalid_credentials_decline_rate_past_hour: integer() | nil,
-              risk_level: String.t() | nil
+              level: String.t() | nil
             }
       defstruct [
         :invalid_account_number_decline_rate_past_hour,
         :invalid_credentials_decline_rate_past_hour,
-        :risk_level
+        :level
       ]
     end
 
@@ -291,13 +291,13 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationCreateParams do
 
       @typedoc """
       * `dispute_rate` - The dispute rate observed across all Stripe Issuing authorizations for this merchant. For example, a value of 50 means 50% of authorizations from this merchant on Stripe Issuing have resulted in a dispute. Higher values mean a higher likelihood the authorization is disputed. Takes on values between 0 and 100.
-      * `risk_level` - The likelihood that authorizations from this merchant will result in a dispute based on their history on Stripe Issuing. Possible values: `elevated`, `highest`, `low`, `normal`, `not_assessed`, `unknown`.
+      * `level` - The likelihood that authorizations from this merchant will result in a dispute based on their history on Stripe Issuing. Possible values: `elevated`, `highest`, `low`, `normal`, `not_assessed`, `unknown`.
       """
       @type t :: %__MODULE__{
               dispute_rate: integer() | nil,
-              risk_level: String.t() | nil
+              level: String.t() | nil
             }
-      defstruct [:dispute_rate, :risk_level]
+      defstruct [:dispute_rate, :level]
     end
   end
 

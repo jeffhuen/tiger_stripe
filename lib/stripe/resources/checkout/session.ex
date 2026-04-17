@@ -59,10 +59,11 @@ defmodule Stripe.Resources.Checkout.Session do
   * `excluded_payment_method_types` - A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
   * `expires_at` - The timestamp at which the Checkout Session will expire. Format: Unix timestamp.
   * `id` - Unique identifier for the object. Max length: 5000.
+  * `integration_identifier` - The integration identifier for this Checkout Session. Multiple Checkout Sessions can have the same integration identifier. Max length: 5000. Nullable.
   * `invoice` - ID of the invoice created by the Checkout Session, if it exists. Nullable. Expandable.
   * `invoice_creation` - Details on the state of invoice creation for the Checkout Session. Nullable. Expandable.
   * `line_items` - The line items purchased by the customer. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `locale` - The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used. Possible values: `auto`, `bg`, `cs`, `da`, `de`, `el`, `en`, `en-GB`, `es`, `es-419`, `et`, `fi`, `fil`, `fr`, `fr-CA`, `hr`, `hu`, `id`, `it`, `ja`, `ko`, `lt`, `lv`, `ms`, `mt`, `nb`, `nl`, `pl`, `pt`, `pt-BR`, `ro`, `ru`, `sk`, `sl`, `sv`, `th`, `tr`, `vi`, `zh`, `zh-HK`, `zh-TW`. Nullable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `mode` - The mode of the Checkout Session. Possible values: `payment`, `setup`, `subscription`.
@@ -101,7 +102,7 @@ defmodule Stripe.Resources.Checkout.Session do
   subscription creation is successful. Max length: 5000. Nullable.
   * `tax_id_collection` - Expandable.
   * `total_details` - Tax and discount details for the computed total amount. Nullable. Expandable.
-  * `ui_mode` - The UI mode of the Session. Defaults to `hosted`. Possible values: `custom`, `embedded`, `hosted`. Nullable.
+  * `ui_mode` - The UI mode of the Session. Defaults to `hosted_page`. Possible values: `elements`, `embedded_page`, `form`, `hosted_page`. Nullable.
   * `url` - The URL to the Checkout Session. Applies to Checkout Sessions with `ui_mode: hosted`. Redirect customers to this URL to take them to Checkout. If you’re using [Custom Domains](https://docs.stripe.com/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it’ll use `checkout.stripe.com.`
   This value is only present when the session is active. Max length: 5000. Nullable.
   * `wallet_options` - Wallet-specific configuration for this Checkout Session. Nullable. Expandable.
@@ -135,6 +136,7 @@ defmodule Stripe.Resources.Checkout.Session do
           excluded_payment_method_types: [String.t()] | nil,
           expires_at: integer(),
           id: String.t(),
+          integration_identifier: String.t(),
           invoice: String.t() | Stripe.Resources.Invoice.t(),
           invoice_creation: __MODULE__.InvoiceCreation.t(),
           line_items: __MODULE__.LineItems.t() | nil,
@@ -204,6 +206,7 @@ defmodule Stripe.Resources.Checkout.Session do
     :excluded_payment_method_types,
     :expires_at,
     :id,
+    :integration_identifier,
     :invoice,
     :invoice_creation,
     :line_items,
@@ -592,7 +595,7 @@ defmodule Stripe.Resources.Checkout.Session do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `default_value` - The value that will pre-fill the field on the payment page. Max length: 5000. Nullable.
+      * `default_value` - The value that pre-fills the field on the payment page. Max length: 5000. Nullable.
       * `maximum_length` - The maximum character length constraint for the customer's input. Nullable.
       * `minimum_length` - The minimum character length requirement for the customer's input. Nullable.
       * `value` - The value entered by the customer. Max length: 5000. Nullable.
@@ -635,7 +638,7 @@ defmodule Stripe.Resources.Checkout.Session do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `message` - Text may be up to 1200 characters in length. Max length: 500.
+      * `message` - Text can be up to 1200 characters in length. Max length: 1200.
       """
       @type t :: %__MODULE__{
               message: String.t() | nil
@@ -647,7 +650,7 @@ defmodule Stripe.Resources.Checkout.Session do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `message` - Text may be up to 1200 characters in length. Max length: 500.
+      * `message` - Text can be up to 1200 characters in length. Max length: 1200.
       """
       @type t :: %__MODULE__{
               message: String.t() | nil
@@ -659,7 +662,7 @@ defmodule Stripe.Resources.Checkout.Session do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `message` - Text may be up to 1200 characters in length. Max length: 500.
+      * `message` - Text can be up to 1200 characters in length. Max length: 1200.
       """
       @type t :: %__MODULE__{
               message: String.t() | nil
@@ -671,7 +674,7 @@ defmodule Stripe.Resources.Checkout.Session do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `message` - Text may be up to 1200 characters in length. Max length: 500.
+      * `message` - Text can be up to 1200 characters in length. Max length: 1200.
       """
       @type t :: %__MODULE__{
               message: String.t() | nil
@@ -728,7 +731,7 @@ defmodule Stripe.Resources.Checkout.Session do
       @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
-      * `type` - The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown` Possible values: `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `unknown`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, `zw_tin`.
+      * `type` - The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown` Possible values: `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `unknown`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, `zw_tin`.
       * `value` - The value of the tax ID. Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
@@ -1025,6 +1028,7 @@ defmodule Stripe.Resources.Checkout.Session do
     * `sofort`
     * `swish`
     * `twint`
+    * `upi`
     * `us_bank_account`
     """
     @type t :: %__MODULE__{
@@ -1069,6 +1073,7 @@ defmodule Stripe.Resources.Checkout.Session do
             sofort: __MODULE__.Sofort.t() | nil,
             swish: __MODULE__.Swish.t() | nil,
             twint: __MODULE__.Twint.t() | nil,
+            upi: __MODULE__.Upi.t() | nil,
             us_bank_account: __MODULE__.UsBankAccount.t() | nil
           }
     defstruct [
@@ -1113,6 +1118,7 @@ defmodule Stripe.Resources.Checkout.Session do
       :sofort,
       :swish,
       :twint,
+      :upi,
       :us_bank_account
     ]
 
@@ -1130,7 +1136,7 @@ defmodule Stripe.Resources.Checkout.Session do
 
       When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`, `on_session`.
       * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
-      * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+      * `verification_method` - Bank account verification method. The default value is `automatic`. Possible values: `automatic`, `instant`, `microdeposits`.
       """
       @type t :: %__MODULE__{
               currency: String.t() | nil,
@@ -1472,7 +1478,7 @@ defmodule Stripe.Resources.Checkout.Session do
           @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
-          * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
+          * `country` - The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
           """
           @type t :: %__MODULE__{
                   country: String.t() | nil
@@ -1990,6 +1996,26 @@ defmodule Stripe.Resources.Checkout.Session do
       defstruct [:setup_future_usage]
     end
 
+    defmodule Upi do
+      @moduledoc "Nested struct within the parent resource."
+
+      @typedoc """
+      * `mandate_options`
+      * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+      If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+      If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+      When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`, `on_session`.
+      """
+      @type t :: %__MODULE__{
+              mandate_options: Stripe.Resources.UPI.t() | nil,
+              setup_future_usage: String.t() | nil
+            }
+      defstruct [:mandate_options, :setup_future_usage]
+    end
+
     defmodule UsBankAccount do
       @moduledoc "Nested struct within the parent resource."
 
@@ -2003,7 +2029,7 @@ defmodule Stripe.Resources.Checkout.Session do
 
       When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`, `on_session`.
       * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
-      * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`.
+      * `verification_method` - Bank account verification method. The default value is `automatic`. Possible values: `automatic`, `instant`.
       """
       @type t :: %__MODULE__{
               financial_connections: __MODULE__.FinancialConnections.t() | nil,
@@ -2098,6 +2124,7 @@ defmodule Stripe.Resources.Checkout.Session do
         "sofort" => __MODULE__.Sofort,
         "swish" => __MODULE__.Swish,
         "twint" => __MODULE__.Twint,
+        "upi" => __MODULE__.Upi,
         "us_bank_account" => __MODULE__.UsBankAccount
       }
     end
