@@ -2,7 +2,7 @@ defmodule Stripe.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/jeffhuen/tiger_stripe"
-  @version "0.1.9"
+  @version "0.1.11"
 
   def project do
     [

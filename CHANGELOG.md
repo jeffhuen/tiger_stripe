@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
+## [0.1.11] - 2026-04-16
+
+### Added
+
+- Add `Stripe.Resources.Reserve.Hold`, `Stripe.Resources.Reserve.Plan`, and `Stripe.Resources.Reserve.Release` resources, plus their event types (`reserve.hold.created`, `reserve.hold.updated`, `reserve.plan.created`, `reserve.plan.disabled`, `reserve.plan.expired`, `reserve.plan.updated`, `reserve.release.created`)
+- Add `Stripe.Resources.UPI`, `Stripe.Resources.UPIHandleRedirectOrDisplayQrCode`, and `Stripe.Resources.UPIQRCode` resources
+
+### Changed
+
+- Sync OpenAPI spec to v2239 — field and parameter updates across V1 and V2 APIs (229 files, +2117/-466)
+
+## [0.1.10] - 2026-03-03
+
+### Changed
+
+- Sync OpenAPI spec to v2186 (API version `2026-01-28.clover`) — spec content unchanged from v2169, no generated code differences
+
 ## [0.1.9] - 2026-02-17
 
 ### Changed
@@ -100,6 +117,8 @@ The format is based on [Common Changelog](https://common-changelog.org/).
 - Add telemetry events for request lifecycle observability
 - Add Finch HTTP client with connection pooling (Mint + NimblePool)
 
+[0.1.11]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.10...v0.1.11
+[0.1.10]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.8...v0.1.9
 [0.1.8]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.6...v0.1.7
