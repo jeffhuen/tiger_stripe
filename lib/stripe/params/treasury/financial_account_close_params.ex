@@ -8,24 +8,20 @@ defmodule Stripe.Params.Treasury.FinancialAccountCloseParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          forwarding_settings: __MODULE__.ForwardingSettings.t() | nil
+          forwarding_settings: forwarding_settings() | nil
         }
 
   defstruct [:expand, :forwarding_settings]
 
-  defmodule ForwardingSettings do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `financial_account` - The financial_account id
-    * `payment_method` - The payment_method or bank account id. This needs to be a verified bank account. Max length: 5000.
-    * `type` - The type of the bank account provided. This can be either "financial_account" or "payment_method" Possible values: `financial_account`, `payment_method`.
-    """
-    @type t :: %__MODULE__{
-            financial_account: String.t() | nil,
-            payment_method: String.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:financial_account, :payment_method, :type]
-  end
+  @typedoc """
+  * `financial_account` - The financial_account id
+  * `payment_method` - The payment_method or bank account id. This needs to be a verified bank account. Max length: 5000.
+  * `type` - The type of the bank account provided. This can be either "financial_account" or "payment_method" Possible values: `financial_account`, `payment_method`.
+  """
+  @type forwarding_settings :: %{
+          optional(:financial_account) => String.t() | nil,
+          optional(:payment_method) => String.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

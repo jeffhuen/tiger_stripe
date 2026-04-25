@@ -21,7 +21,7 @@ defmodule Stripe.Generator.ParityTest do
     # Current behavior (failing expectation): {:map, %{}}
     # Desired behavior: {:map, {:ref, "currency_option"}}
 
-    # It resolves to an inner type because the schema defines it inline
+    # It resolves to a local nested shape because the schema defines it inline.
     assert {:map, {:inner, "CurrencyOptions"}} = currency_options.type
   end
 end

@@ -9,7 +9,7 @@ defmodule Stripe.Resources.ConnectCollectionTransfer do
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
   * `destination` - ID of the account that funds are being collected for. Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `connect_collection_transfer`.
   """
   @type t :: %__MODULE__{

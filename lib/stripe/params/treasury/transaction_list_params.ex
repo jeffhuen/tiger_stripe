@@ -22,7 +22,7 @@ defmodule Stripe.Params.Treasury.TransactionListParams do
           order_by: String.t() | nil,
           starting_after: String.t() | nil,
           status: String.t() | nil,
-          status_transitions: __MODULE__.StatusTransitions.t() | nil
+          status_transitions: status_transitions() | nil
         }
 
   defstruct [
@@ -37,15 +37,11 @@ defmodule Stripe.Params.Treasury.TransactionListParams do
     :status_transitions
   ]
 
-  defmodule StatusTransitions do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `posted_at` - Returns Transactions with `posted_at` within the specified range.
-    """
-    @type t :: %__MODULE__{
-            posted_at: map() | nil
-          }
-    defstruct [:posted_at]
-  end
+  @typedoc """
+  * `posted_at` - Returns Transactions with `posted_at` within the specified range.
+  """
+  @type status_transitions :: %{
+          optional(:posted_at) => map() | nil,
+          optional(String.t()) => term()
+        }
 end

@@ -12,11 +12,7 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
   * `description` - An optional description of what the event destination is used for.
   * `enabled_events` - The list of events to enable for this endpoint.
   * `event_payload` - Payload type of events being subscribed to. Possible values: `snapshot`, `thin`.
-  * `events_from` - Specifies which accounts' events route to this destination.
-  `@self`: Receive events from the account that owns the event destination.
-  `@accounts`: Receive events emitted from other accounts you manage which includes your v1 and v2 accounts.
-  `@organization_members`: Receive events from accounts directly linked to the organization.
-  `@organization_members/@accounts`: Receive events from all accounts connected to any platform accounts in the organization.
+  * `events_from` - Where events should be routed from.
   * `id` - Unique identifier for the object.
   * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Metadata.
@@ -30,7 +26,7 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
   * `webhook_endpoint` - Webhook endpoint configuration.
   """
   @type t :: %__MODULE__{
-          amazon_eventbridge: __MODULE__.AmazonEventbridge.t() | nil,
+          amazon_eventbridge: amazon_eventbridge() | nil,
           created: String.t(),
           description: String.t(),
           enabled_events: [String.t()],
@@ -43,10 +39,10 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
           object: String.t(),
           snapshot_api_version: String.t() | nil,
           status: String.t(),
-          status_details: __MODULE__.StatusDetails.t() | nil,
+          status_details: status_details() | nil,
           type: String.t(),
           updated: String.t(),
-          webhook_endpoint: __MODULE__.WebhookEndpoint.t() | nil
+          webhook_endpoint: webhook_endpoint() | nil
         }
 
   defstruct [
@@ -72,71 +68,68 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
   @object_name "v2.core.event_destination"
   def object_name, do: @object_name
 
-  defmodule AmazonEventbridge do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `aws_account_id` - The AWS account ID.
+  * `aws_event_source_arn` - The ARN of the AWS event source.
+  * `aws_event_source_status` - The state of the AWS event source. Possible values: `active`, `deleted`, `pending`, `unknown`.
+  """
+  @type amazon_eventbridge :: %{
+          optional(:aws_account_id) => String.t() | nil,
+          optional(:aws_event_source_arn) => String.t() | nil,
+          optional(:aws_event_source_status) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `aws_account_id` - The AWS account ID.
-    * `aws_event_source_arn` - The ARN of the AWS event source.
-    * `aws_event_source_status` - The state of the AWS event source. Possible values: `active`, `deleted`, `pending`, `unknown`.
-    """
-    @type t :: %__MODULE__{
-            aws_account_id: String.t() | nil,
-            aws_event_source_arn: String.t() | nil,
-            aws_event_source_status: String.t() | nil
-          }
-    defstruct [:aws_account_id, :aws_event_source_arn, :aws_event_source_status]
-  end
+  @typedoc """
+  * `disabled` - Details about why the event destination has been disabled.
+  """
+  @type status_details :: %{
+          optional(:disabled) => status_details_disabled() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule StatusDetails do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `reason` - Reason event destination has been disabled. Possible values: `no_aws_event_source_exists`, `user`.
+  """
+  @type status_details_disabled :: %{
+          optional(:reason) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `disabled` - Details about why the event destination has been disabled.
-    """
-    @type t :: %__MODULE__{
-            disabled: __MODULE__.Disabled.t() | nil
-          }
-    defstruct [:disabled]
+  @typedoc """
+  * `signing_secret` - The signing secret of the webhook endpoint, only includable on creation.
+  * `url` - The URL of the webhook endpoint, includable.
+  """
+  @type webhook_endpoint :: %{
+          optional(:signing_secret) => String.t() | nil,
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Disabled do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `reason` - Reason event destination has been disabled. Possible values: `no_aws_event_source_exists`, `user`.
-      """
-      @type t :: %__MODULE__{
-              reason: String.t() | nil
-            }
-      defstruct [:reason]
-    end
-
-    def __inner_types__ do
-      %{
-        "disabled" => __MODULE__.Disabled
-      }
-    end
-  end
-
-  defmodule WebhookEndpoint do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `signing_secret` - The signing secret of the webhook endpoint, only includable on creation.
-    * `url` - The URL of the webhook endpoint, includable.
-    """
-    @type t :: %__MODULE__{
-            signing_secret: String.t() | nil,
-            url: String.t() | nil
-          }
-    defstruct [:signing_secret, :url]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "amazon_eventbridge" => __MODULE__.AmazonEventbridge,
-      "status_details" => __MODULE__.StatusDetails,
-      "webhook_endpoint" => __MODULE__.WebhookEndpoint
+      "amazon_eventbridge" => %{
+        fields: %{
+          "aws_account_id" => :scalar,
+          "aws_event_source_arn" => :scalar,
+          "aws_event_source_status" => :scalar
+        }
+      },
+      "status_details" => %{
+        fields: %{
+          "disabled" => %{
+            fields: %{
+              "reason" => :scalar
+            }
+          }
+        }
+      },
+      "webhook_endpoint" => %{
+        fields: %{
+          "signing_secret" => :scalar,
+          "url" => :scalar
+        }
+      }
     }
   end
 end

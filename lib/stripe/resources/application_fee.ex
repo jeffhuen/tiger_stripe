@@ -15,7 +15,7 @@ defmodule Stripe.Resources.ApplicationFee do
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
   * `fee_source` - Polymorphic source of the application fee. Includes the ID of the object the application fee was created from. Nullable. Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `application_fee`.
   * `originating_transaction` - ID of the corresponding charge on the platform account, if this fee was the result of a charge using the `destination` parameter. Nullable. Expandable.
   * `refunded` - Whether the fee has been fully refunded. If the fee is only partially refunded, this attribute will still be false.
@@ -30,13 +30,13 @@ defmodule Stripe.Resources.ApplicationFee do
           charge: String.t() | Stripe.Resources.Charge.t(),
           created: integer(),
           currency: String.t(),
-          fee_source: __MODULE__.FeeSource.t(),
+          fee_source: fee_source(),
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
           originating_transaction: String.t() | Stripe.Resources.Charge.t(),
           refunded: boolean(),
-          refunds: __MODULE__.Refunds.t()
+          refunds: refunds()
         }
 
   defstruct [
@@ -71,44 +71,49 @@ defmodule Stripe.Resources.ApplicationFee do
       "refunds"
     ]
 
-  defmodule FeeSource do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `charge` - Charge ID that created this application fee. Max length: 5000.
+  * `payout` - Payout ID that created this application fee. Max length: 5000.
+  * `type` - Type of object that created the application fee. Possible values: `charge`, `payout`.
+  """
+  @type fee_source :: %{
+          optional(:charge) => String.t() | nil,
+          optional(:payout) => String.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `charge` - Charge ID that created this application fee. Max length: 5000.
-    * `payout` - Payout ID that created this application fee. Max length: 5000.
-    * `type` - Type of object that created the application fee. Possible values: `charge`, `payout`.
-    """
-    @type t :: %__MODULE__{
-            charge: String.t() | nil,
-            payout: String.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:charge, :payout, :type]
-  end
+  @typedoc """
+  * `data` - Details about each object.
+  * `has_more` - True if this list has another page of items after this one that can be fetched.
+  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
+  * `url` - The URL where this list can be accessed. Max length: 5000.
+  """
+  @type refunds :: %{
+          optional(:data) => [Stripe.Resources.FeeRefund.t()] | nil,
+          optional(:has_more) => boolean() | nil,
+          optional(:object) => String.t() | nil,
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Refunds do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `data` - Details about each object.
-    * `has_more` - True if this list has another page of items after this one that can be fetched.
-    * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-    * `url` - The URL where this list can be accessed. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            data: [Stripe.Resources.FeeRefund.t()] | nil,
-            has_more: boolean() | nil,
-            object: String.t() | nil,
-            url: String.t() | nil
-          }
-    defstruct [:data, :has_more, :object, :url]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "fee_source" => __MODULE__.FeeSource,
-      "refunds" => __MODULE__.Refunds
+      "fee_source" => %{
+        fields: %{
+          "charge" => :scalar,
+          "payout" => :scalar,
+          "type" => :scalar
+        }
+      },
+      "refunds" => %{
+        fields: %{
+          "data" => {:list, {:resource, Stripe.Resources.FeeRefund}},
+          "has_more" => :scalar,
+          "object" => :scalar,
+          "url" => :scalar
+        }
+      }
     }
   end
 end

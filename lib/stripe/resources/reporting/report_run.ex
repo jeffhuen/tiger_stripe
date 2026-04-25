@@ -36,7 +36,7 @@ defmodule Stripe.Resources.Reporting.ReportRun do
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
-          parameters: __MODULE__.Parameters.t(),
+          parameters: parameters(),
           report_type: String.t(),
           result: Stripe.Resources.File.t(),
           status: String.t(),
@@ -61,45 +61,43 @@ defmodule Stripe.Resources.Reporting.ReportRun do
 
   def expandable_fields, do: ["parameters", "result"]
 
-  defmodule Parameters do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `columns` - The set of output columns requested for inclusion in the report run.
+  * `connected_account` - Connected account ID by which to filter the report run. Max length: 5000.
+  * `currency` - Currency of objects to be included in the report run. Format: ISO 4217 currency code.
+  * `interval_end` - Ending timestamp of data to be included in the report run. Can be any UTC timestamp between 1 second after the user specified `interval_start` and 1 second before this report's last `data_available_end` value. Format: Unix timestamp.
+  * `interval_start` - Starting timestamp of data to be included in the report run. Can be any UTC timestamp between 1 second after this report's `data_available_start` and 1 second before the user specified `interval_end` value. Format: Unix timestamp.
+  * `payout` - Payout ID by which to filter the report run. Max length: 5000.
+  * `reporting_category` - Category of balance transactions to be included in the report run. Max length: 5000.
+  * `timezone` - Defaults to `Etc/UTC`. The output timezone for all timestamps in the report. A list of possible time zone values is maintained at the [IANA Time Zone Database](http://www.iana.org/time-zones). Has no effect on `interval_start` or `interval_end`. Max length: 5000.
+  """
+  @type parameters :: %{
+          optional(:columns) => [String.t()] | nil,
+          optional(:connected_account) => String.t() | nil,
+          optional(:currency) => String.t() | nil,
+          optional(:interval_end) => integer() | nil,
+          optional(:interval_start) => integer() | nil,
+          optional(:payout) => String.t() | nil,
+          optional(:reporting_category) => String.t() | nil,
+          optional(:timezone) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `columns` - The set of output columns requested for inclusion in the report run.
-    * `connected_account` - Connected account ID by which to filter the report run. Max length: 5000.
-    * `currency` - Currency of objects to be included in the report run. Format: ISO 4217 currency code.
-    * `interval_end` - Ending timestamp of data to be included in the report run. Can be any UTC timestamp between 1 second after the user specified `interval_start` and 1 second before this report's last `data_available_end` value. Format: Unix timestamp.
-    * `interval_start` - Starting timestamp of data to be included in the report run. Can be any UTC timestamp between 1 second after this report's `data_available_start` and 1 second before the user specified `interval_end` value. Format: Unix timestamp.
-    * `payout` - Payout ID by which to filter the report run. Max length: 5000.
-    * `reporting_category` - Category of balance transactions to be included in the report run. Max length: 5000.
-    * `timezone` - Defaults to `Etc/UTC`. The output timezone for all timestamps in the report. A list of possible time zone values is maintained at the [IANA Time Zone Database](http://www.iana.org/time-zones). Has no effect on `interval_start` or `interval_end`. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            columns: [String.t()] | nil,
-            connected_account: String.t() | nil,
-            currency: String.t() | nil,
-            interval_end: integer() | nil,
-            interval_start: integer() | nil,
-            payout: String.t() | nil,
-            reporting_category: String.t() | nil,
-            timezone: String.t() | nil
-          }
-    defstruct [
-      :columns,
-      :connected_account,
-      :currency,
-      :interval_end,
-      :interval_start,
-      :payout,
-      :reporting_category,
-      :timezone
-    ]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "parameters" => __MODULE__.Parameters,
-      "result" => Stripe.Resources.File
+      "parameters" => %{
+        fields: %{
+          "columns" => {:list, :scalar},
+          "connected_account" => :scalar,
+          "currency" => :scalar,
+          "interval_end" => :scalar,
+          "interval_start" => :scalar,
+          "payout" => :scalar,
+          "reporting_category" => :scalar,
+          "timezone" => :scalar
+        }
+      },
+      "result" => {:resource, Stripe.Resources.File}
     }
   end
 end

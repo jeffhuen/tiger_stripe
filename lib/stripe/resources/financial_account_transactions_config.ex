@@ -20,9 +20,9 @@ defmodule Stripe.Resources.FinancialAccountTransactionsConfig do
 
   def expandable_fields, do: ["features"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "features" => Stripe.Resources.FinancialAccountTransactionsFeatures
+      "features" => {:resource, Stripe.Resources.FinancialAccountTransactionsFeatures}
     }
   end
 end

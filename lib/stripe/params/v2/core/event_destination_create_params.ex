@@ -7,11 +7,7 @@ defmodule Stripe.Params.V2.Core.EventDestinationCreateParams do
   * `description` - An optional description of what the event destination is used for.
   * `enabled_events` - The list of events to enable for this endpoint.
   * `event_payload` - Payload type of events being subscribed to. Possible values: `snapshot`, `thin`.
-  * `events_from` - Specifies which accounts' events route to this destination.
-  `@self`: Receive events from the account that owns the event destination.
-  `@accounts`: Receive events emitted from other accounts you manage which includes your v1 and v2 accounts.
-  `@organization_members`: Receive events from accounts directly linked to the organization.
-  `@organization_members/@accounts`: Receive events from all accounts connected to any platform accounts in the organization.
+  * `events_from` - Where events should be routed from.
   * `include` - Additional fields to include in the response.
   * `metadata` - Metadata.
   * `name` - Event destination name.
@@ -20,7 +16,7 @@ defmodule Stripe.Params.V2.Core.EventDestinationCreateParams do
   * `webhook_endpoint` - Webhook endpoint configuration.
   """
   @type t :: %__MODULE__{
-          amazon_eventbridge: __MODULE__.AmazonEventbridge.t() | nil,
+          amazon_eventbridge: amazon_eventbridge() | nil,
           description: String.t() | nil,
           enabled_events: [String.t()],
           event_payload: String.t(),
@@ -30,7 +26,7 @@ defmodule Stripe.Params.V2.Core.EventDestinationCreateParams do
           name: String.t(),
           snapshot_api_version: String.t() | nil,
           type: String.t(),
-          webhook_endpoint: __MODULE__.WebhookEndpoint.t() | nil
+          webhook_endpoint: webhook_endpoint() | nil
         }
 
   defstruct [
@@ -47,29 +43,21 @@ defmodule Stripe.Params.V2.Core.EventDestinationCreateParams do
     :webhook_endpoint
   ]
 
-  defmodule AmazonEventbridge do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `aws_account_id` - The AWS account ID.
+  * `aws_region` - The region of the AWS event source.
+  """
+  @type amazon_eventbridge :: %{
+          optional(:aws_account_id) => String.t() | nil,
+          optional(:aws_region) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `aws_account_id` - The AWS account ID.
-    * `aws_region` - The region of the AWS event source.
-    """
-    @type t :: %__MODULE__{
-            aws_account_id: String.t() | nil,
-            aws_region: String.t() | nil
-          }
-    defstruct [:aws_account_id, :aws_region]
-  end
-
-  defmodule WebhookEndpoint do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `url` - The URL of the webhook endpoint.
-    """
-    @type t :: %__MODULE__{
-            url: String.t() | nil
-          }
-    defstruct [:url]
-  end
+  @typedoc """
+  * `url` - The URL of the webhook endpoint.
+  """
+  @type webhook_endpoint :: %{
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

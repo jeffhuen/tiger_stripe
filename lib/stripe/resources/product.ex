@@ -20,7 +20,7 @@ defmodule Stripe.Resources.Product do
   * `description` - The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `images` - A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `marketing_features` - A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://docs.stripe.com/payments/checkout/pricing-table). Expandable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `name` - The product's name, meant to be displayable to the customer. Max length: 5000.
@@ -42,11 +42,11 @@ defmodule Stripe.Resources.Product do
           id: String.t(),
           images: [String.t()],
           livemode: boolean(),
-          marketing_features: [__MODULE__.MarketingFeatures.t()],
+          marketing_features: [marketing_features()],
           metadata: %{String.t() => String.t()},
           name: String.t(),
           object: String.t(),
-          package_dimensions: __MODULE__.PackageDimensions.t(),
+          package_dimensions: package_dimensions(),
           shippable: boolean(),
           statement_descriptor: String.t() | nil,
           tax_code: String.t() | Stripe.Resources.TaxCode.t() | nil,
@@ -84,40 +84,43 @@ defmodule Stripe.Resources.Product do
   def expandable_fields,
     do: ["default_price", "marketing_features", "package_dimensions", "tax_code"]
 
-  defmodule MarketingFeatures do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `name` - The marketing feature name. Up to 80 characters long. Max length: 5000.
+  """
+  @type marketing_features :: %{
+          optional(:name) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `name` - The marketing feature name. Up to 80 characters long. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            name: String.t() | nil
-          }
-    defstruct [:name]
-  end
+  @typedoc """
+  * `height` - Height, in inches.
+  * `length` - Length, in inches.
+  * `weight` - Weight, in ounces.
+  * `width` - Width, in inches.
+  """
+  @type package_dimensions :: %{
+          optional(:height) => float() | nil,
+          optional(:length) => float() | nil,
+          optional(:weight) => float() | nil,
+          optional(:width) => float() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule PackageDimensions do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `height` - Height, in inches.
-    * `length` - Length, in inches.
-    * `weight` - Weight, in ounces.
-    * `width` - Width, in inches.
-    """
-    @type t :: %__MODULE__{
-            height: float() | nil,
-            length: float() | nil,
-            weight: float() | nil,
-            width: float() | nil
-          }
-    defstruct [:height, :length, :weight, :width]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "marketing_features" => __MODULE__.MarketingFeatures,
-      "package_dimensions" => __MODULE__.PackageDimensions
+      "marketing_features" => %{
+        fields: %{
+          "name" => :scalar
+        }
+      },
+      "package_dimensions" => %{
+        fields: %{
+          "height" => :scalar,
+          "length" => :scalar,
+          "weight" => :scalar,
+          "width" => :scalar
+        }
+      }
     }
   end
 end

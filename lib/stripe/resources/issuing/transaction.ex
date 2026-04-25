@@ -21,7 +21,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
   * `dispute` - If you've disputed the transaction, the ID of the dispute. Nullable. Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `merchant_amount` - The amount that the merchant will receive, denominated in `merchant_currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). It will be different from `amount` if the merchant is taking payment in a different currency.
   * `merchant_currency` - The currency with which the merchant is taking payment. Format: ISO 4217 currency code.
   * `merchant_data` - Expandable.
@@ -36,7 +36,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          amount_details: __MODULE__.AmountDetails.t(),
+          amount_details: amount_details(),
           authorization: String.t() | Stripe.Resources.Issuing.Authorization.t(),
           balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
           card: String.t() | Stripe.Resources.Issuing.Card.t(),
@@ -48,13 +48,13 @@ defmodule Stripe.Resources.Issuing.Transaction do
           livemode: boolean(),
           merchant_amount: integer(),
           merchant_currency: String.t(),
-          merchant_data: __MODULE__.MerchantData.t(),
+          merchant_data: merchant_data(),
           metadata: %{String.t() => String.t()},
-          network_data: __MODULE__.NetworkData.t(),
+          network_data: network_data(),
           object: String.t(),
-          purchase_details: __MODULE__.PurchaseDetails.t() | nil,
+          purchase_details: purchase_details() | nil,
           token: String.t() | Stripe.Resources.Issuing.Token.t() | nil,
-          treasury: __MODULE__.Treasury.t() | nil,
+          treasury: treasury() | nil,
           type: String.t(),
           wallet: String.t()
         }
@@ -102,347 +102,348 @@ defmodule Stripe.Resources.Issuing.Transaction do
       "treasury"
     ]
 
-  defmodule AmountDetails do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `atm_fee` - The fee charged by the ATM for the cash withdrawal. Nullable.
-    * `cashback_amount` - The amount of cash requested by the cardholder. Nullable.
-    """
-    @type t :: %__MODULE__{
-            atm_fee: integer() | nil,
-            cashback_amount: integer() | nil
-          }
-    defstruct [:atm_fee, :cashback_amount]
-  end
-
-  defmodule MerchantData do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `category` - A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values. Max length: 5000.
-    * `category_code` - The merchant category code for the seller’s business Max length: 5000.
-    * `city` - City where the seller is located Max length: 5000. Nullable.
-    * `country` - Country where the seller is located Max length: 5000. Nullable.
-    * `name` - Name of the seller Max length: 5000. Nullable.
-    * `network_id` - Identifier assigned to the seller by the card network. Different card networks may assign different network_id fields to the same merchant. Max length: 5000.
-    * `postal_code` - Postal code where the seller is located Max length: 5000. Nullable.
-    * `state` - State where the seller is located Max length: 5000. Nullable.
-    * `tax_id` - The seller's tax identification number. Currently populated for French merchants only. Max length: 5000. Nullable.
-    * `terminal_id` - An ID assigned by the seller to the location of the sale. Max length: 5000. Nullable.
-    * `url` - URL provided by the merchant on a 3DS request Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            category: String.t() | nil,
-            category_code: String.t() | nil,
-            city: String.t() | nil,
-            country: String.t() | nil,
-            name: String.t() | nil,
-            network_id: String.t() | nil,
-            postal_code: String.t() | nil,
-            state: String.t() | nil,
-            tax_id: String.t() | nil,
-            terminal_id: String.t() | nil,
-            url: String.t() | nil
-          }
-    defstruct [
-      :category,
-      :category_code,
-      :city,
-      :country,
-      :name,
-      :network_id,
-      :postal_code,
-      :state,
-      :tax_id,
-      :terminal_id,
-      :url
-    ]
-  end
-
-  defmodule NetworkData do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `authorization_code` - A code created by Stripe which is shared with the merchant to validate the authorization. This field will be populated if the authorization message was approved. The code typically starts with the letter "S", followed by a six-digit number. For example, "S498162". Please note that the code is not guaranteed to be unique across authorizations. Max length: 5000. Nullable.
-    * `processing_date` - The date the transaction was processed by the card network. This can be different from the date the seller recorded the transaction depending on when the acquirer submits the transaction to the network. Max length: 5000. Nullable.
-    * `transaction_id` - Unique identifier for the authorization assigned by the card network used to match subsequent messages, disputes, and transactions. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            authorization_code: String.t() | nil,
-            processing_date: String.t() | nil,
-            transaction_id: String.t() | nil
-          }
-    defstruct [:authorization_code, :processing_date, :transaction_id]
-  end
-
-  defmodule PurchaseDetails do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `fleet` - Fleet-specific information for transactions using Fleet cards. Nullable.
-    * `flight` - Information about the flight that was purchased with this transaction. Nullable.
-    * `fuel` - Information about fuel that was purchased with this transaction. Nullable.
-    * `lodging` - Information about lodging that was purchased with this transaction. Nullable.
-    * `receipt` - The line items in the purchase. Nullable.
-    * `reference` - A merchant-specific order number. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            fleet: __MODULE__.Fleet.t() | nil,
-            flight: __MODULE__.Flight.t() | nil,
-            fuel: __MODULE__.Fuel.t() | nil,
-            lodging: __MODULE__.Lodging.t() | nil,
-            receipt: [__MODULE__.Receipt.t()] | nil,
-            reference: String.t() | nil
-          }
-    defstruct [:fleet, :flight, :fuel, :lodging, :receipt, :reference]
-
-    defmodule Fleet do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `cardholder_prompt_data` - Answers to prompts presented to cardholder at point of sale. Nullable.
-      * `purchase_type` - The type of purchase. One of `fuel_purchase`, `non_fuel_purchase`, or `fuel_and_non_fuel_purchase`. Max length: 5000. Nullable.
-      * `reported_breakdown` - More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data. Nullable.
-      * `service_type` - The type of fuel service. One of `non_fuel_transaction`, `full_service`, or `self_service`. Max length: 5000. Nullable.
-      """
-      @type t :: %__MODULE__{
-              cardholder_prompt_data: __MODULE__.CardholderPromptData.t() | nil,
-              purchase_type: String.t() | nil,
-              reported_breakdown: __MODULE__.ReportedBreakdown.t() | nil,
-              service_type: String.t() | nil
-            }
-      defstruct [:cardholder_prompt_data, :purchase_type, :reported_breakdown, :service_type]
-
-      defmodule CardholderPromptData do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `driver_id` - Driver ID. Max length: 5000. Nullable.
-        * `odometer` - Odometer reading. Nullable.
-        * `unspecified_id` - An alphanumeric ID. This field is used when a vehicle ID, driver ID, or generic ID is entered by the cardholder, but the merchant or card network did not specify the prompt type. Max length: 5000. Nullable.
-        * `user_id` - User ID. Max length: 5000. Nullable.
-        * `vehicle_number` - Vehicle number. Max length: 5000. Nullable.
-        """
-        @type t :: %__MODULE__{
-                driver_id: String.t() | nil,
-                odometer: integer() | nil,
-                unspecified_id: String.t() | nil,
-                user_id: String.t() | nil,
-                vehicle_number: String.t() | nil
-              }
-        defstruct [:driver_id, :odometer, :unspecified_id, :user_id, :vehicle_number]
-      end
-
-      defmodule ReportedBreakdown do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `fuel` - Breakdown of fuel portion of the purchase. Nullable.
-        * `non_fuel` - Breakdown of non-fuel portion of the purchase. Nullable.
-        * `tax` - Information about tax included in this transaction. Nullable.
-        """
-        @type t :: %__MODULE__{
-                fuel: __MODULE__.Fuel.t() | nil,
-                non_fuel: __MODULE__.NonFuel.t() | nil,
-                tax: __MODULE__.Tax.t() | nil
-              }
-        defstruct [:fuel, :non_fuel, :tax]
-
-        defmodule Fuel do
-          @moduledoc "Nested struct within the parent resource."
-
-          @typedoc """
-          * `gross_amount_decimal` - Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes. Format: decimal string. Nullable.
-          """
-          @type t :: %__MODULE__{
-                  gross_amount_decimal: String.t() | nil
-                }
-          defstruct [:gross_amount_decimal]
-        end
-
-        defmodule NonFuel do
-          @moduledoc "Nested struct within the parent resource."
-
-          @typedoc """
-          * `gross_amount_decimal` - Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes. Format: decimal string. Nullable.
-          """
-          @type t :: %__MODULE__{
-                  gross_amount_decimal: String.t() | nil
-                }
-          defstruct [:gross_amount_decimal]
-        end
-
-        defmodule Tax do
-          @moduledoc "Nested struct within the parent resource."
-
-          @typedoc """
-          * `local_amount_decimal` - Amount of state or provincial Sales Tax included in the transaction amount. Null if not reported by merchant or not subject to tax. Format: decimal string. Nullable.
-          * `national_amount_decimal` - Amount of national Sales Tax or VAT included in the transaction amount. Null if not reported by merchant or not subject to tax. Format: decimal string. Nullable.
-          """
-          @type t :: %__MODULE__{
-                  local_amount_decimal: String.t() | nil,
-                  national_amount_decimal: String.t() | nil
-                }
-          defstruct [:local_amount_decimal, :national_amount_decimal]
-        end
-
-        def __inner_types__ do
-          %{
-            "fuel" => __MODULE__.Fuel,
-            "non_fuel" => __MODULE__.NonFuel,
-            "tax" => __MODULE__.Tax
-          }
-        end
-      end
-
-      def __inner_types__ do
-        %{
-          "cardholder_prompt_data" => __MODULE__.CardholderPromptData,
-          "reported_breakdown" => __MODULE__.ReportedBreakdown
+  @typedoc """
+  * `atm_fee` - The fee charged by the ATM for the cash withdrawal. Nullable.
+  * `cashback_amount` - The amount of cash requested by the cardholder. Nullable.
+  """
+  @type amount_details :: %{
+          optional(:atm_fee) => integer() | nil,
+          optional(:cashback_amount) => integer() | nil,
+          optional(String.t()) => term()
         }
-      end
-    end
 
-    defmodule Flight do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `departure_at` - The time that the flight departed. Nullable.
-      * `passenger_name` - The name of the passenger. Max length: 5000. Nullable.
-      * `refundable` - Whether the ticket is refundable. Nullable.
-      * `segments` - The legs of the trip. Nullable.
-      * `travel_agency` - The travel agency that issued the ticket. Max length: 5000. Nullable.
-      """
-      @type t :: %__MODULE__{
-              departure_at: integer() | nil,
-              passenger_name: String.t() | nil,
-              refundable: boolean() | nil,
-              segments: [__MODULE__.Segments.t()] | nil,
-              travel_agency: String.t() | nil
-            }
-      defstruct [:departure_at, :passenger_name, :refundable, :segments, :travel_agency]
-
-      defmodule Segments do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `arrival_airport_code` - The three-letter IATA airport code of the flight's destination. Max length: 5000. Nullable.
-        * `carrier` - The airline carrier code. Max length: 5000. Nullable.
-        * `departure_airport_code` - The three-letter IATA airport code that the flight departed from. Max length: 5000. Nullable.
-        * `flight_number` - The flight number. Max length: 5000. Nullable.
-        * `service_class` - The flight's service class. Max length: 5000. Nullable.
-        * `stopover_allowed` - Whether a stopover is allowed on this flight. Nullable.
-        """
-        @type t :: %__MODULE__{
-                arrival_airport_code: String.t() | nil,
-                carrier: String.t() | nil,
-                departure_airport_code: String.t() | nil,
-                flight_number: String.t() | nil,
-                service_class: String.t() | nil,
-                stopover_allowed: boolean() | nil
-              }
-        defstruct [
-          :arrival_airport_code,
-          :carrier,
-          :departure_airport_code,
-          :flight_number,
-          :service_class,
-          :stopover_allowed
-        ]
-      end
-
-      def __inner_types__ do
-        %{
-          "segments" => __MODULE__.Segments
+  @typedoc """
+  * `category` - A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values. Max length: 5000.
+  * `category_code` - The merchant category code for the seller’s business Max length: 5000.
+  * `city` - City where the seller is located Max length: 5000. Nullable.
+  * `country` - Country where the seller is located Max length: 5000. Nullable.
+  * `name` - Name of the seller Max length: 5000. Nullable.
+  * `network_id` - Identifier assigned to the seller by the card network. Different card networks may assign different network_id fields to the same merchant. Max length: 5000.
+  * `postal_code` - Postal code where the seller is located Max length: 5000. Nullable.
+  * `state` - State where the seller is located Max length: 5000. Nullable.
+  * `tax_id` - The seller's tax identification number. Currently populated for French merchants only. Max length: 5000. Nullable.
+  * `terminal_id` - An ID assigned by the seller to the location of the sale. Max length: 5000. Nullable.
+  * `url` - URL provided by the merchant on a 3DS request Max length: 5000. Nullable.
+  """
+  @type merchant_data :: %{
+          optional(:category) => String.t() | nil,
+          optional(:category_code) => String.t() | nil,
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:name) => String.t() | nil,
+          optional(:network_id) => String.t() | nil,
+          optional(:postal_code) => String.t() | nil,
+          optional(:state) => String.t() | nil,
+          optional(:tax_id) => String.t() | nil,
+          optional(:terminal_id) => String.t() | nil,
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
         }
-      end
-    end
 
-    defmodule Fuel do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `authorization_code` - A code created by Stripe which is shared with the merchant to validate the authorization. This field will be populated if the authorization message was approved. The code typically starts with the letter "S", followed by a six-digit number. For example, "S498162". Please note that the code is not guaranteed to be unique across authorizations. Max length: 5000. Nullable.
+  * `processing_date` - The date the transaction was processed by the card network. This can be different from the date the seller recorded the transaction depending on when the acquirer submits the transaction to the network. Max length: 5000. Nullable.
+  * `transaction_id` - Unique identifier for the authorization assigned by the card network used to match subsequent messages, disputes, and transactions. Max length: 5000. Nullable.
+  """
+  @type network_data :: %{
+          optional(:authorization_code) => String.t() | nil,
+          optional(:processing_date) => String.t() | nil,
+          optional(:transaction_id) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `industry_product_code` - [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased. Max length: 5000. Nullable.
-      * `quantity_decimal` - The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places. Format: decimal string. Nullable.
-      * `type` - The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`. Max length: 5000.
-      * `unit` - The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`. Max length: 5000.
-      * `unit_cost_decimal` - The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places. Format: decimal string.
-      """
-      @type t :: %__MODULE__{
-              industry_product_code: String.t() | nil,
-              quantity_decimal: String.t() | nil,
-              type: String.t() | nil,
-              unit: String.t() | nil,
-              unit_cost_decimal: String.t() | nil
-            }
-      defstruct [:industry_product_code, :quantity_decimal, :type, :unit, :unit_cost_decimal]
-    end
+  @typedoc """
+  * `fleet` - Fleet-specific information for transactions using Fleet cards. Nullable.
+  * `flight` - Information about the flight that was purchased with this transaction. Nullable.
+  * `fuel` - Information about fuel that was purchased with this transaction. Nullable.
+  * `lodging` - Information about lodging that was purchased with this transaction. Nullable.
+  * `receipt` - The line items in the purchase. Nullable.
+  * `reference` - A merchant-specific order number. Max length: 5000. Nullable.
+  """
+  @type purchase_details :: %{
+          optional(:fleet) => purchase_details_fleet() | nil,
+          optional(:flight) => purchase_details_flight() | nil,
+          optional(:fuel) => purchase_details_fuel() | nil,
+          optional(:lodging) => purchase_details_lodging() | nil,
+          optional(:receipt) => [purchase_details_receipt()] | nil,
+          optional(:reference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Lodging do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `cardholder_prompt_data` - Answers to prompts presented to cardholder at point of sale. Nullable.
+  * `purchase_type` - The type of purchase. One of `fuel_purchase`, `non_fuel_purchase`, or `fuel_and_non_fuel_purchase`. Max length: 5000. Nullable.
+  * `reported_breakdown` - More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data. Nullable.
+  * `service_type` - The type of fuel service. One of `non_fuel_transaction`, `full_service`, or `self_service`. Max length: 5000. Nullable.
+  """
+  @type purchase_details_fleet :: %{
+          optional(:cardholder_prompt_data) =>
+            purchase_details_fleet_cardholder_prompt_data() | nil,
+          optional(:purchase_type) => String.t() | nil,
+          optional(:reported_breakdown) => purchase_details_fleet_reported_breakdown() | nil,
+          optional(:service_type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `check_in_at` - The time of checking into the lodging. Nullable.
-      * `nights` - The number of nights stayed at the lodging. Nullable.
-      """
-      @type t :: %__MODULE__{
-              check_in_at: integer() | nil,
-              nights: integer() | nil
-            }
-      defstruct [:check_in_at, :nights]
-    end
+  @typedoc """
+  * `driver_id` - Driver ID. Max length: 5000. Nullable.
+  * `odometer` - Odometer reading. Nullable.
+  * `unspecified_id` - An alphanumeric ID. This field is used when a vehicle ID, driver ID, or generic ID is entered by the cardholder, but the merchant or card network did not specify the prompt type. Max length: 5000. Nullable.
+  * `user_id` - User ID. Max length: 5000. Nullable.
+  * `vehicle_number` - Vehicle number. Max length: 5000. Nullable.
+  """
+  @type purchase_details_fleet_cardholder_prompt_data :: %{
+          optional(:driver_id) => String.t() | nil,
+          optional(:odometer) => integer() | nil,
+          optional(:unspecified_id) => String.t() | nil,
+          optional(:user_id) => String.t() | nil,
+          optional(:vehicle_number) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Receipt do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `fuel` - Breakdown of fuel portion of the purchase. Nullable.
+  * `non_fuel` - Breakdown of non-fuel portion of the purchase. Nullable.
+  * `tax` - Information about tax included in this transaction. Nullable.
+  """
+  @type purchase_details_fleet_reported_breakdown :: %{
+          optional(:fuel) => purchase_details_fleet_reported_breakdown_fuel() | nil,
+          optional(:non_fuel) => purchase_details_fleet_reported_breakdown_non_fuel() | nil,
+          optional(:tax) => purchase_details_fleet_reported_breakdown_tax() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `description` - The description of the item. The maximum length of this field is 26 characters. Max length: 5000. Nullable.
-      * `quantity` - The quantity of the item. Nullable.
-      * `total` - The total for this line item in cents. Nullable.
-      * `unit_cost` - The unit cost of the item in cents. Nullable.
-      """
-      @type t :: %__MODULE__{
-              description: String.t() | nil,
-              quantity: float() | nil,
-              total: integer() | nil,
-              unit_cost: integer() | nil
-            }
-      defstruct [:description, :quantity, :total, :unit_cost]
-    end
+  @typedoc """
+  * `gross_amount_decimal` - Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes. Format: decimal string. Nullable.
+  """
+  @type purchase_details_fleet_reported_breakdown_fuel :: %{
+          optional(:gross_amount_decimal) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    def __inner_types__ do
-      %{
-        "fleet" => __MODULE__.Fleet,
-        "flight" => __MODULE__.Flight,
-        "fuel" => __MODULE__.Fuel,
-        "lodging" => __MODULE__.Lodging,
-        "receipt" => __MODULE__.Receipt
-      }
-    end
-  end
+  @typedoc """
+  * `gross_amount_decimal` - Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes. Format: decimal string. Nullable.
+  """
+  @type purchase_details_fleet_reported_breakdown_non_fuel :: %{
+          optional(:gross_amount_decimal) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Treasury do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `local_amount_decimal` - Amount of state or provincial Sales Tax included in the transaction amount. Null if not reported by merchant or not subject to tax. Format: decimal string. Nullable.
+  * `national_amount_decimal` - Amount of national Sales Tax or VAT included in the transaction amount. Null if not reported by merchant or not subject to tax. Format: decimal string. Nullable.
+  """
+  @type purchase_details_fleet_reported_breakdown_tax :: %{
+          optional(:local_amount_decimal) => String.t() | nil,
+          optional(:national_amount_decimal) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `received_credit` - The Treasury [ReceivedCredit](https://docs.stripe.com/api/treasury/received_credits) representing this Issuing transaction if it is a refund Max length: 5000. Nullable.
-    * `received_debit` - The Treasury [ReceivedDebit](https://docs.stripe.com/api/treasury/received_debits) representing this Issuing transaction if it is a capture Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            received_credit: String.t() | nil,
-            received_debit: String.t() | nil
-          }
-    defstruct [:received_credit, :received_debit]
-  end
+  @typedoc """
+  * `departure_at` - The time that the flight departed. Nullable.
+  * `passenger_name` - The name of the passenger. Max length: 5000. Nullable.
+  * `refundable` - Whether the ticket is refundable. Nullable.
+  * `segments` - The legs of the trip. Nullable.
+  * `travel_agency` - The travel agency that issued the ticket. Max length: 5000. Nullable.
+  """
+  @type purchase_details_flight :: %{
+          optional(:departure_at) => integer() | nil,
+          optional(:passenger_name) => String.t() | nil,
+          optional(:refundable) => boolean() | nil,
+          optional(:segments) => [purchase_details_flight_segments()] | nil,
+          optional(:travel_agency) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  def __inner_types__ do
+  @typedoc """
+  * `arrival_airport_code` - The three-letter IATA airport code of the flight's destination. Max length: 5000. Nullable.
+  * `carrier` - The airline carrier code. Max length: 5000. Nullable.
+  * `departure_airport_code` - The three-letter IATA airport code that the flight departed from. Max length: 5000. Nullable.
+  * `flight_number` - The flight number. Max length: 5000. Nullable.
+  * `service_class` - The flight's service class. Max length: 5000. Nullable.
+  * `stopover_allowed` - Whether a stopover is allowed on this flight. Nullable.
+  """
+  @type purchase_details_flight_segments :: %{
+          optional(:arrival_airport_code) => String.t() | nil,
+          optional(:carrier) => String.t() | nil,
+          optional(:departure_airport_code) => String.t() | nil,
+          optional(:flight_number) => String.t() | nil,
+          optional(:service_class) => String.t() | nil,
+          optional(:stopover_allowed) => boolean() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `industry_product_code` - [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased. Max length: 5000. Nullable.
+  * `quantity_decimal` - The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places. Format: decimal string. Nullable.
+  * `type` - The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`. Max length: 5000.
+  * `unit` - The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`. Max length: 5000.
+  * `unit_cost_decimal` - The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places. Format: decimal string.
+  """
+  @type purchase_details_fuel :: %{
+          optional(:industry_product_code) => String.t() | nil,
+          optional(:quantity_decimal) => String.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(:unit) => String.t() | nil,
+          optional(:unit_cost_decimal) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `check_in_at` - The time of checking into the lodging. Nullable.
+  * `nights` - The number of nights stayed at the lodging. Nullable.
+  """
+  @type purchase_details_lodging :: %{
+          optional(:check_in_at) => integer() | nil,
+          optional(:nights) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `description` - The description of the item. The maximum length of this field is 26 characters. Max length: 5000. Nullable.
+  * `quantity` - The quantity of the item. Nullable.
+  * `total` - The total for this line item in cents. Nullable.
+  * `unit_cost` - The unit cost of the item in cents. Nullable.
+  """
+  @type purchase_details_receipt :: %{
+          optional(:description) => String.t() | nil,
+          optional(:quantity) => float() | nil,
+          optional(:total) => integer() | nil,
+          optional(:unit_cost) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `received_credit` - The Treasury [ReceivedCredit](https://docs.stripe.com/api/treasury/received_credits) representing this Issuing transaction if it is a refund Max length: 5000. Nullable.
+  * `received_debit` - The Treasury [ReceivedDebit](https://docs.stripe.com/api/treasury/received_debits) representing this Issuing transaction if it is a capture Max length: 5000. Nullable.
+  """
+  @type treasury :: %{
+          optional(:received_credit) => String.t() | nil,
+          optional(:received_debit) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  def __nested_fields__ do
     %{
-      "amount_details" => __MODULE__.AmountDetails,
-      "merchant_data" => __MODULE__.MerchantData,
-      "network_data" => __MODULE__.NetworkData,
-      "purchase_details" => __MODULE__.PurchaseDetails,
-      "treasury" => __MODULE__.Treasury
+      "amount_details" => %{
+        fields: %{
+          "atm_fee" => :scalar,
+          "cashback_amount" => :scalar
+        }
+      },
+      "merchant_data" => %{
+        fields: %{
+          "category" => :scalar,
+          "category_code" => :scalar,
+          "city" => :scalar,
+          "country" => :scalar,
+          "name" => :scalar,
+          "network_id" => :scalar,
+          "postal_code" => :scalar,
+          "state" => :scalar,
+          "tax_id" => :scalar,
+          "terminal_id" => :scalar,
+          "url" => :scalar
+        }
+      },
+      "network_data" => %{
+        fields: %{
+          "authorization_code" => :scalar,
+          "processing_date" => :scalar,
+          "transaction_id" => :scalar
+        }
+      },
+      "purchase_details" => %{
+        fields: %{
+          "fleet" => %{
+            fields: %{
+              "cardholder_prompt_data" => %{
+                fields: %{
+                  "driver_id" => :scalar,
+                  "odometer" => :scalar,
+                  "unspecified_id" => :scalar,
+                  "user_id" => :scalar,
+                  "vehicle_number" => :scalar
+                }
+              },
+              "purchase_type" => :scalar,
+              "reported_breakdown" => %{
+                fields: %{
+                  "fuel" => %{
+                    fields: %{
+                      "gross_amount_decimal" => :scalar
+                    }
+                  },
+                  "non_fuel" => %{
+                    fields: %{
+                      "gross_amount_decimal" => :scalar
+                    }
+                  },
+                  "tax" => %{
+                    fields: %{
+                      "local_amount_decimal" => :scalar,
+                      "national_amount_decimal" => :scalar
+                    }
+                  }
+                }
+              },
+              "service_type" => :scalar
+            }
+          },
+          "flight" => %{
+            fields: %{
+              "departure_at" => :scalar,
+              "passenger_name" => :scalar,
+              "refundable" => :scalar,
+              "segments" =>
+                {:list,
+                 %{
+                   fields: %{
+                     "arrival_airport_code" => :scalar,
+                     "carrier" => :scalar,
+                     "departure_airport_code" => :scalar,
+                     "flight_number" => :scalar,
+                     "service_class" => :scalar,
+                     "stopover_allowed" => :scalar
+                   }
+                 }},
+              "travel_agency" => :scalar
+            }
+          },
+          "fuel" => %{
+            fields: %{
+              "industry_product_code" => :scalar,
+              "quantity_decimal" => :scalar,
+              "type" => :scalar,
+              "unit" => :scalar,
+              "unit_cost_decimal" => :scalar
+            }
+          },
+          "lodging" => %{
+            fields: %{
+              "check_in_at" => :scalar,
+              "nights" => :scalar
+            }
+          },
+          "receipt" =>
+            {:list,
+             %{
+               fields: %{
+                 "description" => :scalar,
+                 "quantity" => :scalar,
+                 "total" => :scalar,
+                 "unit_cost" => :scalar
+               }
+             }},
+          "reference" => :scalar
+        }
+      },
+      "treasury" => %{
+        fields: %{
+          "received_credit" => :scalar,
+          "received_debit" => :scalar
+        }
+      }
     }
   end
 end

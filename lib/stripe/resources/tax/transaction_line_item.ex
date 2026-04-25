@@ -5,10 +5,10 @@ defmodule Stripe.Resources.Tax.TransactionLineItem do
   """
 
   @typedoc """
-  * `amount` - The line item amount in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
-  * `amount_tax` - The amount of tax calculated for this line item, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+  * `amount` - The line item amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
+  * `amount_tax` - The amount of tax calculated for this line item, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `tax.transaction_line_item`.
   * `product` - The ID of an existing [Product](https://docs.stripe.com/api/products/object). Max length: 5000. Nullable.
@@ -29,7 +29,7 @@ defmodule Stripe.Resources.Tax.TransactionLineItem do
           product: String.t(),
           quantity: integer(),
           reference: String.t(),
-          reversal: __MODULE__.Reversal.t(),
+          reversal: reversal(),
           tax_behavior: String.t(),
           tax_code: String.t(),
           type: String.t()
@@ -56,21 +56,21 @@ defmodule Stripe.Resources.Tax.TransactionLineItem do
 
   def expandable_fields, do: ["reversal"]
 
-  defmodule Reversal do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `original_line_item` - The `id` of the line item to reverse in the original transaction. Max length: 5000.
+  """
+  @type reversal :: %{
+          optional(:original_line_item) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `original_line_item` - The `id` of the line item to reverse in the original transaction. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            original_line_item: String.t() | nil
-          }
-    defstruct [:original_line_item]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "reversal" => __MODULE__.Reversal
+      "reversal" => %{
+        fields: %{
+          "original_line_item" => :scalar
+        }
+      }
     }
   end
 end

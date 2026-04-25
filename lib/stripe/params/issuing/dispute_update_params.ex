@@ -10,48 +10,34 @@ defmodule Stripe.Params.Issuing.DisputeUpdateParams do
   """
   @type t :: %__MODULE__{
           amount: integer() | nil,
-          evidence: __MODULE__.Evidence.t() | nil,
+          evidence: evidence() | nil,
           expand: [String.t()] | nil,
           metadata: map() | nil
         }
 
   defstruct [:amount, :evidence, :expand, :metadata]
 
-  defmodule Evidence do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `canceled` - Evidence provided when `reason` is 'canceled'.
-    * `duplicate` - Evidence provided when `reason` is 'duplicate'.
-    * `fraudulent` - Evidence provided when `reason` is 'fraudulent'.
-    * `merchandise_not_as_described` - Evidence provided when `reason` is 'merchandise_not_as_described'.
-    * `no_valid_authorization` - Evidence provided when `reason` is 'no_valid_authorization'.
-    * `not_received` - Evidence provided when `reason` is 'not_received'.
-    * `other` - Evidence provided when `reason` is 'other'.
-    * `reason` - The reason for filing the dispute. The evidence should be submitted in the field of the same name. Possible values: `canceled`, `duplicate`, `fraudulent`, `merchandise_not_as_described`, `no_valid_authorization`, `not_received`, `other`, `service_not_as_described`.
-    * `service_not_as_described` - Evidence provided when `reason` is 'service_not_as_described'.
-    """
-    @type t :: %__MODULE__{
-            canceled: map() | nil,
-            duplicate: map() | nil,
-            fraudulent: map() | nil,
-            merchandise_not_as_described: map() | nil,
-            no_valid_authorization: map() | nil,
-            not_received: map() | nil,
-            other: map() | nil,
-            reason: String.t() | nil,
-            service_not_as_described: map() | nil
-          }
-    defstruct [
-      :canceled,
-      :duplicate,
-      :fraudulent,
-      :merchandise_not_as_described,
-      :no_valid_authorization,
-      :not_received,
-      :other,
-      :reason,
-      :service_not_as_described
-    ]
-  end
+  @typedoc """
+  * `canceled` - Evidence provided when `reason` is 'canceled'.
+  * `duplicate` - Evidence provided when `reason` is 'duplicate'.
+  * `fraudulent` - Evidence provided when `reason` is 'fraudulent'.
+  * `merchandise_not_as_described` - Evidence provided when `reason` is 'merchandise_not_as_described'.
+  * `no_valid_authorization` - Evidence provided when `reason` is 'no_valid_authorization'.
+  * `not_received` - Evidence provided when `reason` is 'not_received'.
+  * `other` - Evidence provided when `reason` is 'other'.
+  * `reason` - The reason for filing the dispute. The evidence should be submitted in the field of the same name. Possible values: `canceled`, `duplicate`, `fraudulent`, `merchandise_not_as_described`, `no_valid_authorization`, `not_received`, `other`, `service_not_as_described`.
+  * `service_not_as_described` - Evidence provided when `reason` is 'service_not_as_described'.
+  """
+  @type evidence :: %{
+          optional(:canceled) => map() | nil,
+          optional(:duplicate) => map() | nil,
+          optional(:fraudulent) => map() | nil,
+          optional(:merchandise_not_as_described) => map() | nil,
+          optional(:no_valid_authorization) => map() | nil,
+          optional(:not_received) => map() | nil,
+          optional(:other) => map() | nil,
+          optional(:reason) => String.t() | nil,
+          optional(:service_not_as_described) => map() | nil,
+          optional(String.t()) => term()
+        }
 end

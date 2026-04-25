@@ -16,7 +16,7 @@ defmodule Stripe.Params.Issuing.PersonalizationDesignListParams do
           expand: [String.t()] | nil,
           limit: integer() | nil,
           lookup_keys: [String.t()] | nil,
-          preferences: __MODULE__.Preferences.t() | nil,
+          preferences: preferences() | nil,
           starting_after: String.t() | nil,
           status: String.t() | nil
         }
@@ -31,17 +31,13 @@ defmodule Stripe.Params.Issuing.PersonalizationDesignListParams do
     :status
   ]
 
-  defmodule Preferences do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `is_default` - Only return the personalization design that's set as the default. A connected account uses the Connect platform's default design if no personalization design is set as the default.
-    * `is_platform_default` - Only return the personalization design that is set as the Connect platform's default. This parameter is only applicable to connected accounts.
-    """
-    @type t :: %__MODULE__{
-            is_default: boolean() | nil,
-            is_platform_default: boolean() | nil
-          }
-    defstruct [:is_default, :is_platform_default]
-  end
+  @typedoc """
+  * `is_default` - Only return the personalization design that's set as the default. A connected account uses the Connect platform's default design if no personalization design is set as the default.
+  * `is_platform_default` - Only return the personalization design that is set as the Connect platform's default. This parameter is only applicable to connected accounts.
+  """
+  @type preferences :: %{
+          optional(:is_default) => boolean() | nil,
+          optional(:is_platform_default) => boolean() | nil,
+          optional(String.t()) => term()
+        }
 end

@@ -6,7 +6,7 @@ defmodule Stripe.Services.V2.Billing.MeterEventStreamService do
   alias Stripe.Client
 
   @doc """
-  Create a Meter Event with asynchronous validation
+  Create a billing meter event with asynchronous validation
 
   Creates meter events. Events are processed asynchronously, including validation. Requires a meter event session for authentication. Supports up to 10,000 requests per second in livemode. For even higher rate-limits, contact sales.
   """

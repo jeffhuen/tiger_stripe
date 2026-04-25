@@ -36,7 +36,7 @@ defmodule Stripe.Resources.BalanceTransaction do
           description: String.t(),
           exchange_rate: float(),
           fee: integer(),
-          fee_details: [__MODULE__.FeeDetails.t()],
+          fee_details: [fee_details()],
           id: String.t(),
           net: integer(),
           object: String.t(),
@@ -70,29 +70,33 @@ defmodule Stripe.Resources.BalanceTransaction do
 
   def expandable_fields, do: ["fee_details", "source"]
 
-  defmodule FeeDetails do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `amount` - Amount of the fee, in cents.
+  * `application` - ID of the Connect application that earned the fee. Max length: 5000. Nullable.
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 5000. Nullable.
+  * `type` - Type of the fee, one of: `application_fee`, `payment_method_passthrough_fee`, `stripe_fee` or `tax`. Max length: 5000.
+  """
+  @type fee_details :: %{
+          optional(:amount) => integer() | nil,
+          optional(:application) => String.t() | nil,
+          optional(:currency) => String.t() | nil,
+          optional(:description) => String.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `amount` - Amount of the fee, in cents.
-    * `application` - ID of the Connect application that earned the fee. Max length: 5000. Nullable.
-    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-    * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 5000. Nullable.
-    * `type` - Type of the fee, one of: `application_fee`, `payment_method_passthrough_fee`, `stripe_fee` or `tax`. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            amount: integer() | nil,
-            application: String.t() | nil,
-            currency: String.t() | nil,
-            description: String.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:amount, :application, :currency, :description, :type]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "fee_details" => __MODULE__.FeeDetails
+      "fee_details" => %{
+        fields: %{
+          "amount" => :scalar,
+          "application" => :scalar,
+          "currency" => :scalar,
+          "description" => :scalar,
+          "type" => :scalar
+        }
+      }
     }
   end
 end

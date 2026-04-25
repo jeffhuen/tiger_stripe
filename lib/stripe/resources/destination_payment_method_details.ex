@@ -24,11 +24,11 @@ defmodule Stripe.Resources.DestinationPaymentMethodDetails do
 
   def expandable_fields, do: ["billing_details", "financial_account", "us_bank_account"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "billing_details" => Stripe.Resources.BillingDetails,
-      "financial_account" => Stripe.Resources.FinancialAccount,
-      "us_bank_account" => Stripe.Resources.UsBankAccount
+      "billing_details" => {:resource, Stripe.Resources.BillingDetails},
+      "financial_account" => {:resource, Stripe.Resources.FinancialAccount},
+      "us_bank_account" => {:resource, Stripe.Resources.UsBankAccount}
     }
   end
 end

@@ -24,7 +24,7 @@ defmodule Stripe.Params.PriceListParams do
           limit: integer() | nil,
           lookup_keys: [String.t()] | nil,
           product: String.t() | nil,
-          recurring: __MODULE__.Recurring.t() | nil,
+          recurring: recurring() | nil,
           starting_after: String.t() | nil,
           type: String.t() | nil
         }
@@ -43,19 +43,15 @@ defmodule Stripe.Params.PriceListParams do
     :type
   ]
 
-  defmodule Recurring do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `interval` - Filter by billing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
-    * `meter` - Filter by the price's meter. Max length: 5000.
-    * `usage_type` - Filter by the usage type for this price. Can be either `metered` or `licensed`. Possible values: `licensed`, `metered`.
-    """
-    @type t :: %__MODULE__{
-            interval: String.t() | nil,
-            meter: String.t() | nil,
-            usage_type: String.t() | nil
-          }
-    defstruct [:interval, :meter, :usage_type]
-  end
+  @typedoc """
+  * `interval` - Filter by billing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
+  * `meter` - Filter by the price's meter. Max length: 5000.
+  * `usage_type` - Filter by the usage type for this price. Can be either `metered` or `licensed`. Possible values: `licensed`, `metered`.
+  """
+  @type recurring :: %{
+          optional(:interval) => String.t() | nil,
+          optional(:meter) => String.t() | nil,
+          optional(:usage_type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

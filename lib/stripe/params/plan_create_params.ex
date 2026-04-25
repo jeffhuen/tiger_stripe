@@ -36,9 +36,9 @@ defmodule Stripe.Params.PlanCreateParams do
           meter: String.t() | nil,
           nickname: String.t() | nil,
           product: map() | nil,
-          tiers: [__MODULE__.Tiers.t()] | nil,
+          tiers: [tiers()] | nil,
           tiers_mode: String.t() | nil,
-          transform_usage: __MODULE__.TransformUsage.t() | nil,
+          transform_usage: transform_usage() | nil,
           trial_period_days: integer() | nil,
           usage_type: String.t() | nil
         }
@@ -64,37 +64,29 @@ defmodule Stripe.Params.PlanCreateParams do
     :usage_type
   ]
 
-  defmodule Tiers do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `flat_amount` - The flat billing amount for an entire tier, regardless of the number of units in the tier.
+  * `flat_amount_decimal` - Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set. Format: decimal string.
+  * `unit_amount` - The per unit billing amount for each individual unit for which this tier applies.
+  * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+  * `up_to` - Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
+  """
+  @type tiers :: %{
+          optional(:flat_amount) => integer() | nil,
+          optional(:flat_amount_decimal) => String.t() | nil,
+          optional(:unit_amount) => integer() | nil,
+          optional(:unit_amount_decimal) => String.t() | nil,
+          optional(:up_to) => map() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `flat_amount` - The flat billing amount for an entire tier, regardless of the number of units in the tier.
-    * `flat_amount_decimal` - Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set. Format: decimal string.
-    * `unit_amount` - The per unit billing amount for each individual unit for which this tier applies.
-    * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
-    * `up_to` - Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
-    """
-    @type t :: %__MODULE__{
-            flat_amount: integer() | nil,
-            flat_amount_decimal: String.t() | nil,
-            unit_amount: integer() | nil,
-            unit_amount_decimal: String.t() | nil,
-            up_to: map() | nil
-          }
-    defstruct [:flat_amount, :flat_amount_decimal, :unit_amount, :unit_amount_decimal, :up_to]
-  end
-
-  defmodule TransformUsage do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `divide_by` - Divide usage by this number.
-    * `round` - After division, either round the result `up` or `down`. Possible values: `down`, `up`.
-    """
-    @type t :: %__MODULE__{
-            divide_by: integer() | nil,
-            round: String.t() | nil
-          }
-    defstruct [:divide_by, :round]
-  end
+  @typedoc """
+  * `divide_by` - Divide usage by this number.
+  * `round` - After division, either round the result `up` or `down`. Possible values: `down`, `up`.
+  """
+  @type transform_usage :: %{
+          optional(:divide_by) => integer() | nil,
+          optional(:round) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

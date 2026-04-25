@@ -2,7 +2,7 @@ defmodule Stripe.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/jeffhuen/tiger_stripe"
-  @version "0.1.11"
+  @version "0.2.0"
 
   def project do
     [
@@ -94,6 +94,7 @@ defmodule Stripe.MixProject do
         "guides/igniter-installer.md",
         "guides/webhooks.md",
         "guides/connect-and-oauth.md",
+        "guides/migrating-0.1-to-0.2.md",
         "guides/testing.md",
         "guides/telemetry.md",
         "CHANGELOG.md"
@@ -104,6 +105,7 @@ defmodule Stripe.MixProject do
           "guides/igniter-installer.md",
           "guides/webhooks.md",
           "guides/connect-and-oauth.md",
+          "guides/migrating-0.1-to-0.2.md",
           "guides/testing.md",
           "guides/telemetry.md"
         ]

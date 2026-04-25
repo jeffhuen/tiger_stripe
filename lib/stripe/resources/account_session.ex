@@ -21,7 +21,7 @@ defmodule Stripe.Resources.AccountSession do
   Refer to our docs to [setup Connect embedded components](https://docs.stripe.com/connect/get-started-connect-embedded-components) and learn about how `client_secret` should be handled. Max length: 5000.
   * `components` - Expandable.
   * `expires_at` - The timestamp at which this AccountSession will expire. Format: Unix timestamp.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `account_session`.
   """
   @type t :: %__MODULE__{
@@ -40,9 +40,9 @@ defmodule Stripe.Resources.AccountSession do
 
   def expandable_fields, do: ["components"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "components" => Stripe.Resources.Components
+      "components" => {:resource, Stripe.Resources.Components}
     }
   end
 end

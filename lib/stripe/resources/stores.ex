@@ -24,12 +24,12 @@ defmodule Stripe.Resources.Stores do
 
   def expandable_fields, do: ["familymart", "lawson", "ministop", "seicomart"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "familymart" => Stripe.Resources.Familymart,
-      "lawson" => Stripe.Resources.Lawson,
-      "ministop" => Stripe.Resources.Ministop,
-      "seicomart" => Stripe.Resources.Seicomart
+      "familymart" => {:resource, Stripe.Resources.Familymart},
+      "lawson" => {:resource, Stripe.Resources.Lawson},
+      "ministop" => {:resource, Stripe.Resources.Ministop},
+      "seicomart" => {:resource, Stripe.Resources.Seicomart}
     }
   end
 end

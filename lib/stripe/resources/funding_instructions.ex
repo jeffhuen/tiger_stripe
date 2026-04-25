@@ -14,7 +14,7 @@ defmodule Stripe.Resources.FundingInstructions do
   * `bank_transfer` - Expandable.
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
   * `funding_type` - The `funding_type` of the returned instructions Possible values: `bank_transfer`.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `funding_instructions`.
   """
   @type t :: %__MODULE__{
@@ -32,9 +32,9 @@ defmodule Stripe.Resources.FundingInstructions do
 
   def expandable_fields, do: ["bank_transfer"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "bank_transfer" => Stripe.Resources.BankTransfer
+      "bank_transfer" => {:resource, Stripe.Resources.BankTransfer}
     }
   end
 end

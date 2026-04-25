@@ -9,13 +9,13 @@ defmodule Stripe.Resources.Billing.MeterEventAdjustment do
   @typedoc """
   * `cancel` - Specifies which event to cancel. Nullable. Expandable.
   * `event_name` - The name of the meter event. Corresponds with the `event_name` field on a meter. Max length: 100.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `billing.meter_event_adjustment`.
   * `status` - The meter event adjustment's status. Possible values: `complete`, `pending`.
   * `type` - Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet. Possible values: `cancel`.
   """
   @type t :: %__MODULE__{
-          cancel: __MODULE__.Cancel.t(),
+          cancel: cancel(),
           event_name: String.t(),
           livemode: boolean(),
           object: String.t(),
@@ -30,21 +30,21 @@ defmodule Stripe.Resources.Billing.MeterEventAdjustment do
 
   def expandable_fields, do: ["cancel"]
 
-  defmodule Cancel do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `identifier` - Unique identifier for the event. Max length: 100. Nullable.
+  """
+  @type cancel :: %{
+          optional(:identifier) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `identifier` - Unique identifier for the event. Max length: 100. Nullable.
-    """
-    @type t :: %__MODULE__{
-            identifier: String.t() | nil
-          }
-    defstruct [:identifier]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "cancel" => __MODULE__.Cancel
+      "cancel" => %{
+        fields: %{
+          "identifier" => :scalar
+        }
+      }
     }
   end
 end

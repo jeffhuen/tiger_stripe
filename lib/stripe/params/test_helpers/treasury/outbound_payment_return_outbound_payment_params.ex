@@ -8,20 +8,16 @@ defmodule Stripe.Params.TestHelpers.Treasury.OutboundPaymentReturnOutboundPaymen
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          returned_details: __MODULE__.ReturnedDetails.t() | nil
+          returned_details: returned_details() | nil
         }
 
   defstruct [:expand, :returned_details]
 
-  defmodule ReturnedDetails do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `code` - The return code to be set on the OutboundPayment object. Possible values: `account_closed`, `account_frozen`, `bank_account_restricted`, `bank_ownership_changed`, `declined`, `incorrect_account_holder_name`, `invalid_account_number`, `invalid_currency`, `no_account`, `other`.
-    """
-    @type t :: %__MODULE__{
-            code: String.t() | nil
-          }
-    defstruct [:code]
-  end
+  @typedoc """
+  * `code` - The return code to be set on the OutboundPayment object. Possible values: `account_closed`, `account_frozen`, `bank_account_restricted`, `bank_ownership_changed`, `declined`, `incorrect_account_holder_name`, `invalid_account_number`, `invalid_currency`, `no_account`, `other`.
+  """
+  @type returned_details :: %{
+          optional(:code) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

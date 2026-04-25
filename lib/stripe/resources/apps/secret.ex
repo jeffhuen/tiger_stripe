@@ -19,7 +19,7 @@ defmodule Stripe.Resources.Apps.Secret do
   * `deleted` - If true, indicates that this secret has been deleted
   * `expires_at` - The Unix timestamp for the expiry time of the secret, after which the secret deletes. Format: Unix timestamp. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `name` - A name for the secret that's unique within the scope. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `apps.secret`.
   * `payload` - The plaintext secret value to be stored. Max length: 5000. Nullable.
@@ -34,7 +34,7 @@ defmodule Stripe.Resources.Apps.Secret do
           name: String.t(),
           object: String.t(),
           payload: String.t() | nil,
-          scope: __MODULE__.Scope.t()
+          scope: scope()
         }
 
   defstruct [:created, :deleted, :expires_at, :id, :livemode, :name, :object, :payload, :scope]
@@ -44,23 +44,24 @@ defmodule Stripe.Resources.Apps.Secret do
 
   def expandable_fields, do: ["scope"]
 
-  defmodule Scope do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `type` - The secret scope type. Possible values: `account`, `user`.
+  * `user` - The user ID, if type is set to "user" Max length: 5000.
+  """
+  @type scope :: %{
+          optional(:type) => String.t() | nil,
+          optional(:user) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `type` - The secret scope type. Possible values: `account`, `user`.
-    * `user` - The user ID, if type is set to "user" Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            type: String.t() | nil,
-            user: String.t() | nil
-          }
-    defstruct [:type, :user]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "scope" => __MODULE__.Scope
+      "scope" => %{
+        fields: %{
+          "type" => :scalar,
+          "user" => :scalar
+        }
+      }
     }
   end
 end

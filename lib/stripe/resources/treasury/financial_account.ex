@@ -16,7 +16,7 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
   * `financial_addresses` - The set of credentials that resolve to a FinancialAccount. Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `is_default`
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `nickname` - The nickname for the FinancialAccount. Max length: 5000. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `treasury.financial_account`.
@@ -33,7 +33,7 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
           country: String.t(),
           created: integer(),
           features: Stripe.Resources.Treasury.FinancialAccountFeatures.t() | nil,
-          financial_addresses: [__MODULE__.FinancialAddresses.t()],
+          financial_addresses: [financial_addresses()],
           id: String.t(),
           is_default: boolean() | nil,
           livemode: boolean(),
@@ -75,29 +75,31 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
   def expandable_fields,
     do: ["balance", "features", "financial_addresses", "platform_restrictions", "status_details"]
 
-  defmodule FinancialAddresses do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `aba`
+  * `supported_networks` - The list of networks that the address supports
+  * `type` - The type of financial address Possible values: `aba`.
+  """
+  @type financial_addresses :: %{
+          optional(:aba) => Stripe.Resources.Aba.t() | nil,
+          optional(:supported_networks) => [String.t()] | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `aba`
-    * `supported_networks` - The list of networks that the address supports
-    * `type` - The type of financial address Possible values: `aba`.
-    """
-    @type t :: %__MODULE__{
-            aba: Stripe.Resources.Aba.t() | nil,
-            supported_networks: [String.t()] | nil,
-            type: String.t() | nil
-          }
-    defstruct [:aba, :supported_networks, :type]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "balance" => Stripe.Resources.Balance,
-      "features" => Stripe.Resources.Treasury.FinancialAccountFeatures,
-      "financial_addresses" => __MODULE__.FinancialAddresses,
-      "platform_restrictions" => Stripe.Resources.PlatformRestriction,
-      "status_details" => Stripe.Resources.StatusDetails
+      "financial_addresses" => %{
+        fields: %{
+          "aba" => {:resource, Stripe.Resources.Aba},
+          "supported_networks" => {:list, :scalar},
+          "type" => :scalar
+        }
+      },
+      "balance" => {:resource, Stripe.Resources.Balance},
+      "features" => {:resource, Stripe.Resources.Treasury.FinancialAccountFeatures},
+      "platform_restrictions" => {:resource, Stripe.Resources.PlatformRestriction},
+      "status_details" => {:resource, Stripe.Resources.StatusDetails}
     }
   end
 end

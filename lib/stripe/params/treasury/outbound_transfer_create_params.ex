@@ -19,9 +19,8 @@ defmodule Stripe.Params.Treasury.OutboundTransferCreateParams do
           currency: String.t(),
           description: String.t() | nil,
           destination_payment_method: String.t() | nil,
-          destination_payment_method_data: __MODULE__.DestinationPaymentMethodData.t() | nil,
-          destination_payment_method_options:
-            __MODULE__.DestinationPaymentMethodOptions.t() | nil,
+          destination_payment_method_data: destination_payment_method_data() | nil,
+          destination_payment_method_options: destination_payment_method_options() | nil,
           expand: [String.t()] | nil,
           financial_account: String.t(),
           metadata: %{String.t() => String.t()} | nil,
@@ -41,29 +40,21 @@ defmodule Stripe.Params.Treasury.OutboundTransferCreateParams do
     :statement_descriptor
   ]
 
-  defmodule DestinationPaymentMethodData do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `financial_account` - Required if type is set to `financial_account`. The FinancialAccount ID to send funds to.
+  * `type` - The type of the destination. Possible values: `financial_account`.
+  """
+  @type destination_payment_method_data :: %{
+          optional(:financial_account) => String.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `financial_account` - Required if type is set to `financial_account`. The FinancialAccount ID to send funds to.
-    * `type` - The type of the destination. Possible values: `financial_account`.
-    """
-    @type t :: %__MODULE__{
-            financial_account: String.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:financial_account, :type]
-  end
-
-  defmodule DestinationPaymentMethodOptions do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `us_bank_account` - Optional fields for `us_bank_account`.
-    """
-    @type t :: %__MODULE__{
-            us_bank_account: map() | nil
-          }
-    defstruct [:us_bank_account]
-  end
+  @typedoc """
+  * `us_bank_account` - Optional fields for `us_bank_account`.
+  """
+  @type destination_payment_method_options :: %{
+          optional(:us_bank_account) => map() | nil,
+          optional(String.t()) => term()
+        }
 end

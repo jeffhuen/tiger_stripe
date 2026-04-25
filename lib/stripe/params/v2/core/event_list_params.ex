@@ -9,7 +9,7 @@ defmodule Stripe.Params.V2.Core.EventListParams do
   * `types` - An array of up to 20 strings containing specific event names.
   """
   @type t :: %__MODULE__{
-          created: __MODULE__.Created.t() | nil,
+          created: created() | nil,
           limit: integer() | nil,
           object_id: String.t() | nil,
           types: [String.t()] | nil
@@ -17,21 +17,17 @@ defmodule Stripe.Params.V2.Core.EventListParams do
 
   defstruct [:created, :limit, :object_id, :types]
 
-  defmodule Created do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `gt` - Filter for events created after the specified timestamp. Format: date-time.
-    * `gte` - Filter for events created at or after the specified timestamp. Format: date-time.
-    * `lt` - Filter for events created before the specified timestamp. Format: date-time.
-    * `lte` - Filter for events created at or before the specified timestamp. Format: date-time.
-    """
-    @type t :: %__MODULE__{
-            gt: String.t() | nil,
-            gte: String.t() | nil,
-            lt: String.t() | nil,
-            lte: String.t() | nil
-          }
-    defstruct [:gt, :gte, :lt, :lte]
-  end
+  @typedoc """
+  * `gt` - Filter for events created after the specified timestamp. Format: date-time.
+  * `gte` - Filter for events created at or after the specified timestamp. Format: date-time.
+  * `lt` - Filter for events created before the specified timestamp. Format: date-time.
+  * `lte` - Filter for events created at or before the specified timestamp. Format: date-time.
+  """
+  @type created :: %{
+          optional(:gt) => String.t() | nil,
+          optional(:gte) => String.t() | nil,
+          optional(:lt) => String.t() | nil,
+          optional(:lte) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

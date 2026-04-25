@@ -14,7 +14,7 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
   * `product_code` - The product code of the line item, such as an SKU. Required for L3 rates. At most 12 characters long. Max length: 5000. Nullable.
   * `product_name` - The product name of the line item. Required for L3 rates. At most 1024 characters long.
 
-  For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters. Max length: 5000.
+  For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters. Max length: 5000.
   * `quantity` - The quantity of items. Required for L3 rates. An integer greater than 0.
   * `tax` - Contains information about the tax on the item. Nullable. Expandable.
   * `unit_cost` - The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -24,11 +24,11 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
           discount_amount: integer(),
           id: String.t(),
           object: String.t(),
-          payment_method_options: __MODULE__.PaymentMethodOptions.t(),
+          payment_method_options: payment_method_options(),
           product_code: String.t(),
           product_name: String.t(),
           quantity: integer(),
-          tax: __MODULE__.Tax.t(),
+          tax: tax(),
           unit_cost: integer(),
           unit_of_measure: String.t()
         }
@@ -51,109 +51,108 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
 
   def expandable_fields, do: ["payment_method_options", "tax"]
 
-  defmodule PaymentMethodOptions do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `card`
+  * `card_present`
+  * `klarna`
+  * `paypal`
+  """
+  @type payment_method_options :: %{
+          optional(:card) => payment_method_options_card() | nil,
+          optional(:card_present) => payment_method_options_card_present() | nil,
+          optional(:klarna) => payment_method_options_klarna() | nil,
+          optional(:paypal) => payment_method_options_paypal() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `card`
-    * `card_present`
-    * `klarna`
-    * `paypal`
-    """
-    @type t :: %__MODULE__{
-            card: __MODULE__.Card.t() | nil,
-            card_present: __MODULE__.CardPresent.t() | nil,
-            klarna: __MODULE__.Klarna.t() | nil,
-            paypal: __MODULE__.Paypal.t() | nil
-          }
-    defstruct [:card, :card_present, :klarna, :paypal]
+  @typedoc """
+  * `commodity_code` - Max length: 5000. Nullable.
+  """
+  @type payment_method_options_card :: %{
+          optional(:commodity_code) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Card do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `commodity_code` - Max length: 5000. Nullable.
+  """
+  @type payment_method_options_card_present :: %{
+          optional(:commodity_code) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `commodity_code` - Max length: 5000. Nullable.
-      """
-      @type t :: %__MODULE__{
-              commodity_code: String.t() | nil
-            }
-      defstruct [:commodity_code]
-    end
+  @typedoc """
+  * `image_url` - Max length: 2048. Nullable.
+  * `product_url` - Max length: 2048. Nullable.
+  * `reference` - Max length: 255. Nullable.
+  * `subscription_reference` - Max length: 2048. Nullable.
+  """
+  @type payment_method_options_klarna :: %{
+          optional(:image_url) => String.t() | nil,
+          optional(:product_url) => String.t() | nil,
+          optional(:reference) => String.t() | nil,
+          optional(:subscription_reference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule CardPresent do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `category` - Type of the line item. Possible values: `digital_goods`, `donation`, `physical_goods`.
+  * `description` - Description of the line item. Max length: 5000.
+  * `sold_by` - The Stripe account ID of the connected account that sells the item. This is only needed when using [Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers). Max length: 5000.
+  """
+  @type payment_method_options_paypal :: %{
+          optional(:category) => String.t() | nil,
+          optional(:description) => String.t() | nil,
+          optional(:sold_by) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `commodity_code` - Max length: 5000. Nullable.
-      """
-      @type t :: %__MODULE__{
-              commodity_code: String.t() | nil
-            }
-      defstruct [:commodity_code]
-    end
+  @typedoc """
+  * `total_tax_amount` - The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
 
-    defmodule Klarna do
-      @moduledoc "Nested struct within the parent resource."
+  This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
+  """
+  @type tax :: %{
+          optional(:total_tax_amount) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `image_url` - Max length: 2048. Nullable.
-      * `product_url` - Max length: 2048. Nullable.
-      * `reference` - Max length: 255. Nullable.
-      * `subscription_reference` - Max length: 2048. Nullable.
-      """
-      @type t :: %__MODULE__{
-              image_url: String.t() | nil,
-              product_url: String.t() | nil,
-              reference: String.t() | nil,
-              subscription_reference: String.t() | nil
-            }
-      defstruct [:image_url, :product_url, :reference, :subscription_reference]
-    end
-
-    defmodule Paypal do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `category` - Type of the line item. Possible values: `digital_goods`, `donation`, `physical_goods`.
-      * `description` - Description of the line item. Max length: 5000.
-      * `sold_by` - The Stripe account ID of the connected account that sells the item. This is only needed when using [Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers). Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              category: String.t() | nil,
-              description: String.t() | nil,
-              sold_by: String.t() | nil
-            }
-      defstruct [:category, :description, :sold_by]
-    end
-
-    def __inner_types__ do
-      %{
-        "card" => __MODULE__.Card,
-        "card_present" => __MODULE__.CardPresent,
-        "klarna" => __MODULE__.Klarna,
-        "paypal" => __MODULE__.Paypal
-      }
-    end
-  end
-
-  defmodule Tax do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `total_tax_amount` - The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
-
-    This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
-    """
-    @type t :: %__MODULE__{
-            total_tax_amount: integer() | nil
-          }
-    defstruct [:total_tax_amount]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "payment_method_options" => __MODULE__.PaymentMethodOptions,
-      "tax" => __MODULE__.Tax
+      "payment_method_options" => %{
+        fields: %{
+          "card" => %{
+            fields: %{
+              "commodity_code" => :scalar
+            }
+          },
+          "card_present" => %{
+            fields: %{
+              "commodity_code" => :scalar
+            }
+          },
+          "klarna" => %{
+            fields: %{
+              "image_url" => :scalar,
+              "product_url" => :scalar,
+              "reference" => :scalar,
+              "subscription_reference" => :scalar
+            }
+          },
+          "paypal" => %{
+            fields: %{
+              "category" => :scalar,
+              "description" => :scalar,
+              "sold_by" => :scalar
+            }
+          }
+        }
+      },
+      "tax" => %{
+        fields: %{
+          "total_tax_amount" => :scalar
+        }
+      }
     }
   end
 end

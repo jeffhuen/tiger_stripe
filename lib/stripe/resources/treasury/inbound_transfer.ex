@@ -19,7 +19,7 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
   * `hosted_regulatory_receipt_url` - A [hosted transaction receipt](https://docs.stripe.com/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `linked_flows` - Expandable.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `treasury.inbound_transfer`.
   * `origin_payment_method` - The origin payment method to be debited for an InboundTransfer. Max length: 5000. Nullable.
@@ -36,16 +36,16 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
           created: integer(),
           currency: String.t(),
           description: String.t(),
-          failure_details: __MODULE__.FailureDetails.t(),
+          failure_details: failure_details(),
           financial_account: String.t(),
           hosted_regulatory_receipt_url: String.t(),
           id: String.t(),
-          linked_flows: __MODULE__.LinkedFlows.t(),
+          linked_flows: linked_flows(),
           livemode: boolean(),
           metadata: %{String.t() => String.t()},
           object: String.t(),
           origin_payment_method: String.t(),
-          origin_payment_method_details: __MODULE__.OriginPaymentMethodDetails.t(),
+          origin_payment_method_details: origin_payment_method_details(),
           returned: boolean(),
           statement_descriptor: String.t(),
           status: String.t(),
@@ -88,52 +88,54 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
       "transaction"
     ]
 
-  defmodule FailureDetails do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `code` - Reason for the failure. Possible values: `account_closed`, `account_frozen`, `bank_account_restricted`, `bank_ownership_changed`, `debit_not_authorized`, `incorrect_account_holder_address`, `incorrect_account_holder_name`, `incorrect_account_holder_tax_id`, `insufficient_funds`, `invalid_account_number`, `invalid_currency`, `no_account`, `other`.
+  """
+  @type failure_details :: %{
+          optional(:code) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `code` - Reason for the failure. Possible values: `account_closed`, `account_frozen`, `bank_account_restricted`, `bank_ownership_changed`, `debit_not_authorized`, `incorrect_account_holder_address`, `incorrect_account_holder_name`, `incorrect_account_holder_tax_id`, `insufficient_funds`, `invalid_account_number`, `invalid_currency`, `no_account`, `other`.
-    """
-    @type t :: %__MODULE__{
-            code: String.t() | nil
-          }
-    defstruct [:code]
-  end
+  @typedoc """
+  * `received_debit` - If funds for this flow were returned after the flow went to the `succeeded` state, this field contains a reference to the ReceivedDebit return. Max length: 5000. Nullable.
+  """
+  @type linked_flows :: %{
+          optional(:received_debit) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule LinkedFlows do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `billing_details`
+  * `type` - The type of the payment method used in the InboundTransfer. Possible values: `us_bank_account`.
+  * `us_bank_account`
+  """
+  @type origin_payment_method_details :: %{
+          optional(:billing_details) => Stripe.Resources.BillingDetails.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(:us_bank_account) => Stripe.Resources.UsBankAccount.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `received_debit` - If funds for this flow were returned after the flow went to the `succeeded` state, this field contains a reference to the ReceivedDebit return. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            received_debit: String.t() | nil
-          }
-    defstruct [:received_debit]
-  end
-
-  defmodule OriginPaymentMethodDetails do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `billing_details`
-    * `type` - The type of the payment method used in the InboundTransfer. Possible values: `us_bank_account`.
-    * `us_bank_account`
-    """
-    @type t :: %__MODULE__{
-            billing_details: Stripe.Resources.BillingDetails.t() | nil,
-            type: String.t() | nil,
-            us_bank_account: Stripe.Resources.UsBankAccount.t() | nil
-          }
-    defstruct [:billing_details, :type, :us_bank_account]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "failure_details" => __MODULE__.FailureDetails,
-      "linked_flows" => __MODULE__.LinkedFlows,
-      "origin_payment_method_details" => __MODULE__.OriginPaymentMethodDetails,
-      "status_transitions" => Stripe.Resources.StatusTransitions
+      "failure_details" => %{
+        fields: %{
+          "code" => :scalar
+        }
+      },
+      "linked_flows" => %{
+        fields: %{
+          "received_debit" => :scalar
+        }
+      },
+      "origin_payment_method_details" => %{
+        fields: %{
+          "billing_details" => {:resource, Stripe.Resources.BillingDetails},
+          "type" => :scalar,
+          "us_bank_account" => {:resource, Stripe.Resources.UsBankAccount}
+        }
+      },
+      "status_transitions" => {:resource, Stripe.Resources.StatusTransitions}
     }
   end
 end

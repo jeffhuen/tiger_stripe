@@ -13,10 +13,10 @@ defmodule Stripe.Params.ShippingRateCreateParams do
   * `type` - The type of calculation to use on the shipping rate. Possible values: `fixed_amount`.
   """
   @type t :: %__MODULE__{
-          delivery_estimate: __MODULE__.DeliveryEstimate.t() | nil,
+          delivery_estimate: delivery_estimate() | nil,
           display_name: String.t(),
           expand: [String.t()] | nil,
-          fixed_amount: __MODULE__.FixedAmount.t() | nil,
+          fixed_amount: fixed_amount() | nil,
           metadata: %{String.t() => String.t()} | nil,
           tax_behavior: String.t() | nil,
           tax_code: String.t() | nil,
@@ -34,75 +34,55 @@ defmodule Stripe.Params.ShippingRateCreateParams do
     :type
   ]
 
-  defmodule DeliveryEstimate do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `maximum` - The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+  * `minimum` - The lower bound of the estimated range. If empty, represents no lower bound.
+  """
+  @type delivery_estimate :: %{
+          optional(:maximum) => delivery_estimate_maximum() | nil,
+          optional(:minimum) => delivery_estimate_minimum() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `maximum` - The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
-    * `minimum` - The lower bound of the estimated range. If empty, represents no lower bound.
-    """
-    @type t :: %__MODULE__{
-            maximum: __MODULE__.Maximum.t() | nil,
-            minimum: __MODULE__.Minimum.t() | nil
-          }
-    defstruct [:maximum, :minimum]
+  @typedoc """
+  * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
+  * `value` - Must be greater than 0.
+  """
+  @type delivery_estimate_maximum :: %{
+          optional(:unit) => String.t() | nil,
+          optional(:value) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Maximum do
-      @moduledoc "Nested parameters."
+  @typedoc """
+  * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
+  * `value` - Must be greater than 0.
+  """
+  @type delivery_estimate_minimum :: %{
+          optional(:unit) => String.t() | nil,
+          optional(:value) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
-      * `value` - Must be greater than 0.
-      """
-      @type t :: %__MODULE__{
-              unit: String.t() | nil,
-              value: integer() | nil
-            }
-      defstruct [:unit, :value]
-    end
+  @typedoc """
+  * `amount` - A non-negative integer in cents representing how much to charge.
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `currency_options` - Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+  """
+  @type fixed_amount :: %{
+          optional(:amount) => integer() | nil,
+          optional(:currency) => String.t() | nil,
+          optional(:currency_options) => %{String.t() => fixed_amount_currency_options()} | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Minimum do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
-      * `value` - Must be greater than 0.
-      """
-      @type t :: %__MODULE__{
-              unit: String.t() | nil,
-              value: integer() | nil
-            }
-      defstruct [:unit, :value]
-    end
-  end
-
-  defmodule FixedAmount do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `amount` - A non-negative integer in cents representing how much to charge.
-    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-    * `currency_options` - Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-    """
-    @type t :: %__MODULE__{
-            amount: integer() | nil,
-            currency: String.t() | nil,
-            currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil
-          }
-    defstruct [:amount, :currency, :currency_options]
-
-    defmodule CurrencyOptions do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `amount` - A non-negative integer in cents representing how much to charge.
-      * `tax_behavior` - Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Possible values: `exclusive`, `inclusive`, `unspecified`.
-      """
-      @type t :: %__MODULE__{
-              amount: integer() | nil,
-              tax_behavior: String.t() | nil
-            }
-      defstruct [:amount, :tax_behavior]
-    end
-  end
+  @typedoc """
+  * `amount` - A non-negative integer in cents representing how much to charge.
+  * `tax_behavior` - Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Possible values: `exclusive`, `inclusive`, `unspecified`.
+  """
+  @type fixed_amount_currency_options :: %{
+          optional(:amount) => integer() | nil,
+          optional(:tax_behavior) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

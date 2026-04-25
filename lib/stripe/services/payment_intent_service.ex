@@ -40,7 +40,7 @@ defmodule Stripe.Services.PaymentIntentService do
 
   After it’s canceled, no additional charges are made by the PaymentIntent and any operations on the PaymentIntent fail with an error. For PaymentIntents with a `status` of `requires_capture`, the remaining `amount_capturable` is automatically refunded. 
 
-  You can directly cancel the PaymentIntent for a Checkout Session only when the PaymentIntent has a status of `requires_capture`. Otherwise, you must [expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire).
+  You can’t cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire) instead.
   """
   @spec cancel(Client.t(), String.t(), map(), keyword()) ::
           {:ok, term()} | {:error, Stripe.Error.t()}

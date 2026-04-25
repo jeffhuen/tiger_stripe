@@ -9,8 +9,8 @@ defmodule Stripe.Resources.Billing.CreditBalance do
   * `ledger_balance` - Expandable.
   """
   @type t :: %__MODULE__{
-          available_balance: __MODULE__.AvailableBalance.t(),
-          ledger_balance: __MODULE__.LedgerBalance.t()
+          available_balance: available_balance(),
+          ledger_balance: ledger_balance()
         }
 
   defstruct [:available_balance, :ledger_balance]
@@ -20,78 +20,70 @@ defmodule Stripe.Resources.Billing.CreditBalance do
 
   def expandable_fields, do: ["available_balance", "ledger_balance"]
 
-  defmodule AvailableBalance do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `monetary` - The monetary amount. Nullable.
+  * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
+  """
+  @type available_balance :: %{
+          optional(:monetary) => available_balance_monetary() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `monetary` - The monetary amount. Nullable.
-    * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
-    """
-    @type t :: %__MODULE__{
-            monetary: __MODULE__.Monetary.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:monetary, :type]
+  @typedoc """
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
+  * `value` - A positive integer representing the amount.
+  """
+  @type available_balance_monetary :: %{
+          optional(:currency) => String.t() | nil,
+          optional(:value) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Monetary do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `monetary` - The monetary amount. Nullable.
+  * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
+  """
+  @type ledger_balance :: %{
+          optional(:monetary) => ledger_balance_monetary() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
-      * `value` - A positive integer representing the amount.
-      """
-      @type t :: %__MODULE__{
-              currency: String.t() | nil,
-              value: integer() | nil
-            }
-      defstruct [:currency, :value]
-    end
+  @typedoc """
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
+  * `value` - A positive integer representing the amount.
+  """
+  @type ledger_balance_monetary :: %{
+          optional(:currency) => String.t() | nil,
+          optional(:value) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    def __inner_types__ do
-      %{
-        "monetary" => __MODULE__.Monetary
-      }
-    end
-  end
-
-  defmodule LedgerBalance do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `monetary` - The monetary amount. Nullable.
-    * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
-    """
-    @type t :: %__MODULE__{
-            monetary: __MODULE__.Monetary.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:monetary, :type]
-
-    defmodule Monetary do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
-      * `value` - A positive integer representing the amount.
-      """
-      @type t :: %__MODULE__{
-              currency: String.t() | nil,
-              value: integer() | nil
-            }
-      defstruct [:currency, :value]
-    end
-
-    def __inner_types__ do
-      %{
-        "monetary" => __MODULE__.Monetary
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "available_balance" => __MODULE__.AvailableBalance,
-      "ledger_balance" => __MODULE__.LedgerBalance
+      "available_balance" => %{
+        fields: %{
+          "monetary" => %{
+            fields: %{
+              "currency" => :scalar,
+              "value" => :scalar
+            }
+          },
+          "type" => :scalar
+        }
+      },
+      "ledger_balance" => %{
+        fields: %{
+          "monetary" => %{
+            fields: %{
+              "currency" => :scalar,
+              "value" => :scalar
+            }
+          },
+          "type" => :scalar
+        }
+      }
     }
   end
 end

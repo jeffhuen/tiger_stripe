@@ -10,7 +10,7 @@ defmodule Stripe.Resources.CashBalance do
   * `available` - A hash of all cash balances available to this customer. You cannot delete a customer with any cash balances, even if the balance is 0. Amounts are represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Nullable.
   * `customer` - The ID of the customer whose cash balance this object represents. Max length: 5000.
   * `customer_account` - The ID of an Account representing a customer whose cash balance this object represents. Max length: 5000. Nullable.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `cash_balance`.
   * `settings` - Expandable.
   """
@@ -20,7 +20,7 @@ defmodule Stripe.Resources.CashBalance do
           customer_account: String.t(),
           livemode: boolean(),
           object: String.t(),
-          settings: __MODULE__.Settings.t()
+          settings: settings()
         }
 
   defstruct [:available, :customer, :customer_account, :livemode, :object, :settings]
@@ -30,23 +30,24 @@ defmodule Stripe.Resources.CashBalance do
 
   def expandable_fields, do: ["settings"]
 
-  defmodule Settings do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `reconciliation_mode` - The configuration for how funds that land in the customer cash balance are reconciled. Possible values: `automatic`, `manual`.
+  * `using_merchant_default` - A flag to indicate if reconciliation mode returned is the user's default or is specific to this customer cash balance
+  """
+  @type settings :: %{
+          optional(:reconciliation_mode) => String.t() | nil,
+          optional(:using_merchant_default) => boolean() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `reconciliation_mode` - The configuration for how funds that land in the customer cash balance are reconciled. Possible values: `automatic`, `manual`.
-    * `using_merchant_default` - A flag to indicate if reconciliation mode returned is the user's default or is specific to this customer cash balance
-    """
-    @type t :: %__MODULE__{
-            reconciliation_mode: String.t() | nil,
-            using_merchant_default: boolean() | nil
-          }
-    defstruct [:reconciliation_mode, :using_merchant_default]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "settings" => __MODULE__.Settings
+      "settings" => %{
+        fields: %{
+          "reconciliation_mode" => :scalar,
+          "using_merchant_default" => :scalar
+        }
+      }
     }
   end
 end

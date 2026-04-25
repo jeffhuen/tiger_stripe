@@ -15,37 +15,29 @@ defmodule Stripe.Params.Forwarding.RequestCreateParams do
           metadata: %{String.t() => String.t()} | nil,
           payment_method: String.t(),
           replacements: [String.t()],
-          request: __MODULE__.Request.t() | nil,
+          request: request() | nil,
           url: String.t()
         }
 
   defstruct [:expand, :metadata, :payment_method, :replacements, :request, :url]
 
-  defmodule Request do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `body` - The body payload to send to the destination endpoint. Max length: 5000.
+  * `headers` - The headers to include in the forwarded request. Can be omitted if no additional headers (excluding Stripe-generated ones such as the Content-Type header) should be included.
+  """
+  @type request :: %{
+          optional(:body) => String.t() | nil,
+          optional(:headers) => [request_headers()] | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `body` - The body payload to send to the destination endpoint. Max length: 5000.
-    * `headers` - The headers to include in the forwarded request. Can be omitted if no additional headers (excluding Stripe-generated ones such as the Content-Type header) should be included.
-    """
-    @type t :: %__MODULE__{
-            body: String.t() | nil,
-            headers: [__MODULE__.Headers.t()] | nil
-          }
-    defstruct [:body, :headers]
-
-    defmodule Headers do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `name` - The header name. Max length: 5000.
-      * `value` - The header value. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              name: String.t() | nil,
-              value: String.t() | nil
-            }
-      defstruct [:name, :value]
-    end
-  end
+  @typedoc """
+  * `name` - The header name. Max length: 5000.
+  * `value` - The header value. Max length: 5000.
+  """
+  @type request_headers :: %{
+          optional(:name) => String.t() | nil,
+          optional(:value) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

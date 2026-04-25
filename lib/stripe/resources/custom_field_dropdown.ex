@@ -5,7 +5,7 @@ defmodule Stripe.Resources.CustomFieldDropdown do
   """
 
   @typedoc """
-  * `default_value` - The value that pre-fills on the payment page. Max length: 5000. Nullable.
+  * `default_value` - The value that will pre-fill on the payment page. Max length: 5000. Nullable.
   * `options` - The options available for the customer to select. Up to 200 options allowed. Expandable.
   * `value` - The option selected by the customer. This will be the `value` for the option. Max length: 5000. Nullable.
   """

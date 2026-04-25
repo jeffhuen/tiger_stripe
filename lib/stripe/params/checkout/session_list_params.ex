@@ -20,7 +20,7 @@ defmodule Stripe.Params.Checkout.SessionListParams do
           created: map() | nil,
           customer: String.t() | nil,
           customer_account: String.t() | nil,
-          customer_details: __MODULE__.CustomerDetails.t() | nil,
+          customer_details: customer_details() | nil,
           ending_before: String.t() | nil,
           expand: [String.t()] | nil,
           limit: integer() | nil,
@@ -46,15 +46,11 @@ defmodule Stripe.Params.Checkout.SessionListParams do
     :subscription
   ]
 
-  defmodule CustomerDetails do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `email` - Customer's email address.
-    """
-    @type t :: %__MODULE__{
-            email: String.t() | nil
-          }
-    defstruct [:email]
-  end
+  @typedoc """
+  * `email` - Customer's email address.
+  """
+  @type customer_details :: %{
+          optional(:email) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

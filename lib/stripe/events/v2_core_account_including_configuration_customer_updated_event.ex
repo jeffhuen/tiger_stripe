@@ -4,18 +4,7 @@ defmodule Stripe.Events.V2CoreAccountIncludingConfigurationCustomerUpdatedEvent 
   Occurs when an Account's customer configuration is updated.
   """
 
-  defstruct [
-    :changes,
-    :context,
-    :created,
-    :data,
-    :id,
-    :livemode,
-    :object,
-    :reason,
-    :related_object,
-    :type
-  ]
+  defstruct [:context, :created, :data, :id, :livemode, :object, :related_object, :type]
 
   def lookup_type, do: "v2.core.account[configuration.customer].updated"
 

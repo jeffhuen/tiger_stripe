@@ -31,7 +31,7 @@ defmodule Stripe.Resources.Token do
   * `client_ip` - IP address of the client that generates the token. Max length: 5000. Nullable.
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `token`.
   * `type` - Type of the token: `account`, `bank_account`, `card`, or `pii`. Max length: 5000.
   * `used` - Determines if you have already used this token (you can only use tokens once).
@@ -55,10 +55,10 @@ defmodule Stripe.Resources.Token do
 
   def expandable_fields, do: ["bank_account", "card"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "bank_account" => Stripe.Resources.BankAccount,
-      "card" => Stripe.Resources.Card
+      "bank_account" => {:resource, Stripe.Resources.BankAccount},
+      "card" => {:resource, Stripe.Resources.Card}
     }
   end
 end

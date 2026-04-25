@@ -18,7 +18,7 @@ defmodule Stripe.Resources.Reporting.ReportType do
   * `data_available_start` - Earliest time for which this Report Type is available. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `default_columns` - List of column names that are included by default when this Report Type gets run. (If the Report Type doesn't support the `columns` parameter, this will be null.) Nullable.
   * `id` - The [ID of the Report Type](https://docs.stripe.com/reporting/statements/api#available-report-types), such as `balance.summary.1`. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `name` - Human-readable name of the Report Type Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `reporting.report_type`.
   * `updated` - When this Report Type was latest updated. Measured in seconds since the Unix epoch. Format: Unix timestamp.

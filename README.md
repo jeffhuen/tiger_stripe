@@ -108,7 +108,7 @@ Add `tiger_stripe` to your dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:tiger_stripe, "~> 0.1.11"}
+    {:tiger_stripe, "~> 0.2.0"}
   ]
 end
 ```
@@ -186,11 +186,11 @@ client = Stripe.client("sk_test_other_key", max_retries: 5)
 - **Full API coverage** — every V1 and V2 endpoint from the OpenAPI spec, with
   dedicated service modules matching the Ruby SDK layout
 - **Typed resources** — API responses are deserialized into typed Elixir structs
-  with `@type t` definitions, expandable field support, and inner types
+  with `@type t` definitions, expandable field support, and typed nested maps
 - **Typed params** — request parameters have dedicated struct modules with
   `@typedoc` annotations sourced from the OpenAPI spec
 - **Per-event typed modules** — V2 and thin V1 events get dedicated modules
-  with typed data structs and `fetch_related_object/2`
+  with typed data maps and `fetch_related_object/2`
 - **Auto-paging pagination** — lazy `Stream`-based iteration for V1 lists,
   search results, and V2 lists
 - **Webhook verification** — HMAC-SHA256 signature verification with
@@ -221,6 +221,7 @@ client = Stripe.client("sk_test_other_key", max_retries: 5)
 - [Igniter Installer](guides/igniter-installer.md) — one-command Phoenix setup (beta)
 - [Webhooks](guides/webhooks.md) — signature verification, WebhookPlug setup, typed event modules
 - [Connect & OAuth](guides/connect-and-oauth.md) — connected accounts, OAuth flow, multi-tenant patterns
+- [Migrating from 0.1.x to 0.2.0](guides/migrating-0.1-to-0.2.md) — breaking changes, audit commands, and upgrade patterns
 - [Testing](guides/testing.md) — process-scoped HTTP stubs with `async: true` support
 - [Telemetry](guides/telemetry.md) — request lifecycle events, logging, metrics
 
@@ -246,7 +247,7 @@ The SDK is auto-generated from Stripe's unified OpenAPI spec (`spec3.sdk.json`)
 via `mix stripe.generate`. The generator produces 1,044 files:
 
 - **190 service modules** (189 generated + 1 hand-written `OAuthService`)
-- **307 resource structs** with `@type t`, expandable fields, and inner types
+- **307 resource structs** with `@type t`, expandable fields, and typed nested maps
 - **523 params modules** with `@typedoc` field annotations
 - **2 registries** (object types and event types)
 - **22 event modules** (20 per-event typed + 1 constants + 1 unknown fallback)

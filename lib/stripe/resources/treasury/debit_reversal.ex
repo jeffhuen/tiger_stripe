@@ -14,7 +14,7 @@ defmodule Stripe.Resources.Treasury.DebitReversal do
   * `hosted_regulatory_receipt_url` - A [hosted transaction receipt](https://docs.stripe.com/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `linked_flows` - Other flows linked to a DebitReversal. Nullable. Expandable.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `network` - The rails used to reverse the funds. Possible values: `ach`, `card`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `treasury.debit_reversal`.
@@ -30,14 +30,14 @@ defmodule Stripe.Resources.Treasury.DebitReversal do
           financial_account: String.t(),
           hosted_regulatory_receipt_url: String.t(),
           id: String.t(),
-          linked_flows: __MODULE__.LinkedFlows.t(),
+          linked_flows: linked_flows(),
           livemode: boolean(),
           metadata: %{String.t() => String.t()},
           network: String.t(),
           object: String.t(),
           received_debit: String.t(),
           status: String.t(),
-          status_transitions: __MODULE__.StatusTransitions.t(),
+          status_transitions: status_transitions(),
           transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
         }
 
@@ -64,34 +64,34 @@ defmodule Stripe.Resources.Treasury.DebitReversal do
 
   def expandable_fields, do: ["linked_flows", "status_transitions", "transaction"]
 
-  defmodule LinkedFlows do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `issuing_dispute` - Set if there is an Issuing dispute associated with the DebitReversal. Max length: 5000. Nullable.
+  """
+  @type linked_flows :: %{
+          optional(:issuing_dispute) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `issuing_dispute` - Set if there is an Issuing dispute associated with the DebitReversal. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            issuing_dispute: String.t() | nil
-          }
-    defstruct [:issuing_dispute]
-  end
+  @typedoc """
+  * `completed_at` - Timestamp describing when the DebitReversal changed status to `completed`. Format: Unix timestamp. Nullable.
+  """
+  @type status_transitions :: %{
+          optional(:completed_at) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule StatusTransitions do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `completed_at` - Timestamp describing when the DebitReversal changed status to `completed`. Format: Unix timestamp. Nullable.
-    """
-    @type t :: %__MODULE__{
-            completed_at: integer() | nil
-          }
-    defstruct [:completed_at]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "linked_flows" => __MODULE__.LinkedFlows,
-      "status_transitions" => __MODULE__.StatusTransitions
+      "linked_flows" => %{
+        fields: %{
+          "issuing_dispute" => :scalar
+        }
+      },
+      "status_transitions" => %{
+        fields: %{
+          "completed_at" => :scalar
+        }
+      }
     }
   end
 end

@@ -128,7 +128,7 @@ controllers are never invoked.
 
 ## Typed Event Modules
 
-V2 events and thin V1 events have dedicated modules with typed data structs:
+V2 events and thin V1 events have dedicated modules with typed data maps:
 
 ```elixir
 alias Stripe.Events.V1BillingMeterErrorReportTriggeredEvent
@@ -137,9 +137,9 @@ alias Stripe.Events.V1BillingMeterErrorReportTriggeredEvent
 V1BillingMeterErrorReportTriggeredEvent.lookup_type()
 #=> "billing.meter.error_report_triggered"
 
-# Events have typed nested data structs
+# Events have typed nested data maps
 %V1BillingMeterErrorReportTriggeredEvent{
-  data: %V1BillingMeterErrorReportTriggeredEvent.Data{}
+  data: %{reason: %{error_count: 3}}
 }
 
 # V2 events support fetching related objects

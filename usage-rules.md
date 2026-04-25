@@ -112,7 +112,7 @@ Request params and response structs use **different key formats**:
 - **Request params → string keys.** Pass `%{"amount" => 100}`, not `%{amount: 100}`.
 - **Response structs → atom keys.** The deserializer converts JSON into typed Elixir structs. Access fields with atoms: `charge.amount`, `invoice_line.period.start`.
 
-Nested objects are also deserialized into structs with atom keys:
+Nested objects are deserialized into atom-key maps:
 
 ```elixir
 # WRONG — pattern matching with string keys on a deserialized struct
@@ -120,18 +120,22 @@ case invoice_line.period do
   %{"start" => start_unix} -> DateTime.from_unix!(start_unix)
 end
 
-# RIGHT — the Period struct has atom keys :start and :end
+# RIGHT — nested response maps have atom keys
 case invoice_line.period do
   %{start: start_unix} -> DateTime.from_unix!(start_unix)
 end
 ```
 
-Fields that remain as **string-key maps** (not deserialized into structs):
+Top-level Stripe resources still deserialize into structs. Fields that remain
+as **string-key maps**:
+
 - `metadata` — arbitrary user key-value pairs
 - `previous_attributes` on v1 events
 - `related_object` on thin v2 events
+- unknown keys preserved on nested response maps
 
-When in doubt, check the struct definition in `Stripe.Resources.*` — every `defstruct` field is an atom key.
+When in doubt, check the struct definition in `Stripe.Resources.*` — every
+top-level `defstruct` field is an atom key.
 
 ## Common mistakes
 

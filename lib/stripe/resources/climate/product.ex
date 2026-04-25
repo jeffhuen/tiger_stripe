@@ -22,7 +22,7 @@ defmodule Stripe.Resources.Climate.Product do
   """
   @type t :: %__MODULE__{
           created: integer(),
-          current_prices_per_metric_ton: %{String.t() => __MODULE__.CurrentPricesPerMetricTon.t()},
+          current_prices_per_metric_ton: %{String.t() => current_prices_per_metric_ton()},
           delivery_year: integer(),
           id: String.t(),
           livemode: boolean(),
@@ -49,25 +49,27 @@ defmodule Stripe.Resources.Climate.Product do
 
   def expandable_fields, do: ["current_prices_per_metric_ton", "suppliers"]
 
-  defmodule CurrentPricesPerMetricTon do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `amount_fees` - Fees for one metric ton of carbon removal in the currency's smallest unit.
+  * `amount_subtotal` - Subtotal for one metric ton of carbon removal (excluding fees) in the currency's smallest unit.
+  * `amount_total` - Total for one metric ton of carbon removal (including fees) in the currency's smallest unit.
+  """
+  @type current_prices_per_metric_ton :: %{
+          optional(:amount_fees) => integer() | nil,
+          optional(:amount_subtotal) => integer() | nil,
+          optional(:amount_total) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `amount_fees` - Fees for one metric ton of carbon removal in the currency's smallest unit.
-    * `amount_subtotal` - Subtotal for one metric ton of carbon removal (excluding fees) in the currency's smallest unit.
-    * `amount_total` - Total for one metric ton of carbon removal (including fees) in the currency's smallest unit.
-    """
-    @type t :: %__MODULE__{
-            amount_fees: integer() | nil,
-            amount_subtotal: integer() | nil,
-            amount_total: integer() | nil
-          }
-    defstruct [:amount_fees, :amount_subtotal, :amount_total]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "current_prices_per_metric_ton" => __MODULE__.CurrentPricesPerMetricTon
+      "current_prices_per_metric_ton" => %{
+        fields: %{
+          "amount_fees" => :scalar,
+          "amount_subtotal" => :scalar,
+          "amount_total" => :scalar
+        }
+      }
     }
   end
 end

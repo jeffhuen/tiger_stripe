@@ -10,22 +10,18 @@ defmodule Stripe.Params.InvoiceRemoveLinesParams do
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
           invoice_metadata: map() | nil,
-          lines: [__MODULE__.Lines.t()]
+          lines: [lines()]
         }
 
   defstruct [:expand, :invoice_metadata, :lines]
 
-  defmodule Lines do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `behavior` - Either `delete` or `unassign`. Deleted line items are permanently deleted. Unassigned line items can be reassigned to an invoice. Possible values: `delete`, `unassign`.
-    * `id` - ID of an existing line item to remove from this invoice. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            behavior: String.t() | nil,
-            id: String.t() | nil
-          }
-    defstruct [:behavior, :id]
-  end
+  @typedoc """
+  * `behavior` - Either `delete` or `unassign`. Deleted line items are permanently deleted. Unassigned line items can be reassigned to an invoice. Possible values: `delete`, `unassign`.
+  * `id` - ID of an existing line item to remove from this invoice. Max length: 5000.
+  """
+  @type lines :: %{
+          optional(:behavior) => String.t() | nil,
+          optional(:id) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

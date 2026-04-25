@@ -22,9 +22,9 @@ defmodule Stripe.Resources.NextActionKonbiniDisplayDetails do
 
   def expandable_fields, do: ["stores"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "stores" => Stripe.Resources.Stores
+      "stores" => {:resource, Stripe.Resources.Stores}
     }
   end
 end

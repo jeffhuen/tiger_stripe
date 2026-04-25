@@ -85,7 +85,7 @@ defmodule Stripe.Generator.OpenAPI do
     properties = merge_field_overrides(properties, override_fields)
 
     # Identify direct {:ref, name} properties pointing to resource schemas.
-    # These need __inner_types__ entries pointing to the standalone resource module.
+    # These are preserved as top-level resource references in nested metadata.
     resource_inner_refs =
       for p <- properties,
           ref_name = extract_direct_ref_name(p.type),
@@ -138,7 +138,7 @@ defmodule Stripe.Generator.OpenAPI do
   # Mark primary resources: for each {class_name, package} group, the primary
   # is the schema where schema_id == x-resourceId (canonical schema).
   # When no schema matches, pick the one with operations or an "object" property.
-  # Non-primary schemas are support/inner types that don't get standalone files.
+  # Non-primary schemas are support/nested shapes that don't get standalone files.
   defp mark_primary_resources(resources) do
     resources
     |> Enum.group_by(fn r -> {r.class_name, r.package} end)

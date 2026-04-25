@@ -20,9 +20,9 @@ defmodule Stripe.Resources.CardPresent do
 
   def expandable_fields, do: ["generated_card", "offline"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "offline" => Stripe.Resources.Offline
+      "offline" => {:resource, Stripe.Resources.Offline}
     }
   end
 end

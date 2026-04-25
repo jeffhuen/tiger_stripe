@@ -17,7 +17,7 @@ defmodule Stripe.Params.TestHelpers.Treasury.ReceivedCreditCreateParams do
           description: String.t() | nil,
           expand: [String.t()] | nil,
           financial_account: String.t(),
-          initiating_payment_method_details: __MODULE__.InitiatingPaymentMethodDetails.t() | nil,
+          initiating_payment_method_details: initiating_payment_method_details() | nil,
           network: String.t()
         }
 
@@ -31,33 +31,25 @@ defmodule Stripe.Params.TestHelpers.Treasury.ReceivedCreditCreateParams do
     :network
   ]
 
-  defmodule InitiatingPaymentMethodDetails do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `type` - The source type. Possible values: `us_bank_account`.
+  * `us_bank_account` - Optional fields for `us_bank_account`.
+  """
+  @type initiating_payment_method_details :: %{
+          optional(:type) => String.t() | nil,
+          optional(:us_bank_account) => initiating_payment_method_details_us_bank_account() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `type` - The source type. Possible values: `us_bank_account`.
-    * `us_bank_account` - Optional fields for `us_bank_account`.
-    """
-    @type t :: %__MODULE__{
-            type: String.t() | nil,
-            us_bank_account: __MODULE__.UsBankAccount.t() | nil
-          }
-    defstruct [:type, :us_bank_account]
-
-    defmodule UsBankAccount do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `account_holder_name` - The bank account holder's name. Max length: 5000.
-      * `account_number` - The bank account number. Max length: 5000.
-      * `routing_number` - The bank account's routing number. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              account_holder_name: String.t() | nil,
-              account_number: String.t() | nil,
-              routing_number: String.t() | nil
-            }
-      defstruct [:account_holder_name, :account_number, :routing_number]
-    end
-  end
+  @typedoc """
+  * `account_holder_name` - The bank account holder's name. Max length: 5000.
+  * `account_number` - The bank account number. Max length: 5000.
+  * `routing_number` - The bank account's routing number. Max length: 5000.
+  """
+  @type initiating_payment_method_details_us_bank_account :: %{
+          optional(:account_holder_name) => String.t() | nil,
+          optional(:account_number) => String.t() | nil,
+          optional(:routing_number) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

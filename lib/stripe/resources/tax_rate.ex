@@ -22,7 +22,7 @@ defmodule Stripe.Resources.TaxRate do
   * `inclusive` - This specifies if the tax rate is inclusive or exclusive.
   * `jurisdiction` - The jurisdiction for the tax rate. You can use this label field for tax reporting purposes. It also appears on your customer’s invoice. Max length: 5000. Nullable.
   * `jurisdiction_level` - The level of the jurisdiction that imposes this tax rate. Will be `null` for manually defined tax rates. Possible values: `city`, `country`, `county`, `district`, `multiple`, `state`. Nullable.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `tax_rate`.
   * `percentage` - Tax rate percentage out of 100. For tax calculations with automatic_tax[enabled]=true, this percentage includes the statutory tax rate of non-taxable jurisdictions.
@@ -77,9 +77,9 @@ defmodule Stripe.Resources.TaxRate do
 
   def expandable_fields, do: ["flat_amount"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "flat_amount" => Stripe.Resources.TaxRateFlatAmount
+      "flat_amount" => {:resource, Stripe.Resources.TaxRateFlatAmount}
     }
   end
 end

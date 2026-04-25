@@ -29,7 +29,7 @@ defmodule Stripe.Resources.CountrySpec do
           supported_payment_currencies: [String.t()],
           supported_payment_methods: [String.t()],
           supported_transfer_countries: [String.t()],
-          verification_fields: __MODULE__.VerificationFields.t()
+          verification_fields: verification_fields()
         }
 
   defstruct [
@@ -48,58 +48,54 @@ defmodule Stripe.Resources.CountrySpec do
 
   def expandable_fields, do: ["verification_fields"]
 
-  defmodule VerificationFields do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `company`
+  * `individual`
+  """
+  @type verification_fields :: %{
+          optional(:company) => verification_fields_company() | nil,
+          optional(:individual) => verification_fields_individual() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `company`
-    * `individual`
-    """
-    @type t :: %__MODULE__{
-            company: __MODULE__.Company.t() | nil,
-            individual: __MODULE__.Individual.t() | nil
-          }
-    defstruct [:company, :individual]
+  @typedoc """
+  * `additional` - Additional fields which are only required for some users.
+  * `minimum` - Fields which every account must eventually provide.
+  """
+  @type verification_fields_company :: %{
+          optional(:additional) => [String.t()] | nil,
+          optional(:minimum) => [String.t()] | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Company do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `additional` - Additional fields which are only required for some users.
+  * `minimum` - Fields which every account must eventually provide.
+  """
+  @type verification_fields_individual :: %{
+          optional(:additional) => [String.t()] | nil,
+          optional(:minimum) => [String.t()] | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `additional` - Additional fields which are only required for some users.
-      * `minimum` - Fields which every account must eventually provide.
-      """
-      @type t :: %__MODULE__{
-              additional: [String.t()] | nil,
-              minimum: [String.t()] | nil
-            }
-      defstruct [:additional, :minimum]
-    end
-
-    defmodule Individual do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `additional` - Additional fields which are only required for some users.
-      * `minimum` - Fields which every account must eventually provide.
-      """
-      @type t :: %__MODULE__{
-              additional: [String.t()] | nil,
-              minimum: [String.t()] | nil
-            }
-      defstruct [:additional, :minimum]
-    end
-
-    def __inner_types__ do
-      %{
-        "company" => __MODULE__.Company,
-        "individual" => __MODULE__.Individual
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "verification_fields" => __MODULE__.VerificationFields
+      "verification_fields" => %{
+        fields: %{
+          "company" => %{
+            fields: %{
+              "additional" => {:list, :scalar},
+              "minimum" => {:list, :scalar}
+            }
+          },
+          "individual" => %{
+            fields: %{
+              "additional" => {:list, :scalar},
+              "minimum" => {:list, :scalar}
+            }
+          }
+        }
+      }
     }
   end
 end

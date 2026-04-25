@@ -13,23 +13,19 @@ defmodule Stripe.Params.Apps.SecretListParams do
           ending_before: String.t() | nil,
           expand: [String.t()] | nil,
           limit: integer() | nil,
-          scope: __MODULE__.Scope.t(),
+          scope: scope(),
           starting_after: String.t() | nil
         }
 
   defstruct [:ending_before, :expand, :limit, :scope, :starting_after]
 
-  defmodule Scope do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `type` - The secret scope type. Possible values: `account`, `user`.
-    * `user` - The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            type: String.t() | nil,
-            user: String.t() | nil
-          }
-    defstruct [:type, :user]
-  end
+  @typedoc """
+  * `type` - The secret scope type. Possible values: `account`, `user`.
+  * `user` - The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`. Max length: 5000.
+  """
+  @type scope :: %{
+          optional(:type) => String.t() | nil,
+          optional(:user) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

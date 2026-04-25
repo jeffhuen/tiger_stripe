@@ -34,10 +34,10 @@ defmodule Stripe.Resources.SortCodeRecords do
 
   def expandable_fields, do: ["account_holder_address", "bank_address"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "account_holder_address" => Stripe.Resources.Address,
-      "bank_address" => Stripe.Resources.Address
+      "account_holder_address" => {:resource, Stripe.Resources.Address},
+      "bank_address" => {:resource, Stripe.Resources.Address}
     }
   end
 end

@@ -23,7 +23,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `last_error` - If present, this property tells you the last error encountered when processing the verification. Nullable. Expandable.
   * `last_verification_report` - ID of the most recent VerificationReport. [Learn more about accessing detailed verification results.](https://docs.stripe.com/identity/verification-sessions#results) Nullable. Expandable.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `identity.verification_session`.
   * `options` - A set of options for the session’s verification checks. Nullable. Expandable.
@@ -43,22 +43,22 @@ defmodule Stripe.Resources.Identity.VerificationSession do
           client_secret: String.t(),
           created: integer(),
           id: String.t(),
-          last_error: __MODULE__.LastError.t(),
+          last_error: last_error(),
           last_verification_report: String.t() | Stripe.Resources.Identity.VerificationReport.t(),
           livemode: boolean(),
           metadata: %{String.t() => String.t()},
           object: String.t(),
-          options: __MODULE__.Options.t(),
-          provided_details: __MODULE__.ProvidedDetails.t() | nil,
-          redaction: __MODULE__.Redaction.t(),
+          options: options(),
+          provided_details: provided_details() | nil,
+          redaction: redaction(),
           related_customer: String.t(),
           related_customer_account: String.t(),
-          related_person: __MODULE__.RelatedPerson.t() | nil,
+          related_person: related_person() | nil,
           status: String.t(),
           type: String.t(),
           url: String.t(),
           verification_flow: String.t() | nil,
-          verified_outputs: __MODULE__.VerifiedOutputs.t() | nil
+          verified_outputs: verified_outputs() | nil
         }
 
   defstruct [
@@ -98,224 +98,215 @@ defmodule Stripe.Resources.Identity.VerificationSession do
       "verified_outputs"
     ]
 
-  defmodule LastError do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `code` - A short machine-readable string giving the reason for the verification or user-session failure. Possible values: `abandoned`, `consent_declined`, `country_not_supported`, `device_not_supported`, `document_expired`, `document_type_not_supported`, `document_unverified_other`, `email_unverified_other`, `email_verification_declined`, `id_number_insufficient_document_data`, `id_number_mismatch`, `id_number_unverified_other`, `phone_unverified_other`, `phone_verification_declined`, `selfie_document_missing_photo`, `selfie_face_mismatch`, `selfie_manipulated`, `selfie_unverified_other`, `under_supported_age`. Nullable.
+  * `reason` - A message that explains the reason for verification or user-session failure. Max length: 5000. Nullable.
+  """
+  @type last_error :: %{
+          optional(:code) => String.t() | nil,
+          optional(:reason) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `code` - A short machine-readable string giving the reason for the verification or user-session failure. Possible values: `abandoned`, `consent_declined`, `country_not_supported`, `device_not_supported`, `document_expired`, `document_type_not_supported`, `document_unverified_other`, `email_unverified_other`, `email_verification_declined`, `id_number_insufficient_document_data`, `id_number_mismatch`, `id_number_unverified_other`, `phone_unverified_other`, `phone_verification_declined`, `selfie_document_missing_photo`, `selfie_face_mismatch`, `selfie_manipulated`, `selfie_unverified_other`, `under_supported_age`. Nullable.
-    * `reason` - A message that explains the reason for verification or user-session failure. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            code: String.t() | nil,
-            reason: String.t() | nil
-          }
-    defstruct [:code, :reason]
-  end
+  @typedoc """
+  * `document`
+  * `email`
+  * `id_number`
+  * `matching`
+  * `phone`
+  """
+  @type options :: %{
+          optional(:document) => options_document() | nil,
+          optional(:email) => options_email() | nil,
+          optional(:id_number) => map() | nil,
+          optional(:matching) => options_matching() | nil,
+          optional(:phone) => options_phone() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Options do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `allowed_types` - Array of strings of allowed identity document types. If the provided identity document isn’t one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
+  * `require_id_number` - Collect an ID number and perform an [ID number check](https://docs.stripe.com/identity/verification-checks?type=id-number) with the document’s extracted name and date of birth.
+  * `require_live_capture` - Disable image uploads, identity document images have to be captured using the device’s camera.
+  * `require_matching_selfie` - Capture a face image and perform a [selfie check](https://docs.stripe.com/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user’s face. [Learn more](https://docs.stripe.com/identity/selfie).
+  """
+  @type options_document :: %{
+          optional(:allowed_types) => [String.t()] | nil,
+          optional(:require_id_number) => boolean() | nil,
+          optional(:require_live_capture) => boolean() | nil,
+          optional(:require_matching_selfie) => boolean() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `document`
-    * `email`
-    * `id_number`
-    * `matching`
-    * `phone`
-    """
-    @type t :: %__MODULE__{
-            document: __MODULE__.Document.t() | nil,
-            email: __MODULE__.Email.t() | nil,
-            id_number: map() | nil,
-            matching: __MODULE__.Matching.t() | nil,
-            phone: __MODULE__.Phone.t() | nil
-          }
-    defstruct [:document, :email, :id_number, :matching, :phone]
+  @typedoc """
+  * `require_verification` - Request one time password verification of `provided_details.email`.
+  """
+  @type options_email :: %{
+          optional(:require_verification) => boolean() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Document do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `dob` - Strictness of the DOB matching policy to apply. Possible values: `none`, `similar`.
+  * `name` - Strictness of the name matching policy to apply. Possible values: `none`, `similar`.
+  """
+  @type options_matching :: %{
+          optional(:dob) => String.t() | nil,
+          optional(:name) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `allowed_types` - Array of strings of allowed identity document types. If the provided identity document isn’t one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
-      * `require_id_number` - Collect an ID number and perform an [ID number check](https://docs.stripe.com/identity/verification-checks?type=id-number) with the document’s extracted name and date of birth.
-      * `require_live_capture` - Disable image uploads, identity document images have to be captured using the device’s camera.
-      * `require_matching_selfie` - Capture a face image and perform a [selfie check](https://docs.stripe.com/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user’s face. [Learn more](https://docs.stripe.com/identity/selfie).
-      """
-      @type t :: %__MODULE__{
-              allowed_types: [String.t()] | nil,
-              require_id_number: boolean() | nil,
-              require_live_capture: boolean() | nil,
-              require_matching_selfie: boolean() | nil
-            }
-      defstruct [
-        :allowed_types,
-        :require_id_number,
-        :require_live_capture,
-        :require_matching_selfie
-      ]
-    end
+  @typedoc """
+  * `require_verification` - Request one time password verification of `provided_details.phone`.
+  """
+  @type options_phone :: %{
+          optional(:require_verification) => boolean() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Email do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `email` - Email of user being verified Max length: 5000.
+  * `phone` - Phone number of user being verified Max length: 5000.
+  """
+  @type provided_details :: %{
+          optional(:email) => String.t() | nil,
+          optional(:phone) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `require_verification` - Request one time password verification of `provided_details.email`.
-      """
-      @type t :: %__MODULE__{
-              require_verification: boolean() | nil
-            }
-      defstruct [:require_verification]
-    end
+  @typedoc """
+  * `status` - Indicates whether this object and its related objects have been redacted or not. Possible values: `processing`, `redacted`.
+  """
+  @type redaction :: %{
+          optional(:status) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Matching do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `account` - Token referencing the associated Account of the related Person resource. Max length: 5000.
+  * `person` - Token referencing the related Person resource. Max length: 5000.
+  """
+  @type related_person :: %{
+          optional(:account) => String.t() | nil,
+          optional(:person) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `dob` - Strictness of the DOB matching policy to apply. Possible values: `none`, `similar`.
-      * `name` - Strictness of the name matching policy to apply. Possible values: `none`, `similar`.
-      """
-      @type t :: %__MODULE__{
-              dob: String.t() | nil,
-              name: String.t() | nil
-            }
-      defstruct [:dob, :name]
-    end
+  @typedoc """
+  * `address` - The user's verified address. Nullable.
+  * `dob` - The user’s verified date of birth. Nullable.
+  * `email` - The user's verified email address Max length: 5000. Nullable.
+  * `first_name` - The user's verified first name. Max length: 5000. Nullable.
+  * `id_number` - The user's verified id number. Max length: 5000. Nullable.
+  * `id_number_type` - The user's verified id number type. Possible values: `br_cpf`, `sg_nric`, `us_ssn`. Nullable.
+  * `last_name` - The user's verified last name. Max length: 5000. Nullable.
+  * `phone` - The user's verified phone number Max length: 5000. Nullable.
+  * `sex` - The user's verified sex. Possible values: `[redacted]`, `female`, `male`, `unknown`. Nullable.
+  * `unparsed_place_of_birth` - The user's verified place of birth as it appears in the document. Max length: 5000. Nullable.
+  * `unparsed_sex` - The user's verified sex as it appears in the document. Max length: 5000. Nullable.
+  """
+  @type verified_outputs :: %{
+          optional(:address) => Stripe.Resources.Address.t() | nil,
+          optional(:dob) => verified_outputs_dob() | nil,
+          optional(:email) => String.t() | nil,
+          optional(:first_name) => String.t() | nil,
+          optional(:id_number) => String.t() | nil,
+          optional(:id_number_type) => String.t() | nil,
+          optional(:last_name) => String.t() | nil,
+          optional(:phone) => String.t() | nil,
+          optional(:sex) => String.t() | nil,
+          optional(:unparsed_place_of_birth) => String.t() | nil,
+          optional(:unparsed_sex) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Phone do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `day` - Numerical day between 1 and 31. Nullable.
+  * `month` - Numerical month between 1 and 12. Nullable.
+  * `year` - The four-digit year. Nullable.
+  """
+  @type verified_outputs_dob :: %{
+          optional(:day) => integer() | nil,
+          optional(:month) => integer() | nil,
+          optional(:year) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `require_verification` - Request one time password verification of `provided_details.phone`.
-      """
-      @type t :: %__MODULE__{
-              require_verification: boolean() | nil
-            }
-      defstruct [:require_verification]
-    end
-
-    def __inner_types__ do
-      %{
-        "document" => __MODULE__.Document,
-        "email" => __MODULE__.Email,
-        "matching" => __MODULE__.Matching,
-        "phone" => __MODULE__.Phone
-      }
-    end
-  end
-
-  defmodule ProvidedDetails do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `email` - Email of user being verified Max length: 5000.
-    * `phone` - Phone number of user being verified Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            email: String.t() | nil,
-            phone: String.t() | nil
-          }
-    defstruct [:email, :phone]
-  end
-
-  defmodule Redaction do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `status` - Indicates whether this object and its related objects have been redacted or not. Possible values: `processing`, `redacted`.
-    """
-    @type t :: %__MODULE__{
-            status: String.t() | nil
-          }
-    defstruct [:status]
-  end
-
-  defmodule RelatedPerson do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `account` - Token referencing the associated Account of the related Person resource. Max length: 5000.
-    * `person` - Token referencing the related Person resource. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            account: String.t() | nil,
-            person: String.t() | nil
-          }
-    defstruct [:account, :person]
-  end
-
-  defmodule VerifiedOutputs do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `address` - The user's verified address. Nullable.
-    * `dob` - The user’s verified date of birth. Nullable.
-    * `email` - The user's verified email address Max length: 5000. Nullable.
-    * `first_name` - The user's verified first name. Max length: 5000. Nullable.
-    * `id_number` - The user's verified id number. Max length: 5000. Nullable.
-    * `id_number_type` - The user's verified id number type. Possible values: `br_cpf`, `sg_nric`, `us_ssn`. Nullable.
-    * `last_name` - The user's verified last name. Max length: 5000. Nullable.
-    * `phone` - The user's verified phone number Max length: 5000. Nullable.
-    * `sex` - The user's verified sex. Possible values: `[redacted]`, `female`, `male`, `unknown`. Nullable.
-    * `unparsed_place_of_birth` - The user's verified place of birth as it appears in the document. Max length: 5000. Nullable.
-    * `unparsed_sex` - The user's verified sex as it appears in the document. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            address: Stripe.Resources.Address.t() | nil,
-            dob: __MODULE__.Dob.t() | nil,
-            email: String.t() | nil,
-            first_name: String.t() | nil,
-            id_number: String.t() | nil,
-            id_number_type: String.t() | nil,
-            last_name: String.t() | nil,
-            phone: String.t() | nil,
-            sex: String.t() | nil,
-            unparsed_place_of_birth: String.t() | nil,
-            unparsed_sex: String.t() | nil
-          }
-    defstruct [
-      :address,
-      :dob,
-      :email,
-      :first_name,
-      :id_number,
-      :id_number_type,
-      :last_name,
-      :phone,
-      :sex,
-      :unparsed_place_of_birth,
-      :unparsed_sex
-    ]
-
-    defmodule Dob do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `day` - Numerical day between 1 and 31. Nullable.
-      * `month` - Numerical month between 1 and 12. Nullable.
-      * `year` - The four-digit year. Nullable.
-      """
-      @type t :: %__MODULE__{
-              day: integer() | nil,
-              month: integer() | nil,
-              year: integer() | nil
-            }
-      defstruct [:day, :month, :year]
-    end
-
-    def __inner_types__ do
-      %{
-        "dob" => __MODULE__.Dob
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "last_error" => __MODULE__.LastError,
-      "options" => __MODULE__.Options,
-      "provided_details" => __MODULE__.ProvidedDetails,
-      "redaction" => __MODULE__.Redaction,
-      "related_person" => __MODULE__.RelatedPerson,
-      "verified_outputs" => __MODULE__.VerifiedOutputs
+      "last_error" => %{
+        fields: %{
+          "code" => :scalar,
+          "reason" => :scalar
+        }
+      },
+      "options" => %{
+        fields: %{
+          "document" => %{
+            fields: %{
+              "allowed_types" => {:list, :scalar},
+              "require_id_number" => :scalar,
+              "require_live_capture" => :scalar,
+              "require_matching_selfie" => :scalar
+            }
+          },
+          "email" => %{
+            fields: %{
+              "require_verification" => :scalar
+            }
+          },
+          "id_number" => :scalar,
+          "matching" => %{
+            fields: %{
+              "dob" => :scalar,
+              "name" => :scalar
+            }
+          },
+          "phone" => %{
+            fields: %{
+              "require_verification" => :scalar
+            }
+          }
+        }
+      },
+      "provided_details" => %{
+        fields: %{
+          "email" => :scalar,
+          "phone" => :scalar
+        }
+      },
+      "redaction" => %{
+        fields: %{
+          "status" => :scalar
+        }
+      },
+      "related_person" => %{
+        fields: %{
+          "account" => :scalar,
+          "person" => :scalar
+        }
+      },
+      "verified_outputs" => %{
+        fields: %{
+          "address" => {:resource, Stripe.Resources.Address},
+          "dob" => %{
+            fields: %{
+              "day" => :scalar,
+              "month" => :scalar,
+              "year" => :scalar
+            }
+          },
+          "email" => :scalar,
+          "first_name" => :scalar,
+          "id_number" => :scalar,
+          "id_number_type" => :scalar,
+          "last_name" => :scalar,
+          "phone" => :scalar,
+          "sex" => :scalar,
+          "unparsed_place_of_birth" => :scalar,
+          "unparsed_sex" => :scalar
+        }
+      }
     }
   end
 end

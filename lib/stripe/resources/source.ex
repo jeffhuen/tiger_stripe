@@ -37,7 +37,7 @@ defmodule Stripe.Resources.Source do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `ideal`
   * `klarna`
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `multibanco`
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `source`.
@@ -68,7 +68,7 @@ defmodule Stripe.Resources.Source do
           card: Stripe.Resources.Card.t() | nil,
           card_present: Stripe.Resources.CardPresent.t() | nil,
           client_secret: String.t(),
-          code_verification: __MODULE__.CodeVerification.t() | nil,
+          code_verification: code_verification() | nil,
           created: integer(),
           currency: String.t(),
           customer: String.t() | nil,
@@ -82,14 +82,14 @@ defmodule Stripe.Resources.Source do
           metadata: %{String.t() => String.t()},
           multibanco: Stripe.Resources.Multibanco.t() | nil,
           object: String.t(),
-          owner: __MODULE__.Owner.t(),
+          owner: owner(),
           p24: Stripe.Resources.P24.t() | nil,
-          receiver: __MODULE__.Receiver.t() | nil,
-          redirect: __MODULE__.Redirect.t() | nil,
+          receiver: receiver() | nil,
+          redirect: redirect() | nil,
           sepa_credit_transfer: Stripe.Resources.SepaCreditTransfer.t() | nil,
           sepa_debit: Stripe.Resources.SepaDebit.t() | nil,
           sofort: Stripe.Resources.Sofort.t() | nil,
-          source_order: __MODULE__.SourceOrder.t() | nil,
+          source_order: source_order() | nil,
           statement_descriptor: String.t(),
           status: String.t(),
           three_d_secure: Stripe.Resources.ThreeDSecure.t() | nil,
@@ -146,176 +146,181 @@ defmodule Stripe.Resources.Source do
   def expandable_fields,
     do: ["code_verification", "owner", "receiver", "redirect", "source_order"]
 
-  defmodule CodeVerification do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `attempts_remaining` - The number of attempts remaining to authenticate the source object with a verification code.
+  * `status` - The status of the code verification, either `pending` (awaiting verification, `attempts_remaining` should be greater than 0), `succeeded` (successful verification) or `failed` (failed verification, cannot be verified anymore as `attempts_remaining` should be 0). Max length: 5000.
+  """
+  @type code_verification :: %{
+          optional(:attempts_remaining) => integer() | nil,
+          optional(:status) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `attempts_remaining` - The number of attempts remaining to authenticate the source object with a verification code.
-    * `status` - The status of the code verification, either `pending` (awaiting verification, `attempts_remaining` should be greater than 0), `succeeded` (successful verification) or `failed` (failed verification, cannot be verified anymore as `attempts_remaining` should be 0). Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            attempts_remaining: integer() | nil,
-            status: String.t() | nil
-          }
-    defstruct [:attempts_remaining, :status]
-  end
+  @typedoc """
+  * `address` - Owner's address. Nullable.
+  * `email` - Owner's email address. Max length: 5000. Nullable.
+  * `name` - Owner's full name. Max length: 5000. Nullable.
+  * `phone` - Owner's phone number (including extension). Max length: 5000. Nullable.
+  * `verified_address` - Verified owner's address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated. Nullable.
+  * `verified_email` - Verified owner's email address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated. Max length: 5000. Nullable.
+  * `verified_name` - Verified owner's full name. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated. Max length: 5000. Nullable.
+  * `verified_phone` - Verified owner's phone number (including extension). Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated. Max length: 5000. Nullable.
+  """
+  @type owner :: %{
+          optional(:address) => Stripe.Resources.Address.t() | nil,
+          optional(:email) => String.t() | nil,
+          optional(:name) => String.t() | nil,
+          optional(:phone) => String.t() | nil,
+          optional(:verified_address) => Stripe.Resources.Address.t() | nil,
+          optional(:verified_email) => String.t() | nil,
+          optional(:verified_name) => String.t() | nil,
+          optional(:verified_phone) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Owner do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `address` - The address of the receiver source. This is the value that should be communicated to the customer to send their funds to. Max length: 5000. Nullable.
+  * `amount_charged` - The total amount that was moved to your balance. This is almost always equal to the amount charged. In rare cases when customers deposit excess funds and we are unable to refund those, those funds get moved to your balance and show up in amount_charged as well. The amount charged is expressed in the source's currency.
+  * `amount_received` - The total amount received by the receiver source. `amount_received = amount_returned + amount_charged` should be true for consumed sources unless customers deposit excess funds. The amount received is expressed in the source's currency.
+  * `amount_returned` - The total amount that was returned to the customer. The amount returned is expressed in the source's currency.
+  * `refund_attributes_method` - Type of refund attribute method, one of `email`, `manual`, or `none`. Max length: 5000.
+  * `refund_attributes_status` - Type of refund attribute status, one of `missing`, `requested`, or `available`. Max length: 5000.
+  """
+  @type receiver :: %{
+          optional(:address) => String.t() | nil,
+          optional(:amount_charged) => integer() | nil,
+          optional(:amount_received) => integer() | nil,
+          optional(:amount_returned) => integer() | nil,
+          optional(:refund_attributes_method) => String.t() | nil,
+          optional(:refund_attributes_status) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `address` - Owner's address. Nullable.
-    * `email` - Owner's email address. Max length: 5000. Nullable.
-    * `name` - Owner's full name. Max length: 5000. Nullable.
-    * `phone` - Owner's phone number (including extension). Max length: 5000. Nullable.
-    * `verified_address` - Verified owner's address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated. Nullable.
-    * `verified_email` - Verified owner's email address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated. Max length: 5000. Nullable.
-    * `verified_name` - Verified owner's full name. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated. Max length: 5000. Nullable.
-    * `verified_phone` - Verified owner's phone number (including extension). Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            address: Stripe.Resources.Address.t() | nil,
-            email: String.t() | nil,
-            name: String.t() | nil,
-            phone: String.t() | nil,
-            verified_address: Stripe.Resources.Address.t() | nil,
-            verified_email: String.t() | nil,
-            verified_name: String.t() | nil,
-            verified_phone: String.t() | nil
-          }
-    defstruct [
-      :address,
-      :email,
-      :name,
-      :phone,
-      :verified_address,
-      :verified_email,
-      :verified_name,
-      :verified_phone
-    ]
-  end
+  @typedoc """
+  * `failure_reason` - The failure reason for the redirect, either `user_abort` (the customer aborted or dropped out of the redirect flow), `declined` (the authentication failed or the transaction was declined), or `processing_error` (the redirect failed due to a technical error). Present only if the redirect status is `failed`. Max length: 5000. Nullable.
+  * `return_url` - The URL you provide to redirect the customer to after they authenticated their payment. Max length: 5000.
+  * `status` - The status of the redirect, either `pending` (ready to be used by your customer to authenticate the transaction), `succeeded` (successful authentication, cannot be reused) or `not_required` (redirect should not be used) or `failed` (failed authentication, cannot be reused). Max length: 5000.
+  * `url` - The URL provided to you to redirect a customer to as part of a `redirect` authentication flow. Max length: 2048.
+  """
+  @type redirect :: %{
+          optional(:failure_reason) => String.t() | nil,
+          optional(:return_url) => String.t() | nil,
+          optional(:status) => String.t() | nil,
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Receiver do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `amount` - A positive integer in the smallest currency unit (that is, 100 cents for $1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount for the order.
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `email` - The email address of the customer placing the order. Max length: 5000.
+  * `items` - List of items constituting the order. Nullable.
+  * `shipping`
+  """
+  @type source_order :: %{
+          optional(:amount) => integer() | nil,
+          optional(:currency) => String.t() | nil,
+          optional(:email) => String.t() | nil,
+          optional(:items) => [source_order_items()] | nil,
+          optional(:shipping) => Stripe.Resources.ShippingDetails.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `address` - The address of the receiver source. This is the value that should be communicated to the customer to send their funds to. Max length: 5000. Nullable.
-    * `amount_charged` - The total amount that was moved to your balance. This is almost always equal to the amount charged. In rare cases when customers deposit excess funds and we are unable to refund those, those funds get moved to your balance and show up in amount_charged as well. The amount charged is expressed in the source's currency.
-    * `amount_received` - The total amount received by the receiver source. `amount_received = amount_returned + amount_charged` should be true for consumed sources unless customers deposit excess funds. The amount received is expressed in the source's currency.
-    * `amount_returned` - The total amount that was returned to the customer. The amount returned is expressed in the source's currency.
-    * `refund_attributes_method` - Type of refund attribute method, one of `email`, `manual`, or `none`. Max length: 5000.
-    * `refund_attributes_status` - Type of refund attribute status, one of `missing`, `requested`, or `available`. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            address: String.t() | nil,
-            amount_charged: integer() | nil,
-            amount_received: integer() | nil,
-            amount_returned: integer() | nil,
-            refund_attributes_method: String.t() | nil,
-            refund_attributes_status: String.t() | nil
-          }
-    defstruct [
-      :address,
-      :amount_charged,
-      :amount_received,
-      :amount_returned,
-      :refund_attributes_method,
-      :refund_attributes_status
-    ]
-  end
+  @typedoc """
+  * `amount` - The amount (price) for this order item. Nullable.
+  * `currency` - This currency of this order item. Required when `amount` is present. Max length: 5000. Nullable.
+  * `description` - Human-readable description for this order item. Max length: 5000. Nullable.
+  * `parent` - The ID of the associated object for this line item. Expandable if not null (e.g., expandable to a SKU). Max length: 5000. Nullable.
+  * `quantity` - The quantity of this order item. When type is `sku`, this is the number of instances of the SKU to be ordered.
+  * `type` - The type of this order item. Must be `sku`, `tax`, or `shipping`. Max length: 5000. Nullable.
+  """
+  @type source_order_items :: %{
+          optional(:amount) => integer() | nil,
+          optional(:currency) => String.t() | nil,
+          optional(:description) => String.t() | nil,
+          optional(:parent) => String.t() | nil,
+          optional(:quantity) => integer() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Redirect do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `failure_reason` - The failure reason for the redirect, either `user_abort` (the customer aborted or dropped out of the redirect flow), `declined` (the authentication failed or the transaction was declined), or `processing_error` (the redirect failed due to a technical error). Present only if the redirect status is `failed`. Max length: 5000. Nullable.
-    * `return_url` - The URL you provide to redirect the customer to after they authenticated their payment. Max length: 5000.
-    * `status` - The status of the redirect, either `pending` (ready to be used by your customer to authenticate the transaction), `succeeded` (successful authentication, cannot be reused) or `not_required` (redirect should not be used) or `failed` (failed authentication, cannot be reused). Max length: 5000.
-    * `url` - The URL provided to you to redirect a customer to as part of a `redirect` authentication flow. Max length: 2048.
-    """
-    @type t :: %__MODULE__{
-            failure_reason: String.t() | nil,
-            return_url: String.t() | nil,
-            status: String.t() | nil,
-            url: String.t() | nil
-          }
-    defstruct [:failure_reason, :return_url, :status, :url]
-  end
-
-  defmodule SourceOrder do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `amount` - A positive integer in the smallest currency unit (that is, 100 cents for $1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount for the order.
-    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-    * `email` - The email address of the customer placing the order. Max length: 5000.
-    * `items` - List of items constituting the order. Nullable.
-    * `shipping`
-    """
-    @type t :: %__MODULE__{
-            amount: integer() | nil,
-            currency: String.t() | nil,
-            email: String.t() | nil,
-            items: [__MODULE__.Items.t()] | nil,
-            shipping: Stripe.Resources.ShippingDetails.t() | nil
-          }
-    defstruct [:amount, :currency, :email, :items, :shipping]
-
-    defmodule Items do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `amount` - The amount (price) for this order item. Nullable.
-      * `currency` - This currency of this order item. Required when `amount` is present. Max length: 5000. Nullable.
-      * `description` - Human-readable description for this order item. Max length: 5000. Nullable.
-      * `parent` - The ID of the associated object for this line item. Expandable if not null (e.g., expandable to a SKU). Max length: 5000. Nullable.
-      * `quantity` - The quantity of this order item. When type is `sku`, this is the number of instances of the SKU to be ordered.
-      * `type` - The type of this order item. Must be `sku`, `tax`, or `shipping`. Max length: 5000. Nullable.
-      """
-      @type t :: %__MODULE__{
-              amount: integer() | nil,
-              currency: String.t() | nil,
-              description: String.t() | nil,
-              parent: String.t() | nil,
-              quantity: integer() | nil,
-              type: String.t() | nil
-            }
-      defstruct [:amount, :currency, :description, :parent, :quantity, :type]
-    end
-
-    def __inner_types__ do
-      %{
-        "items" => __MODULE__.Items
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "ach_credit_transfer" => Stripe.Resources.AchCreditTransfer,
-      "ach_debit" => Stripe.Resources.AchDebit,
-      "acss_debit" => Stripe.Resources.AcssDebit,
-      "alipay" => Stripe.Resources.Alipay,
-      "au_becs_debit" => Stripe.Resources.AuBecsDebit,
-      "bancontact" => Stripe.Resources.Bancontact,
-      "card" => Stripe.Resources.Card,
-      "card_present" => Stripe.Resources.CardPresent,
-      "code_verification" => __MODULE__.CodeVerification,
-      "eps" => Stripe.Resources.Eps,
-      "giropay" => Stripe.Resources.Giropay,
-      "ideal" => Stripe.Resources.Ideal,
-      "klarna" => Stripe.Resources.Klarna,
-      "multibanco" => Stripe.Resources.Multibanco,
-      "owner" => __MODULE__.Owner,
-      "p24" => Stripe.Resources.P24,
-      "receiver" => __MODULE__.Receiver,
-      "redirect" => __MODULE__.Redirect,
-      "sepa_credit_transfer" => Stripe.Resources.SepaCreditTransfer,
-      "sepa_debit" => Stripe.Resources.SepaDebit,
-      "sofort" => Stripe.Resources.Sofort,
-      "source_order" => __MODULE__.SourceOrder,
-      "three_d_secure" => Stripe.Resources.ThreeDSecure,
-      "wechat" => Stripe.Resources.Wechat
+      "code_verification" => %{
+        fields: %{
+          "attempts_remaining" => :scalar,
+          "status" => :scalar
+        }
+      },
+      "owner" => %{
+        fields: %{
+          "address" => {:resource, Stripe.Resources.Address},
+          "email" => :scalar,
+          "name" => :scalar,
+          "phone" => :scalar,
+          "verified_address" => {:resource, Stripe.Resources.Address},
+          "verified_email" => :scalar,
+          "verified_name" => :scalar,
+          "verified_phone" => :scalar
+        }
+      },
+      "receiver" => %{
+        fields: %{
+          "address" => :scalar,
+          "amount_charged" => :scalar,
+          "amount_received" => :scalar,
+          "amount_returned" => :scalar,
+          "refund_attributes_method" => :scalar,
+          "refund_attributes_status" => :scalar
+        }
+      },
+      "redirect" => %{
+        fields: %{
+          "failure_reason" => :scalar,
+          "return_url" => :scalar,
+          "status" => :scalar,
+          "url" => :scalar
+        }
+      },
+      "source_order" => %{
+        fields: %{
+          "amount" => :scalar,
+          "currency" => :scalar,
+          "email" => :scalar,
+          "items" =>
+            {:list,
+             %{
+               fields: %{
+                 "amount" => :scalar,
+                 "currency" => :scalar,
+                 "description" => :scalar,
+                 "parent" => :scalar,
+                 "quantity" => :scalar,
+                 "type" => :scalar
+               }
+             }},
+          "shipping" => {:resource, Stripe.Resources.ShippingDetails}
+        }
+      },
+      "ach_credit_transfer" => {:resource, Stripe.Resources.AchCreditTransfer},
+      "ach_debit" => {:resource, Stripe.Resources.AchDebit},
+      "acss_debit" => {:resource, Stripe.Resources.AcssDebit},
+      "alipay" => {:resource, Stripe.Resources.Alipay},
+      "au_becs_debit" => {:resource, Stripe.Resources.AuBecsDebit},
+      "bancontact" => {:resource, Stripe.Resources.Bancontact},
+      "card" => {:resource, Stripe.Resources.Card},
+      "card_present" => {:resource, Stripe.Resources.CardPresent},
+      "eps" => {:resource, Stripe.Resources.Eps},
+      "giropay" => {:resource, Stripe.Resources.Giropay},
+      "ideal" => {:resource, Stripe.Resources.Ideal},
+      "klarna" => {:resource, Stripe.Resources.Klarna},
+      "multibanco" => {:resource, Stripe.Resources.Multibanco},
+      "p24" => {:resource, Stripe.Resources.P24},
+      "sepa_credit_transfer" => {:resource, Stripe.Resources.SepaCreditTransfer},
+      "sepa_debit" => {:resource, Stripe.Resources.SepaDebit},
+      "sofort" => {:resource, Stripe.Resources.Sofort},
+      "three_d_secure" => {:resource, Stripe.Resources.ThreeDSecure},
+      "wechat" => {:resource, Stripe.Resources.Wechat}
     }
   end
 end

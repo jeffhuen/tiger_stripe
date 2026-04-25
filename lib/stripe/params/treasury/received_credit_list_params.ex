@@ -16,7 +16,7 @@ defmodule Stripe.Params.Treasury.ReceivedCreditListParams do
           expand: [String.t()] | nil,
           financial_account: String.t(),
           limit: integer() | nil,
-          linked_flows: __MODULE__.LinkedFlows.t() | nil,
+          linked_flows: linked_flows() | nil,
           starting_after: String.t() | nil,
           status: String.t() | nil
         }
@@ -31,15 +31,11 @@ defmodule Stripe.Params.Treasury.ReceivedCreditListParams do
     :status
   ]
 
-  defmodule LinkedFlows do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `source_flow_type` - The source flow type. Possible values: `credit_reversal`, `other`, `outbound_payment`, `outbound_transfer`, `payout`.
-    """
-    @type t :: %__MODULE__{
-            source_flow_type: String.t() | nil
-          }
-    defstruct [:source_flow_type]
-  end
+  @typedoc """
+  * `source_flow_type` - The source flow type. Possible values: `credit_reversal`, `other`, `outbound_payment`, `outbound_transfer`, `payout`.
+  """
+  @type linked_flows :: %{
+          optional(:source_flow_type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

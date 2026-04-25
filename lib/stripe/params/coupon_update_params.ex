@@ -9,7 +9,7 @@ defmodule Stripe.Params.CouponUpdateParams do
   * `name` - Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set. Max length: 40.
   """
   @type t :: %__MODULE__{
-          currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil,
+          currency_options: %{String.t() => currency_options()} | nil,
           expand: [String.t()] | nil,
           metadata: map() | nil,
           name: String.t() | nil
@@ -17,15 +17,11 @@ defmodule Stripe.Params.CouponUpdateParams do
 
   defstruct [:currency_options, :expand, :metadata, :name]
 
-  defmodule CurrencyOptions do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `amount_off` - A positive integer representing the amount to subtract from an invoice total.
-    """
-    @type t :: %__MODULE__{
-            amount_off: integer() | nil
-          }
-    defstruct [:amount_off]
-  end
+  @typedoc """
+  * `amount_off` - A positive integer representing the amount to subtract from an invoice total.
+  """
+  @type currency_options :: %{
+          optional(:amount_off) => integer() | nil,
+          optional(String.t()) => term()
+        }
 end

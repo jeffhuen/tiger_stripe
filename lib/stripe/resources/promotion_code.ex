@@ -12,13 +12,13 @@ defmodule Stripe.Resources.PromotionCode do
 
   @typedoc """
   * `active` - Whether the promotion code is currently active. A promotion code is only active if the coupon is also valid.
-  * `code` - The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for each customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), digits (0-9), and dashes (-). Max length: 5000.
+  * `code` - The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for each customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), and digits (0-9). Max length: 5000.
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `customer` - The customer who can use this promotion code. Nullable. Expandable.
   * `customer_account` - The account representing the customer who can use this promotion code. Max length: 5000. Nullable.
   * `expires_at` - Date at which the promotion code can no longer be redeemed. Format: Unix timestamp. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `max_redemptions` - Maximum number of times this promotion code can be redeemed. Nullable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `promotion_code`.
@@ -38,8 +38,8 @@ defmodule Stripe.Resources.PromotionCode do
           max_redemptions: integer(),
           metadata: %{String.t() => String.t()},
           object: String.t(),
-          promotion: __MODULE__.Promotion.t(),
-          restrictions: __MODULE__.Restrictions.t(),
+          promotion: promotion(),
+          restrictions: restrictions(),
           times_redeemed: integer()
         }
 
@@ -65,65 +65,60 @@ defmodule Stripe.Resources.PromotionCode do
 
   def expandable_fields, do: ["customer", "promotion", "restrictions"]
 
-  defmodule Promotion do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `coupon` - If promotion `type` is `coupon`, the coupon for this promotion. Nullable.
+  * `type` - The type of promotion. Possible values: `coupon`.
+  """
+  @type promotion :: %{
+          optional(:coupon) => String.t() | Stripe.Resources.Coupon.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `coupon` - If promotion `type` is `coupon`, the coupon for this promotion. Nullable.
-    * `type` - The type of promotion. Possible values: `coupon`.
-    """
-    @type t :: %__MODULE__{
-            coupon: String.t() | Stripe.Resources.Coupon.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:coupon, :type]
-  end
+  @typedoc """
+  * `currency_options` - Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+  * `first_time_transaction` - A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
+  * `minimum_amount` - Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work). Nullable.
+  * `minimum_amount_currency` - Three-letter [ISO code](https://stripe.com/docs/currencies) for minimum_amount Max length: 5000. Nullable.
+  """
+  @type restrictions :: %{
+          optional(:currency_options) => %{String.t() => restrictions_currency_options()} | nil,
+          optional(:first_time_transaction) => boolean() | nil,
+          optional(:minimum_amount) => integer() | nil,
+          optional(:minimum_amount_currency) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Restrictions do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `minimum_amount` - Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
+  """
+  @type restrictions_currency_options :: %{
+          optional(:minimum_amount) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `currency_options` - Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-    * `first_time_transaction` - A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
-    * `minimum_amount` - Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work). Nullable.
-    * `minimum_amount_currency` - Three-letter [ISO code](https://stripe.com/docs/currencies) for minimum_amount Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil,
-            first_time_transaction: boolean() | nil,
-            minimum_amount: integer() | nil,
-            minimum_amount_currency: String.t() | nil
-          }
-    defstruct [
-      :currency_options,
-      :first_time_transaction,
-      :minimum_amount,
-      :minimum_amount_currency
-    ]
-
-    defmodule CurrencyOptions do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `minimum_amount` - Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
-      """
-      @type t :: %__MODULE__{
-              minimum_amount: integer() | nil
-            }
-      defstruct [:minimum_amount]
-    end
-
-    def __inner_types__ do
-      %{
-        "currency_options" => __MODULE__.CurrencyOptions
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "promotion" => __MODULE__.Promotion,
-      "restrictions" => __MODULE__.Restrictions
+      "promotion" => %{
+        fields: %{
+          "coupon" => {:resource, Stripe.Resources.Coupon},
+          "type" => :scalar
+        }
+      },
+      "restrictions" => %{
+        fields: %{
+          "currency_options" =>
+            {:map,
+             %{
+               fields: %{
+                 "minimum_amount" => :scalar
+               }
+             }},
+          "first_time_transaction" => :scalar,
+          "minimum_amount" => :scalar,
+          "minimum_amount_currency" => :scalar
+        }
+      }
     }
   end
 end

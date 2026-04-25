@@ -35,7 +35,7 @@ defmodule Stripe.Resources.Climate.Order do
           amount_fees: integer(),
           amount_subtotal: integer(),
           amount_total: integer(),
-          beneficiary: __MODULE__.Beneficiary.t() | nil,
+          beneficiary: beneficiary() | nil,
           canceled_at: integer(),
           cancellation_reason: String.t(),
           certificate: String.t(),
@@ -44,7 +44,7 @@ defmodule Stripe.Resources.Climate.Order do
           currency: String.t(),
           delayed_at: integer(),
           delivered_at: integer(),
-          delivery_details: [__MODULE__.DeliveryDetails.t()],
+          delivery_details: [delivery_details()],
           expected_delivery_year: integer(),
           id: String.t(),
           livemode: boolean(),
@@ -86,68 +86,70 @@ defmodule Stripe.Resources.Climate.Order do
 
   def expandable_fields, do: ["beneficiary", "delivery_details", "product"]
 
-  defmodule Beneficiary do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `public_name` - Publicly displayable name for the end beneficiary of carbon removal. Max length: 5000.
+  """
+  @type beneficiary :: %{
+          optional(:public_name) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `public_name` - Publicly displayable name for the end beneficiary of carbon removal. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            public_name: String.t() | nil
-          }
-    defstruct [:public_name]
-  end
+  @typedoc """
+  * `delivered_at` - Time at which the delivery occurred. Measured in seconds since the Unix epoch. Format: Unix timestamp.
+  * `location` - Specific location of this delivery. Nullable.
+  * `metric_tons` - Quantity of carbon removal supplied by this delivery. Max length: 5000.
+  * `registry_url` - Once retired, a URL to the registry entry for the tons from this delivery. Max length: 5000. Nullable.
+  * `supplier`
+  """
+  @type delivery_details :: %{
+          optional(:delivered_at) => integer() | nil,
+          optional(:location) => delivery_details_location() | nil,
+          optional(:metric_tons) => String.t() | nil,
+          optional(:registry_url) => String.t() | nil,
+          optional(:supplier) => Stripe.Resources.Climate.Supplier.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule DeliveryDetails do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `city` - The city where the supplier is located. Max length: 5000. Nullable.
+  * `country` - Two-letter ISO code representing the country where the supplier is located. Max length: 5000.
+  * `latitude` - The geographic latitude where the supplier is located. Nullable.
+  * `longitude` - The geographic longitude where the supplier is located. Nullable.
+  * `region` - The state/county/province/region where the supplier is located. Max length: 5000. Nullable.
+  """
+  @type delivery_details_location :: %{
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:latitude) => float() | nil,
+          optional(:longitude) => float() | nil,
+          optional(:region) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `delivered_at` - Time at which the delivery occurred. Measured in seconds since the Unix epoch. Format: Unix timestamp.
-    * `location` - Specific location of this delivery. Nullable.
-    * `metric_tons` - Quantity of carbon removal supplied by this delivery. Max length: 5000.
-    * `registry_url` - Once retired, a URL to the registry entry for the tons from this delivery. Max length: 5000. Nullable.
-    * `supplier`
-    """
-    @type t :: %__MODULE__{
-            delivered_at: integer() | nil,
-            location: __MODULE__.Location.t() | nil,
-            metric_tons: String.t() | nil,
-            registry_url: String.t() | nil,
-            supplier: Stripe.Resources.Climate.Supplier.t() | nil
-          }
-    defstruct [:delivered_at, :location, :metric_tons, :registry_url, :supplier]
-
-    defmodule Location do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `city` - The city where the supplier is located. Max length: 5000. Nullable.
-      * `country` - Two-letter ISO code representing the country where the supplier is located. Max length: 5000.
-      * `latitude` - The geographic latitude where the supplier is located. Nullable.
-      * `longitude` - The geographic longitude where the supplier is located. Nullable.
-      * `region` - The state/county/province/region where the supplier is located. Max length: 5000. Nullable.
-      """
-      @type t :: %__MODULE__{
-              city: String.t() | nil,
-              country: String.t() | nil,
-              latitude: float() | nil,
-              longitude: float() | nil,
-              region: String.t() | nil
-            }
-      defstruct [:city, :country, :latitude, :longitude, :region]
-    end
-
-    def __inner_types__ do
-      %{
-        "location" => __MODULE__.Location
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "beneficiary" => __MODULE__.Beneficiary,
-      "delivery_details" => __MODULE__.DeliveryDetails
+      "beneficiary" => %{
+        fields: %{
+          "public_name" => :scalar
+        }
+      },
+      "delivery_details" => %{
+        fields: %{
+          "delivered_at" => :scalar,
+          "location" => %{
+            fields: %{
+              "city" => :scalar,
+              "country" => :scalar,
+              "latitude" => :scalar,
+              "longitude" => :scalar,
+              "region" => :scalar
+            }
+          },
+          "metric_tons" => :scalar,
+          "registry_url" => :scalar,
+          "supplier" => {:resource, Stripe.Resources.Climate.Supplier}
+        }
+      }
     }
   end
 end

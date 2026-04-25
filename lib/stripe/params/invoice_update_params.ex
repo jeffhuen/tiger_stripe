@@ -35,7 +35,7 @@ defmodule Stripe.Params.InvoiceUpdateParams do
           account_tax_ids: map() | nil,
           application_fee_amount: integer() | nil,
           auto_advance: boolean() | nil,
-          automatic_tax: __MODULE__.AutomaticTax.t() | nil,
+          automatic_tax: automatic_tax() | nil,
           automatically_finalizes_at: integer() | nil,
           collection_method: String.t() | nil,
           custom_fields: map() | nil,
@@ -49,12 +49,12 @@ defmodule Stripe.Params.InvoiceUpdateParams do
           effective_at: map() | nil,
           expand: [String.t()] | nil,
           footer: String.t() | nil,
-          issuer: __MODULE__.Issuer.t() | nil,
+          issuer: issuer() | nil,
           metadata: map() | nil,
           number: map() | nil,
           on_behalf_of: map() | nil,
-          payment_settings: __MODULE__.PaymentSettings.t() | nil,
-          rendering: __MODULE__.Rendering.t() | nil,
+          payment_settings: payment_settings() | nil,
+          rendering: rendering() | nil,
           shipping_cost: map() | nil,
           shipping_details: map() | nil,
           statement_descriptor: String.t() | nil,
@@ -91,128 +91,91 @@ defmodule Stripe.Params.InvoiceUpdateParams do
     :transfer_data
   ]
 
-  defmodule AutomaticTax do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `enabled` - Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://docs.stripe.com/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
+  * `liability` - The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+  """
+  @type automatic_tax :: %{
+          optional(:enabled) => boolean() | nil,
+          optional(:liability) => automatic_tax_liability() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `enabled` - Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://docs.stripe.com/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
-    * `liability` - The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
-    """
-    @type t :: %__MODULE__{
-            enabled: boolean() | nil,
-            liability: __MODULE__.Liability.t() | nil
-          }
-    defstruct [:enabled, :liability]
+  @typedoc """
+  * `account` - The connected account being referenced when `type` is `account`.
+  * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+  """
+  @type automatic_tax_liability :: %{
+          optional(:account) => String.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Liability do
-      @moduledoc "Nested parameters."
+  @typedoc """
+  * `account` - The connected account being referenced when `type` is `account`.
+  * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
+  """
+  @type issuer :: %{
+          optional(:account) => String.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `account` - The connected account being referenced when `type` is `account`.
-      * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
-      """
-      @type t :: %__MODULE__{
-              account: String.t() | nil,
-              type: String.t() | nil
-            }
-      defstruct [:account, :type]
-    end
-  end
+  @typedoc """
+  * `default_mandate` - ID of the mandate to be used for this invoice. It must correspond to the payment method used to pay the invoice, including the invoice's default_payment_method or default_source, if set.
+  * `payment_method_options` - Payment-method-specific configuration to provide to the invoice’s PaymentIntent.
+  * `payment_method_types` - The list of payment method types (e.g. card) to provide to the invoice’s PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice’s default payment method, the subscription’s default payment method, the customer’s default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
+  """
+  @type payment_settings :: %{
+          optional(:default_mandate) => map() | nil,
+          optional(:payment_method_options) => payment_settings_payment_method_options() | nil,
+          optional(:payment_method_types) => map() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Issuer do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `acss_debit` - If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice’s PaymentIntent.
+  * `bancontact` - If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice’s PaymentIntent.
+  * `card` - If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice’s PaymentIntent.
+  * `customer_balance` - If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice’s PaymentIntent.
+  * `konbini` - If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice’s PaymentIntent.
+  * `payto` - If paying by `payto`, this sub-hash contains details about the PayTo payment method options to pass to the invoice’s PaymentIntent.
+  * `sepa_debit` - If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice’s PaymentIntent.
+  * `us_bank_account` - If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice’s PaymentIntent.
+  """
+  @type payment_settings_payment_method_options :: %{
+          optional(:acss_debit) => map() | nil,
+          optional(:bancontact) => map() | nil,
+          optional(:card) => map() | nil,
+          optional(:customer_balance) => map() | nil,
+          optional(:konbini) => map() | nil,
+          optional(:payto) => map() | nil,
+          optional(:sepa_debit) => map() | nil,
+          optional(:us_bank_account) => map() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `account` - The connected account being referenced when `type` is `account`.
-    * `type` - Type of the account referenced in the request. Possible values: `account`, `self`.
-    """
-    @type t :: %__MODULE__{
-            account: String.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:account, :type]
-  end
+  @typedoc """
+  * `amount_tax_display` - How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts. Possible values: `exclude_tax`, `include_inclusive_tax`.
+  * `pdf` - Invoice pdf rendering options
+  * `template` - ID of the invoice rendering template to use for this invoice. Max length: 5000.
+  * `template_version` - The specific version of invoice rendering template to use for this invoice.
+  """
+  @type rendering :: %{
+          optional(:amount_tax_display) => String.t() | nil,
+          optional(:pdf) => rendering_pdf() | nil,
+          optional(:template) => String.t() | nil,
+          optional(:template_version) => map() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule PaymentSettings do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `default_mandate` - ID of the mandate to be used for this invoice. It must correspond to the payment method used to pay the invoice, including the invoice's default_payment_method or default_source, if set.
-    * `payment_method_options` - Payment-method-specific configuration to provide to the invoice’s PaymentIntent.
-    * `payment_method_types` - The list of payment method types (e.g. card) to provide to the invoice’s PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice’s default payment method, the subscription’s default payment method, the customer’s default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
-    """
-    @type t :: %__MODULE__{
-            default_mandate: map() | nil,
-            payment_method_options: __MODULE__.PaymentMethodOptions.t() | nil,
-            payment_method_types: map() | nil
-          }
-    defstruct [:default_mandate, :payment_method_options, :payment_method_types]
-
-    defmodule PaymentMethodOptions do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `acss_debit` - If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice’s PaymentIntent.
-      * `bancontact` - If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice’s PaymentIntent.
-      * `card` - If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice’s PaymentIntent.
-      * `customer_balance` - If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice’s PaymentIntent.
-      * `konbini` - If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice’s PaymentIntent.
-      * `payto` - If paying by `payto`, this sub-hash contains details about the PayTo payment method options to pass to the invoice’s PaymentIntent.
-      * `sepa_debit` - If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice’s PaymentIntent.
-      * `us_bank_account` - If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice’s PaymentIntent.
-      """
-      @type t :: %__MODULE__{
-              acss_debit: map() | nil,
-              bancontact: map() | nil,
-              card: map() | nil,
-              customer_balance: map() | nil,
-              konbini: map() | nil,
-              payto: map() | nil,
-              sepa_debit: map() | nil,
-              us_bank_account: map() | nil
-            }
-      defstruct [
-        :acss_debit,
-        :bancontact,
-        :card,
-        :customer_balance,
-        :konbini,
-        :payto,
-        :sepa_debit,
-        :us_bank_account
-      ]
-    end
-  end
-
-  defmodule Rendering do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `amount_tax_display` - How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts. Possible values: `exclude_tax`, `include_inclusive_tax`.
-    * `pdf` - Invoice pdf rendering options
-    * `template` - ID of the invoice rendering template to use for this invoice. Max length: 5000.
-    * `template_version` - The specific version of invoice rendering template to use for this invoice.
-    """
-    @type t :: %__MODULE__{
-            amount_tax_display: String.t() | nil,
-            pdf: __MODULE__.Pdf.t() | nil,
-            template: String.t() | nil,
-            template_version: map() | nil
-          }
-    defstruct [:amount_tax_display, :pdf, :template, :template_version]
-
-    defmodule Pdf do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `page_size` - Page size for invoice PDF. Can be set to `a4`, `letter`, or `auto`.
-      If set to `auto`, invoice PDF page size defaults to `a4` for customers with
-      Japanese locale and `letter` for customers with other locales. Possible values: `a4`, `auto`, `letter`.
-      """
-      @type t :: %__MODULE__{
-              page_size: String.t() | nil
-            }
-      defstruct [:page_size]
-    end
-  end
+  @typedoc """
+  * `page_size` - Page size for invoice PDF. Can be set to `a4`, `letter`, or `auto`.
+  If set to `auto`, invoice PDF page size defaults to `a4` for customers with
+  Japanese locale and `letter` for customers with other locales. Possible values: `a4`, `auto`, `letter`.
+  """
+  @type rendering_pdf :: %{
+          optional(:page_size) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

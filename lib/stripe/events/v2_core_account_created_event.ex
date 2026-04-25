@@ -4,18 +4,7 @@ defmodule Stripe.Events.V2CoreAccountCreatedEvent do
   Occurs when an Account is created.
   """
 
-  defstruct [
-    :changes,
-    :context,
-    :created,
-    :data,
-    :id,
-    :livemode,
-    :object,
-    :reason,
-    :related_object,
-    :type
-  ]
+  defstruct [:changes, :context, :created, :data, :id, :livemode, :object, :related_object, :type]
 
   def lookup_type, do: "v2.core.account.created"
 

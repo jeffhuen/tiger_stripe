@@ -18,7 +18,7 @@ defmodule Stripe.Resources.Billing.CreditGrant do
   * `effective_at` - The time when the billing credits become effective-when they're eligible for use. Format: Unix timestamp. Nullable.
   * `expires_at` - The time when the billing credits expire. If not present, the billing credits don't expire. Format: Unix timestamp. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `name` - A descriptive name shown in dashboard. Max length: 5000. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `billing.credit_grant`.
@@ -28,8 +28,8 @@ defmodule Stripe.Resources.Billing.CreditGrant do
   * `voided_at` - The time when this credit grant was voided. If not present, the credit grant hasn't been voided. Format: Unix timestamp. Nullable.
   """
   @type t :: %__MODULE__{
-          amount: __MODULE__.Amount.t(),
-          applicability_config: __MODULE__.ApplicabilityConfig.t(),
+          amount: amount(),
+          applicability_config: applicability_config(),
           category: String.t(),
           created: integer(),
           customer: String.t() | Stripe.Resources.Customer.t(),
@@ -72,94 +72,81 @@ defmodule Stripe.Resources.Billing.CreditGrant do
 
   def expandable_fields, do: ["amount", "applicability_config", "customer", "test_clock"]
 
-  defmodule Amount do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `monetary` - The monetary amount. Nullable.
-    * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
-    """
-    @type t :: %__MODULE__{
-            monetary: __MODULE__.Monetary.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:monetary, :type]
-
-    defmodule Monetary do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
-      * `value` - A positive integer representing the amount.
-      """
-      @type t :: %__MODULE__{
-              currency: String.t() | nil,
-              value: integer() | nil
-            }
-      defstruct [:currency, :value]
-    end
-
-    def __inner_types__ do
-      %{
-        "monetary" => __MODULE__.Monetary
-      }
-    end
-  end
-
-  defmodule ApplicabilityConfig do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `scope`
-    """
-    @type t :: %__MODULE__{
-            scope: __MODULE__.Scope.t() | nil
-          }
-    defstruct [:scope]
-
-    defmodule Scope do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `price_type` - The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `prices`. Possible values: `metered`.
-      * `prices` - The prices that credit grants can apply to. We currently only support `metered` prices. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `price_type`.
-      """
-      @type t :: %__MODULE__{
-              price_type: String.t() | nil,
-              prices: [__MODULE__.Prices.t()] | nil
-            }
-      defstruct [:price_type, :prices]
-
-      defmodule Prices do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `id` - Unique identifier for the object. Max length: 5000. Nullable.
-        """
-        @type t :: %__MODULE__{
-                id: String.t() | nil
-              }
-        defstruct [:id]
-      end
-
-      def __inner_types__ do
-        %{
-          "prices" => __MODULE__.Prices
+  @typedoc """
+  * `monetary` - The monetary amount. Nullable.
+  * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
+  """
+  @type amount :: %{
+          optional(:monetary) => amount_monetary() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
         }
-      end
-    end
 
-    def __inner_types__ do
-      %{
-        "scope" => __MODULE__.Scope
-      }
-    end
-  end
+  @typedoc """
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
+  * `value` - A positive integer representing the amount.
+  """
+  @type amount_monetary :: %{
+          optional(:currency) => String.t() | nil,
+          optional(:value) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-  def __inner_types__ do
+  @typedoc """
+  * `scope`
+  """
+  @type applicability_config :: %{
+          optional(:scope) => applicability_config_scope() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `price_type` - The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `prices`. Possible values: `metered`.
+  * `prices` - The prices that credit grants can apply to. We currently only support `metered` prices. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `price_type`.
+  """
+  @type applicability_config_scope :: %{
+          optional(:price_type) => String.t() | nil,
+          optional(:prices) => [applicability_config_scope_prices()] | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `id` - Unique identifier for the object. Max length: 5000. Nullable.
+  """
+  @type applicability_config_scope_prices :: %{
+          optional(:id) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  def __nested_fields__ do
     %{
-      "amount" => __MODULE__.Amount,
-      "applicability_config" => __MODULE__.ApplicabilityConfig
+      "amount" => %{
+        fields: %{
+          "monetary" => %{
+            fields: %{
+              "currency" => :scalar,
+              "value" => :scalar
+            }
+          },
+          "type" => :scalar
+        }
+      },
+      "applicability_config" => %{
+        fields: %{
+          "scope" => %{
+            fields: %{
+              "price_type" => :scalar,
+              "prices" =>
+                {:list,
+                 %{
+                   fields: %{
+                     "id" => :scalar
+                   }
+                 }}
+            }
+          }
+        }
+      }
     }
   end
 end

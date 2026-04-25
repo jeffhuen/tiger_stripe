@@ -23,20 +23,20 @@ defmodule Stripe.Resources.LineItem do
   * `taxes` - The taxes applied to the line item. Expandable.
   """
   @type t :: %__MODULE__{
-          adjustable_quantity: __MODULE__.AdjustableQuantity.t(),
+          adjustable_quantity: adjustable_quantity(),
           amount_discount: integer(),
           amount_subtotal: integer(),
           amount_tax: integer(),
           amount_total: integer(),
           currency: String.t(),
           description: String.t(),
-          discounts: [__MODULE__.Discounts.t()] | nil,
+          discounts: [discounts()] | nil,
           id: String.t(),
           metadata: %{String.t() => String.t()},
           object: String.t(),
           price: Stripe.Resources.Price.t(),
           quantity: integer(),
-          taxes: [__MODULE__.Taxes.t()] | nil
+          taxes: [taxes()] | nil
         }
 
   defstruct [
@@ -61,60 +61,66 @@ defmodule Stripe.Resources.LineItem do
 
   def expandable_fields, do: ["adjustable_quantity", "discounts", "price", "taxes"]
 
-  defmodule AdjustableQuantity do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `enabled`
+  * `maximum` - Nullable.
+  * `minimum` - Nullable.
+  """
+  @type adjustable_quantity :: %{
+          optional(:enabled) => boolean() | nil,
+          optional(:maximum) => integer() | nil,
+          optional(:minimum) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `enabled`
-    * `maximum` - Nullable.
-    * `minimum` - Nullable.
-    """
-    @type t :: %__MODULE__{
-            enabled: boolean() | nil,
-            maximum: integer() | nil,
-            minimum: integer() | nil
-          }
-    defstruct [:enabled, :maximum, :minimum]
-  end
+  @typedoc """
+  * `amount` - The amount discounted.
+  * `discount`
+  """
+  @type discounts :: %{
+          optional(:amount) => integer() | nil,
+          optional(:discount) => Stripe.Resources.Discount.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Discounts do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `amount` - Amount of tax applied for this rate.
+  * `rate`
+  * `taxability_reason` - The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported. Possible values: `customer_exempt`, `not_collecting`, `not_subject_to_tax`, `not_supported`, `portion_product_exempt`, `portion_reduced_rated`, `portion_standard_rated`, `product_exempt`, `product_exempt_holiday`, `proportionally_rated`, `reduced_rated`, `reverse_charge`, `standard_rated`, `taxable_basis_reduced`, `zero_rated`. Nullable.
+  * `taxable_amount` - The amount on which tax is calculated, in cents (or local equivalent). Nullable.
+  """
+  @type taxes :: %{
+          optional(:amount) => integer() | nil,
+          optional(:rate) => Stripe.Resources.TaxRate.t() | nil,
+          optional(:taxability_reason) => String.t() | nil,
+          optional(:taxable_amount) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `amount` - The amount discounted.
-    * `discount`
-    """
-    @type t :: %__MODULE__{
-            amount: integer() | nil,
-            discount: Stripe.Resources.Discount.t() | nil
-          }
-    defstruct [:amount, :discount]
-  end
-
-  defmodule Taxes do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `amount` - Amount of tax applied for this rate.
-    * `rate`
-    * `taxability_reason` - The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported. Possible values: `customer_exempt`, `not_collecting`, `not_subject_to_tax`, `not_supported`, `portion_product_exempt`, `portion_reduced_rated`, `portion_standard_rated`, `product_exempt`, `product_exempt_holiday`, `proportionally_rated`, `reduced_rated`, `reverse_charge`, `standard_rated`, `taxable_basis_reduced`, `zero_rated`. Nullable.
-    * `taxable_amount` - The amount on which tax is calculated, in cents (or local equivalent). Nullable.
-    """
-    @type t :: %__MODULE__{
-            amount: integer() | nil,
-            rate: Stripe.Resources.TaxRate.t() | nil,
-            taxability_reason: String.t() | nil,
-            taxable_amount: integer() | nil
-          }
-    defstruct [:amount, :rate, :taxability_reason, :taxable_amount]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "adjustable_quantity" => __MODULE__.AdjustableQuantity,
-      "discounts" => __MODULE__.Discounts,
-      "price" => Stripe.Resources.Price,
-      "taxes" => __MODULE__.Taxes
+      "adjustable_quantity" => %{
+        fields: %{
+          "enabled" => :scalar,
+          "maximum" => :scalar,
+          "minimum" => :scalar
+        }
+      },
+      "discounts" => %{
+        fields: %{
+          "amount" => :scalar,
+          "discount" => {:resource, Stripe.Resources.Discount}
+        }
+      },
+      "taxes" => %{
+        fields: %{
+          "amount" => :scalar,
+          "rate" => {:resource, Stripe.Resources.TaxRate},
+          "taxability_reason" => :scalar,
+          "taxable_amount" => :scalar
+        }
+      },
+      "price" => {:resource, Stripe.Resources.Price}
     }
   end
 end

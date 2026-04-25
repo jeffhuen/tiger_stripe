@@ -5,7 +5,7 @@ defmodule Stripe.Resources.Coupon do
 
   A coupon contains information about a percent-off or amount-off discount you
   might want to apply to a customer. Coupons may be applied to [subscriptions](https://api.stripe.com#subscriptions), [invoices](https://api.stripe.com#invoices),
-  [checkout sessions](https://docs.stripe.com/api/checkout/sessions), [quotes](https://api.stripe.com#quotes), and more. Coupons do not work with conventional one-off [charges](https://docs.stripe.com/api/charges/create) or [payment intents](https://docs.stripe.com/api/payment_intents).
+  [checkout sessions](https://docs.stripe.com/api/checkout/sessions), [quotes](https://api.stripe.com#quotes), and more. Coupons do not work with conventional one-off [charges](https://api.stripe.com#create_charge) or [payment intents](https://docs.stripe.com/api/payment_intents).
   """
 
   @typedoc """
@@ -17,7 +17,7 @@ defmodule Stripe.Resources.Coupon do
   * `duration` - One of `forever`, `once`, or `repeating`. Describes how long a customer who applies this coupon will get the discount. Possible values: `forever`, `once`, `repeating`.
   * `duration_in_months` - If `duration` is `repeating`, the number of months the coupon applies. Null if coupon `duration` is `forever` or `once`. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `max_redemptions` - Maximum number of times this coupon can be redeemed, in total, across all customers, before it is no longer valid. Nullable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `name` - Name of the coupon displayed to customers on for instance invoices or receipts. Max length: 5000. Nullable.
@@ -29,10 +29,10 @@ defmodule Stripe.Resources.Coupon do
   """
   @type t :: %__MODULE__{
           amount_off: integer(),
-          applies_to: __MODULE__.AppliesTo.t() | nil,
+          applies_to: applies_to() | nil,
           created: integer(),
           currency: String.t(),
-          currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil,
+          currency_options: %{String.t() => currency_options()} | nil,
           duration: String.t(),
           duration_in_months: integer(),
           id: String.t(),
@@ -72,34 +72,34 @@ defmodule Stripe.Resources.Coupon do
 
   def expandable_fields, do: ["applies_to", "currency_options"]
 
-  defmodule AppliesTo do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `products` - A list of product IDs this coupon applies to
+  """
+  @type applies_to :: %{
+          optional(:products) => [String.t()] | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `products` - A list of product IDs this coupon applies to
-    """
-    @type t :: %__MODULE__{
-            products: [String.t()] | nil
-          }
-    defstruct [:products]
-  end
+  @typedoc """
+  * `amount_off` - Amount (in the `currency` specified) that will be taken off the subtotal of any invoices for this customer.
+  """
+  @type currency_options :: %{
+          optional(:amount_off) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule CurrencyOptions do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `amount_off` - Amount (in the `currency` specified) that will be taken off the subtotal of any invoices for this customer.
-    """
-    @type t :: %__MODULE__{
-            amount_off: integer() | nil
-          }
-    defstruct [:amount_off]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "applies_to" => __MODULE__.AppliesTo,
-      "currency_options" => __MODULE__.CurrencyOptions
+      "applies_to" => %{
+        fields: %{
+          "products" => {:list, :scalar}
+        }
+      },
+      "currency_options" => %{
+        fields: %{
+          "amount_off" => :scalar
+        }
+      }
     }
   end
 end

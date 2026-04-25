@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.KakaoPay do
   @moduledoc """
-  payment_method_details_payment_record_kakao_pay
+  payment_method_details_kakao_pay
   """
 
   @typedoc """
@@ -15,6 +15,6 @@ defmodule Stripe.Resources.KakaoPay do
 
   defstruct [:buyer_id, :transaction_id]
 
-  @object_name "payment_method_details_payment_record_kakao_pay"
+  @object_name "payment_method_details_kakao_pay"
   def object_name, do: @object_name
 end

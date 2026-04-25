@@ -10,7 +10,7 @@ defmodule Stripe.Params.PaymentRecordReportPaymentAttemptInformationalParams do
   * `shipping_details` - Shipping information for this payment.
   """
   @type t :: %__MODULE__{
-          customer_details: __MODULE__.CustomerDetails.t() | nil,
+          customer_details: customer_details() | nil,
           description: map() | nil,
           expand: [String.t()] | nil,
           metadata: map() | nil,
@@ -19,21 +19,17 @@ defmodule Stripe.Params.PaymentRecordReportPaymentAttemptInformationalParams do
 
   defstruct [:customer_details, :description, :expand, :metadata, :shipping_details]
 
-  defmodule CustomerDetails do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `customer` - The customer who made the payment. Max length: 5000.
-    * `email` - The customer's phone number.
-    * `name` - The customer's name. Max length: 5000.
-    * `phone` - The customer's phone number.
-    """
-    @type t :: %__MODULE__{
-            customer: String.t() | nil,
-            email: String.t() | nil,
-            name: String.t() | nil,
-            phone: String.t() | nil
-          }
-    defstruct [:customer, :email, :name, :phone]
-  end
+  @typedoc """
+  * `customer` - The customer who made the payment. Max length: 5000.
+  * `email` - The customer's phone number.
+  * `name` - The customer's name. Max length: 5000.
+  * `phone` - The customer's phone number.
+  """
+  @type customer_details :: %{
+          optional(:customer) => String.t() | nil,
+          optional(:email) => String.t() | nil,
+          optional(:name) => String.t() | nil,
+          optional(:phone) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

@@ -12,13 +12,13 @@ defmodule Stripe.Params.Billing.MeterCreateParams do
   * `value_settings` - Fields that specify how to calculate a meter event's value.
   """
   @type t :: %__MODULE__{
-          customer_mapping: __MODULE__.CustomerMapping.t() | nil,
-          default_aggregation: __MODULE__.DefaultAggregation.t(),
+          customer_mapping: customer_mapping() | nil,
+          default_aggregation: default_aggregation(),
           display_name: String.t(),
           event_name: String.t(),
           event_time_window: String.t() | nil,
           expand: [String.t()] | nil,
-          value_settings: __MODULE__.ValueSettings.t() | nil
+          value_settings: value_settings() | nil
         }
 
   defstruct [
@@ -31,41 +31,29 @@ defmodule Stripe.Params.Billing.MeterCreateParams do
     :value_settings
   ]
 
-  defmodule CustomerMapping do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `event_payload_key` - The key in the meter event payload to use for mapping the event to a customer. Max length: 100.
+  * `type` - The method for mapping a meter event to a customer. Must be `by_id`. Possible values: `by_id`.
+  """
+  @type customer_mapping :: %{
+          optional(:event_payload_key) => String.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `event_payload_key` - The key in the meter event payload to use for mapping the event to a customer. Max length: 100.
-    * `type` - The method for mapping a meter event to a customer. Must be `by_id`. Possible values: `by_id`.
-    """
-    @type t :: %__MODULE__{
-            event_payload_key: String.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:event_payload_key, :type]
-  end
+  @typedoc """
+  * `formula` - Specifies how events are aggregated. Allowed values are `count` to count the number of events, `sum` to sum each event's value and `last` to take the last event's value in the window. Possible values: `count`, `last`, `sum`.
+  """
+  @type default_aggregation :: %{
+          optional(:formula) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule DefaultAggregation do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `formula` - Specifies how events are aggregated. Allowed values are `count` to count the number of events, `sum` to sum each event's value and `last` to take the last event's value in the window. Possible values: `count`, `last`, `sum`.
-    """
-    @type t :: %__MODULE__{
-            formula: String.t() | nil
-          }
-    defstruct [:formula]
-  end
-
-  defmodule ValueSettings do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `event_payload_key` - The key in the usage event payload to use as the value for this meter. For example, if the event payload contains usage on a `bytes_used` field, then set the event_payload_key to "bytes_used". Max length: 100.
-    """
-    @type t :: %__MODULE__{
-            event_payload_key: String.t() | nil
-          }
-    defstruct [:event_payload_key]
-  end
+  @typedoc """
+  * `event_payload_key` - The key in the usage event payload to use as the value for this meter. For example, if the event payload contains usage on a `bytes_used` field, then set the event_payload_key to "bytes_used". Max length: 100.
+  """
+  @type value_settings :: %{
+          optional(:event_payload_key) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

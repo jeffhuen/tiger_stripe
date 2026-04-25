@@ -23,7 +23,7 @@ defmodule Stripe.Resources.Plan do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `interval` - The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
   * `interval_count` - The number of intervals (specified in the `interval` attribute) between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `meter` - The meter tracking the usage of a metered price Max length: 5000. Nullable.
   * `nickname` - A brief description of the plan, hidden from customers. Max length: 5000. Nullable.
@@ -51,9 +51,9 @@ defmodule Stripe.Resources.Plan do
           nickname: String.t(),
           object: String.t(),
           product: String.t() | Stripe.Resources.Product.t(),
-          tiers: [__MODULE__.Tiers.t()] | nil,
+          tiers: [tiers()] | nil,
           tiers_mode: String.t(),
-          transform_usage: __MODULE__.TransformUsage.t(),
+          transform_usage: transform_usage(),
           trial_period_days: integer(),
           usage_type: String.t()
         }
@@ -86,44 +86,49 @@ defmodule Stripe.Resources.Plan do
 
   def expandable_fields, do: ["product", "tiers", "transform_usage"]
 
-  defmodule Tiers do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `flat_amount` - Price for the entire tier. Nullable.
+  * `flat_amount_decimal` - Same as `flat_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
+  * `unit_amount` - Per unit price for units relevant to the tier. Nullable.
+  * `unit_amount_decimal` - Same as `unit_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
+  * `up_to` - Up to and including to this quantity will be contained in the tier. Nullable.
+  """
+  @type tiers :: %{
+          optional(:flat_amount) => integer() | nil,
+          optional(:flat_amount_decimal) => String.t() | nil,
+          optional(:unit_amount) => integer() | nil,
+          optional(:unit_amount_decimal) => String.t() | nil,
+          optional(:up_to) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `flat_amount` - Price for the entire tier. Nullable.
-    * `flat_amount_decimal` - Same as `flat_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
-    * `unit_amount` - Per unit price for units relevant to the tier. Nullable.
-    * `unit_amount_decimal` - Same as `unit_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
-    * `up_to` - Up to and including to this quantity will be contained in the tier. Nullable.
-    """
-    @type t :: %__MODULE__{
-            flat_amount: integer() | nil,
-            flat_amount_decimal: String.t() | nil,
-            unit_amount: integer() | nil,
-            unit_amount_decimal: String.t() | nil,
-            up_to: integer() | nil
-          }
-    defstruct [:flat_amount, :flat_amount_decimal, :unit_amount, :unit_amount_decimal, :up_to]
-  end
+  @typedoc """
+  * `divide_by` - Divide usage by this number.
+  * `round` - After division, either round the result `up` or `down`. Possible values: `down`, `up`.
+  """
+  @type transform_usage :: %{
+          optional(:divide_by) => integer() | nil,
+          optional(:round) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule TransformUsage do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `divide_by` - Divide usage by this number.
-    * `round` - After division, either round the result `up` or `down`. Possible values: `down`, `up`.
-    """
-    @type t :: %__MODULE__{
-            divide_by: integer() | nil,
-            round: String.t() | nil
-          }
-    defstruct [:divide_by, :round]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "tiers" => __MODULE__.Tiers,
-      "transform_usage" => __MODULE__.TransformUsage
+      "tiers" => %{
+        fields: %{
+          "flat_amount" => :scalar,
+          "flat_amount_decimal" => :scalar,
+          "unit_amount" => :scalar,
+          "unit_amount_decimal" => :scalar,
+          "up_to" => :scalar
+        }
+      },
+      "transform_usage" => %{
+        fields: %{
+          "divide_by" => :scalar,
+          "round" => :scalar
+        }
+      }
     }
   end
 end

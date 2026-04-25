@@ -22,9 +22,9 @@ defmodule Stripe.Resources.CashappHandleRedirectOrDisplayQrCode do
 
   def expandable_fields, do: ["qr_code"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "qr_code" => Stripe.Resources.CashappQrCode
+      "qr_code" => {:resource, Stripe.Resources.CashappQrCode}
     }
   end
 end

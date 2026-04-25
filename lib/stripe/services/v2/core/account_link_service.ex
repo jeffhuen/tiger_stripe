@@ -8,7 +8,7 @@ defmodule Stripe.Services.V2.Core.AccountLinkService do
   alias Stripe.Client
 
   @doc """
-  Create an account link
+  Create an Account Link
 
   Creates an AccountLink object that includes a single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information.
   """

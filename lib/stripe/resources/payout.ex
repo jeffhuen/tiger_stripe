@@ -28,7 +28,7 @@ defmodule Stripe.Resources.Payout do
   * `failure_code` - Error code that provides a reason for a payout failure, if available. View our [list of failure codes](https://docs.stripe.com/api#payout_failures). Max length: 5000. Nullable.
   * `failure_message` - Message that provides the reason for a payout failure, if available. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `method` - The method used to send this payout, which can be `standard` or `instant`. `instant` is supported for payouts to debit cards and bank accounts in certain countries. Learn more about [bank support for Instant Payouts](https://stripe.com/docs/payouts/instant-payouts-banks). Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `payout`.
@@ -68,7 +68,7 @@ defmodule Stripe.Resources.Payout do
           source_type: String.t(),
           statement_descriptor: String.t(),
           status: String.t(),
-          trace_id: __MODULE__.TraceId.t(),
+          trace_id: trace_id(),
           type: String.t()
         }
 
@@ -116,23 +116,24 @@ defmodule Stripe.Resources.Payout do
       "trace_id"
     ]
 
-  defmodule TraceId do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `status` - Possible values are `pending`, `supported`, and `unsupported`. When `payout.status` is `pending` or `in_transit`, this will be `pending`. When the payout transitions to `paid`, `failed`, or `canceled`, this status will become `supported` or `unsupported` shortly after in most cases. In some cases, this may appear as `pending` for up to 10 days after `arrival_date` until transitioning to `supported` or `unsupported`. Max length: 5000.
+  * `value` - The trace ID value if `trace_id.status` is `supported`, otherwise `nil`. Max length: 5000. Nullable.
+  """
+  @type trace_id :: %{
+          optional(:status) => String.t() | nil,
+          optional(:value) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `status` - Possible values are `pending`, `supported`, and `unsupported`. When `payout.status` is `pending` or `in_transit`, this will be `pending`. When the payout transitions to `paid`, `failed`, or `canceled`, this status will become `supported` or `unsupported` shortly after in most cases. In some cases, this may appear as `pending` for up to 10 days after `arrival_date` until transitioning to `supported` or `unsupported`. Max length: 5000.
-    * `value` - The trace ID value if `trace_id.status` is `supported`, otherwise `nil`. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            status: String.t() | nil,
-            value: String.t() | nil
-          }
-    defstruct [:status, :value]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "trace_id" => __MODULE__.TraceId
+      "trace_id" => %{
+        fields: %{
+          "status" => :scalar,
+          "value" => :scalar
+        }
+      }
     }
   end
 end

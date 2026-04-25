@@ -18,9 +18,9 @@ defmodule Stripe.Resources.StatusDetails do
 
   def expandable_fields, do: ["closed"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "closed" => Stripe.Resources.Closed
+      "closed" => {:resource, Stripe.Resources.Closed}
     }
   end
 end

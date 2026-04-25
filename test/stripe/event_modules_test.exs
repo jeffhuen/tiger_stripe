@@ -70,55 +70,62 @@ defmodule Stripe.EventModulesTest do
   end
 
   describe "nested data types" do
-    test "V2 person event has Data module with account_id field" do
-      data = %V2CoreAccountPersonCreatedEvent.Data{}
-      assert Map.has_key?(data, :account_id)
+    test "V2 person event has data metadata with account_id field" do
+      refute Code.ensure_loaded?(nested_module(V2CoreAccountPersonCreatedEvent, "Data"))
+
+      assert %{"data" => %{fields: data}} =
+               V2CoreAccountPersonCreatedEvent.__nested_fields__()
+
+      assert Map.has_key?(data, "account_id")
     end
 
-    test "V1 billing error has deeply nested Data modules" do
-      alias V1BillingMeterErrorReportTriggeredEvent.Data
+    test "V1 billing error has deeply nested data metadata" do
+      event = V1BillingMeterErrorReportTriggeredEvent
+      refute Code.ensure_loaded?(nested_module(event, "Data"))
+      refute Code.ensure_loaded?(nested_module(event, ["Data", "Reason"]))
 
-      data = %Data{}
-      assert Map.has_key?(data, :reason)
-      assert Map.has_key?(data, :developer_message_summary)
-      assert Map.has_key?(data, :validation_start)
-      assert Map.has_key?(data, :validation_end)
+      assert %{"data" => %{fields: data}} = event.__nested_fields__()
+      assert Map.has_key?(data, "reason")
+      assert Map.has_key?(data, "developer_message_summary")
+      assert Map.has_key?(data, "validation_start")
+      assert Map.has_key?(data, "validation_end")
 
-      reason = %Data.Reason{}
-      assert Map.has_key?(reason, :error_count)
-      assert Map.has_key?(reason, :error_types)
+      assert %{fields: reason} = data["reason"]
+      assert Map.has_key?(reason, "error_count")
+      assert Map.has_key?(reason, "error_types")
 
-      error_type = %Data.Reason.ErrorTypes{}
-      assert Map.has_key?(error_type, :code)
-      assert Map.has_key?(error_type, :sample_errors)
+      assert %{fields: error_type} = reason["error_types"]
+      assert Map.has_key?(error_type, "code")
+      assert Map.has_key?(error_type, "sample_errors")
 
-      sample_error = %Data.Reason.ErrorTypes.SampleErrors{}
-      assert Map.has_key?(sample_error, :error_message)
-      assert Map.has_key?(sample_error, :request)
+      assert %{fields: sample_error} = error_type["sample_errors"]
+      assert Map.has_key?(sample_error, "error_message")
+      assert Map.has_key?(sample_error, "request")
 
-      request = %Data.Reason.ErrorTypes.SampleErrors.Request{}
-      assert Map.has_key?(request, :identifier)
+      assert %{fields: request} = sample_error["request"]
+      assert Map.has_key?(request, "identifier")
     end
 
-    test "inner_types wired correctly for nested data" do
+    test "nested_fields wired correctly for nested data" do
       alias V1BillingMeterErrorReportTriggeredEvent, as: E
 
-      assert E.__inner_types__() == %{"data" => E.Data}
-      assert E.Data.__inner_types__() == %{"reason" => E.Data.Reason}
-      assert E.Data.Reason.__inner_types__() == %{"error_types" => E.Data.Reason.ErrorTypes}
-
-      assert E.Data.Reason.ErrorTypes.__inner_types__() ==
-               %{"sample_errors" => E.Data.Reason.ErrorTypes.SampleErrors}
-
-      assert E.Data.Reason.ErrorTypes.SampleErrors.__inner_types__() ==
-               %{"request" => E.Data.Reason.ErrorTypes.SampleErrors.Request}
+      assert %{"data" => %{fields: data}} = E.__nested_fields__()
+      assert %{fields: reason} = data["reason"]
+      assert %{fields: error_types} = reason["error_types"]
+      assert %{fields: sample_errors} = error_types["sample_errors"]
+      assert %{fields: request} = sample_errors["request"]
+      assert request["identifier"] == :scalar
     end
   end
 
   describe "V1 no_meter_found has data but no related_object" do
-    test "has data module" do
-      data = %V1BillingMeterNoMeterFoundEvent.Data{}
-      assert Map.has_key?(data, :reason)
+    test "has data metadata" do
+      refute Code.ensure_loaded?(nested_module(V1BillingMeterNoMeterFoundEvent, "Data"))
+
+      assert %{"data" => %{fields: data}} =
+               V1BillingMeterNoMeterFoundEvent.__nested_fields__()
+
+      assert Map.has_key?(data, "reason")
     end
 
     test "does not export fetch_related_object" do
@@ -156,4 +163,8 @@ defmodule Stripe.EventModulesTest do
       assert map_size(Stripe.EventTypes.event_type_to_module()) == event_modules - 1
     end
   end
+
+  defp nested_module(parent, child) when is_binary(child), do: Module.concat(parent, child)
+
+  defp nested_module(parent, children), do: Module.concat([parent | children])
 end

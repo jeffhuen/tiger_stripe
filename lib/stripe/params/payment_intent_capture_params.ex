@@ -19,17 +19,17 @@ defmodule Stripe.Params.PaymentIntentCaptureParams do
   is captured. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
   """
   @type t :: %__MODULE__{
-          amount_details: __MODULE__.AmountDetails.t() | nil,
+          amount_details: amount_details() | nil,
           amount_to_capture: integer() | nil,
           application_fee_amount: integer() | nil,
           expand: [String.t()] | nil,
           final_capture: boolean() | nil,
-          hooks: __MODULE__.Hooks.t() | nil,
+          hooks: hooks() | nil,
           metadata: map() | nil,
           payment_details: map() | nil,
           statement_descriptor: String.t() | nil,
           statement_descriptor_suffix: String.t() | nil,
-          transfer_data: __MODULE__.TransferData.t() | nil
+          transfer_data: transfer_data() | nil
         }
 
   defstruct [
@@ -46,77 +46,57 @@ defmodule Stripe.Params.PaymentIntentCaptureParams do
     :transfer_data
   ]
 
-  defmodule AmountDetails do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `discount_amount` - The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 
-    @typedoc """
-    * `discount_amount` - The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
+  This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
+  * `enforce_arithmetic_validation` - Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
 
-    This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
-    * `enforce_arithmetic_validation` - Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+  Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
 
-    Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+  For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+  * `line_items` - A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
+  * `shipping` - Contains information about the shipping portion of the amount.
+  * `tax` - Contains information about the tax portion of the amount.
+  """
+  @type amount_details :: %{
+          optional(:discount_amount) => map() | nil,
+          optional(:enforce_arithmetic_validation) => boolean() | nil,
+          optional(:line_items) => map() | nil,
+          optional(:shipping) => map() | nil,
+          optional(:tax) => map() | nil,
+          optional(String.t()) => term()
+        }
 
-    For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
-    * `line_items` - A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
-    * `shipping` - Contains information about the shipping portion of the amount.
-    * `tax` - Contains information about the tax portion of the amount.
-    """
-    @type t :: %__MODULE__{
-            discount_amount: map() | nil,
-            enforce_arithmetic_validation: boolean() | nil,
-            line_items: map() | nil,
-            shipping: map() | nil,
-            tax: map() | nil
-          }
-    defstruct [:discount_amount, :enforce_arithmetic_validation, :line_items, :shipping, :tax]
-  end
+  @typedoc """
+  * `inputs` - Arguments passed in automations
+  """
+  @type hooks :: %{
+          optional(:inputs) => hooks_inputs() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Hooks do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `tax` - Tax arguments for automations
+  """
+  @type hooks_inputs :: %{
+          optional(:tax) => hooks_inputs_tax() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `inputs` - Arguments passed in automations
-    """
-    @type t :: %__MODULE__{
-            inputs: __MODULE__.Inputs.t() | nil
-          }
-    defstruct [:inputs]
+  @typedoc """
+  * `calculation` - The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
+  """
+  @type hooks_inputs_tax :: %{
+          optional(:calculation) => map() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Inputs do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `tax` - Tax arguments for automations
-      """
-      @type t :: %__MODULE__{
-              tax: __MODULE__.Tax.t() | nil
-            }
-      defstruct [:tax]
-
-      defmodule Tax do
-        @moduledoc "Nested parameters."
-
-        @typedoc """
-        * `calculation` - The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
-        """
-        @type t :: %__MODULE__{
-                calculation: map() | nil
-              }
-        defstruct [:calculation]
-      end
-    end
-  end
-
-  defmodule TransferData do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `amount` - The amount that will be transferred automatically when a charge succeeds.
-    """
-    @type t :: %__MODULE__{
-            amount: integer() | nil
-          }
-    defstruct [:amount]
-  end
+  @typedoc """
+  * `amount` - The amount that will be transferred automatically when a charge succeeds.
+  """
+  @type transfer_data :: %{
+          optional(:amount) => integer() | nil,
+          optional(String.t()) => term()
+        }
 end

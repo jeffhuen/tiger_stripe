@@ -14,7 +14,7 @@ defmodule Stripe.Resources.SourceMandateNotification do
   * `bacs_debit` - Expandable.
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `source_mandate_notification`.
   * `reason` - The reason of the mandate notification. Valid reasons are `mandate_confirmed` or `debit_initiated`. Max length: 5000.
   * `sepa_debit` - Expandable.
@@ -23,15 +23,15 @@ defmodule Stripe.Resources.SourceMandateNotification do
   * `type` - The type of source this mandate notification is attached to. Should be the source type identifier code for the payment method, such as `three_d_secure`. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          acss_debit: __MODULE__.AcssDebit.t() | nil,
+          acss_debit: acss_debit() | nil,
           amount: integer(),
-          bacs_debit: __MODULE__.BacsDebit.t() | nil,
+          bacs_debit: bacs_debit() | nil,
           created: integer(),
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
           reason: String.t(),
-          sepa_debit: __MODULE__.SepaDebit.t() | nil,
+          sepa_debit: sepa_debit() | nil,
           source: Stripe.Resources.Source.t(),
           status: String.t(),
           type: String.t()
@@ -57,52 +57,54 @@ defmodule Stripe.Resources.SourceMandateNotification do
 
   def expandable_fields, do: ["acss_debit", "bacs_debit", "sepa_debit", "source"]
 
-  defmodule AcssDebit do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `statement_descriptor` - The statement descriptor associate with the debit. Max length: 5000.
+  """
+  @type acss_debit :: %{
+          optional(:statement_descriptor) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `statement_descriptor` - The statement descriptor associate with the debit. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            statement_descriptor: String.t() | nil
-          }
-    defstruct [:statement_descriptor]
-  end
+  @typedoc """
+  * `last4` - Last 4 digits of the account number associated with the debit. Max length: 5000.
+  """
+  @type bacs_debit :: %{
+          optional(:last4) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule BacsDebit do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `creditor_identifier` - SEPA creditor ID. Max length: 5000.
+  * `last4` - Last 4 digits of the account number associated with the debit. Max length: 5000.
+  * `mandate_reference` - Mandate reference associated with the debit. Max length: 5000.
+  """
+  @type sepa_debit :: %{
+          optional(:creditor_identifier) => String.t() | nil,
+          optional(:last4) => String.t() | nil,
+          optional(:mandate_reference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `last4` - Last 4 digits of the account number associated with the debit. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            last4: String.t() | nil
-          }
-    defstruct [:last4]
-  end
-
-  defmodule SepaDebit do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `creditor_identifier` - SEPA creditor ID. Max length: 5000.
-    * `last4` - Last 4 digits of the account number associated with the debit. Max length: 5000.
-    * `mandate_reference` - Mandate reference associated with the debit. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            creditor_identifier: String.t() | nil,
-            last4: String.t() | nil,
-            mandate_reference: String.t() | nil
-          }
-    defstruct [:creditor_identifier, :last4, :mandate_reference]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "acss_debit" => __MODULE__.AcssDebit,
-      "bacs_debit" => __MODULE__.BacsDebit,
-      "sepa_debit" => __MODULE__.SepaDebit,
-      "source" => Stripe.Resources.Source
+      "acss_debit" => %{
+        fields: %{
+          "statement_descriptor" => :scalar
+        }
+      },
+      "bacs_debit" => %{
+        fields: %{
+          "last4" => :scalar
+        }
+      },
+      "sepa_debit" => %{
+        fields: %{
+          "creditor_identifier" => :scalar,
+          "last4" => :scalar,
+          "mandate_reference" => :scalar
+        }
+      },
+      "source" => {:resource, Stripe.Resources.Source}
     }
   end
 end

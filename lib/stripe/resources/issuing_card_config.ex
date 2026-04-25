@@ -20,9 +20,9 @@ defmodule Stripe.Resources.IssuingCardConfig do
 
   def expandable_fields, do: ["features"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "features" => Stripe.Resources.IssuingCardFeatures
+      "features" => {:resource, Stripe.Resources.IssuingCardFeatures}
     }
   end
 end

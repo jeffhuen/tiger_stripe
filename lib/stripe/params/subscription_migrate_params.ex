@@ -7,35 +7,27 @@ defmodule Stripe.Params.SubscriptionMigrateParams do
   * `expand` - Specifies which fields in the response should be expanded.
   """
   @type t :: %__MODULE__{
-          billing_mode: __MODULE__.BillingMode.t(),
+          billing_mode: billing_mode(),
           expand: [String.t()] | nil
         }
 
   defstruct [:billing_mode, :expand]
 
-  defmodule BillingMode do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `flexible` - Configure behavior for flexible billing mode.
+  * `type` - Controls the calculation and orchestration of prorations and invoices for subscriptions. Possible values: `flexible`.
+  """
+  @type billing_mode :: %{
+          optional(:flexible) => billing_mode_flexible() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `flexible` - Configure behavior for flexible billing mode.
-    * `type` - Controls the calculation and orchestration of prorations and invoices for subscriptions. Possible values: `flexible`.
-    """
-    @type t :: %__MODULE__{
-            flexible: __MODULE__.Flexible.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:flexible, :type]
-
-    defmodule Flexible do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `proration_discounts` - Controls how invoices and invoice items display proration amounts and discount amounts. Possible values: `included`, `itemized`.
-      """
-      @type t :: %__MODULE__{
-              proration_discounts: String.t() | nil
-            }
-      defstruct [:proration_discounts]
-    end
-  end
+  @typedoc """
+  * `proration_discounts` - Controls how invoices and invoice items display proration amounts and discount amounts. Possible values: `included`, `itemized`.
+  """
+  @type billing_mode_flexible :: %{
+          optional(:proration_discounts) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

@@ -13,7 +13,7 @@ defmodule Stripe.Params.Climate.OrderCreateParams do
   """
   @type t :: %__MODULE__{
           amount: integer() | nil,
-          beneficiary: __MODULE__.Beneficiary.t() | nil,
+          beneficiary: beneficiary() | nil,
           currency: String.t() | nil,
           expand: [String.t()] | nil,
           metadata: %{String.t() => String.t()} | nil,
@@ -23,15 +23,11 @@ defmodule Stripe.Params.Climate.OrderCreateParams do
 
   defstruct [:amount, :beneficiary, :currency, :expand, :metadata, :metric_tons, :product]
 
-  defmodule Beneficiary do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `public_name` - Publicly displayable name for the end beneficiary of carbon removal. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            public_name: String.t() | nil
-          }
-    defstruct [:public_name]
-  end
+  @typedoc """
+  * `public_name` - Publicly displayable name for the end beneficiary of carbon removal. Max length: 5000.
+  """
+  @type beneficiary :: %{
+          optional(:public_name) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

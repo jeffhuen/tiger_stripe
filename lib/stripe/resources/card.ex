@@ -78,7 +78,7 @@ defmodule Stripe.Resources.Card do
           last4: String.t(),
           metadata: %{String.t() => String.t()},
           name: String.t(),
-          networks: __MODULE__.Networks.t() | nil,
+          networks: networks() | nil,
           object: String.t(),
           regulated_status: String.t(),
           status: String.t() | nil,
@@ -127,21 +127,21 @@ defmodule Stripe.Resources.Card do
 
   def expandable_fields, do: ["account", "customer", "networks"]
 
-  defmodule Networks do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `preferred` - The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card. Max length: 5000. Nullable.
+  """
+  @type networks :: %{
+          optional(:preferred) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `preferred` - The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            preferred: String.t() | nil
-          }
-    defstruct [:preferred]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "networks" => __MODULE__.Networks
+      "networks" => %{
+        fields: %{
+          "preferred" => :scalar
+        }
+      }
     }
   end
 end

@@ -12,66 +12,50 @@ defmodule Stripe.Params.PaymentRecordReportRefundParams do
   * `refunded` - Information about the payment attempt refund.
   """
   @type t :: %__MODULE__{
-          amount: __MODULE__.Amount.t() | nil,
+          amount: amount() | nil,
           expand: [String.t()] | nil,
           initiated_at: integer() | nil,
           metadata: map() | nil,
           outcome: String.t(),
-          processor_details: __MODULE__.ProcessorDetails.t(),
-          refunded: __MODULE__.Refunded.t()
+          processor_details: processor_details(),
+          refunded: refunded()
         }
 
   defstruct [:amount, :expand, :initiated_at, :metadata, :outcome, :processor_details, :refunded]
 
-  defmodule Amount do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `value` - A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+  """
+  @type amount :: %{
+          optional(:currency) => String.t() | nil,
+          optional(:value) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-    * `value` - A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
-    """
-    @type t :: %__MODULE__{
-            currency: String.t() | nil,
-            value: integer() | nil
-          }
-    defstruct [:currency, :value]
-  end
+  @typedoc """
+  * `custom` - Information about the custom processor used to make this refund.
+  * `type` - The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor. Possible values: `custom`.
+  """
+  @type processor_details :: %{
+          optional(:custom) => processor_details_custom() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule ProcessorDetails do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `refund_reference` - A reference to the external refund. This field must be unique across all refunds. Max length: 5000.
+  """
+  @type processor_details_custom :: %{
+          optional(:refund_reference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `custom` - Information about the custom processor used to make this refund.
-    * `type` - The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor. Possible values: `custom`.
-    """
-    @type t :: %__MODULE__{
-            custom: __MODULE__.Custom.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:custom, :type]
-
-    defmodule Custom do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `refund_reference` - A reference to the external refund. This field must be unique across all refunds. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              refund_reference: String.t() | nil
-            }
-      defstruct [:refund_reference]
-    end
-  end
-
-  defmodule Refunded do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `refunded_at` - When the reported refund completed. Measured in seconds since the Unix epoch. Format: Unix timestamp.
-    """
-    @type t :: %__MODULE__{
-            refunded_at: integer() | nil
-          }
-    defstruct [:refunded_at]
-  end
+  @typedoc """
+  * `refunded_at` - When the reported refund completed. Measured in seconds since the Unix epoch. Format: Unix timestamp.
+  """
+  @type refunded :: %{
+          optional(:refunded_at) => integer() | nil,
+          optional(String.t()) => term()
+        }
 end

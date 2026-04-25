@@ -11,7 +11,7 @@ defmodule Stripe.Resources.Custom do
   """
   @type t :: %__MODULE__{
           display_name: String.t(),
-          logo: __MODULE__.Logo.t(),
+          logo: logo(),
           type: String.t()
         }
 
@@ -22,23 +22,24 @@ defmodule Stripe.Resources.Custom do
 
   def expandable_fields, do: ["logo"]
 
-  defmodule Logo do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `content_type` - Content type of the Dashboard-only CustomPaymentMethodType logo. Max length: 5000. Nullable.
+  * `url` - URL of the Dashboard-only CustomPaymentMethodType logo. Max length: 5000.
+  """
+  @type logo :: %{
+          optional(:content_type) => String.t() | nil,
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `content_type` - Content type of the Dashboard-only CustomPaymentMethodType logo. Max length: 5000. Nullable.
-    * `url` - URL of the Dashboard-only CustomPaymentMethodType logo. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            content_type: String.t() | nil,
-            url: String.t() | nil
-          }
-    defstruct [:content_type, :url]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "logo" => __MODULE__.Logo
+      "logo" => %{
+        fields: %{
+          "content_type" => :scalar,
+          "url" => :scalar
+        }
+      }
     }
   end
 end

@@ -16,7 +16,7 @@ defmodule Stripe.Params.AccountLinkCreateParams do
   @type t :: %__MODULE__{
           account: String.t(),
           collect: String.t() | nil,
-          collection_options: __MODULE__.CollectionOptions.t() | nil,
+          collection_options: collection_options() | nil,
           expand: [String.t()] | nil,
           refresh_url: String.t() | nil,
           return_url: String.t() | nil,
@@ -25,17 +25,13 @@ defmodule Stripe.Params.AccountLinkCreateParams do
 
   defstruct [:account, :collect, :collection_options, :expand, :refresh_url, :return_url, :type]
 
-  defmodule CollectionOptions do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `fields` - Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify `collection_options`, the default value is `currently_due`. Possible values: `currently_due`, `eventually_due`.
-    * `future_requirements` - Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`. Possible values: `include`, `omit`.
-    """
-    @type t :: %__MODULE__{
-            fields: String.t() | nil,
-            future_requirements: String.t() | nil
-          }
-    defstruct [:fields, :future_requirements]
-  end
+  @typedoc """
+  * `fields` - Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify `collection_options`, the default value is `currently_due`. Possible values: `currently_due`, `eventually_due`.
+  * `future_requirements` - Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`. Possible values: `include`, `omit`.
+  """
+  @type collection_options :: %{
+          optional(:fields) => String.t() | nil,
+          optional(:future_requirements) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

@@ -21,7 +21,7 @@ defmodule Stripe.Params.Issuing.PersonalizationDesignUpdateParams do
           metadata: %{String.t() => String.t()} | nil,
           name: map() | nil,
           physical_bundle: String.t() | nil,
-          preferences: __MODULE__.Preferences.t() | nil,
+          preferences: preferences() | nil,
           transfer_lookup_key: boolean() | nil
         }
 
@@ -37,15 +37,11 @@ defmodule Stripe.Params.Issuing.PersonalizationDesignUpdateParams do
     :transfer_lookup_key
   ]
 
-  defmodule Preferences do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `is_default` - Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
-    """
-    @type t :: %__MODULE__{
-            is_default: boolean() | nil
-          }
-    defstruct [:is_default]
-  end
+  @typedoc """
+  * `is_default` - Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
+  """
+  @type preferences :: %{
+          optional(:is_default) => boolean() | nil,
+          optional(String.t()) => term()
+        }
 end

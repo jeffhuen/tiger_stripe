@@ -9,7 +9,7 @@ defmodule Stripe.Resources.Billing.Alert do
   @typedoc """
   * `alert_type` - Defines the type of the alert. Possible values: `usage_threshold`.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `billing.alert`.
   * `status` - Status of the alert. This can be active, inactive or archived. Possible values: `active`, `archived`, `inactive`. Nullable.
   * `title` - Title of the alert. Max length: 5000.
@@ -22,7 +22,7 @@ defmodule Stripe.Resources.Billing.Alert do
           object: String.t(),
           status: String.t(),
           title: String.t(),
-          usage_threshold: __MODULE__.UsageThreshold.t()
+          usage_threshold: usage_threshold()
         }
 
   defstruct [:alert_type, :id, :livemode, :object, :status, :title, :usage_threshold]
@@ -32,47 +32,47 @@ defmodule Stripe.Resources.Billing.Alert do
 
   def expandable_fields, do: ["usage_threshold"]
 
-  defmodule UsageThreshold do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `filters` - The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time. Nullable.
+  * `gte` - The value at which this alert will trigger.
+  * `meter` - The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
+  * `recurrence` - Defines how the alert will behave. Possible values: `one_time`.
+  """
+  @type usage_threshold :: %{
+          optional(:filters) => [usage_threshold_filters()] | nil,
+          optional(:gte) => integer() | nil,
+          optional(:meter) => String.t() | Stripe.Resources.Billing.Meter.t() | nil,
+          optional(:recurrence) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `filters` - The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time. Nullable.
-    * `gte` - The value at which this alert will trigger.
-    * `meter` - The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
-    * `recurrence` - Defines how the alert will behave. Possible values: `one_time`.
-    """
-    @type t :: %__MODULE__{
-            filters: [__MODULE__.Filters.t()] | nil,
-            gte: integer() | nil,
-            meter: String.t() | Stripe.Resources.Billing.Meter.t() | nil,
-            recurrence: String.t() | nil
-          }
-    defstruct [:filters, :gte, :meter, :recurrence]
+  @typedoc """
+  * `customer` - Limit the scope of the alert to this customer ID Nullable.
+  * `type` - Possible values: `customer`.
+  """
+  @type usage_threshold_filters :: %{
+          optional(:customer) => String.t() | Stripe.Resources.Customer.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Filters do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `customer` - Limit the scope of the alert to this customer ID Nullable.
-      * `type` - Possible values: `customer`.
-      """
-      @type t :: %__MODULE__{
-              customer: String.t() | Stripe.Resources.Customer.t() | nil,
-              type: String.t() | nil
-            }
-      defstruct [:customer, :type]
-    end
-
-    def __inner_types__ do
-      %{
-        "filters" => __MODULE__.Filters
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "usage_threshold" => __MODULE__.UsageThreshold
+      "usage_threshold" => %{
+        fields: %{
+          "filters" =>
+            {:list,
+             %{
+               fields: %{
+                 "customer" => {:resource, Stripe.Resources.Customer},
+                 "type" => :scalar
+               }
+             }},
+          "gte" => :scalar,
+          "meter" => {:resource, Stripe.Resources.Billing.Meter},
+          "recurrence" => :scalar
+        }
+      }
     }
   end
 end

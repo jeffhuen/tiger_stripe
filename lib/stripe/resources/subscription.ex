@@ -36,17 +36,16 @@ defmodule Stripe.Resources.Subscription do
   * `invoice_settings` - Expandable.
   * `items` - List of subscription items, each with an attached price. Expandable.
   * `latest_invoice` - The most recent invoice this subscription has generated over its lifecycle (for example, when it cycles or is updated). Nullable. Expandable.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `next_pending_invoice_item_invoice` - Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at `pending_invoice_item_interval`. Format: Unix timestamp. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `subscription`.
   * `on_behalf_of` - The account (if any) the charge was made on behalf of for charges associated with this subscription. See the [Connect documentation](https://docs.stripe.com/connect/subscriptions#on-behalf-of) for details. Nullable. Expandable.
   * `pause_collection` - If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment). Nullable. Expandable.
   * `payment_settings` - Payment settings passed on to invoices created by the subscription. Nullable. Expandable.
-  * `pending_invoice_item_interval` - Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval. Nullable. Expandable.
+  * `pending_invoice_item_interval` - Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval. Nullable. Expandable.
   * `pending_setup_intent` - You can use this [SetupIntent](https://docs.stripe.com/api/setup_intents) to collect user authentication when creating a subscription without immediate payment or updating a subscription's payment method, allowing you to optimize for off-session payments. Learn more in the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication#scenario-2). Nullable. Expandable.
   * `pending_update` - If specified, [pending updates](https://docs.stripe.com/billing/subscriptions/pending-updates) that will be applied to the subscription once the `latest_invoice` has been paid. Nullable. Expandable.
-  * `presentment_details` - Expandable.
   * `schedule` - The schedule attached to the subscription Nullable. Expandable.
   * `start_date` - Date when the subscription was first created. The date might differ from the `created` date due to backdating. Format: Unix timestamp.
   * `status` - Possible values are `incomplete`, `incomplete_expired`, `trialing`, `active`, `past_due`, `canceled`, `unpaid`, or `paused`. 
@@ -69,15 +68,15 @@ defmodule Stripe.Resources.Subscription do
   @type t :: %__MODULE__{
           application: String.t() | Stripe.Resources.Application.t(),
           application_fee_percent: float(),
-          automatic_tax: __MODULE__.AutomaticTax.t(),
+          automatic_tax: automatic_tax(),
           billing_cycle_anchor: integer(),
-          billing_cycle_anchor_config: __MODULE__.BillingCycleAnchorConfig.t(),
-          billing_mode: __MODULE__.BillingMode.t(),
-          billing_thresholds: __MODULE__.BillingThresholds.t(),
+          billing_cycle_anchor_config: billing_cycle_anchor_config(),
+          billing_mode: billing_mode(),
+          billing_thresholds: billing_thresholds(),
           cancel_at: integer(),
           cancel_at_period_end: boolean(),
           canceled_at: integer(),
-          cancellation_details: __MODULE__.CancellationDetails.t(),
+          cancellation_details: cancellation_details(),
           collection_method: String.t(),
           created: integer(),
           currency: String.t(),
@@ -91,27 +90,26 @@ defmodule Stripe.Resources.Subscription do
           discounts: [String.t() | Stripe.Resources.Discount.t()],
           ended_at: integer(),
           id: String.t(),
-          invoice_settings: __MODULE__.InvoiceSettings.t(),
-          items: __MODULE__.Items.t(),
+          invoice_settings: invoice_settings(),
+          items: items(),
           latest_invoice: String.t() | Stripe.Resources.Invoice.t(),
           livemode: boolean(),
           metadata: %{String.t() => String.t()},
           next_pending_invoice_item_invoice: integer(),
           object: String.t(),
           on_behalf_of: String.t() | Stripe.Resources.Account.t(),
-          pause_collection: __MODULE__.PauseCollection.t(),
-          payment_settings: __MODULE__.PaymentSettings.t(),
-          pending_invoice_item_interval: __MODULE__.PendingInvoiceItemInterval.t(),
+          pause_collection: pause_collection(),
+          payment_settings: payment_settings(),
+          pending_invoice_item_interval: pending_invoice_item_interval(),
           pending_setup_intent: String.t() | Stripe.Resources.SetupIntent.t(),
-          pending_update: __MODULE__.PendingUpdate.t(),
-          presentment_details: __MODULE__.PresentmentDetails.t() | nil,
+          pending_update: pending_update(),
           schedule: String.t() | Stripe.Resources.SubscriptionSchedule.t(),
           start_date: integer(),
           status: String.t(),
           test_clock: String.t() | Stripe.Resources.TestHelpers.TestClock.t(),
-          transfer_data: __MODULE__.TransferData.t(),
+          transfer_data: transfer_data(),
           trial_end: integer(),
-          trial_settings: __MODULE__.TrialSettings.t(),
+          trial_settings: trial_settings(),
           trial_start: integer()
         }
 
@@ -153,7 +151,6 @@ defmodule Stripe.Resources.Subscription do
     :pending_invoice_item_interval,
     :pending_setup_intent,
     :pending_update,
-    :presentment_details,
     :schedule,
     :start_date,
     :status,
@@ -189,601 +186,547 @@ defmodule Stripe.Resources.Subscription do
       "pending_invoice_item_interval",
       "pending_setup_intent",
       "pending_update",
-      "presentment_details",
       "schedule",
       "test_clock",
       "transfer_data",
       "trial_settings"
     ]
 
-  defmodule AutomaticTax do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `disabled_reason` - If Stripe disabled automatic tax, this enum describes why. Possible values: `requires_location_inputs`. Nullable.
-    * `enabled` - Whether Stripe automatically computes tax on this subscription.
-    * `liability` - The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account. Nullable.
-    """
-    @type t :: %__MODULE__{
-            disabled_reason: String.t() | nil,
-            enabled: boolean() | nil,
-            liability: __MODULE__.Liability.t() | nil
-          }
-    defstruct [:disabled_reason, :enabled, :liability]
-
-    defmodule Liability do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `account` - The connected account being referenced when `type` is `account`.
-      * `type` - Type of the account referenced. Possible values: `account`, `self`.
-      """
-      @type t :: %__MODULE__{
-              account: String.t() | Stripe.Resources.Account.t() | nil,
-              type: String.t() | nil
-            }
-      defstruct [:account, :type]
-    end
-
-    def __inner_types__ do
-      %{
-        "liability" => __MODULE__.Liability
-      }
-    end
-  end
-
-  defmodule BillingCycleAnchorConfig do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `day_of_month` - The day of the month of the billing_cycle_anchor.
-    * `hour` - The hour of the day of the billing_cycle_anchor. Nullable.
-    * `minute` - The minute of the hour of the billing_cycle_anchor. Nullable.
-    * `month` - The month to start full cycle billing periods. Nullable.
-    * `second` - The second of the minute of the billing_cycle_anchor. Nullable.
-    """
-    @type t :: %__MODULE__{
-            day_of_month: integer() | nil,
-            hour: integer() | nil,
-            minute: integer() | nil,
-            month: integer() | nil,
-            second: integer() | nil
-          }
-    defstruct [:day_of_month, :hour, :minute, :month, :second]
-  end
-
-  defmodule BillingMode do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `flexible` - Configure behavior for flexible billing mode Nullable.
-    * `type` - Controls how prorations and invoices for subscriptions are calculated and orchestrated. Possible values: `classic`, `flexible`.
-    * `updated_at` - Details on when the current billing_mode was adopted. Format: Unix timestamp.
-    """
-    @type t :: %__MODULE__{
-            flexible: __MODULE__.Flexible.t() | nil,
-            type: String.t() | nil,
-            updated_at: integer() | nil
-          }
-    defstruct [:flexible, :type, :updated_at]
-
-    defmodule Flexible do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `proration_discounts` - Controls how invoices and invoice items display proration amounts and discount amounts. Possible values: `included`, `itemized`.
-      """
-      @type t :: %__MODULE__{
-              proration_discounts: String.t() | nil
-            }
-      defstruct [:proration_discounts]
-    end
-
-    def __inner_types__ do
-      %{
-        "flexible" => __MODULE__.Flexible
-      }
-    end
-  end
-
-  defmodule BillingThresholds do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `amount_gte` - Monetary threshold that triggers the subscription to create an invoice Nullable.
-    * `reset_billing_cycle_anchor` - Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be `true` if the subscription contains items with plans that have `aggregate_usage=last_ever`. Nullable.
-    """
-    @type t :: %__MODULE__{
-            amount_gte: integer() | nil,
-            reset_billing_cycle_anchor: boolean() | nil
-          }
-    defstruct [:amount_gte, :reset_billing_cycle_anchor]
-  end
-
-  defmodule CancellationDetails do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `comment` - Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user. Max length: 5000. Nullable.
-    * `feedback` - The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user. Possible values: `customer_service`, `low_quality`, `missing_features`, `other`, `switched_service`, `too_complex`, `too_expensive`, `unused`. Nullable.
-    * `reason` - Why this subscription was canceled. Possible values: `canceled_by_retention_policy`, `cancellation_requested`, `payment_disputed`, `payment_failed`. Nullable.
-    """
-    @type t :: %__MODULE__{
-            comment: String.t() | nil,
-            feedback: String.t() | nil,
-            reason: String.t() | nil
-          }
-    defstruct [:comment, :feedback, :reason]
-  end
-
-  defmodule InvoiceSettings do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `account_tax_ids` - The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription. Nullable.
-    * `issuer`
-    """
-    @type t :: %__MODULE__{
-            account_tax_ids: [String.t() | Stripe.Resources.TaxId.t()] | nil,
-            issuer: __MODULE__.Issuer.t() | nil
-          }
-    defstruct [:account_tax_ids, :issuer]
-
-    defmodule Issuer do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `account` - The connected account being referenced when `type` is `account`.
-      * `type` - Type of the account referenced. Possible values: `account`, `self`.
-      """
-      @type t :: %__MODULE__{
-              account: String.t() | Stripe.Resources.Account.t() | nil,
-              type: String.t() | nil
-            }
-      defstruct [:account, :type]
-    end
-
-    def __inner_types__ do
-      %{
-        "issuer" => __MODULE__.Issuer
-      }
-    end
-  end
-
-  defmodule Items do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `data` - Details about each object.
-    * `has_more` - True if this list has another page of items after this one that can be fetched.
-    * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-    * `url` - The URL where this list can be accessed. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            data: [Stripe.Resources.SubscriptionItem.t()] | nil,
-            has_more: boolean() | nil,
-            object: String.t() | nil,
-            url: String.t() | nil
-          }
-    defstruct [:data, :has_more, :object, :url]
-  end
-
-  defmodule PauseCollection do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `behavior` - The payment collection behavior for this subscription while paused. Possible values: `keep_as_draft`, `mark_uncollectible`, `void`.
-    * `resumes_at` - The time after which the subscription will resume collecting payments. Format: Unix timestamp. Nullable.
-    """
-    @type t :: %__MODULE__{
-            behavior: String.t() | nil,
-            resumes_at: integer() | nil
-          }
-    defstruct [:behavior, :resumes_at]
-  end
-
-  defmodule PaymentSettings do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `payment_method_options` - Payment-method-specific configuration to provide to invoices created by the subscription. Nullable.
-    * `payment_method_types` - The list of payment method types to provide to every invoice created by the subscription. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice’s default payment method, the subscription’s default payment method, the customer’s default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Nullable.
-    * `save_default_payment_method` - Configure whether Stripe updates `subscription.default_payment_method` when payment succeeds. Defaults to `off`. Possible values: `off`, `on_subscription`. Nullable.
-    """
-    @type t :: %__MODULE__{
-            payment_method_options: __MODULE__.PaymentMethodOptions.t() | nil,
-            payment_method_types: [String.t()] | nil,
-            save_default_payment_method: String.t() | nil
-          }
-    defstruct [:payment_method_options, :payment_method_types, :save_default_payment_method]
-
-    defmodule PaymentMethodOptions do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `acss_debit` - This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to invoices created by the subscription. Nullable.
-      * `bancontact` - This sub-hash contains details about the Bancontact payment method options to pass to invoices created by the subscription. Nullable.
-      * `card` - This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription. Nullable.
-      * `customer_balance` - This sub-hash contains details about the Bank transfer payment method options to pass to invoices created by the subscription. Nullable.
-      * `konbini` - This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription. Nullable.
-      * `payto` - This sub-hash contains details about the PayTo payment method options to pass to invoices created by the subscription. Nullable.
-      * `sepa_debit` - This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription. Nullable.
-      * `us_bank_account` - This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription. Nullable.
-      """
-      @type t :: %__MODULE__{
-              acss_debit: __MODULE__.AcssDebit.t() | nil,
-              bancontact: __MODULE__.Bancontact.t() | nil,
-              card: __MODULE__.Card.t() | nil,
-              customer_balance: __MODULE__.CustomerBalance.t() | nil,
-              konbini: map() | nil,
-              payto: __MODULE__.Payto.t() | nil,
-              sepa_debit: map() | nil,
-              us_bank_account: __MODULE__.UsBankAccount.t() | nil
-            }
-      defstruct [
-        :acss_debit,
-        :bancontact,
-        :card,
-        :customer_balance,
-        :konbini,
-        :payto,
-        :sepa_debit,
-        :us_bank_account
-      ]
-
-      defmodule AcssDebit do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `mandate_options`
-        * `verification_method` - Bank account verification method. The default value is `automatic`. Possible values: `automatic`, `instant`, `microdeposits`.
-        """
-        @type t :: %__MODULE__{
-                mandate_options: __MODULE__.MandateOptions.t() | nil,
-                verification_method: String.t() | nil
-              }
-        defstruct [:mandate_options, :verification_method]
-
-        defmodule MandateOptions do
-          @moduledoc "Nested struct within the parent resource."
-
-          @typedoc """
-          * `transaction_type` - Transaction type of the mandate. Possible values: `business`, `personal`. Nullable.
-          """
-          @type t :: %__MODULE__{
-                  transaction_type: String.t() | nil
-                }
-          defstruct [:transaction_type]
-        end
-
-        def __inner_types__ do
-          %{
-            "mandate_options" => __MODULE__.MandateOptions
-          }
-        end
-      end
-
-      defmodule Bancontact do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `preferred_language` - Preferred language of the Bancontact authorization page that the customer is redirected to. Possible values: `de`, `en`, `fr`, `nl`.
-        """
-        @type t :: %__MODULE__{
-                preferred_language: String.t() | nil
-              }
-        defstruct [:preferred_language]
-      end
-
-      defmodule Card do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `mandate_options`
-        * `network` - Selected network to process this Subscription on. Depends on the available networks of the card attached to the Subscription. Can be only set confirm-time. Possible values: `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `girocard`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `unknown`, `visa`. Nullable.
-        * `request_three_d_secure` - We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine. Possible values: `any`, `automatic`, `challenge`. Nullable.
-        """
-        @type t :: %__MODULE__{
-                mandate_options: __MODULE__.MandateOptions.t() | nil,
-                network: String.t() | nil,
-                request_three_d_secure: String.t() | nil
-              }
-        defstruct [:mandate_options, :network, :request_three_d_secure]
-
-        defmodule MandateOptions do
-          @moduledoc "Nested struct within the parent resource."
-
-          @typedoc """
-          * `amount` - Amount to be charged for future payments, specified in the presentment currency. Nullable.
-          * `amount_type` - One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param. Possible values: `fixed`, `maximum`. Nullable.
-          * `description` - A description of the mandate or subscription that is meant to be displayed to the customer. Max length: 200. Nullable.
-          """
-          @type t :: %__MODULE__{
-                  amount: integer() | nil,
-                  amount_type: String.t() | nil,
-                  description: String.t() | nil
-                }
-          defstruct [:amount, :amount_type, :description]
-        end
-
-        def __inner_types__ do
-          %{
-            "mandate_options" => __MODULE__.MandateOptions
-          }
-        end
-      end
-
-      defmodule CustomerBalance do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `bank_transfer`
-        * `funding_type` - The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`. Possible values: `bank_transfer`. Nullable.
-        """
-        @type t :: %__MODULE__{
-                bank_transfer: __MODULE__.BankTransfer.t() | nil,
-                funding_type: String.t() | nil
-              }
-        defstruct [:bank_transfer, :funding_type]
-
-        defmodule BankTransfer do
-          @moduledoc "Nested struct within the parent resource."
-
-          @typedoc """
-          * `eu_bank_transfer`
-          * `type` - The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`. Nullable.
-          """
-          @type t :: %__MODULE__{
-                  eu_bank_transfer: __MODULE__.EuBankTransfer.t() | nil,
-                  type: String.t() | nil
-                }
-          defstruct [:eu_bank_transfer, :type]
-
-          defmodule EuBankTransfer do
-            @moduledoc "Nested struct within the parent resource."
-
-            @typedoc """
-            * `country` - The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
-            """
-            @type t :: %__MODULE__{
-                    country: String.t() | nil
-                  }
-            defstruct [:country]
-          end
-
-          def __inner_types__ do
-            %{
-              "eu_bank_transfer" => __MODULE__.EuBankTransfer
-            }
-          end
-        end
-
-        def __inner_types__ do
-          %{
-            "bank_transfer" => __MODULE__.BankTransfer
-          }
-        end
-      end
-
-      defmodule Payto do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `mandate_options`
-        """
-        @type t :: %__MODULE__{
-                mandate_options: __MODULE__.MandateOptions.t() | nil
-              }
-        defstruct [:mandate_options]
-
-        defmodule MandateOptions do
-          @moduledoc "Nested struct within the parent resource."
-
-          @typedoc """
-          * `amount` - The maximum amount that can be collected in a single invoice. If you don't specify a maximum, then there is no limit. Nullable.
-          * `amount_type` - Only `maximum` is supported. Possible values: `fixed`, `maximum`. Nullable.
-          * `purpose` - The purpose for which payments are made. Has a default value based on your merchant category code. Possible values: `dependant_support`, `government`, `loan`, `mortgage`, `other`, `pension`, `personal`, `retail`, `salary`, `tax`, `utility`. Nullable.
-          """
-          @type t :: %__MODULE__{
-                  amount: integer() | nil,
-                  amount_type: String.t() | nil,
-                  purpose: String.t() | nil
-                }
-          defstruct [:amount, :amount_type, :purpose]
-        end
-
-        def __inner_types__ do
-          %{
-            "mandate_options" => __MODULE__.MandateOptions
-          }
-        end
-      end
-
-      defmodule UsBankAccount do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `financial_connections`
-        * `verification_method` - Bank account verification method. The default value is `automatic`. Possible values: `automatic`, `instant`, `microdeposits`.
-        """
-        @type t :: %__MODULE__{
-                financial_connections: __MODULE__.FinancialConnections.t() | nil,
-                verification_method: String.t() | nil
-              }
-        defstruct [:financial_connections, :verification_method]
-
-        defmodule FinancialConnections do
-          @moduledoc "Nested struct within the parent resource."
-
-          @typedoc """
-          * `filters`
-          * `permissions` - The list of permissions to request. The `payment_method` permission must be included.
-          * `prefetch` - Data features requested to be retrieved upon account creation. Nullable.
-          """
-          @type t :: %__MODULE__{
-                  filters: __MODULE__.Filters.t() | nil,
-                  permissions: [String.t()] | nil,
-                  prefetch: [String.t()] | nil
-                }
-          defstruct [:filters, :permissions, :prefetch]
-
-          defmodule Filters do
-            @moduledoc "Nested struct within the parent resource."
-
-            @typedoc """
-            * `account_subcategories` - The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
-            """
-            @type t :: %__MODULE__{
-                    account_subcategories: [String.t()] | nil
-                  }
-            defstruct [:account_subcategories]
-          end
-
-          def __inner_types__ do
-            %{
-              "filters" => __MODULE__.Filters
-            }
-          end
-        end
-
-        def __inner_types__ do
-          %{
-            "financial_connections" => __MODULE__.FinancialConnections
-          }
-        end
-      end
-
-      def __inner_types__ do
-        %{
-          "acss_debit" => __MODULE__.AcssDebit,
-          "bancontact" => __MODULE__.Bancontact,
-          "card" => __MODULE__.Card,
-          "customer_balance" => __MODULE__.CustomerBalance,
-          "payto" => __MODULE__.Payto,
-          "us_bank_account" => __MODULE__.UsBankAccount
+  @typedoc """
+  * `disabled_reason` - If Stripe disabled automatic tax, this enum describes why. Possible values: `requires_location_inputs`. Nullable.
+  * `enabled` - Whether Stripe automatically computes tax on this subscription.
+  * `liability` - The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account. Nullable.
+  """
+  @type automatic_tax :: %{
+          optional(:disabled_reason) => String.t() | nil,
+          optional(:enabled) => boolean() | nil,
+          optional(:liability) => automatic_tax_liability() | nil,
+          optional(String.t()) => term()
         }
-      end
-    end
 
-    def __inner_types__ do
-      %{
-        "payment_method_options" => __MODULE__.PaymentMethodOptions
-      }
-    end
-  end
+  @typedoc """
+  * `account` - The connected account being referenced when `type` is `account`.
+  * `type` - Type of the account referenced. Possible values: `account`, `self`.
+  """
+  @type automatic_tax_liability :: %{
+          optional(:account) => String.t() | Stripe.Resources.Account.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule PendingInvoiceItemInterval do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `day_of_month` - The day of the month of the billing_cycle_anchor.
+  * `hour` - The hour of the day of the billing_cycle_anchor. Nullable.
+  * `minute` - The minute of the hour of the billing_cycle_anchor. Nullable.
+  * `month` - The month to start full cycle billing periods. Nullable.
+  * `second` - The second of the minute of the billing_cycle_anchor. Nullable.
+  """
+  @type billing_cycle_anchor_config :: %{
+          optional(:day_of_month) => integer() | nil,
+          optional(:hour) => integer() | nil,
+          optional(:minute) => integer() | nil,
+          optional(:month) => integer() | nil,
+          optional(:second) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `interval` - Specifies invoicing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
-    * `interval_count` - The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
-    """
-    @type t :: %__MODULE__{
-            interval: String.t() | nil,
-            interval_count: integer() | nil
+  @typedoc """
+  * `flexible` - Configure behavior for flexible billing mode Nullable.
+  * `type` - Controls how prorations and invoices for subscriptions are calculated and orchestrated. Possible values: `classic`, `flexible`.
+  * `updated_at` - Details on when the current billing_mode was adopted. Format: Unix timestamp.
+  """
+  @type billing_mode :: %{
+          optional(:flexible) => billing_mode_flexible() | nil,
+          optional(:type) => String.t() | nil,
+          optional(:updated_at) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `proration_discounts` - Controls how invoices and invoice items display proration amounts and discount amounts. Possible values: `included`, `itemized`.
+  """
+  @type billing_mode_flexible :: %{
+          optional(:proration_discounts) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `amount_gte` - Monetary threshold that triggers the subscription to create an invoice Nullable.
+  * `reset_billing_cycle_anchor` - Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be `true` if the subscription contains items with plans that have `aggregate_usage=last_ever`. Nullable.
+  """
+  @type billing_thresholds :: %{
+          optional(:amount_gte) => integer() | nil,
+          optional(:reset_billing_cycle_anchor) => boolean() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `comment` - Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user. Max length: 5000. Nullable.
+  * `feedback` - The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user. Possible values: `customer_service`, `low_quality`, `missing_features`, `other`, `switched_service`, `too_complex`, `too_expensive`, `unused`. Nullable.
+  * `reason` - Why this subscription was canceled. Possible values: `cancellation_requested`, `payment_disputed`, `payment_failed`. Nullable.
+  """
+  @type cancellation_details :: %{
+          optional(:comment) => String.t() | nil,
+          optional(:feedback) => String.t() | nil,
+          optional(:reason) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `account_tax_ids` - The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription. Nullable.
+  * `issuer`
+  """
+  @type invoice_settings :: %{
+          optional(:account_tax_ids) => [String.t() | Stripe.Resources.TaxId.t()] | nil,
+          optional(:issuer) => invoice_settings_issuer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `account` - The connected account being referenced when `type` is `account`.
+  * `type` - Type of the account referenced. Possible values: `account`, `self`.
+  """
+  @type invoice_settings_issuer :: %{
+          optional(:account) => String.t() | Stripe.Resources.Account.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `data` - Details about each object.
+  * `has_more` - True if this list has another page of items after this one that can be fetched.
+  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
+  * `url` - The URL where this list can be accessed. Max length: 5000.
+  """
+  @type items :: %{
+          optional(:data) => [Stripe.Resources.SubscriptionItem.t()] | nil,
+          optional(:has_more) => boolean() | nil,
+          optional(:object) => String.t() | nil,
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `behavior` - The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`. Possible values: `keep_as_draft`, `mark_uncollectible`, `void`.
+  * `resumes_at` - The time after which the subscription will resume collecting payments. Format: Unix timestamp. Nullable.
+  """
+  @type pause_collection :: %{
+          optional(:behavior) => String.t() | nil,
+          optional(:resumes_at) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `payment_method_options` - Payment-method-specific configuration to provide to invoices created by the subscription. Nullable.
+  * `payment_method_types` - The list of payment method types to provide to every invoice created by the subscription. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice’s default payment method, the subscription’s default payment method, the customer’s default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Nullable.
+  * `save_default_payment_method` - Configure whether Stripe updates `subscription.default_payment_method` when payment succeeds. Defaults to `off`. Possible values: `off`, `on_subscription`. Nullable.
+  """
+  @type payment_settings :: %{
+          optional(:payment_method_options) => payment_settings_payment_method_options() | nil,
+          optional(:payment_method_types) => [String.t()] | nil,
+          optional(:save_default_payment_method) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `acss_debit` - This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to invoices created by the subscription. Nullable.
+  * `bancontact` - This sub-hash contains details about the Bancontact payment method options to pass to invoices created by the subscription. Nullable.
+  * `card` - This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription. Nullable.
+  * `customer_balance` - This sub-hash contains details about the Bank transfer payment method options to pass to invoices created by the subscription. Nullable.
+  * `konbini` - This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription. Nullable.
+  * `payto` - This sub-hash contains details about the PayTo payment method options to pass to invoices created by the subscription. Nullable.
+  * `sepa_debit` - This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription. Nullable.
+  * `us_bank_account` - This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription. Nullable.
+  """
+  @type payment_settings_payment_method_options :: %{
+          optional(:acss_debit) => payment_settings_payment_method_options_acss_debit() | nil,
+          optional(:bancontact) => payment_settings_payment_method_options_bancontact() | nil,
+          optional(:card) => payment_settings_payment_method_options_card() | nil,
+          optional(:customer_balance) =>
+            payment_settings_payment_method_options_customer_balance() | nil,
+          optional(:konbini) => map() | nil,
+          optional(:payto) => payment_settings_payment_method_options_payto() | nil,
+          optional(:sepa_debit) => map() | nil,
+          optional(:us_bank_account) =>
+            payment_settings_payment_method_options_us_bank_account() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `mandate_options`
+  * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+  """
+  @type payment_settings_payment_method_options_acss_debit :: %{
+          optional(:mandate_options) =>
+            payment_settings_payment_method_options_acss_debit_mandate_options() | nil,
+          optional(:verification_method) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `transaction_type` - Transaction type of the mandate. Possible values: `business`, `personal`. Nullable.
+  """
+  @type payment_settings_payment_method_options_acss_debit_mandate_options :: %{
+          optional(:transaction_type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preferred_language` - Preferred language of the Bancontact authorization page that the customer is redirected to. Possible values: `de`, `en`, `fr`, `nl`.
+  """
+  @type payment_settings_payment_method_options_bancontact :: %{
+          optional(:preferred_language) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `mandate_options`
+  * `network` - Selected network to process this Subscription on. Depends on the available networks of the card attached to the Subscription. Can be only set confirm-time. Possible values: `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `girocard`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `unknown`, `visa`. Nullable.
+  * `request_three_d_secure` - We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine. Possible values: `any`, `automatic`, `challenge`. Nullable.
+  """
+  @type payment_settings_payment_method_options_card :: %{
+          optional(:mandate_options) =>
+            payment_settings_payment_method_options_card_mandate_options() | nil,
+          optional(:network) => String.t() | nil,
+          optional(:request_three_d_secure) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `amount` - Amount to be charged for future payments. Nullable.
+  * `amount_type` - One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param. Possible values: `fixed`, `maximum`. Nullable.
+  * `description` - A description of the mandate or subscription that is meant to be displayed to the customer. Max length: 200. Nullable.
+  """
+  @type payment_settings_payment_method_options_card_mandate_options :: %{
+          optional(:amount) => integer() | nil,
+          optional(:amount_type) => String.t() | nil,
+          optional(:description) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `bank_transfer`
+  * `funding_type` - The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`. Possible values: `bank_transfer`. Nullable.
+  """
+  @type payment_settings_payment_method_options_customer_balance :: %{
+          optional(:bank_transfer) =>
+            payment_settings_payment_method_options_customer_balance_bank_transfer() | nil,
+          optional(:funding_type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `eu_bank_transfer`
+  * `type` - The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`. Nullable.
+  """
+  @type payment_settings_payment_method_options_customer_balance_bank_transfer :: %{
+          optional(:eu_bank_transfer) =>
+            payment_settings_payment_method_options_customer_balance_bank_transfer_eu_bank_transfer()
+            | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
+  """
+  @type payment_settings_payment_method_options_customer_balance_bank_transfer_eu_bank_transfer ::
+          %{
+            optional(:country) => String.t() | nil,
+            optional(String.t()) => term()
           }
-    defstruct [:interval, :interval_count]
-  end
 
-  defmodule PendingUpdate do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `mandate_options`
+  """
+  @type payment_settings_payment_method_options_payto :: %{
+          optional(:mandate_options) =>
+            payment_settings_payment_method_options_payto_mandate_options() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `billing_cycle_anchor` - If the update is applied, determines the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. The timestamp is in UTC format. Format: Unix timestamp. Nullable.
-    * `expires_at` - The point after which the changes reflected by this update will be discarded and no longer applied. Format: Unix timestamp.
-    * `subscription_items` - List of subscription items, each with an attached plan, that will be set if the update is applied. Nullable.
-    * `trial_end` - Unix timestamp representing the end of the trial period the customer will get before being charged for the first time, if the update is applied. Format: Unix timestamp. Nullable.
-    * `trial_from_plan` - Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more. Nullable.
-    """
-    @type t :: %__MODULE__{
-            billing_cycle_anchor: integer() | nil,
-            expires_at: integer() | nil,
-            subscription_items: [Stripe.Resources.SubscriptionItem.t()] | nil,
-            trial_end: integer() | nil,
-            trial_from_plan: boolean() | nil
+  @typedoc """
+  * `amount` - The maximum amount that can be collected in a single invoice. If you don't specify a maximum, then there is no limit. Nullable.
+  * `amount_type` - Only `maximum` is supported. Possible values: `fixed`, `maximum`. Nullable.
+  * `purpose` - The purpose for which payments are made. Has a default value based on your merchant category code. Possible values: `dependant_support`, `government`, `loan`, `mortgage`, `other`, `pension`, `personal`, `retail`, `salary`, `tax`, `utility`. Nullable.
+  """
+  @type payment_settings_payment_method_options_payto_mandate_options :: %{
+          optional(:amount) => integer() | nil,
+          optional(:amount_type) => String.t() | nil,
+          optional(:purpose) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `financial_connections`
+  * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+  """
+  @type payment_settings_payment_method_options_us_bank_account :: %{
+          optional(:financial_connections) =>
+            payment_settings_payment_method_options_us_bank_account_financial_connections() | nil,
+          optional(:verification_method) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `filters`
+  * `permissions` - The list of permissions to request. The `payment_method` permission must be included.
+  * `prefetch` - Data features requested to be retrieved upon account creation. Nullable.
+  """
+  @type payment_settings_payment_method_options_us_bank_account_financial_connections :: %{
+          optional(:filters) =>
+            payment_settings_payment_method_options_us_bank_account_financial_connections_filters()
+            | nil,
+          optional(:permissions) => [String.t()] | nil,
+          optional(:prefetch) => [String.t()] | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `account_subcategories` - The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+  """
+  @type payment_settings_payment_method_options_us_bank_account_financial_connections_filters ::
+          %{
+            optional(:account_subcategories) => [String.t()] | nil,
+            optional(String.t()) => term()
           }
-    defstruct [
-      :billing_cycle_anchor,
-      :expires_at,
-      :subscription_items,
-      :trial_end,
-      :trial_from_plan
-    ]
-  end
 
-  defmodule PresentmentDetails do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `interval` - Specifies invoicing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
+  * `interval_count` - The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+  """
+  @type pending_invoice_item_interval :: %{
+          optional(:interval) => String.t() | nil,
+          optional(:interval_count) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `presentment_currency` - Currency used for customer payments. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            presentment_currency: String.t() | nil
-          }
-    defstruct [:presentment_currency]
-  end
+  @typedoc """
+  * `billing_cycle_anchor` - If the update is applied, determines the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. The timestamp is in UTC format. Format: Unix timestamp. Nullable.
+  * `expires_at` - The point after which the changes reflected by this update will be discarded and no longer applied. Format: Unix timestamp.
+  * `subscription_items` - List of subscription items, each with an attached plan, that will be set if the update is applied. Nullable.
+  * `trial_end` - Unix timestamp representing the end of the trial period the customer will get before being charged for the first time, if the update is applied. Format: Unix timestamp. Nullable.
+  * `trial_from_plan` - Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more. Nullable.
+  """
+  @type pending_update :: %{
+          optional(:billing_cycle_anchor) => integer() | nil,
+          optional(:expires_at) => integer() | nil,
+          optional(:subscription_items) => [Stripe.Resources.SubscriptionItem.t()] | nil,
+          optional(:trial_end) => integer() | nil,
+          optional(:trial_from_plan) => boolean() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule TransferData do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `amount_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination. Nullable.
+  * `destination` - The account where funds from the payment will be transferred to upon payment success.
+  """
+  @type transfer_data :: %{
+          optional(:amount_percent) => float() | nil,
+          optional(:destination) => String.t() | Stripe.Resources.Account.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `amount_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination. Nullable.
-    * `destination` - The account where funds from the payment will be transferred to upon payment success.
-    """
-    @type t :: %__MODULE__{
-            amount_percent: float() | nil,
-            destination: String.t() | Stripe.Resources.Account.t() | nil
-          }
-    defstruct [:amount_percent, :destination]
-  end
+  @typedoc """
+  * `end_behavior`
+  """
+  @type trial_settings :: %{
+          optional(:end_behavior) => trial_settings_end_behavior() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule TrialSettings do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `missing_payment_method` - Indicates how the subscription should change when the trial ends if the user did not provide a payment method. Possible values: `cancel`, `create_invoice`, `pause`.
+  """
+  @type trial_settings_end_behavior :: %{
+          optional(:missing_payment_method) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `end_behavior`
-    """
-    @type t :: %__MODULE__{
-            end_behavior: __MODULE__.EndBehavior.t() | nil
-          }
-    defstruct [:end_behavior]
-
-    defmodule EndBehavior do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `missing_payment_method` - Indicates how the subscription should change when the trial ends if the user did not provide a payment method. Possible values: `cancel`, `create_invoice`, `pause`.
-      """
-      @type t :: %__MODULE__{
-              missing_payment_method: String.t() | nil
-            }
-      defstruct [:missing_payment_method]
-    end
-
-    def __inner_types__ do
-      %{
-        "end_behavior" => __MODULE__.EndBehavior
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "automatic_tax" => __MODULE__.AutomaticTax,
-      "billing_cycle_anchor_config" => __MODULE__.BillingCycleAnchorConfig,
-      "billing_mode" => __MODULE__.BillingMode,
-      "billing_thresholds" => __MODULE__.BillingThresholds,
-      "cancellation_details" => __MODULE__.CancellationDetails,
-      "invoice_settings" => __MODULE__.InvoiceSettings,
-      "items" => __MODULE__.Items,
-      "pause_collection" => __MODULE__.PauseCollection,
-      "payment_settings" => __MODULE__.PaymentSettings,
-      "pending_invoice_item_interval" => __MODULE__.PendingInvoiceItemInterval,
-      "pending_update" => __MODULE__.PendingUpdate,
-      "presentment_details" => __MODULE__.PresentmentDetails,
-      "transfer_data" => __MODULE__.TransferData,
-      "trial_settings" => __MODULE__.TrialSettings
+      "automatic_tax" => %{
+        fields: %{
+          "disabled_reason" => :scalar,
+          "enabled" => :scalar,
+          "liability" => %{
+            fields: %{
+              "account" => {:resource, Stripe.Resources.Account},
+              "type" => :scalar
+            }
+          }
+        }
+      },
+      "billing_cycle_anchor_config" => %{
+        fields: %{
+          "day_of_month" => :scalar,
+          "hour" => :scalar,
+          "minute" => :scalar,
+          "month" => :scalar,
+          "second" => :scalar
+        }
+      },
+      "billing_mode" => %{
+        fields: %{
+          "flexible" => %{
+            fields: %{
+              "proration_discounts" => :scalar
+            }
+          },
+          "type" => :scalar,
+          "updated_at" => :scalar
+        }
+      },
+      "billing_thresholds" => %{
+        fields: %{
+          "amount_gte" => :scalar,
+          "reset_billing_cycle_anchor" => :scalar
+        }
+      },
+      "cancellation_details" => %{
+        fields: %{
+          "comment" => :scalar,
+          "feedback" => :scalar,
+          "reason" => :scalar
+        }
+      },
+      "invoice_settings" => %{
+        fields: %{
+          "account_tax_ids" => {:list, {:resource, Stripe.Resources.TaxId}},
+          "issuer" => %{
+            fields: %{
+              "account" => {:resource, Stripe.Resources.Account},
+              "type" => :scalar
+            }
+          }
+        }
+      },
+      "items" => %{
+        fields: %{
+          "data" => {:list, {:resource, Stripe.Resources.SubscriptionItem}},
+          "has_more" => :scalar,
+          "object" => :scalar,
+          "url" => :scalar
+        }
+      },
+      "pause_collection" => %{
+        fields: %{
+          "behavior" => :scalar,
+          "resumes_at" => :scalar
+        }
+      },
+      "payment_settings" => %{
+        fields: %{
+          "payment_method_options" => %{
+            fields: %{
+              "acss_debit" => %{
+                fields: %{
+                  "mandate_options" => %{
+                    fields: %{
+                      "transaction_type" => :scalar
+                    }
+                  },
+                  "verification_method" => :scalar
+                }
+              },
+              "bancontact" => %{
+                fields: %{
+                  "preferred_language" => :scalar
+                }
+              },
+              "card" => %{
+                fields: %{
+                  "mandate_options" => %{
+                    fields: %{
+                      "amount" => :scalar,
+                      "amount_type" => :scalar,
+                      "description" => :scalar
+                    }
+                  },
+                  "network" => :scalar,
+                  "request_three_d_secure" => :scalar
+                }
+              },
+              "customer_balance" => %{
+                fields: %{
+                  "bank_transfer" => %{
+                    fields: %{
+                      "eu_bank_transfer" => %{
+                        fields: %{
+                          "country" => :scalar
+                        }
+                      },
+                      "type" => :scalar
+                    }
+                  },
+                  "funding_type" => :scalar
+                }
+              },
+              "konbini" => :scalar,
+              "payto" => %{
+                fields: %{
+                  "mandate_options" => %{
+                    fields: %{
+                      "amount" => :scalar,
+                      "amount_type" => :scalar,
+                      "purpose" => :scalar
+                    }
+                  }
+                }
+              },
+              "sepa_debit" => :scalar,
+              "us_bank_account" => %{
+                fields: %{
+                  "financial_connections" => %{
+                    fields: %{
+                      "filters" => %{
+                        fields: %{
+                          "account_subcategories" => {:list, :scalar}
+                        }
+                      },
+                      "permissions" => {:list, :scalar},
+                      "prefetch" => {:list, :scalar}
+                    }
+                  },
+                  "verification_method" => :scalar
+                }
+              }
+            }
+          },
+          "payment_method_types" => {:list, :scalar},
+          "save_default_payment_method" => :scalar
+        }
+      },
+      "pending_invoice_item_interval" => %{
+        fields: %{
+          "interval" => :scalar,
+          "interval_count" => :scalar
+        }
+      },
+      "pending_update" => %{
+        fields: %{
+          "billing_cycle_anchor" => :scalar,
+          "expires_at" => :scalar,
+          "subscription_items" => {:list, {:resource, Stripe.Resources.SubscriptionItem}},
+          "trial_end" => :scalar,
+          "trial_from_plan" => :scalar
+        }
+      },
+      "transfer_data" => %{
+        fields: %{
+          "amount_percent" => :scalar,
+          "destination" => {:resource, Stripe.Resources.Account}
+        }
+      },
+      "trial_settings" => %{
+        fields: %{
+          "end_behavior" => %{
+            fields: %{
+              "missing_payment_method" => :scalar
+            }
+          }
+        }
+      }
     }
   end
 end

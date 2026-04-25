@@ -25,15 +25,15 @@ defmodule Stripe.Params.ProductCreateParams do
   """
   @type t :: %__MODULE__{
           active: boolean() | nil,
-          default_price_data: __MODULE__.DefaultPriceData.t() | nil,
+          default_price_data: default_price_data() | nil,
           description: String.t() | nil,
           expand: [String.t()] | nil,
           id: String.t() | nil,
           images: [String.t()] | nil,
-          marketing_features: [__MODULE__.MarketingFeatures.t()] | nil,
+          marketing_features: [marketing_features()] | nil,
           metadata: %{String.t() => String.t()} | nil,
           name: String.t(),
-          package_dimensions: __MODULE__.PackageDimensions.t() | nil,
+          package_dimensions: package_dimensions() | nil,
           shippable: boolean() | nil,
           statement_descriptor: String.t() | nil,
           tax_code: String.t() | nil,
@@ -61,158 +61,119 @@ defmodule Stripe.Params.ProductCreateParams do
     :url
   ]
 
-  defmodule DefaultPriceData do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `currency_options` - Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+  * `custom_unit_amount` - When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+  * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+  * `recurring` - The recurring components of a price such as `interval` and `interval_count`.
+  * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
+  * `unit_amount` - A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount`, `unit_amount_decimal`, or `custom_unit_amount` is required.
+  * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+  """
+  @type default_price_data :: %{
+          optional(:currency) => String.t() | nil,
+          optional(:currency_options) =>
+            %{String.t() => default_price_data_currency_options()} | nil,
+          optional(:custom_unit_amount) => default_price_data_custom_unit_amount() | nil,
+          optional(:metadata) => %{String.t() => String.t()} | nil,
+          optional(:recurring) => default_price_data_recurring() | nil,
+          optional(:tax_behavior) => String.t() | nil,
+          optional(:unit_amount) => integer() | nil,
+          optional(:unit_amount_decimal) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-    * `currency_options` - Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-    * `custom_unit_amount` - When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
-    * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-    * `recurring` - The recurring components of a price such as `interval` and `interval_count`.
-    * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
-    * `unit_amount` - A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount`, `unit_amount_decimal`, or `custom_unit_amount` is required.
-    * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
-    """
-    @type t :: %__MODULE__{
-            currency: String.t() | nil,
-            currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil,
-            custom_unit_amount: __MODULE__.CustomUnitAmount.t() | nil,
-            metadata: %{String.t() => String.t()} | nil,
-            recurring: __MODULE__.Recurring.t() | nil,
-            tax_behavior: String.t() | nil,
-            unit_amount: integer() | nil,
-            unit_amount_decimal: String.t() | nil
-          }
-    defstruct [
-      :currency,
-      :currency_options,
-      :custom_unit_amount,
-      :metadata,
-      :recurring,
-      :tax_behavior,
-      :unit_amount,
-      :unit_amount_decimal
-    ]
+  @typedoc """
+  * `custom_unit_amount` - When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+  * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
+  * `tiers` - Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+  * `unit_amount` - A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+  * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+  """
+  @type default_price_data_currency_options :: %{
+          optional(:custom_unit_amount) =>
+            default_price_data_currency_options_custom_unit_amount() | nil,
+          optional(:tax_behavior) => String.t() | nil,
+          optional(:tiers) => [default_price_data_currency_options_tiers()] | nil,
+          optional(:unit_amount) => integer() | nil,
+          optional(:unit_amount_decimal) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule CurrencyOptions do
-      @moduledoc "Nested parameters."
+  @typedoc """
+  * `enabled` - Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
+  * `maximum` - The maximum unit amount the customer can specify for this item.
+  * `minimum` - The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+  * `preset` - The starting unit amount which can be updated by the customer.
+  """
+  @type default_price_data_currency_options_custom_unit_amount :: %{
+          optional(:enabled) => boolean() | nil,
+          optional(:maximum) => integer() | nil,
+          optional(:minimum) => integer() | nil,
+          optional(:preset) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `custom_unit_amount` - When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
-      * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
-      * `tiers` - Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
-      * `unit_amount` - A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-      * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
-      """
-      @type t :: %__MODULE__{
-              custom_unit_amount: __MODULE__.CustomUnitAmount.t() | nil,
-              tax_behavior: String.t() | nil,
-              tiers: [__MODULE__.Tiers.t()] | nil,
-              unit_amount: integer() | nil,
-              unit_amount_decimal: String.t() | nil
-            }
-      defstruct [:custom_unit_amount, :tax_behavior, :tiers, :unit_amount, :unit_amount_decimal]
+  @typedoc """
+  * `flat_amount` - The flat billing amount for an entire tier, regardless of the number of units in the tier.
+  * `flat_amount_decimal` - Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set. Format: decimal string.
+  * `unit_amount` - The per unit billing amount for each individual unit for which this tier applies.
+  * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+  * `up_to` - Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
+  """
+  @type default_price_data_currency_options_tiers :: %{
+          optional(:flat_amount) => integer() | nil,
+          optional(:flat_amount_decimal) => String.t() | nil,
+          optional(:unit_amount) => integer() | nil,
+          optional(:unit_amount_decimal) => String.t() | nil,
+          optional(:up_to) => map() | nil,
+          optional(String.t()) => term()
+        }
 
-      defmodule CustomUnitAmount do
-        @moduledoc "Nested parameters."
+  @typedoc """
+  * `enabled` - Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
+  * `maximum` - The maximum unit amount the customer can specify for this item.
+  * `minimum` - The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+  * `preset` - The starting unit amount which can be updated by the customer.
+  """
+  @type default_price_data_custom_unit_amount :: %{
+          optional(:enabled) => boolean() | nil,
+          optional(:maximum) => integer() | nil,
+          optional(:minimum) => integer() | nil,
+          optional(:preset) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-        @typedoc """
-        * `enabled` - Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
-        * `maximum` - The maximum unit amount the customer can specify for this item.
-        * `minimum` - The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
-        * `preset` - The starting unit amount which can be updated by the customer.
-        """
-        @type t :: %__MODULE__{
-                enabled: boolean() | nil,
-                maximum: integer() | nil,
-                minimum: integer() | nil,
-                preset: integer() | nil
-              }
-        defstruct [:enabled, :maximum, :minimum, :preset]
-      end
+  @typedoc """
+  * `interval` - Specifies billing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
+  * `interval_count` - The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+  """
+  @type default_price_data_recurring :: %{
+          optional(:interval) => String.t() | nil,
+          optional(:interval_count) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-      defmodule Tiers do
-        @moduledoc "Nested parameters."
+  @typedoc """
+  * `name` - The marketing feature name. Up to 80 characters long. Max length: 5000.
+  """
+  @type marketing_features :: %{
+          optional(:name) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-        @typedoc """
-        * `flat_amount` - The flat billing amount for an entire tier, regardless of the number of units in the tier.
-        * `flat_amount_decimal` - Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set. Format: decimal string.
-        * `unit_amount` - The per unit billing amount for each individual unit for which this tier applies.
-        * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
-        * `up_to` - Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
-        """
-        @type t :: %__MODULE__{
-                flat_amount: integer() | nil,
-                flat_amount_decimal: String.t() | nil,
-                unit_amount: integer() | nil,
-                unit_amount_decimal: String.t() | nil,
-                up_to: map() | nil
-              }
-        defstruct [:flat_amount, :flat_amount_decimal, :unit_amount, :unit_amount_decimal, :up_to]
-      end
-    end
-
-    defmodule CustomUnitAmount do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `enabled` - Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
-      * `maximum` - The maximum unit amount the customer can specify for this item.
-      * `minimum` - The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
-      * `preset` - The starting unit amount which can be updated by the customer.
-      """
-      @type t :: %__MODULE__{
-              enabled: boolean() | nil,
-              maximum: integer() | nil,
-              minimum: integer() | nil,
-              preset: integer() | nil
-            }
-      defstruct [:enabled, :maximum, :minimum, :preset]
-    end
-
-    defmodule Recurring do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `interval` - Specifies billing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
-      * `interval_count` - The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
-      """
-      @type t :: %__MODULE__{
-              interval: String.t() | nil,
-              interval_count: integer() | nil
-            }
-      defstruct [:interval, :interval_count]
-    end
-  end
-
-  defmodule MarketingFeatures do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `name` - The marketing feature name. Up to 80 characters long. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            name: String.t() | nil
-          }
-    defstruct [:name]
-  end
-
-  defmodule PackageDimensions do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `height` - Height, in inches. Maximum precision is 2 decimal places.
-    * `length` - Length, in inches. Maximum precision is 2 decimal places.
-    * `weight` - Weight, in ounces. Maximum precision is 2 decimal places.
-    * `width` - Width, in inches. Maximum precision is 2 decimal places.
-    """
-    @type t :: %__MODULE__{
-            height: float() | nil,
-            length: float() | nil,
-            weight: float() | nil,
-            width: float() | nil
-          }
-    defstruct [:height, :length, :weight, :width]
-  end
+  @typedoc """
+  * `height` - Height, in inches. Maximum precision is 2 decimal places.
+  * `length` - Length, in inches. Maximum precision is 2 decimal places.
+  * `weight` - Weight, in ounces. Maximum precision is 2 decimal places.
+  * `width` - Width, in inches. Maximum precision is 2 decimal places.
+  """
+  @type package_dimensions :: %{
+          optional(:height) => float() | nil,
+          optional(:length) => float() | nil,
+          optional(:weight) => float() | nil,
+          optional(:width) => float() | nil,
+          optional(String.t()) => term()
+        }
 end

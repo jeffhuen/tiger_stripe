@@ -1,77 +1,76 @@
-# Analysis of `tiger_stripe` Type Generation
+# Analysis of TigerStripe Generated Shape Coverage
 
 ## Executive Summary
-The `tiger_stripe` library fails to generate typed structures for map-like fields defined with `additionalProperties` in the OpenAPI specification. This results in generic `map()` types in Elixir where the Stripe Ruby SDK provides fully typed classes and objects.
+
+TigerStripe 0.2.0 keeps top-level Stripe resources, params, services, and event
+modules public, while nested JSON shapes are represented as local `@type`
+aliases and `__nested_fields__/0` metadata.
+
+This preserves useful type documentation and recursive response casting without
+forcing consumer applications to compile a public module for every nested
+Stripe object.
 
 ## Findings
 
-### 1. Missing Type Generation for `additionalProperties`
-The `tiger_stripe` generator logic in `lib/stripe/generator/openapi.ex` (lines 474-476) explicitly defaults any `type: object` schema without `properties` to a generic map:
+### 1. Nested Shape Generation Is Compact
+
+Top-level modules now include nested type aliases directly:
 
 ```elixir
-defp do_resolve_type(_field_name, %{"type" => "object"}, _schema_index) do
-  {:map, %{}}
+defmodule Stripe.Resources.Price do
+  @type currency_options :: %{
+          optional(:custom_unit_amount) => custom_unit_amount() | nil,
+          optional(:tax_behavior) => String.t() | nil,
+          optional(:tiers) => [tiers()] | nil,
+          optional(:unit_amount) => integer() | nil,
+          optional(:unit_amount_decimal) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end
 ```
 
-This completely ignores the `additionalProperties` field in the OpenAPI spec, which often contains a schema reference defining the value type of the map.
+No public child module is emitted for `Stripe.Resources.Price.CurrencyOptions`.
 
-### 2. Discrepancy with Ruby SDK
-We compared the `Price` resource between `tiger_stripe` and the official Stripe Ruby SDK.
+### 2. Deserialization Uses Metadata
 
-**OpenAPI Definition for `currency_options`**:
-```json
-"currency_options": {
-  "type": "object",
-  "additionalProperties": {
-    "$ref": "#/components/schemas/currency_option"
-  },
-  "description": "Prices defined in each available currency option..."
-}
-```
+Generated resources and events expose nested-shape metadata for the
+deserializer:
 
-**Ruby SDK (`price.rb`)**:
-The Ruby SDK correctly identifies `currency_options` as a map of `CurrencyOptions` objects:
-```ruby
-class CurrencyOptions < ::Stripe::StripeObject
-  # ... attributes ...
-end
-
-def self.inner_class_types
-  @inner_class_types = {
-    currency_options: CurrencyOptions,
-    # ...
-  }
-end
-```
-
-**`tiger_stripe` (`price.ex`)**:
-The generated Elixir code uses a generic map and fails to generate the inner module:
 ```elixir
-@type t :: %__MODULE__{
-  # ...
-  currency_options: map() | nil,
-  # ...
-}
-
-def __inner_types__ do
+def __nested_fields__ do
   %{
-    # currency_options is MISSING
-    "custom_unit_amount" => __MODULE__.CustomUnitAmount,
-    # ...
+    "currency_options" => %{
+      fields: %{
+        "custom_unit_amount" => %{fields: %{...}},
+        "tiers" => {:list, %{fields: %{...}}}
+      }
+    }
   }
 end
 ```
 
-### 3. Impact
-- **Loss of Type Safety**: Users working with `currency_options` (and similar fields like `tiers` if they use keys, or simple `metadata` which is fine as map) lose struct access and compilation checks.
-- **Inconsistent API**: Nested data structures are returned as plain maps instead of Structs, requiring manual traversal and lacking helper functions.
-- **Documentation Gaps**: The generated documentation for `currency_options` simply says `map()` without hints about the structure of the values.
+Known nested fields deserialize to atom-key maps. Expanded Stripe resources
+continue to deserialize to their top-level structs.
+
+### 3. Additional Properties Stay Typed
+
+Map-like fields defined with `additionalProperties` still carry their value
+shape. For example, `Price.currency_options` is typed as a string-key map whose
+values are `currency_options()` typed maps, rather than a generic `map()`.
+
+## Impact
+
+- Clean compiles in consumer apps avoid thousands of nested modules.
+- Top-level resource pattern matching remains unchanged.
+- Nested response pattern matching changes from struct names to field shapes.
+- Unknown nested Stripe fields are preserved as string keys.
 
 ## Recommendation
-The generator in `openapi.ex` must be updated to handle `additionalProperties`.
-1.  Detect `additionalProperties` when `type` is `object`.
-2.  If `additionalProperties` contains a `$ref` or a complex schema, resolve it to an inner type.
-3.  Generate the map type as `%{String.t() => InnerType.t()}` (or similar).
-4.  Generate the inner struct module (e.g. `Stripe.Resources.Price.CurrencyOptions`).
-5.  Update `__inner_types__` to include this mapping so deserialization works correctly.
+
+Keep the compact generated shape as the 0.2.0 public contract:
+
+1. Public modules only for top-level Stripe resources, params, services, and
+   events.
+2. Local `@type` aliases for nested shapes.
+3. Internal `__nested_fields__/0` metadata for recursive deserialization.
+4. Migration docs for users who matched on 0.1.x nested struct modules.

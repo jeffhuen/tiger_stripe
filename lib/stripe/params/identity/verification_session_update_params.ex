@@ -12,36 +12,28 @@ defmodule Stripe.Params.Identity.VerificationSessionUpdateParams do
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
           metadata: %{String.t() => String.t()} | nil,
-          options: __MODULE__.Options.t() | nil,
-          provided_details: __MODULE__.ProvidedDetails.t() | nil,
+          options: options() | nil,
+          provided_details: provided_details() | nil,
           type: String.t() | nil
         }
 
   defstruct [:expand, :metadata, :options, :provided_details, :type]
 
-  defmodule Options do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `document` - Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
+  """
+  @type options :: %{
+          optional(:document) => map() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `document` - Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
-    """
-    @type t :: %__MODULE__{
-            document: map() | nil
-          }
-    defstruct [:document]
-  end
-
-  defmodule ProvidedDetails do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `email` - Email of user being verified
-    * `phone` - Phone number of user being verified
-    """
-    @type t :: %__MODULE__{
-            email: String.t() | nil,
-            phone: String.t() | nil
-          }
-    defstruct [:email, :phone]
-  end
+  @typedoc """
+  * `email` - Email of user being verified
+  * `phone` - Phone number of user being verified
+  """
+  @type provided_details :: %{
+          optional(:email) => String.t() | nil,
+          optional(:phone) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

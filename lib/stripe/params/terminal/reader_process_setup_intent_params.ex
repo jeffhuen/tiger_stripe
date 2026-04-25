@@ -11,21 +11,17 @@ defmodule Stripe.Params.Terminal.ReaderProcessSetupIntentParams do
   @type t :: %__MODULE__{
           allow_redisplay: String.t(),
           expand: [String.t()] | nil,
-          process_config: __MODULE__.ProcessConfig.t() | nil,
+          process_config: process_config() | nil,
           setup_intent: String.t()
         }
 
   defstruct [:allow_redisplay, :expand, :process_config, :setup_intent]
 
-  defmodule ProcessConfig do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `enable_customer_cancellation` - Enables cancel button on transaction screens.
-    """
-    @type t :: %__MODULE__{
-            enable_customer_cancellation: boolean() | nil
-          }
-    defstruct [:enable_customer_cancellation]
-  end
+  @typedoc """
+  * `enable_customer_cancellation` - Enables cancel button on transaction screens.
+  """
+  @type process_config :: %{
+          optional(:enable_customer_cancellation) => boolean() | nil,
+          optional(String.t()) => term()
+        }
 end

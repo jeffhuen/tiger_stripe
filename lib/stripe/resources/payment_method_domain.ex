@@ -19,23 +19,23 @@ defmodule Stripe.Resources.PaymentMethodDomain do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `klarna` - Expandable.
   * `link` - Expandable.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `payment_method_domain`.
   * `paypal` - Expandable.
   """
   @type t :: %__MODULE__{
-          amazon_pay: __MODULE__.AmazonPay.t(),
-          apple_pay: __MODULE__.ApplePay.t(),
+          amazon_pay: amazon_pay(),
+          apple_pay: apple_pay(),
           created: integer(),
           domain_name: String.t(),
           enabled: boolean(),
-          google_pay: __MODULE__.GooglePay.t(),
+          google_pay: google_pay(),
           id: String.t(),
-          klarna: __MODULE__.Klarna.t(),
-          link: __MODULE__.Link.t(),
+          klarna: klarna(),
+          link: link(),
           livemode: boolean(),
           object: String.t(),
-          paypal: __MODULE__.Paypal.t()
+          paypal: paypal()
         }
 
   defstruct [
@@ -58,206 +58,176 @@ defmodule Stripe.Resources.PaymentMethodDomain do
 
   def expandable_fields, do: ["amazon_pay", "apple_pay", "google_pay", "klarna", "link", "paypal"]
 
-  defmodule AmazonPay do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
+  * `status_details`
+  """
+  @type amazon_pay :: %{
+          optional(:status) => String.t() | nil,
+          optional(:status_details) => amazon_pay_status_details() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
-    * `status_details`
-    """
-    @type t :: %__MODULE__{
-            status: String.t() | nil,
-            status_details: __MODULE__.StatusDetails.t() | nil
-          }
-    defstruct [:status, :status_details]
+  @typedoc """
+  * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
+  """
+  @type amazon_pay_status_details :: %{
+          optional(:error_message) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule StatusDetails do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
+  * `status_details`
+  """
+  @type apple_pay :: %{
+          optional(:status) => String.t() | nil,
+          optional(:status_details) => apple_pay_status_details() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              error_message: String.t() | nil
-            }
-      defstruct [:error_message]
-    end
+  @typedoc """
+  * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
+  """
+  @type apple_pay_status_details :: %{
+          optional(:error_message) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    def __inner_types__ do
-      %{
-        "status_details" => __MODULE__.StatusDetails
-      }
-    end
-  end
+  @typedoc """
+  * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
+  * `status_details`
+  """
+  @type google_pay :: %{
+          optional(:status) => String.t() | nil,
+          optional(:status_details) => google_pay_status_details() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule ApplePay do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
+  """
+  @type google_pay_status_details :: %{
+          optional(:error_message) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
-    * `status_details`
-    """
-    @type t :: %__MODULE__{
-            status: String.t() | nil,
-            status_details: __MODULE__.StatusDetails.t() | nil
-          }
-    defstruct [:status, :status_details]
+  @typedoc """
+  * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
+  * `status_details`
+  """
+  @type klarna :: %{
+          optional(:status) => String.t() | nil,
+          optional(:status_details) => klarna_status_details() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule StatusDetails do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
+  """
+  @type klarna_status_details :: %{
+          optional(:error_message) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              error_message: String.t() | nil
-            }
-      defstruct [:error_message]
-    end
+  @typedoc """
+  * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
+  * `status_details`
+  """
+  @type link :: %{
+          optional(:status) => String.t() | nil,
+          optional(:status_details) => link_status_details() | nil,
+          optional(String.t()) => term()
+        }
 
-    def __inner_types__ do
-      %{
-        "status_details" => __MODULE__.StatusDetails
-      }
-    end
-  end
+  @typedoc """
+  * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
+  """
+  @type link_status_details :: %{
+          optional(:error_message) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule GooglePay do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
+  * `status_details`
+  """
+  @type paypal :: %{
+          optional(:status) => String.t() | nil,
+          optional(:status_details) => paypal_status_details() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
-    * `status_details`
-    """
-    @type t :: %__MODULE__{
-            status: String.t() | nil,
-            status_details: __MODULE__.StatusDetails.t() | nil
-          }
-    defstruct [:status, :status_details]
+  @typedoc """
+  * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
+  """
+  @type paypal_status_details :: %{
+          optional(:error_message) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule StatusDetails do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              error_message: String.t() | nil
-            }
-      defstruct [:error_message]
-    end
-
-    def __inner_types__ do
-      %{
-        "status_details" => __MODULE__.StatusDetails
-      }
-    end
-  end
-
-  defmodule Klarna do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
-    * `status_details`
-    """
-    @type t :: %__MODULE__{
-            status: String.t() | nil,
-            status_details: __MODULE__.StatusDetails.t() | nil
-          }
-    defstruct [:status, :status_details]
-
-    defmodule StatusDetails do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              error_message: String.t() | nil
-            }
-      defstruct [:error_message]
-    end
-
-    def __inner_types__ do
-      %{
-        "status_details" => __MODULE__.StatusDetails
-      }
-    end
-  end
-
-  defmodule Link do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
-    * `status_details`
-    """
-    @type t :: %__MODULE__{
-            status: String.t() | nil,
-            status_details: __MODULE__.StatusDetails.t() | nil
-          }
-    defstruct [:status, :status_details]
-
-    defmodule StatusDetails do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              error_message: String.t() | nil
-            }
-      defstruct [:error_message]
-    end
-
-    def __inner_types__ do
-      %{
-        "status_details" => __MODULE__.StatusDetails
-      }
-    end
-  end
-
-  defmodule Paypal do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
-    * `status_details`
-    """
-    @type t :: %__MODULE__{
-            status: String.t() | nil,
-            status_details: __MODULE__.StatusDetails.t() | nil
-          }
-    defstruct [:status, :status_details]
-
-    defmodule StatusDetails do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              error_message: String.t() | nil
-            }
-      defstruct [:error_message]
-    end
-
-    def __inner_types__ do
-      %{
-        "status_details" => __MODULE__.StatusDetails
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "amazon_pay" => __MODULE__.AmazonPay,
-      "apple_pay" => __MODULE__.ApplePay,
-      "google_pay" => __MODULE__.GooglePay,
-      "klarna" => __MODULE__.Klarna,
-      "link" => __MODULE__.Link,
-      "paypal" => __MODULE__.Paypal
+      "amazon_pay" => %{
+        fields: %{
+          "status" => :scalar,
+          "status_details" => %{
+            fields: %{
+              "error_message" => :scalar
+            }
+          }
+        }
+      },
+      "apple_pay" => %{
+        fields: %{
+          "status" => :scalar,
+          "status_details" => %{
+            fields: %{
+              "error_message" => :scalar
+            }
+          }
+        }
+      },
+      "google_pay" => %{
+        fields: %{
+          "status" => :scalar,
+          "status_details" => %{
+            fields: %{
+              "error_message" => :scalar
+            }
+          }
+        }
+      },
+      "klarna" => %{
+        fields: %{
+          "status" => :scalar,
+          "status_details" => %{
+            fields: %{
+              "error_message" => :scalar
+            }
+          }
+        }
+      },
+      "link" => %{
+        fields: %{
+          "status" => :scalar,
+          "status_details" => %{
+            fields: %{
+              "error_message" => :scalar
+            }
+          }
+        }
+      },
+      "paypal" => %{
+        fields: %{
+          "status" => :scalar,
+          "status_details" => %{
+            fields: %{
+              "error_message" => :scalar
+            }
+          }
+        }
+      }
     }
   end
 end

@@ -18,7 +18,7 @@ defmodule Stripe.Params.InvoicePaymentListParams do
           expand: [String.t()] | nil,
           invoice: String.t() | nil,
           limit: integer() | nil,
-          payment: __MODULE__.Payment.t() | nil,
+          payment: payment() | nil,
           starting_after: String.t() | nil,
           status: String.t() | nil
         }
@@ -34,19 +34,15 @@ defmodule Stripe.Params.InvoicePaymentListParams do
     :status
   ]
 
-  defmodule Payment do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `payment_intent` - Only return invoice payments associated by this payment intent ID. Max length: 5000.
-    * `payment_record` - Only return invoice payments associated by this payment record ID. Max length: 5000.
-    * `type` - Only return invoice payments associated by this payment type. Possible values: `payment_intent`, `payment_record`.
-    """
-    @type t :: %__MODULE__{
-            payment_intent: String.t() | nil,
-            payment_record: String.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:payment_intent, :payment_record, :type]
-  end
+  @typedoc """
+  * `payment_intent` - Only return invoice payments associated by this payment intent ID. Max length: 5000.
+  * `payment_record` - Only return invoice payments associated by this payment record ID. Max length: 5000.
+  * `type` - Only return invoice payments associated by this payment type. Possible values: `payment_intent`, `payment_record`.
+  """
+  @type payment :: %{
+          optional(:payment_intent) => String.t() | nil,
+          optional(:payment_record) => String.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

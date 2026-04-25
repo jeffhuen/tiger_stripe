@@ -4,35 +4,27 @@ defmodule Stripe.Events.V2CoreAccountPersonCreatedEvent do
   Occurs when a Person is created.
   """
 
-  defmodule Data do
-    @moduledoc false
+  @typedoc """
+  * `account_id` - The ID of the v2 account.
+  """
+  @type data :: %{
+          optional(:account_id) => term() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `account_id` - The ID of the v2 account.
-    """
-    @type t :: %__MODULE__{
-            account_id: term()
-          }
-
-    defstruct [:account_id]
-  end
-
-  defstruct [
-    :changes,
-    :context,
-    :created,
-    :data,
-    :id,
-    :livemode,
-    :object,
-    :reason,
-    :related_object,
-    :type
-  ]
+  defstruct [:context, :created, :data, :id, :livemode, :object, :related_object, :type]
 
   def lookup_type, do: "v2.core.account_person.created"
 
-  def __inner_types__, do: %{"data" => Data}
+  def __nested_fields__ do
+    %{
+      "data" => %{
+        fields: %{
+          "account_id" => :scalar
+        }
+      }
+    }
+  end
 
   def fetch_related_object(%__MODULE__{related_object: %{"url" => url}} = event, client) do
     opts =

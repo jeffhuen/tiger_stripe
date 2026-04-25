@@ -18,7 +18,7 @@ defmodule Stripe.Resources.Tax.Association do
           id: String.t(),
           object: String.t(),
           payment_intent: String.t(),
-          tax_transaction_attempts: [__MODULE__.TaxTransactionAttempts.t()]
+          tax_transaction_attempts: [tax_transaction_attempts()]
         }
 
   defstruct [:calculation, :id, :object, :payment_intent, :tax_transaction_attempts]
@@ -28,58 +28,54 @@ defmodule Stripe.Resources.Tax.Association do
 
   def expandable_fields, do: ["tax_transaction_attempts"]
 
-  defmodule TaxTransactionAttempts do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `committed`
+  * `errored`
+  * `source` - The source of the tax transaction attempt. This is either a refund or a payment intent. Max length: 5000.
+  * `status` - The status of the transaction attempt. This can be `errored` or `committed`. Max length: 5000.
+  """
+  @type tax_transaction_attempts :: %{
+          optional(:committed) => tax_transaction_attempts_committed() | nil,
+          optional(:errored) => tax_transaction_attempts_errored() | nil,
+          optional(:source) => String.t() | nil,
+          optional(:status) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `committed`
-    * `errored`
-    * `source` - The source of the tax transaction attempt. This is either a refund or a payment intent. Max length: 5000.
-    * `status` - The status of the transaction attempt. This can be `errored` or `committed`. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            committed: __MODULE__.Committed.t() | nil,
-            errored: __MODULE__.Errored.t() | nil,
-            source: String.t() | nil,
-            status: String.t() | nil
-          }
-    defstruct [:committed, :errored, :source, :status]
+  @typedoc """
+  * `transaction` - The [Tax Transaction](https://docs.stripe.com/api/tax/transaction/object) Max length: 5000.
+  """
+  @type tax_transaction_attempts_committed :: %{
+          optional(:transaction) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Committed do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `reason` - Details on why we couldn't commit the tax transaction. Possible values: `another_payment_associated_with_calculation`, `calculation_expired`, `currency_mismatch`, `original_transaction_voided`, `unique_reference_violation`.
+  """
+  @type tax_transaction_attempts_errored :: %{
+          optional(:reason) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `transaction` - The [Tax Transaction](https://docs.stripe.com/api/tax/transaction/object) Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              transaction: String.t() | nil
-            }
-      defstruct [:transaction]
-    end
-
-    defmodule Errored do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `reason` - Details on why we couldn't commit the tax transaction. Possible values: `another_payment_associated_with_calculation`, `calculation_expired`, `currency_mismatch`, `original_transaction_voided`, `unique_reference_violation`.
-      """
-      @type t :: %__MODULE__{
-              reason: String.t() | nil
-            }
-      defstruct [:reason]
-    end
-
-    def __inner_types__ do
-      %{
-        "committed" => __MODULE__.Committed,
-        "errored" => __MODULE__.Errored
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "tax_transaction_attempts" => __MODULE__.TaxTransactionAttempts
+      "tax_transaction_attempts" => %{
+        fields: %{
+          "committed" => %{
+            fields: %{
+              "transaction" => :scalar
+            }
+          },
+          "errored" => %{
+            fields: %{
+              "reason" => :scalar
+            }
+          },
+          "source" => :scalar,
+          "status" => :scalar
+        }
+      }
     }
   end
 end

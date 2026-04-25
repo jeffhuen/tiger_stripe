@@ -16,20 +16,20 @@ defmodule Stripe.Resources.Balance do
   * `connect_reserved` - Funds held due to negative balances on connected accounts where [account.controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. You can find the connect reserve balance for each currency and payment type in the `source_types` property. Expandable.
   * `instant_available` - Funds that you can pay out using Instant Payouts. Expandable.
   * `issuing` - Expandable.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `balance`.
   * `pending` - Funds that aren't available in the balance yet. You can find the pending balance for each currency and each payment type in the `source_types` property. Expandable.
   * `refund_and_dispute_prefunding` - Expandable.
   """
   @type t :: %__MODULE__{
-          available: [__MODULE__.Available.t()],
-          connect_reserved: [__MODULE__.ConnectReserved.t()] | nil,
-          instant_available: [__MODULE__.InstantAvailable.t()] | nil,
-          issuing: __MODULE__.Issuing.t() | nil,
+          available: [available()],
+          connect_reserved: [connect_reserved()] | nil,
+          instant_available: [instant_available()] | nil,
+          issuing: issuing() | nil,
           livemode: boolean(),
           object: String.t(),
-          pending: [__MODULE__.Pending.t()],
-          refund_and_dispute_prefunding: __MODULE__.RefundAndDisputePrefunding.t() | nil
+          pending: [pending()],
+          refund_and_dispute_prefunding: refund_and_dispute_prefunding() | nil
         }
 
   defstruct [
@@ -56,360 +56,340 @@ defmodule Stripe.Resources.Balance do
       "refund_and_dispute_prefunding"
     ]
 
-  defmodule Available do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `amount` - Balance amount.
-    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-    * `source_types`
-    """
-    @type t :: %__MODULE__{
-            amount: integer() | nil,
-            currency: String.t() | nil,
-            source_types: __MODULE__.SourceTypes.t() | nil
-          }
-    defstruct [:amount, :currency, :source_types]
-
-    defmodule SourceTypes do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
-      * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
-      * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
-      """
-      @type t :: %__MODULE__{
-              bank_account: integer() | nil,
-              card: integer() | nil,
-              fpx: integer() | nil
-            }
-      defstruct [:bank_account, :card, :fpx]
-    end
-
-    def __inner_types__ do
-      %{
-        "source_types" => __MODULE__.SourceTypes
-      }
-    end
-  end
-
-  defmodule ConnectReserved do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `amount` - Balance amount.
-    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-    * `source_types`
-    """
-    @type t :: %__MODULE__{
-            amount: integer() | nil,
-            currency: String.t() | nil,
-            source_types: __MODULE__.SourceTypes.t() | nil
-          }
-    defstruct [:amount, :currency, :source_types]
-
-    defmodule SourceTypes do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
-      * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
-      * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
-      """
-      @type t :: %__MODULE__{
-              bank_account: integer() | nil,
-              card: integer() | nil,
-              fpx: integer() | nil
-            }
-      defstruct [:bank_account, :card, :fpx]
-    end
-
-    def __inner_types__ do
-      %{
-        "source_types" => __MODULE__.SourceTypes
-      }
-    end
-  end
-
-  defmodule InstantAvailable do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `amount` - Balance amount.
-    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-    * `net_available` - Breakdown of balance by destination.
-    * `source_types`
-    """
-    @type t :: %__MODULE__{
-            amount: integer() | nil,
-            currency: String.t() | nil,
-            net_available: [__MODULE__.NetAvailable.t()] | nil,
-            source_types: __MODULE__.SourceTypes.t() | nil
-          }
-    defstruct [:amount, :currency, :net_available, :source_types]
-
-    defmodule NetAvailable do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `amount` - Net balance amount, subtracting fees from platform-set pricing.
-      * `destination` - ID of the external account for this net balance (not expandable). Max length: 5000.
-      * `source_types`
-      """
-      @type t :: %__MODULE__{
-              amount: integer() | nil,
-              destination: String.t() | nil,
-              source_types: __MODULE__.SourceTypes.t() | nil
-            }
-      defstruct [:amount, :destination, :source_types]
-
-      defmodule SourceTypes do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
-        * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
-        * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
-        """
-        @type t :: %__MODULE__{
-                bank_account: integer() | nil,
-                card: integer() | nil,
-                fpx: integer() | nil
-              }
-        defstruct [:bank_account, :card, :fpx]
-      end
-
-      def __inner_types__ do
-        %{
-          "source_types" => __MODULE__.SourceTypes
+  @typedoc """
+  * `amount` - Balance amount.
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `source_types`
+  """
+  @type available :: %{
+          optional(:amount) => integer() | nil,
+          optional(:currency) => String.t() | nil,
+          optional(:source_types) => available_source_types() | nil,
+          optional(String.t()) => term()
         }
-      end
-    end
 
-    defmodule SourceTypes do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
-      * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
-      * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
-      """
-      @type t :: %__MODULE__{
-              bank_account: integer() | nil,
-              card: integer() | nil,
-              fpx: integer() | nil
-            }
-      defstruct [:bank_account, :card, :fpx]
-    end
-
-    def __inner_types__ do
-      %{
-        "net_available" => __MODULE__.NetAvailable,
-        "source_types" => __MODULE__.SourceTypes
-      }
-    end
-  end
-
-  defmodule Issuing do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `available` - Funds that are available for use.
-    """
-    @type t :: %__MODULE__{
-            available: [__MODULE__.Available.t()] | nil
-          }
-    defstruct [:available]
-
-    defmodule Available do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `amount` - Balance amount.
-      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-      * `source_types`
-      """
-      @type t :: %__MODULE__{
-              amount: integer() | nil,
-              currency: String.t() | nil,
-              source_types: __MODULE__.SourceTypes.t() | nil
-            }
-      defstruct [:amount, :currency, :source_types]
-
-      defmodule SourceTypes do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
-        * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
-        * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
-        """
-        @type t :: %__MODULE__{
-                bank_account: integer() | nil,
-                card: integer() | nil,
-                fpx: integer() | nil
-              }
-        defstruct [:bank_account, :card, :fpx]
-      end
-
-      def __inner_types__ do
-        %{
-          "source_types" => __MODULE__.SourceTypes
+  @typedoc """
+  * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+  * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+  * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+  """
+  @type available_source_types :: %{
+          optional(:bank_account) => integer() | nil,
+          optional(:card) => integer() | nil,
+          optional(:fpx) => integer() | nil,
+          optional(String.t()) => term()
         }
-      end
-    end
 
-    def __inner_types__ do
-      %{
-        "available" => __MODULE__.Available
-      }
-    end
-  end
-
-  defmodule Pending do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `amount` - Balance amount.
-    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-    * `source_types`
-    """
-    @type t :: %__MODULE__{
-            amount: integer() | nil,
-            currency: String.t() | nil,
-            source_types: __MODULE__.SourceTypes.t() | nil
-          }
-    defstruct [:amount, :currency, :source_types]
-
-    defmodule SourceTypes do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
-      * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
-      * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
-      """
-      @type t :: %__MODULE__{
-              bank_account: integer() | nil,
-              card: integer() | nil,
-              fpx: integer() | nil
-            }
-      defstruct [:bank_account, :card, :fpx]
-    end
-
-    def __inner_types__ do
-      %{
-        "source_types" => __MODULE__.SourceTypes
-      }
-    end
-  end
-
-  defmodule RefundAndDisputePrefunding do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `available` - Funds that are available for use.
-    * `pending` - Funds that are pending
-    """
-    @type t :: %__MODULE__{
-            available: [__MODULE__.Available.t()] | nil,
-            pending: [__MODULE__.Pending.t()] | nil
-          }
-    defstruct [:available, :pending]
-
-    defmodule Available do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `amount` - Balance amount.
-      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-      * `source_types`
-      """
-      @type t :: %__MODULE__{
-              amount: integer() | nil,
-              currency: String.t() | nil,
-              source_types: __MODULE__.SourceTypes.t() | nil
-            }
-      defstruct [:amount, :currency, :source_types]
-
-      defmodule SourceTypes do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
-        * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
-        * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
-        """
-        @type t :: %__MODULE__{
-                bank_account: integer() | nil,
-                card: integer() | nil,
-                fpx: integer() | nil
-              }
-        defstruct [:bank_account, :card, :fpx]
-      end
-
-      def __inner_types__ do
-        %{
-          "source_types" => __MODULE__.SourceTypes
+  @typedoc """
+  * `amount` - Balance amount.
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `source_types`
+  """
+  @type connect_reserved :: %{
+          optional(:amount) => integer() | nil,
+          optional(:currency) => String.t() | nil,
+          optional(:source_types) => connect_reserved_source_types() | nil,
+          optional(String.t()) => term()
         }
-      end
-    end
 
-    defmodule Pending do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `amount` - Balance amount.
-      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-      * `source_types`
-      """
-      @type t :: %__MODULE__{
-              amount: integer() | nil,
-              currency: String.t() | nil,
-              source_types: __MODULE__.SourceTypes.t() | nil
-            }
-      defstruct [:amount, :currency, :source_types]
-
-      defmodule SourceTypes do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
-        * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
-        * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
-        """
-        @type t :: %__MODULE__{
-                bank_account: integer() | nil,
-                card: integer() | nil,
-                fpx: integer() | nil
-              }
-        defstruct [:bank_account, :card, :fpx]
-      end
-
-      def __inner_types__ do
-        %{
-          "source_types" => __MODULE__.SourceTypes
+  @typedoc """
+  * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+  * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+  * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+  """
+  @type connect_reserved_source_types :: %{
+          optional(:bank_account) => integer() | nil,
+          optional(:card) => integer() | nil,
+          optional(:fpx) => integer() | nil,
+          optional(String.t()) => term()
         }
-      end
-    end
 
-    def __inner_types__ do
-      %{
-        "available" => __MODULE__.Available,
-        "pending" => __MODULE__.Pending
-      }
-    end
-  end
+  @typedoc """
+  * `amount` - Balance amount.
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `net_available` - Breakdown of balance by destination.
+  * `source_types`
+  """
+  @type instant_available :: %{
+          optional(:amount) => integer() | nil,
+          optional(:currency) => String.t() | nil,
+          optional(:net_available) => [instant_available_net_available()] | nil,
+          optional(:source_types) => instant_available_source_types() | nil,
+          optional(String.t()) => term()
+        }
 
-  def __inner_types__ do
+  @typedoc """
+  * `amount` - Net balance amount, subtracting fees from platform-set pricing.
+  * `destination` - ID of the external account for this net balance (not expandable). Max length: 5000.
+  * `source_types`
+  """
+  @type instant_available_net_available :: %{
+          optional(:amount) => integer() | nil,
+          optional(:destination) => String.t() | nil,
+          optional(:source_types) => instant_available_net_available_source_types() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+  * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+  * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+  """
+  @type instant_available_net_available_source_types :: %{
+          optional(:bank_account) => integer() | nil,
+          optional(:card) => integer() | nil,
+          optional(:fpx) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+  * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+  * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+  """
+  @type instant_available_source_types :: %{
+          optional(:bank_account) => integer() | nil,
+          optional(:card) => integer() | nil,
+          optional(:fpx) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `available` - Funds that are available for use.
+  """
+  @type issuing :: %{
+          optional(:available) => [issuing_available()] | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `amount` - Balance amount.
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `source_types`
+  """
+  @type issuing_available :: %{
+          optional(:amount) => integer() | nil,
+          optional(:currency) => String.t() | nil,
+          optional(:source_types) => issuing_available_source_types() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+  * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+  * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+  """
+  @type issuing_available_source_types :: %{
+          optional(:bank_account) => integer() | nil,
+          optional(:card) => integer() | nil,
+          optional(:fpx) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `amount` - Balance amount.
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `source_types`
+  """
+  @type pending :: %{
+          optional(:amount) => integer() | nil,
+          optional(:currency) => String.t() | nil,
+          optional(:source_types) => pending_source_types() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+  * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+  * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+  """
+  @type pending_source_types :: %{
+          optional(:bank_account) => integer() | nil,
+          optional(:card) => integer() | nil,
+          optional(:fpx) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `available` - Funds that are available for use.
+  * `pending` - Funds that are pending
+  """
+  @type refund_and_dispute_prefunding :: %{
+          optional(:available) => [refund_and_dispute_prefunding_available()] | nil,
+          optional(:pending) => [refund_and_dispute_prefunding_pending()] | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `amount` - Balance amount.
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `source_types`
+  """
+  @type refund_and_dispute_prefunding_available :: %{
+          optional(:amount) => integer() | nil,
+          optional(:currency) => String.t() | nil,
+          optional(:source_types) => refund_and_dispute_prefunding_available_source_types() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+  * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+  * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+  """
+  @type refund_and_dispute_prefunding_available_source_types :: %{
+          optional(:bank_account) => integer() | nil,
+          optional(:card) => integer() | nil,
+          optional(:fpx) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `amount` - Balance amount.
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `source_types`
+  """
+  @type refund_and_dispute_prefunding_pending :: %{
+          optional(:amount) => integer() | nil,
+          optional(:currency) => String.t() | nil,
+          optional(:source_types) => refund_and_dispute_prefunding_pending_source_types() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+  * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+  * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+  """
+  @type refund_and_dispute_prefunding_pending_source_types :: %{
+          optional(:bank_account) => integer() | nil,
+          optional(:card) => integer() | nil,
+          optional(:fpx) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  def __nested_fields__ do
     %{
-      "available" => __MODULE__.Available,
-      "connect_reserved" => __MODULE__.ConnectReserved,
-      "instant_available" => __MODULE__.InstantAvailable,
-      "issuing" => __MODULE__.Issuing,
-      "pending" => __MODULE__.Pending,
-      "refund_and_dispute_prefunding" => __MODULE__.RefundAndDisputePrefunding
+      "available" => %{
+        fields: %{
+          "amount" => :scalar,
+          "currency" => :scalar,
+          "source_types" => %{
+            fields: %{
+              "bank_account" => :scalar,
+              "card" => :scalar,
+              "fpx" => :scalar
+            }
+          }
+        }
+      },
+      "connect_reserved" => %{
+        fields: %{
+          "amount" => :scalar,
+          "currency" => :scalar,
+          "source_types" => %{
+            fields: %{
+              "bank_account" => :scalar,
+              "card" => :scalar,
+              "fpx" => :scalar
+            }
+          }
+        }
+      },
+      "instant_available" => %{
+        fields: %{
+          "amount" => :scalar,
+          "currency" => :scalar,
+          "net_available" =>
+            {:list,
+             %{
+               fields: %{
+                 "amount" => :scalar,
+                 "destination" => :scalar,
+                 "source_types" => %{
+                   fields: %{
+                     "bank_account" => :scalar,
+                     "card" => :scalar,
+                     "fpx" => :scalar
+                   }
+                 }
+               }
+             }},
+          "source_types" => %{
+            fields: %{
+              "bank_account" => :scalar,
+              "card" => :scalar,
+              "fpx" => :scalar
+            }
+          }
+        }
+      },
+      "issuing" => %{
+        fields: %{
+          "available" =>
+            {:list,
+             %{
+               fields: %{
+                 "amount" => :scalar,
+                 "currency" => :scalar,
+                 "source_types" => %{
+                   fields: %{
+                     "bank_account" => :scalar,
+                     "card" => :scalar,
+                     "fpx" => :scalar
+                   }
+                 }
+               }
+             }}
+        }
+      },
+      "pending" => %{
+        fields: %{
+          "amount" => :scalar,
+          "currency" => :scalar,
+          "source_types" => %{
+            fields: %{
+              "bank_account" => :scalar,
+              "card" => :scalar,
+              "fpx" => :scalar
+            }
+          }
+        }
+      },
+      "refund_and_dispute_prefunding" => %{
+        fields: %{
+          "available" =>
+            {:list,
+             %{
+               fields: %{
+                 "amount" => :scalar,
+                 "currency" => :scalar,
+                 "source_types" => %{
+                   fields: %{
+                     "bank_account" => :scalar,
+                     "card" => :scalar,
+                     "fpx" => :scalar
+                   }
+                 }
+               }
+             }},
+          "pending" =>
+            {:list,
+             %{
+               fields: %{
+                 "amount" => :scalar,
+                 "currency" => :scalar,
+                 "source_types" => %{
+                   fields: %{
+                     "bank_account" => :scalar,
+                     "card" => :scalar,
+                     "fpx" => :scalar
+                   }
+                 }
+               }
+             }}
+        }
+      }
     }
   end
 end

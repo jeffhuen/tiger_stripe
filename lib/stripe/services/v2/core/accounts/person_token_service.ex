@@ -6,7 +6,7 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonTokenService do
   alias Stripe.Client
 
   @doc """
-  Create a person token
+  Create a Person Token
 
   Creates a Person Token associated with an Account.
   """
@@ -22,7 +22,7 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonTokenService do
   end
 
   @doc """
-  Retrieve a person token
+  Retrieve a Person Token
 
   Retrieves a Person Token associated with an Account.
   """

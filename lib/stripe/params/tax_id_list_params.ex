@@ -13,27 +13,23 @@ defmodule Stripe.Params.TaxIdListParams do
           ending_before: String.t() | nil,
           expand: [String.t()] | nil,
           limit: integer() | nil,
-          owner: __MODULE__.Owner.t() | nil,
+          owner: owner() | nil,
           starting_after: String.t() | nil
         }
 
   defstruct [:ending_before, :expand, :limit, :owner, :starting_after]
 
-  defmodule Owner do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `account` - Connected Account the tax ID belongs to. Required when `type=account`
-    * `customer` - Customer the tax ID belongs to. Required when `type=customer` Max length: 5000.
-    * `customer_account` - ID of the Account representing the customer that the tax ID belongs to. Can be used in place of `customer` when `type=customer` Max length: 5000.
-    * `type` - Type of owner referenced. Possible values: `account`, `application`, `customer`, `self`.
-    """
-    @type t :: %__MODULE__{
-            account: String.t() | nil,
-            customer: String.t() | nil,
-            customer_account: String.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:account, :customer, :customer_account, :type]
-  end
+  @typedoc """
+  * `account` - Connected Account the tax ID belongs to. Required when `type=account`
+  * `customer` - Customer the tax ID belongs to. Required when `type=customer` Max length: 5000.
+  * `customer_account` - ID of the Account representing the customer that the tax ID belongs to. Can be used in place of `customer` when `type=customer` Max length: 5000.
+  * `type` - Type of owner referenced. Possible values: `account`, `application`, `customer`, `self`.
+  """
+  @type owner :: %{
+          optional(:account) => String.t() | nil,
+          optional(:customer) => String.t() | nil,
+          optional(:customer_account) => String.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

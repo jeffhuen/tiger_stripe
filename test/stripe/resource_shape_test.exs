@@ -1,11 +1,11 @@
 defmodule Stripe.ResourceShapeTest do
   @moduledoc """
   Spot-check tests that verify key generated resource modules have the
-  expected fields, inner type modules, and __inner_types__ mappings.
+  expected fields and nested-shape metadata.
 
   These catch regressions in the generator's type resolution logic —
   e.g. non-resource $ref schemas being flattened to map() instead of
-  creating typed inner modules.
+  creating typed atom-key maps.
   """
   use ExUnit.Case, async: true
 
@@ -21,156 +21,164 @@ defmodule Stripe.ResourceShapeTest do
       assert Map.has_key?(%Charge{}, :invoice)
     end
 
-    test "has inner type modules for non-resource $ref properties" do
+    test "does not compile child modules for non-resource nested properties" do
       for mod <- [
-            Charge.BillingDetails,
-            Charge.FraudDetails,
-            Charge.Outcome,
-            Charge.PaymentMethodDetails,
-            Charge.Refunds,
-            Charge.TransferData
+            nested_module(Charge, "BillingDetails"),
+            nested_module(Charge, "FraudDetails"),
+            nested_module(Charge, "Outcome"),
+            nested_module(Charge, "PaymentMethodDetails"),
+            nested_module(Charge, "Refunds"),
+            nested_module(Charge, "TransferData")
           ] do
-        assert Code.ensure_loaded?(mod), "Expected inner type module #{inspect(mod)}"
-        assert function_exported?(mod, :__struct__, 0), "#{inspect(mod)} missing defstruct"
+        refute Code.ensure_loaded?(mod), "Expected #{inspect(mod)} to remain a local type"
       end
     end
 
-    test "BillingDetails has expected fields" do
-      bd = %Charge.BillingDetails{}
+    test "BillingDetails has expected nested metadata" do
+      assert %{"billing_details" => %{fields: fields}} = Charge.__nested_fields__()
 
       for field <- [:address, :email, :name, :phone] do
-        assert Map.has_key?(bd, field), "BillingDetails missing :#{field}"
+        assert Map.has_key?(fields, Atom.to_string(field)), "BillingDetails missing :#{field}"
       end
     end
 
-    test "Outcome has expected fields" do
-      outcome = %Charge.Outcome{}
+    test "Outcome has expected nested metadata" do
+      assert %{"outcome" => %{fields: fields}} = Charge.__nested_fields__()
 
       for field <- [:network_status, :risk_level, :risk_score, :seller_message, :type] do
-        assert Map.has_key?(outcome, field), "Outcome missing :#{field}"
+        assert Map.has_key?(fields, Atom.to_string(field)), "Outcome missing :#{field}"
       end
     end
 
-    test "PaymentMethodDetails has deeply nested inner types" do
-      # Card.Checks is 2 levels deep inside PaymentMethodDetails
-      assert Code.ensure_loaded?(Charge.PaymentMethodDetails.Card)
-      assert Code.ensure_loaded?(Charge.PaymentMethodDetails.Card.Checks)
+    test "PaymentMethodDetails has deeply nested metadata" do
+      refute Code.ensure_loaded?(nested_module(Charge, ["PaymentMethodDetails", "Card"]))
 
-      checks = %Charge.PaymentMethodDetails.Card.Checks{}
-      assert Map.has_key?(checks, :address_line1_check)
-      assert Map.has_key?(checks, :cvc_check)
+      refute Code.ensure_loaded?(
+               nested_module(Charge, ["PaymentMethodDetails", "Card", "Checks"])
+             )
+
+      assert %{
+               "payment_method_details" => %{
+                 fields: %{
+                   "card" => %{
+                     fields: %{
+                       "checks" => %{fields: checks}
+                     }
+                   }
+                 }
+               }
+             } = Charge.__nested_fields__()
+
+      assert Map.has_key?(checks, "address_line1_check")
+      assert Map.has_key?(checks, "cvc_check")
     end
 
-    test "__inner_types__ includes inner modules and resource refs" do
-      inner = Charge.__inner_types__()
+    test "__nested_fields__ includes local shapes and resource refs" do
+      nested = Charge.__nested_fields__()
 
-      # Inner type modules
-      assert inner["billing_details"] == Charge.BillingDetails
-      assert inner["fraud_details"] == Charge.FraudDetails
-      assert inner["outcome"] == Charge.Outcome
-      assert inner["payment_method_details"] == Charge.PaymentMethodDetails
-      assert inner["refunds"] == Charge.Refunds
-      assert inner["transfer_data"] == Charge.TransferData
+      # Local typed maps
+      assert match?(%{fields: _}, nested["billing_details"])
+      assert match?(%{fields: _}, nested["fraud_details"])
+      assert match?(%{fields: _}, nested["outcome"])
+      assert match?(%{fields: _}, nested["payment_method_details"])
+      assert match?(%{fields: _}, nested["refunds"])
+      assert match?(%{fields: _}, nested["transfer_data"])
 
-      # Resource inner refs (direct $ref to another resource)
-      assert inner["shipping"] == Stripe.Resources.ShippingDetails
-      assert inner["source"] == Stripe.Resources.PaymentSource
+      # Resource refs still deserialize to top-level structs.
+      assert nested["shipping"] == {:resource, Stripe.Resources.ShippingDetails}
+      assert nested["source"] == {:resource, Stripe.Resources.PaymentSource}
     end
   end
 
   # -- Price ------------------------------------------------------------------
 
   describe "Price" do
-    test "has Recurring inner module with expected fields" do
-      assert Code.ensure_loaded?(Price.Recurring)
-
-      recurring = %Price.Recurring{}
+    test "has Recurring metadata with expected fields" do
+      refute Code.ensure_loaded?(nested_module(Price, "Recurring"))
+      assert %{"recurring" => %{fields: recurring}} = Price.__nested_fields__()
 
       for field <- [:interval, :interval_count, :meter, :trial_period_days, :usage_type] do
-        assert Map.has_key?(recurring, field), "Recurring missing :#{field}"
+        assert Map.has_key?(recurring, Atom.to_string(field)), "Recurring missing :#{field}"
       end
     end
 
-    test "has CustomUnitAmount inner module" do
-      assert Code.ensure_loaded?(Price.CustomUnitAmount)
-
-      cua = %Price.CustomUnitAmount{}
+    test "has CustomUnitAmount metadata" do
+      refute Code.ensure_loaded?(nested_module(Price, "CustomUnitAmount"))
+      assert %{"custom_unit_amount" => %{fields: cua}} = Price.__nested_fields__()
 
       for field <- [:maximum, :minimum, :preset] do
-        assert Map.has_key?(cua, field), "CustomUnitAmount missing :#{field}"
+        assert Map.has_key?(cua, Atom.to_string(field)), "CustomUnitAmount missing :#{field}"
       end
     end
 
-    test "has TransformQuantity inner module" do
-      assert Code.ensure_loaded?(Price.TransformQuantity)
-      tq = %Price.TransformQuantity{}
-      assert Map.has_key?(tq, :divide_by)
-      assert Map.has_key?(tq, :round)
+    test "has TransformQuantity metadata" do
+      refute Code.ensure_loaded?(nested_module(Price, "TransformQuantity"))
+      assert %{"transform_quantity" => %{fields: tq}} = Price.__nested_fields__()
+      assert Map.has_key?(tq, "divide_by")
+      assert Map.has_key?(tq, "round")
     end
 
-    test "__inner_types__ maps to inner modules" do
-      inner = Price.__inner_types__()
-      assert inner["recurring"] == Price.Recurring
-      assert inner["custom_unit_amount"] == Price.CustomUnitAmount
-      assert inner["tiers"] == Price.Tiers
-      assert inner["transform_quantity"] == Price.TransformQuantity
+    test "__nested_fields__ maps to local shapes" do
+      nested = Price.__nested_fields__()
+      assert match?(%{fields: _}, nested["recurring"])
+      assert match?(%{fields: _}, nested["custom_unit_amount"])
+      assert match?(%{fields: _}, nested["tiers"])
+      assert match?(%{fields: _}, nested["transform_quantity"])
     end
   end
 
   # -- InvoiceLineItem --------------------------------------------------------
 
   describe "InvoiceLineItem" do
-    test "has Period inner module with start/end" do
-      assert Code.ensure_loaded?(InvoiceLineItem.Period)
+    test "has Period metadata with start/end" do
+      refute Code.ensure_loaded?(nested_module(InvoiceLineItem, "Period"))
 
-      period = %InvoiceLineItem.Period{}
-      assert Map.has_key?(period, :start)
-      assert Map.has_key?(period, :end)
+      assert %{"period" => %{fields: period}} = InvoiceLineItem.__nested_fields__()
+      assert Map.has_key?(period, "start")
+      assert Map.has_key?(period, "end")
     end
 
-    test "has Parent inner module with nested children" do
-      assert Code.ensure_loaded?(InvoiceLineItem.Parent)
+    test "has Parent metadata with nested children" do
+      refute Code.ensure_loaded?(nested_module(InvoiceLineItem, "Parent"))
 
-      parent = %InvoiceLineItem.Parent{}
-      assert Map.has_key?(parent, :type)
-      assert Map.has_key?(parent, :invoice_item_details)
-      assert Map.has_key?(parent, :subscription_item_details)
+      assert %{"parent" => %{fields: parent}} = InvoiceLineItem.__nested_fields__()
+      assert Map.has_key?(parent, "type")
+      assert Map.has_key?(parent, "invoice_item_details")
+      assert Map.has_key?(parent, "subscription_item_details")
 
-      # Deeply nested: Parent.InvoiceItemDetails
-      assert Code.ensure_loaded?(InvoiceLineItem.Parent.InvoiceItemDetails)
-      iid = %InvoiceLineItem.Parent.InvoiceItemDetails{}
-      assert Map.has_key?(iid, :invoice_item)
-      assert Map.has_key?(iid, :proration)
+      refute Code.ensure_loaded?(nested_module(InvoiceLineItem, ["Parent", "InvoiceItemDetails"]))
+      assert %{fields: iid} = parent["invoice_item_details"]
+
+      assert Map.has_key?(iid, "invoice_item")
+      assert Map.has_key?(iid, "proration")
     end
 
-    test "Parent has __inner_types__ for nested modules" do
-      inner = InvoiceLineItem.Parent.__inner_types__()
-      assert inner["invoice_item_details"] == InvoiceLineItem.Parent.InvoiceItemDetails
-      assert inner["subscription_item_details"] == InvoiceLineItem.Parent.SubscriptionItemDetails
-    end
-
-    test "__inner_types__ includes period and parent" do
-      inner = InvoiceLineItem.__inner_types__()
-      assert inner["period"] == InvoiceLineItem.Period
-      assert inner["parent"] == InvoiceLineItem.Parent
+    test "__nested_fields__ includes period and parent" do
+      nested = InvoiceLineItem.__nested_fields__()
+      assert match?(%{fields: _}, nested["period"])
+      assert match?(%{fields: _}, nested["parent"])
     end
   end
 
   # -- Event ------------------------------------------------------------------
 
   describe "Event" do
-    test "has Request inner module with id and idempotency_key" do
-      assert Code.ensure_loaded?(Event.Request)
+    test "has Request metadata with id and idempotency_key" do
+      refute Code.ensure_loaded?(nested_module(Event, "Request"))
 
-      request = %Event.Request{}
-      assert Map.has_key?(request, :id)
-      assert Map.has_key?(request, :idempotency_key)
+      assert %{"request" => %{fields: request}} = Event.__nested_fields__()
+      assert Map.has_key?(request, "id")
+      assert Map.has_key?(request, "idempotency_key")
     end
 
-    test "__inner_types__ includes resource ref for data and inner module for request" do
-      inner = Event.__inner_types__()
-      assert inner["data"] == Stripe.Resources.EventData
-      assert inner["request"] == Event.Request
+    test "__nested_fields__ includes resource ref for data and local shape for request" do
+      nested = Event.__nested_fields__()
+      assert nested["data"] == {:resource, Stripe.Resources.EventData}
+      assert match?(%{fields: _}, nested["request"])
     end
   end
+
+  defp nested_module(parent, child) when is_binary(child), do: Module.concat(parent, child)
+
+  defp nested_module(parent, children), do: Module.concat([parent | children])
 end

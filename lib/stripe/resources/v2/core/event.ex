@@ -23,7 +23,7 @@ defmodule Stripe.Resources.V2.Core.Event do
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
-          reason: __MODULE__.Reason.t() | nil,
+          reason: reason() | nil,
           type: String.t()
         }
 
@@ -32,43 +32,39 @@ defmodule Stripe.Resources.V2.Core.Event do
   @object_name "v2.core.event"
   def object_name, do: @object_name
 
-  defmodule Reason do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `request` - Information on the API request that instigated the event.
+  * `type` - Event reason type. Possible values: `request`.
+  """
+  @type reason :: %{
+          optional(:request) => reason_request() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `request` - Information on the API request that instigated the event.
-    * `type` - Event reason type. Possible values: `request`.
-    """
-    @type t :: %__MODULE__{
-            request: __MODULE__.Request.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:request, :type]
+  @typedoc """
+  * `id` - ID of the API request that caused the event.
+  * `idempotency_key` - The idempotency key transmitted during the request.
+  """
+  @type reason_request :: %{
+          optional(:id) => String.t() | nil,
+          optional(:idempotency_key) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Request do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `id` - ID of the API request that caused the event.
-      * `idempotency_key` - The idempotency key transmitted during the request.
-      """
-      @type t :: %__MODULE__{
-              id: String.t() | nil,
-              idempotency_key: String.t() | nil
-            }
-      defstruct [:id, :idempotency_key]
-    end
-
-    def __inner_types__ do
-      %{
-        "request" => __MODULE__.Request
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "reason" => __MODULE__.Reason
+      "reason" => %{
+        fields: %{
+          "request" => %{
+            fields: %{
+              "id" => :scalar,
+              "idempotency_key" => :scalar
+            }
+          },
+          "type" => :scalar
+        }
+      }
     }
   end
 end

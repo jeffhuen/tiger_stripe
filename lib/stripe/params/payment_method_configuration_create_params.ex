@@ -59,72 +59,70 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
   * `sofort` - Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
   * `swish` - Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
   * `twint` - Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
-  * `upi` - Unified Payment Interface (UPI) is India's leading payment method with exponential growth since it launched in 2016.
   * `us_bank_account` - Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
   * `wechat_pay` - WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
   * `zip` - Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
   """
   @type t :: %__MODULE__{
-          acss_debit: __MODULE__.AcssDebit.t() | nil,
-          affirm: __MODULE__.Affirm.t() | nil,
-          afterpay_clearpay: __MODULE__.AfterpayClearpay.t() | nil,
-          alipay: __MODULE__.Alipay.t() | nil,
-          alma: __MODULE__.Alma.t() | nil,
-          amazon_pay: __MODULE__.AmazonPay.t() | nil,
-          apple_pay: __MODULE__.ApplePay.t() | nil,
-          apple_pay_later: __MODULE__.ApplePayLater.t() | nil,
-          au_becs_debit: __MODULE__.AuBecsDebit.t() | nil,
-          bacs_debit: __MODULE__.BacsDebit.t() | nil,
-          bancontact: __MODULE__.Bancontact.t() | nil,
-          billie: __MODULE__.Billie.t() | nil,
-          blik: __MODULE__.Blik.t() | nil,
-          boleto: __MODULE__.Boleto.t() | nil,
-          card: __MODULE__.Card.t() | nil,
-          cartes_bancaires: __MODULE__.CartesBancaires.t() | nil,
-          cashapp: __MODULE__.Cashapp.t() | nil,
-          crypto: __MODULE__.Crypto.t() | nil,
-          customer_balance: __MODULE__.CustomerBalance.t() | nil,
-          eps: __MODULE__.Eps.t() | nil,
+          acss_debit: acss_debit() | nil,
+          affirm: affirm() | nil,
+          afterpay_clearpay: afterpay_clearpay() | nil,
+          alipay: alipay() | nil,
+          alma: alma() | nil,
+          amazon_pay: amazon_pay() | nil,
+          apple_pay: apple_pay() | nil,
+          apple_pay_later: apple_pay_later() | nil,
+          au_becs_debit: au_becs_debit() | nil,
+          bacs_debit: bacs_debit() | nil,
+          bancontact: bancontact() | nil,
+          billie: billie() | nil,
+          blik: blik() | nil,
+          boleto: boleto() | nil,
+          card: card() | nil,
+          cartes_bancaires: cartes_bancaires() | nil,
+          cashapp: cashapp() | nil,
+          crypto: crypto() | nil,
+          customer_balance: customer_balance() | nil,
+          eps: eps() | nil,
           expand: [String.t()] | nil,
-          fpx: __MODULE__.Fpx.t() | nil,
-          fr_meal_voucher_conecs: __MODULE__.FrMealVoucherConecs.t() | nil,
-          giropay: __MODULE__.Giropay.t() | nil,
-          google_pay: __MODULE__.GooglePay.t() | nil,
-          grabpay: __MODULE__.Grabpay.t() | nil,
-          ideal: __MODULE__.Ideal.t() | nil,
-          jcb: __MODULE__.Jcb.t() | nil,
-          kakao_pay: __MODULE__.KakaoPay.t() | nil,
-          klarna: __MODULE__.Klarna.t() | nil,
-          konbini: __MODULE__.Konbini.t() | nil,
-          kr_card: __MODULE__.KrCard.t() | nil,
-          link: __MODULE__.Link.t() | nil,
-          mb_way: __MODULE__.MbWay.t() | nil,
-          mobilepay: __MODULE__.Mobilepay.t() | nil,
-          multibanco: __MODULE__.Multibanco.t() | nil,
+          fpx: fpx() | nil,
+          fr_meal_voucher_conecs: fr_meal_voucher_conecs() | nil,
+          giropay: giropay() | nil,
+          google_pay: google_pay() | nil,
+          grabpay: grabpay() | nil,
+          ideal: ideal() | nil,
+          jcb: jcb() | nil,
+          kakao_pay: kakao_pay() | nil,
+          klarna: klarna() | nil,
+          konbini: konbini() | nil,
+          kr_card: kr_card() | nil,
+          link: link() | nil,
+          mb_way: mb_way() | nil,
+          mobilepay: mobilepay() | nil,
+          multibanco: multibanco() | nil,
           name: String.t() | nil,
-          naver_pay: __MODULE__.NaverPay.t() | nil,
-          nz_bank_account: __MODULE__.NzBankAccount.t() | nil,
-          oxxo: __MODULE__.Oxxo.t() | nil,
-          p24: __MODULE__.P24.t() | nil,
+          naver_pay: naver_pay() | nil,
+          nz_bank_account: nz_bank_account() | nil,
+          oxxo: oxxo() | nil,
+          p24: p24() | nil,
           parent: String.t() | nil,
-          pay_by_bank: __MODULE__.PayByBank.t() | nil,
-          payco: __MODULE__.Payco.t() | nil,
-          paynow: __MODULE__.Paynow.t() | nil,
-          paypal: __MODULE__.Paypal.t() | nil,
-          payto: __MODULE__.Payto.t() | nil,
-          pix: __MODULE__.Pix.t() | nil,
-          promptpay: __MODULE__.Promptpay.t() | nil,
-          revolut_pay: __MODULE__.RevolutPay.t() | nil,
-          samsung_pay: __MODULE__.SamsungPay.t() | nil,
-          satispay: __MODULE__.Satispay.t() | nil,
-          sepa_debit: __MODULE__.SepaDebit.t() | nil,
-          sofort: __MODULE__.Sofort.t() | nil,
-          swish: __MODULE__.Swish.t() | nil,
-          twint: __MODULE__.Twint.t() | nil,
-          upi: __MODULE__.Upi.t() | nil,
-          us_bank_account: __MODULE__.UsBankAccount.t() | nil,
-          wechat_pay: __MODULE__.WechatPay.t() | nil,
-          zip: __MODULE__.Zip.t() | nil
+          pay_by_bank: pay_by_bank() | nil,
+          payco: payco() | nil,
+          paynow: paynow() | nil,
+          paypal: paypal() | nil,
+          payto: payto() | nil,
+          pix: pix() | nil,
+          promptpay: promptpay() | nil,
+          revolut_pay: revolut_pay() | nil,
+          samsung_pay: samsung_pay() | nil,
+          satispay: satispay() | nil,
+          sepa_debit: sepa_debit() | nil,
+          sofort: sofort() | nil,
+          swish: swish() | nil,
+          twint: twint() | nil,
+          us_bank_account: us_bank_account() | nil,
+          wechat_pay: wechat_pay() | nil,
+          zip: zip() | nil
         }
 
   defstruct [
@@ -184,1377 +182,904 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     :sofort,
     :swish,
     :twint,
-    :upi,
     :us_bank_account,
     :wechat_pay,
     :zip
   ]
 
-  defmodule AcssDebit do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Affirm do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule AfterpayClearpay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Alipay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Alma do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule AmazonPay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule ApplePay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule ApplePayLater do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule AuBecsDebit do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule BacsDebit do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Bancontact do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Billie do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Blik do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Boleto do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Card do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule CartesBancaires do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Cashapp do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Crypto do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule CustomerBalance do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Eps do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Fpx do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule FrMealVoucherConecs do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Giropay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule GooglePay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Grabpay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Ideal do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Jcb do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule KakaoPay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Klarna do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Konbini do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule KrCard do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Link do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule MbWay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Mobilepay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Multibanco do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule NaverPay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule NzBankAccount do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Oxxo do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule P24 do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule PayByBank do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Payco do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Paynow do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Paypal do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Payto do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Pix do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Promptpay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule RevolutPay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule SamsungPay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Satispay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule SepaDebit do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Sofort do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Swish do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Twint do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Upi do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule UsBankAccount do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule WechatPay do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
-
-  defmodule Zip do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `display_preference` - Whether or not the payment method should be displayed.
-    """
-    @type t :: %__MODULE__{
-            display_preference: __MODULE__.DisplayPreference.t() | nil
-          }
-    defstruct [:display_preference]
-
-    defmodule DisplayPreference do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
-      """
-      @type t :: %__MODULE__{
-              preference: String.t() | nil
-            }
-      defstruct [:preference]
-    end
-  end
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type acss_debit :: %{
+          optional(:display_preference) => acss_debit_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type acss_debit_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type affirm :: %{
+          optional(:display_preference) => affirm_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type affirm_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type afterpay_clearpay :: %{
+          optional(:display_preference) => afterpay_clearpay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type afterpay_clearpay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type alipay :: %{
+          optional(:display_preference) => alipay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type alipay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type alma :: %{
+          optional(:display_preference) => alma_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type alma_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type amazon_pay :: %{
+          optional(:display_preference) => amazon_pay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type amazon_pay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type apple_pay :: %{
+          optional(:display_preference) => apple_pay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type apple_pay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type apple_pay_later :: %{
+          optional(:display_preference) => apple_pay_later_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type apple_pay_later_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type au_becs_debit :: %{
+          optional(:display_preference) => au_becs_debit_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type au_becs_debit_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type bacs_debit :: %{
+          optional(:display_preference) => bacs_debit_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type bacs_debit_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type bancontact :: %{
+          optional(:display_preference) => bancontact_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type bancontact_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type billie :: %{
+          optional(:display_preference) => billie_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type billie_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type blik :: %{
+          optional(:display_preference) => blik_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type blik_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type boleto :: %{
+          optional(:display_preference) => boleto_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type boleto_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type card :: %{
+          optional(:display_preference) => card_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type card_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type cartes_bancaires :: %{
+          optional(:display_preference) => cartes_bancaires_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type cartes_bancaires_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type cashapp :: %{
+          optional(:display_preference) => cashapp_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type cashapp_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type crypto :: %{
+          optional(:display_preference) => crypto_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type crypto_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type customer_balance :: %{
+          optional(:display_preference) => customer_balance_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type customer_balance_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type eps :: %{
+          optional(:display_preference) => eps_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type eps_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type fpx :: %{
+          optional(:display_preference) => fpx_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type fpx_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type fr_meal_voucher_conecs :: %{
+          optional(:display_preference) => fr_meal_voucher_conecs_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type fr_meal_voucher_conecs_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type giropay :: %{
+          optional(:display_preference) => giropay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type giropay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type google_pay :: %{
+          optional(:display_preference) => google_pay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type google_pay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type grabpay :: %{
+          optional(:display_preference) => grabpay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type grabpay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type ideal :: %{
+          optional(:display_preference) => ideal_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type ideal_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type jcb :: %{
+          optional(:display_preference) => jcb_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type jcb_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type kakao_pay :: %{
+          optional(:display_preference) => kakao_pay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type kakao_pay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type klarna :: %{
+          optional(:display_preference) => klarna_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type klarna_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type konbini :: %{
+          optional(:display_preference) => konbini_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type konbini_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type kr_card :: %{
+          optional(:display_preference) => kr_card_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type kr_card_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type link :: %{
+          optional(:display_preference) => link_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type link_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type mb_way :: %{
+          optional(:display_preference) => mb_way_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type mb_way_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type mobilepay :: %{
+          optional(:display_preference) => mobilepay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type mobilepay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type multibanco :: %{
+          optional(:display_preference) => multibanco_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type multibanco_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type naver_pay :: %{
+          optional(:display_preference) => naver_pay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type naver_pay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type nz_bank_account :: %{
+          optional(:display_preference) => nz_bank_account_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type nz_bank_account_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type oxxo :: %{
+          optional(:display_preference) => oxxo_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type oxxo_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type p24 :: %{
+          optional(:display_preference) => p24_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type p24_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type pay_by_bank :: %{
+          optional(:display_preference) => pay_by_bank_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type pay_by_bank_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type payco :: %{
+          optional(:display_preference) => payco_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type payco_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type paynow :: %{
+          optional(:display_preference) => paynow_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type paynow_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type paypal :: %{
+          optional(:display_preference) => paypal_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type paypal_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type payto :: %{
+          optional(:display_preference) => payto_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type payto_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type pix :: %{
+          optional(:display_preference) => pix_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type pix_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type promptpay :: %{
+          optional(:display_preference) => promptpay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type promptpay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type revolut_pay :: %{
+          optional(:display_preference) => revolut_pay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type revolut_pay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type samsung_pay :: %{
+          optional(:display_preference) => samsung_pay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type samsung_pay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type satispay :: %{
+          optional(:display_preference) => satispay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type satispay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type sepa_debit :: %{
+          optional(:display_preference) => sepa_debit_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type sepa_debit_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type sofort :: %{
+          optional(:display_preference) => sofort_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type sofort_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type swish :: %{
+          optional(:display_preference) => swish_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type swish_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type twint :: %{
+          optional(:display_preference) => twint_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type twint_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type us_bank_account :: %{
+          optional(:display_preference) => us_bank_account_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type us_bank_account_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type wechat_pay :: %{
+          optional(:display_preference) => wechat_pay_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type wechat_pay_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `display_preference` - Whether or not the payment method should be displayed.
+  """
+  @type zip :: %{
+          optional(:display_preference) => zip_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `preference` - The account's preference for whether or not to display this payment method. Possible values: `none`, `off`, `on`.
+  """
+  @type zip_display_preference :: %{
+          optional(:preference) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

@@ -19,11 +19,11 @@ defmodule Stripe.Params.Identity.VerificationSessionCreateParams do
           client_reference_id: String.t() | nil,
           expand: [String.t()] | nil,
           metadata: %{String.t() => String.t()} | nil,
-          options: __MODULE__.Options.t() | nil,
-          provided_details: __MODULE__.ProvidedDetails.t() | nil,
+          options: options() | nil,
+          provided_details: provided_details() | nil,
           related_customer: String.t() | nil,
           related_customer_account: String.t() | nil,
-          related_person: __MODULE__.RelatedPerson.t() | nil,
+          related_person: related_person() | nil,
           return_url: String.t() | nil,
           type: String.t() | nil,
           verification_flow: String.t() | nil
@@ -43,43 +43,31 @@ defmodule Stripe.Params.Identity.VerificationSessionCreateParams do
     :verification_flow
   ]
 
-  defmodule Options do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `document` - Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
+  """
+  @type options :: %{
+          optional(:document) => map() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `document` - Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
-    """
-    @type t :: %__MODULE__{
-            document: map() | nil
-          }
-    defstruct [:document]
-  end
+  @typedoc """
+  * `email` - Email of user being verified
+  * `phone` - Phone number of user being verified
+  """
+  @type provided_details :: %{
+          optional(:email) => String.t() | nil,
+          optional(:phone) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule ProvidedDetails do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `email` - Email of user being verified
-    * `phone` - Phone number of user being verified
-    """
-    @type t :: %__MODULE__{
-            email: String.t() | nil,
-            phone: String.t() | nil
-          }
-    defstruct [:email, :phone]
-  end
-
-  defmodule RelatedPerson do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `account` - A token representing a connected account. If provided, the person parameter is also required and must be associated with the account. Max length: 5000.
-    * `person` - A token referencing a Person resource that this verification is being used to verify. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            account: String.t() | nil,
-            person: String.t() | nil
-          }
-    defstruct [:account, :person]
-  end
+  @typedoc """
+  * `account` - A token representing a connected account. If provided, the person parameter is also required and must be associated with the account. Max length: 5000.
+  * `person` - A token referencing a Person resource that this verification is being used to verify. Max length: 5000.
+  """
+  @type related_person :: %{
+          optional(:account) => String.t() | nil,
+          optional(:person) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

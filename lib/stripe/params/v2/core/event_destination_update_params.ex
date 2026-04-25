@@ -16,20 +16,16 @@ defmodule Stripe.Params.V2.Core.EventDestinationUpdateParams do
           include: [String.t()] | nil,
           metadata: %{String.t() => String.t()} | nil,
           name: String.t() | nil,
-          webhook_endpoint: __MODULE__.WebhookEndpoint.t() | nil
+          webhook_endpoint: webhook_endpoint() | nil
         }
 
   defstruct [:description, :enabled_events, :include, :metadata, :name, :webhook_endpoint]
 
-  defmodule WebhookEndpoint do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `url` - The URL of the webhook endpoint.
-    """
-    @type t :: %__MODULE__{
-            url: String.t() | nil
-          }
-    defstruct [:url]
-  end
+  @typedoc """
+  * `url` - The URL of the webhook endpoint.
+  """
+  @type webhook_endpoint :: %{
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

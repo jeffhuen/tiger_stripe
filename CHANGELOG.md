@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
+## [0.2.0] - 2026-04-25
+
+### Breaking
+
+- Remove generated child modules for nested Stripe response, params, and event data shapes. Top-level resources, params, services, and event modules remain public; nested shapes are now local `@type` aliases and deserialize to atom-key maps.
+- Replace generated `__inner_types__/0` metadata with internal `__nested_fields__/0` metadata used by the deserializer.
+- Remove stale preview resources that are no longer emitted by the current vendored Stripe OpenAPI spec and Ruby SDK fixture: `Stripe.Resources.Reserve.Hold`, `Stripe.Resources.Reserve.Plan`, `Stripe.Resources.Reserve.Release`, `Stripe.Resources.UPI`, `Stripe.Resources.UPIHandleRedirectOrDisplayQrCode`, and `Stripe.Resources.UPIQRCode`.
+
+### Changed
+
+- Reduce the generated public module surface so clean compiles in consuming apps do not pay for thousands of nested JSON-shape modules.
+- Preserve top-level resource structs and recursively cast known nested response shapes to atom-key maps while preserving unknown Stripe fields as string keys.
+
+### Added
+
+- Add a migration guide: [`guides/migrating-0.1-to-0.2.md`](guides/migrating-0.1-to-0.2.md).
+
 ## [0.1.11] - 2026-04-16
 
 ### Added
@@ -117,6 +134,7 @@ The format is based on [Common Changelog](https://common-changelog.org/).
 - Add telemetry events for request lifecycle observability
 - Add Finch HTTP client with connection pooling (Mint + NimblePool)
 
+[0.2.0]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.11...v0.2.0
 [0.1.11]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.10...v0.1.11
 [0.1.10]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.8...v0.1.9

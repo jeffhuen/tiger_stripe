@@ -53,15 +53,15 @@ defmodule Stripe.Resources.Treasury.FinancialAccountFeatures do
       "outbound_transfers"
     ]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "card_issuing" => Stripe.Resources.ToggleSettings,
-      "deposit_insurance" => Stripe.Resources.ToggleSettings,
-      "financial_addresses" => Stripe.Resources.FinancialAddresses,
-      "inbound_transfers" => Stripe.Resources.InboundTransfers,
-      "intra_stripe_flows" => Stripe.Resources.ToggleSettings,
-      "outbound_payments" => Stripe.Resources.OutboundPayments,
-      "outbound_transfers" => Stripe.Resources.OutboundTransfers
+      "card_issuing" => {:resource, Stripe.Resources.ToggleSettings},
+      "deposit_insurance" => {:resource, Stripe.Resources.ToggleSettings},
+      "financial_addresses" => {:resource, Stripe.Resources.FinancialAddresses},
+      "inbound_transfers" => {:resource, Stripe.Resources.InboundTransfers},
+      "intra_stripe_flows" => {:resource, Stripe.Resources.ToggleSettings},
+      "outbound_payments" => {:resource, Stripe.Resources.OutboundPayments},
+      "outbound_transfers" => {:resource, Stripe.Resources.OutboundTransfers}
     }
   end
 end

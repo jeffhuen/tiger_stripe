@@ -17,7 +17,7 @@ defmodule Stripe.Resources.Review do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `ip_address` - The IP address where the payment originated. Max length: 5000. Nullable.
   * `ip_address_location` - Information related to the location of the payment. Note that this information is an approximation and attempts to locate the nearest population center - it should not be used to determine a specific address. Nullable. Expandable.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `review`.
   * `open` - If `true`, the review needs action.
   * `opened_reason` - The reason the review was opened. One of `rule` or `manual`. Possible values: `manual`, `rule`.
@@ -32,14 +32,14 @@ defmodule Stripe.Resources.Review do
           created: integer(),
           id: String.t(),
           ip_address: String.t(),
-          ip_address_location: __MODULE__.IpAddressLocation.t(),
+          ip_address_location: ip_address_location(),
           livemode: boolean(),
           object: String.t(),
           open: boolean(),
           opened_reason: String.t(),
           payment_intent: String.t() | Stripe.Resources.PaymentIntent.t() | nil,
           reason: String.t(),
-          session: __MODULE__.Session.t()
+          session: session()
         }
 
   defstruct [
@@ -64,48 +64,55 @@ defmodule Stripe.Resources.Review do
 
   def expandable_fields, do: ["charge", "ip_address_location", "payment_intent", "session"]
 
-  defmodule IpAddressLocation do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `city` - The city where the payment originated. Max length: 5000. Nullable.
+  * `country` - Two-letter ISO code representing the country where the payment originated. Max length: 5000. Nullable.
+  * `latitude` - The geographic latitude where the payment originated. Nullable.
+  * `longitude` - The geographic longitude where the payment originated. Nullable.
+  * `region` - The state/county/province/region where the payment originated. Max length: 5000. Nullable.
+  """
+  @type ip_address_location :: %{
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:latitude) => float() | nil,
+          optional(:longitude) => float() | nil,
+          optional(:region) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `city` - The city where the payment originated. Max length: 5000. Nullable.
-    * `country` - Two-letter ISO code representing the country where the payment originated. Max length: 5000. Nullable.
-    * `latitude` - The geographic latitude where the payment originated. Nullable.
-    * `longitude` - The geographic longitude where the payment originated. Nullable.
-    * `region` - The state/county/province/region where the payment originated. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            city: String.t() | nil,
-            country: String.t() | nil,
-            latitude: float() | nil,
-            longitude: float() | nil,
-            region: String.t() | nil
-          }
-    defstruct [:city, :country, :latitude, :longitude, :region]
-  end
+  @typedoc """
+  * `browser` - The browser used in this browser session (e.g., `Chrome`). Max length: 5000. Nullable.
+  * `device` - Information about the device used for the browser session (e.g., `Samsung SM-G930T`). Max length: 5000. Nullable.
+  * `platform` - The platform for the browser session (e.g., `Macintosh`). Max length: 5000. Nullable.
+  * `version` - The version for the browser session (e.g., `61.0.3163.100`). Max length: 5000. Nullable.
+  """
+  @type session :: %{
+          optional(:browser) => String.t() | nil,
+          optional(:device) => String.t() | nil,
+          optional(:platform) => String.t() | nil,
+          optional(:version) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Session do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `browser` - The browser used in this browser session (e.g., `Chrome`). Max length: 5000. Nullable.
-    * `device` - Information about the device used for the browser session (e.g., `Samsung SM-G930T`). Max length: 5000. Nullable.
-    * `platform` - The platform for the browser session (e.g., `Macintosh`). Max length: 5000. Nullable.
-    * `version` - The version for the browser session (e.g., `61.0.3163.100`). Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            browser: String.t() | nil,
-            device: String.t() | nil,
-            platform: String.t() | nil,
-            version: String.t() | nil
-          }
-    defstruct [:browser, :device, :platform, :version]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "ip_address_location" => __MODULE__.IpAddressLocation,
-      "session" => __MODULE__.Session
+      "ip_address_location" => %{
+        fields: %{
+          "city" => :scalar,
+          "country" => :scalar,
+          "latitude" => :scalar,
+          "longitude" => :scalar,
+          "region" => :scalar
+        }
+      },
+      "session" => %{
+        fields: %{
+          "browser" => :scalar,
+          "device" => :scalar,
+          "platform" => :scalar,
+          "version" => :scalar
+        }
+      }
     }
   end
 end

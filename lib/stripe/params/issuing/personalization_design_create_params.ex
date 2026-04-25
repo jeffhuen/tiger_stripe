@@ -15,13 +15,13 @@ defmodule Stripe.Params.Issuing.PersonalizationDesignCreateParams do
   """
   @type t :: %__MODULE__{
           card_logo: String.t() | nil,
-          carrier_text: __MODULE__.CarrierText.t() | nil,
+          carrier_text: carrier_text() | nil,
           expand: [String.t()] | nil,
           lookup_key: String.t() | nil,
           metadata: %{String.t() => String.t()} | nil,
           name: String.t() | nil,
           physical_bundle: String.t(),
-          preferences: __MODULE__.Preferences.t() | nil,
+          preferences: preferences() | nil,
           transfer_lookup_key: boolean() | nil
         }
 
@@ -37,33 +37,25 @@ defmodule Stripe.Params.Issuing.PersonalizationDesignCreateParams do
     :transfer_lookup_key
   ]
 
-  defmodule CarrierText do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `footer_body` - The footer body text of the carrier letter.
+  * `footer_title` - The footer title text of the carrier letter.
+  * `header_body` - The header body text of the carrier letter.
+  * `header_title` - The header title text of the carrier letter.
+  """
+  @type carrier_text :: %{
+          optional(:footer_body) => map() | nil,
+          optional(:footer_title) => map() | nil,
+          optional(:header_body) => map() | nil,
+          optional(:header_title) => map() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `footer_body` - The footer body text of the carrier letter.
-    * `footer_title` - The footer title text of the carrier letter.
-    * `header_body` - The header body text of the carrier letter.
-    * `header_title` - The header title text of the carrier letter.
-    """
-    @type t :: %__MODULE__{
-            footer_body: map() | nil,
-            footer_title: map() | nil,
-            header_body: map() | nil,
-            header_title: map() | nil
-          }
-    defstruct [:footer_body, :footer_title, :header_body, :header_title]
-  end
-
-  defmodule Preferences do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `is_default` - Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
-    """
-    @type t :: %__MODULE__{
-            is_default: boolean() | nil
-          }
-    defstruct [:is_default]
-  end
+  @typedoc """
+  * `is_default` - Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
+  """
+  @type preferences :: %{
+          optional(:is_default) => boolean() | nil,
+          optional(String.t()) => term()
+        }
 end

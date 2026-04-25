@@ -71,14 +71,20 @@ defmodule Stripe.Generator.EventGenerator do
     all_fields = (meta.schema_fields ++ ["context"]) |> Enum.uniq() |> Enum.sort()
     fields = all_fields |> Enum.map_join(", ", fn f -> ":#{f}" end)
 
-    # Generate nested Data module if data has actual properties
+    # Generate local data types if data has actual properties
     data_tree = build_data_type_tree(meta.data_schema)
-    data_module_code = if data_tree, do: render_data_module(data_tree, "Data"), else: ""
+    data_type_code = if data_tree, do: render_data_type_aliases(data_tree), else: ""
 
-    # inner_types for the top-level event module
-    inner_types_code =
+    # nested-field metadata for the top-level event module
+    nested_fields_code =
       if data_tree do
-        ~s(def __inner_types__, do: %{"data" => Data})
+        """
+        def __nested_fields__ do
+          %{
+            "data" => #{render_data_metadata(data_tree)}
+          }
+        end
+        """
       else
         ""
       end
@@ -121,13 +127,13 @@ defmodule Stripe.Generator.EventGenerator do
       #{moduledoc}
       \"\"\"
 
-    #{data_module_code}
+    #{data_type_code}
 
       defstruct [#{fields}]
 
       def lookup_type, do: "#{event_type}"
 
-      #{inner_types_code}
+      #{nested_fields_code}
 
       #{fetch_fn}
     end
@@ -198,19 +204,15 @@ defmodule Stripe.Generator.EventGenerator do
 
   # -- Code Rendering ---------------------------------------------------------
 
-  defp render_data_module(%{fields: fields, children: children} = tree, module_name) do
+  defp render_data_type_aliases(tree), do: render_data_type_aliases(tree, ["data"])
+
+  defp render_data_type_aliases(%{children: children} = tree, path) do
     child_code =
       children
-      |> Enum.sort_by(fn {_, mod_name, _} -> mod_name end)
-      |> Enum.map_join("\n", fn {_field, mod_name, subtree} ->
-        render_data_module(subtree, mod_name)
+      |> Enum.sort_by(fn {field, _mod_name, _subtree} -> field end)
+      |> Enum.map_join("", fn {field, _mod_name, subtree} ->
+        render_data_type_aliases(subtree, path ++ [field])
       end)
-
-    fields_str = fields |> Enum.map_join(", ", fn f -> ":#{f}" end)
-
-    type_fields =
-      fields
-      |> Enum.map_join(",\n", fn f -> "        #{f}: term()" end)
 
     typedoc =
       case Map.get(tree, :field_descriptions) do
@@ -219,36 +221,79 @@ defmodule Stripe.Generator.EventGenerator do
 
           case DocFormatter.build_typedoc_table(props) do
             nil -> ""
-            table -> "  @typedoc \"\"\"\n#{table}\n  \"\"\"\n"
+            table -> "\n  @typedoc \"\"\"\n#{table}\n  \"\"\""
           end
 
         _ ->
           ""
       end
 
-    inner_types_code =
-      if children != [] do
-        entries =
-          children
-          |> Enum.sort_by(fn {_, mod, _} -> mod end)
-          |> Enum.map_join(", ", fn {field, mod, _} -> ~s("#{field}" => #{mod}) end)
+    child_fields = Map.new(children, fn {field, _mod_name, _subtree} -> {field, true} end)
 
-        "def __inner_types__, do: %{#{entries}}"
-      else
-        ""
+    type_fields =
+      tree.fields
+      |> Enum.map_join(",\n", fn field ->
+        type =
+          if Map.has_key?(child_fields, field),
+            do: "#{local_type_name(path ++ [field])}()",
+            else: "term()"
+
+        "          optional(#{atom_literal(field)}) => #{type} | nil"
+      end)
+
+    map_fields =
+      case type_fields do
+        "" -> "          optional(String.t()) => term()"
+        fields -> fields <> ",\n          optional(String.t()) => term()"
       end
 
     """
-    defmodule #{module_name} do
-      @moduledoc false
-      #{child_code}
-    #{typedoc}  @type t :: %__MODULE__{
-    #{type_fields}
+    #{child_code}
+    #{typedoc}
+      @type #{local_type_name(path)} :: %{
+    #{map_fields}
         }
-
-      defstruct [#{fields_str}]
-      #{inner_types_code}
-    end
     """
+  end
+
+  defp render_data_metadata(%{fields: fields, children: children}) do
+    child_metadata = Map.new(children, fn {field, _mod_name, subtree} -> {field, subtree} end)
+
+    field_entries =
+      fields
+      |> Enum.map_join(",\n", fn field ->
+        metadata =
+          case Map.fetch(child_metadata, field) do
+            {:ok, subtree} -> render_data_metadata(subtree)
+            :error -> ":scalar"
+          end
+
+        ~s(        "#{field}" => #{metadata})
+      end)
+
+    """
+    %{
+          fields: %{
+    #{field_entries}
+          }
+        }\
+    """
+  end
+
+  defp atom_literal(name), do: name |> String.to_atom() |> inspect()
+
+  defp local_type_name(path) do
+    path
+    |> Enum.map(&safe_type_part/1)
+    |> Enum.join("_")
+  end
+
+  defp safe_type_part(part) do
+    part =
+      part
+      |> Macro.underscore()
+      |> String.replace(~r/[^a-zA-Z0-9_]/, "_")
+
+    if String.match?(part, ~r/^\d/), do: "field_#{part}", else: part
   end
 end

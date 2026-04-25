@@ -17,15 +17,15 @@ defmodule Stripe.Resources.Terminal.Location do
   * `display_name_kana` - The Kana variation of the display name of the location. Max length: 5000.
   * `display_name_kanji` - The Kanji variation of the display name of the location. Max length: 5000.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `terminal.location`.
   * `phone` - The phone number of the location. Max length: 5000.
   """
   @type t :: %__MODULE__{
           address: Stripe.Resources.Address.t(),
-          address_kana: __MODULE__.AddressKana.t() | nil,
-          address_kanji: __MODULE__.AddressKanji.t() | nil,
+          address_kana: address_kana() | nil,
+          address_kanji: address_kanji() | nil,
           configuration_overrides: String.t() | nil,
           display_name: String.t(),
           display_name_kana: String.t() | nil,
@@ -57,59 +57,71 @@ defmodule Stripe.Resources.Terminal.Location do
 
   def expandable_fields, do: ["address", "address_kana", "address_kanji"]
 
-  defmodule AddressKana do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `city` - City/Ward. Max length: 5000. Nullable.
+  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000. Nullable.
+  * `line1` - Block/Building number. Max length: 5000. Nullable.
+  * `line2` - Building details. Max length: 5000. Nullable.
+  * `postal_code` - ZIP or postal code. Max length: 5000. Nullable.
+  * `state` - Prefecture. Max length: 5000. Nullable.
+  * `town` - Town/cho-me. Max length: 5000. Nullable.
+  """
+  @type address_kana :: %{
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:line1) => String.t() | nil,
+          optional(:line2) => String.t() | nil,
+          optional(:postal_code) => String.t() | nil,
+          optional(:state) => String.t() | nil,
+          optional(:town) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `city` - City/Ward. Max length: 5000. Nullable.
-    * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000. Nullable.
-    * `line1` - Block/Building number. Max length: 5000. Nullable.
-    * `line2` - Building details. Max length: 5000. Nullable.
-    * `postal_code` - ZIP or postal code. Max length: 5000. Nullable.
-    * `state` - Prefecture. Max length: 5000. Nullable.
-    * `town` - Town/cho-me. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            city: String.t() | nil,
-            country: String.t() | nil,
-            line1: String.t() | nil,
-            line2: String.t() | nil,
-            postal_code: String.t() | nil,
-            state: String.t() | nil,
-            town: String.t() | nil
-          }
-    defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
-  end
+  @typedoc """
+  * `city` - City/Ward. Max length: 5000. Nullable.
+  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000. Nullable.
+  * `line1` - Block/Building number. Max length: 5000. Nullable.
+  * `line2` - Building details. Max length: 5000. Nullable.
+  * `postal_code` - ZIP or postal code. Max length: 5000. Nullable.
+  * `state` - Prefecture. Max length: 5000. Nullable.
+  * `town` - Town/cho-me. Max length: 5000. Nullable.
+  """
+  @type address_kanji :: %{
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:line1) => String.t() | nil,
+          optional(:line2) => String.t() | nil,
+          optional(:postal_code) => String.t() | nil,
+          optional(:state) => String.t() | nil,
+          optional(:town) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule AddressKanji do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `city` - City/Ward. Max length: 5000. Nullable.
-    * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000. Nullable.
-    * `line1` - Block/Building number. Max length: 5000. Nullable.
-    * `line2` - Building details. Max length: 5000. Nullable.
-    * `postal_code` - ZIP or postal code. Max length: 5000. Nullable.
-    * `state` - Prefecture. Max length: 5000. Nullable.
-    * `town` - Town/cho-me. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            city: String.t() | nil,
-            country: String.t() | nil,
-            line1: String.t() | nil,
-            line2: String.t() | nil,
-            postal_code: String.t() | nil,
-            state: String.t() | nil,
-            town: String.t() | nil
-          }
-    defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "address" => Stripe.Resources.Address,
-      "address_kana" => __MODULE__.AddressKana,
-      "address_kanji" => __MODULE__.AddressKanji
+      "address_kana" => %{
+        fields: %{
+          "city" => :scalar,
+          "country" => :scalar,
+          "line1" => :scalar,
+          "line2" => :scalar,
+          "postal_code" => :scalar,
+          "state" => :scalar,
+          "town" => :scalar
+        }
+      },
+      "address_kanji" => %{
+        fields: %{
+          "city" => :scalar,
+          "country" => :scalar,
+          "line1" => :scalar,
+          "line2" => :scalar,
+          "postal_code" => :scalar,
+          "state" => :scalar,
+          "town" => :scalar
+        }
+      },
+      "address" => {:resource, Stripe.Resources.Address}
     }
   end
 end

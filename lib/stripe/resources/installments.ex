@@ -10,7 +10,7 @@ defmodule Stripe.Resources.Installments do
   """
   @type t :: %__MODULE__{
           enabled: boolean(),
-          plan: __MODULE__.Plan.t() | nil
+          plan: plan() | nil
         }
 
   defstruct [:enabled, :plan]
@@ -20,26 +20,28 @@ defmodule Stripe.Resources.Installments do
 
   def expandable_fields, do: ["plan"]
 
-  defmodule Plan do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `count` - For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card. Nullable.
+  * `interval` - For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
+  One of `month`. Possible values: `month`. Nullable.
+  * `type` - Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`. Possible values: `bonus`, `fixed_count`, `revolving`.
+  """
+  @type plan :: %{
+          optional(:count) => integer() | nil,
+          optional(:interval) => String.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `count` - For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card. Nullable.
-    * `interval` - For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
-    One of `month`. Possible values: `month`. Nullable.
-    * `type` - Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`. Possible values: `bonus`, `fixed_count`, `revolving`.
-    """
-    @type t :: %__MODULE__{
-            count: integer() | nil,
-            interval: String.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [:count, :interval, :type]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "plan" => __MODULE__.Plan
+      "plan" => %{
+        fields: %{
+          "count" => :scalar,
+          "interval" => :scalar,
+          "type" => :scalar
+        }
+      }
     }
   end
 end

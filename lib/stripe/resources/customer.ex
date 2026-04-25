@@ -31,7 +31,7 @@ defmodule Stripe.Resources.Customer do
   * `invoice_credit_balance` - The current multi-currency balances, if any, that's stored on the customer. If positive in a currency, the customer has a credit to apply to their next invoice denominated in that currency. If negative, the customer has an amount owed that's added to their next invoice denominated in that currency. These balances don't apply to unpaid invoices. They solely track amounts that Stripe hasn't successfully applied to any invoice. Stripe only applies a balance in a specific currency to an invoice after that invoice (which is in the same currency) finalizes.
   * `invoice_prefix` - The prefix for the customer used to generate unique invoice numbers. Max length: 5000. Nullable.
   * `invoice_settings` - Expandable.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `name` - The customer's full name or business name. Max length: 5000. Nullable.
   * `next_invoice_sequence` - The suffix of the customer's next invoice number (for example, 0001). When the account uses account level sequencing, this parameter is ignored in API requests and the field omitted in API responses.
@@ -63,7 +63,7 @@ defmodule Stripe.Resources.Customer do
           individual_name: String.t() | nil,
           invoice_credit_balance: %{String.t() => integer()} | nil,
           invoice_prefix: String.t() | nil,
-          invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
+          invoice_settings: invoice_settings() | nil,
           livemode: boolean(),
           metadata: %{String.t() => String.t()} | nil,
           name: String.t() | nil,
@@ -72,11 +72,11 @@ defmodule Stripe.Resources.Customer do
           phone: String.t() | nil,
           preferred_locales: [String.t()] | nil,
           shipping: Stripe.Resources.ShippingDetails.t(),
-          sources: __MODULE__.Sources.t() | nil,
-          subscriptions: __MODULE__.Subscriptions.t() | nil,
-          tax: __MODULE__.Tax.t() | nil,
+          sources: sources() | nil,
+          subscriptions: subscriptions() | nil,
+          tax: tax() | nil,
           tax_exempt: String.t() | nil,
-          tax_ids: __MODULE__.TaxIds.t() | nil,
+          tax_ids: tax_ids() | nil,
           test_clock: String.t() | Stripe.Resources.TestHelpers.TestClock.t() | nil
         }
 
@@ -132,164 +132,173 @@ defmodule Stripe.Resources.Customer do
       "test_clock"
     ]
 
-  defmodule InvoiceSettings do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `custom_fields` - Default custom fields to be displayed on invoices for this customer. Nullable.
+  * `default_payment_method` - ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices. Nullable.
+  * `footer` - Default footer to be displayed on invoices for this customer. Max length: 5000. Nullable.
+  * `rendering_options` - Default options for invoice PDF rendering for this customer. Nullable.
+  """
+  @type invoice_settings :: %{
+          optional(:custom_fields) => [invoice_settings_custom_fields()] | nil,
+          optional(:default_payment_method) =>
+            String.t() | Stripe.Resources.PaymentMethod.t() | nil,
+          optional(:footer) => String.t() | nil,
+          optional(:rendering_options) => invoice_settings_rendering_options() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `custom_fields` - Default custom fields to be displayed on invoices for this customer. Nullable.
-    * `default_payment_method` - ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices. Nullable.
-    * `footer` - Default footer to be displayed on invoices for this customer. Max length: 5000. Nullable.
-    * `rendering_options` - Default options for invoice PDF rendering for this customer. Nullable.
-    """
-    @type t :: %__MODULE__{
-            custom_fields: [__MODULE__.CustomFields.t()] | nil,
-            default_payment_method: String.t() | Stripe.Resources.PaymentMethod.t() | nil,
-            footer: String.t() | nil,
-            rendering_options: __MODULE__.RenderingOptions.t() | nil
-          }
-    defstruct [:custom_fields, :default_payment_method, :footer, :rendering_options]
+  @typedoc """
+  * `name` - The name of the custom field. Max length: 5000.
+  * `value` - The value of the custom field. Max length: 5000.
+  """
+  @type invoice_settings_custom_fields :: %{
+          optional(:name) => String.t() | nil,
+          optional(:value) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule CustomFields do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `amount_tax_display` - How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. Max length: 5000. Nullable.
+  * `template` - ID of the invoice rendering template to be used for this customer's invoices. If set, the template will be used on all invoices for this customer unless a template is set directly on the invoice. Max length: 5000. Nullable.
+  """
+  @type invoice_settings_rendering_options :: %{
+          optional(:amount_tax_display) => String.t() | nil,
+          optional(:template) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `name` - The name of the custom field. Max length: 5000.
-      * `value` - The value of the custom field. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              name: String.t() | nil,
-              value: String.t() | nil
-            }
-      defstruct [:name, :value]
-    end
+  @typedoc """
+  * `data` - Details about each object.
+  * `has_more` - True if this list has another page of items after this one that can be fetched.
+  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
+  * `url` - The URL where this list can be accessed. Max length: 5000.
+  """
+  @type sources :: %{
+          optional(:data) => [Stripe.Resources.PaymentSource.t()] | nil,
+          optional(:has_more) => boolean() | nil,
+          optional(:object) => String.t() | nil,
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule RenderingOptions do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `data` - Details about each object.
+  * `has_more` - True if this list has another page of items after this one that can be fetched.
+  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
+  * `url` - The URL where this list can be accessed. Max length: 5000.
+  """
+  @type subscriptions :: %{
+          optional(:data) => [Stripe.Resources.Subscription.t()] | nil,
+          optional(:has_more) => boolean() | nil,
+          optional(:object) => String.t() | nil,
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `amount_tax_display` - How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. Max length: 5000. Nullable.
-      * `template` - ID of the invoice rendering template to be used for this customer's invoices. If set, the template will be used on all invoices for this customer unless a template is set directly on the invoice. Max length: 5000. Nullable.
-      """
-      @type t :: %__MODULE__{
-              amount_tax_display: String.t() | nil,
-              template: String.t() | nil
-            }
-      defstruct [:amount_tax_display, :template]
-    end
+  @typedoc """
+  * `automatic_tax` - Surfaces if automatic tax computation is possible given the current customer location information. Possible values: `failed`, `not_collecting`, `supported`, `unrecognized_location`.
+  * `ip_address` - A recent IP address of the customer used for tax reporting and tax location inference. Max length: 5000. Nullable.
+  * `location` - The identified tax location of the customer. Nullable.
+  * `provider` - The tax calculation provider used for location resolution. Defaults to `stripe` when not using a [third-party provider](https://stripe.com/tax/third-party-apps). Possible values: `anrok`, `avalara`, `sphere`, `stripe`.
+  """
+  @type tax :: %{
+          optional(:automatic_tax) => String.t() | nil,
+          optional(:ip_address) => String.t() | nil,
+          optional(:location) => tax_location() | nil,
+          optional(:provider) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    def __inner_types__ do
-      %{
-        "custom_fields" => __MODULE__.CustomFields,
-        "rendering_options" => __MODULE__.RenderingOptions
-      }
-    end
-  end
+  @typedoc """
+  * `country` - The identified tax country of the customer. Max length: 5000.
+  * `source` - The data source used to infer the customer's location. Possible values: `billing_address`, `ip_address`, `payment_method`, `shipping_destination`.
+  * `state` - The identified tax state, county, province, or region of the customer. Max length: 5000. Nullable.
+  """
+  @type tax_location :: %{
+          optional(:country) => String.t() | nil,
+          optional(:source) => String.t() | nil,
+          optional(:state) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Sources do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `data` - Details about each object.
+  * `has_more` - True if this list has another page of items after this one that can be fetched.
+  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
+  * `url` - The URL where this list can be accessed. Max length: 5000.
+  """
+  @type tax_ids :: %{
+          optional(:data) => [Stripe.Resources.TaxId.t()] | nil,
+          optional(:has_more) => boolean() | nil,
+          optional(:object) => String.t() | nil,
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `data` - Details about each object.
-    * `has_more` - True if this list has another page of items after this one that can be fetched.
-    * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-    * `url` - The URL where this list can be accessed. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            data: [Stripe.Resources.PaymentSource.t()] | nil,
-            has_more: boolean() | nil,
-            object: String.t() | nil,
-            url: String.t() | nil
-          }
-    defstruct [:data, :has_more, :object, :url]
-  end
-
-  defmodule Subscriptions do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `data` - Details about each object.
-    * `has_more` - True if this list has another page of items after this one that can be fetched.
-    * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-    * `url` - The URL where this list can be accessed. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            data: [Stripe.Resources.Subscription.t()] | nil,
-            has_more: boolean() | nil,
-            object: String.t() | nil,
-            url: String.t() | nil
-          }
-    defstruct [:data, :has_more, :object, :url]
-  end
-
-  defmodule Tax do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `automatic_tax` - Surfaces if automatic tax computation is possible given the current customer location information. Possible values: `failed`, `not_collecting`, `supported`, `unrecognized_location`.
-    * `ip_address` - A recent IP address of the customer used for tax reporting and tax location inference. Max length: 5000. Nullable.
-    * `location` - The identified tax location of the customer. Nullable.
-    * `provider` - The tax calculation provider used for location resolution. Defaults to `stripe` when not using a [third-party provider](https://stripe.com/tax/third-party-apps). Possible values: `anrok`, `avalara`, `sphere`, `stripe`.
-    """
-    @type t :: %__MODULE__{
-            automatic_tax: String.t() | nil,
-            ip_address: String.t() | nil,
-            location: __MODULE__.Location.t() | nil,
-            provider: String.t() | nil
-          }
-    defstruct [:automatic_tax, :ip_address, :location, :provider]
-
-    defmodule Location do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `country` - The identified tax country of the customer. Max length: 5000.
-      * `source` - The data source used to infer the customer's location. Possible values: `billing_address`, `ip_address`, `payment_method`, `shipping_destination`.
-      * `state` - The identified tax state, county, province, or region of the customer. Max length: 5000. Nullable.
-      """
-      @type t :: %__MODULE__{
-              country: String.t() | nil,
-              source: String.t() | nil,
-              state: String.t() | nil
-            }
-      defstruct [:country, :source, :state]
-    end
-
-    def __inner_types__ do
-      %{
-        "location" => __MODULE__.Location
-      }
-    end
-  end
-
-  defmodule TaxIds do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `data` - Details about each object.
-    * `has_more` - True if this list has another page of items after this one that can be fetched.
-    * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-    * `url` - The URL where this list can be accessed. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            data: [Stripe.Resources.TaxId.t()] | nil,
-            has_more: boolean() | nil,
-            object: String.t() | nil,
-            url: String.t() | nil
-          }
-    defstruct [:data, :has_more, :object, :url]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "address" => Stripe.Resources.Address,
-      "cash_balance" => Stripe.Resources.CashBalance,
-      "discount" => Stripe.Resources.Discount,
-      "invoice_settings" => __MODULE__.InvoiceSettings,
-      "shipping" => Stripe.Resources.ShippingDetails,
-      "sources" => __MODULE__.Sources,
-      "subscriptions" => __MODULE__.Subscriptions,
-      "tax" => __MODULE__.Tax,
-      "tax_ids" => __MODULE__.TaxIds
+      "invoice_settings" => %{
+        fields: %{
+          "custom_fields" =>
+            {:list,
+             %{
+               fields: %{
+                 "name" => :scalar,
+                 "value" => :scalar
+               }
+             }},
+          "default_payment_method" => {:resource, Stripe.Resources.PaymentMethod},
+          "footer" => :scalar,
+          "rendering_options" => %{
+            fields: %{
+              "amount_tax_display" => :scalar,
+              "template" => :scalar
+            }
+          }
+        }
+      },
+      "sources" => %{
+        fields: %{
+          "data" => {:list, {:resource, Stripe.Resources.PaymentSource}},
+          "has_more" => :scalar,
+          "object" => :scalar,
+          "url" => :scalar
+        }
+      },
+      "subscriptions" => %{
+        fields: %{
+          "data" => {:list, {:resource, Stripe.Resources.Subscription}},
+          "has_more" => :scalar,
+          "object" => :scalar,
+          "url" => :scalar
+        }
+      },
+      "tax" => %{
+        fields: %{
+          "automatic_tax" => :scalar,
+          "ip_address" => :scalar,
+          "location" => %{
+            fields: %{
+              "country" => :scalar,
+              "source" => :scalar,
+              "state" => :scalar
+            }
+          },
+          "provider" => :scalar
+        }
+      },
+      "tax_ids" => %{
+        fields: %{
+          "data" => {:list, {:resource, Stripe.Resources.TaxId}},
+          "has_more" => :scalar,
+          "object" => :scalar,
+          "url" => :scalar
+        }
+      },
+      "address" => {:resource, Stripe.Resources.Address},
+      "cash_balance" => {:resource, Stripe.Resources.CashBalance},
+      "discount" => {:resource, Stripe.Resources.Discount},
+      "shipping" => {:resource, Stripe.Resources.ShippingDetails}
     }
   end
 end

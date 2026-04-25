@@ -22,9 +22,9 @@ defmodule Stripe.Resources.BillingDetails do
 
   def expandable_fields, do: ["address"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "address" => Stripe.Resources.Address
+      "address" => {:resource, Stripe.Resources.Address}
     }
   end
 end

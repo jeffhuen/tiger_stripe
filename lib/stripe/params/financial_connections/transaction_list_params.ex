@@ -18,7 +18,7 @@ defmodule Stripe.Params.FinancialConnections.TransactionListParams do
           limit: integer() | nil,
           starting_after: String.t() | nil,
           transacted_at: map() | nil,
-          transaction_refresh: __MODULE__.TransactionRefresh.t() | nil
+          transaction_refresh: transaction_refresh() | nil
         }
 
   defstruct [
@@ -31,15 +31,11 @@ defmodule Stripe.Params.FinancialConnections.TransactionListParams do
     :transaction_refresh
   ]
 
-  defmodule TransactionRefresh do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `after` - Return results where the transactions were created or updated by a refresh that took place after this refresh (non-inclusive). Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            after: String.t() | nil
-          }
-    defstruct [:after]
-  end
+  @typedoc """
+  * `after` - Return results where the transactions were created or updated by a refresh that took place after this refresh (non-inclusive). Max length: 5000.
+  """
+  @type transaction_refresh :: %{
+          optional(:after) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

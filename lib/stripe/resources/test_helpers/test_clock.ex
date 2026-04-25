@@ -13,7 +13,7 @@ defmodule Stripe.Resources.TestHelpers.TestClock do
   * `deletes_after` - Time at which this clock is scheduled to auto delete. Format: Unix timestamp.
   * `frozen_time` - Time at which all objects belonging to this clock are frozen. Format: Unix timestamp.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `name` - The custom name supplied at creation. Max length: 5000. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `test_helpers.test_clock`.
   * `status` - The status of the Test Clock. Possible values: `advancing`, `internal_failure`, `ready`.
@@ -28,7 +28,7 @@ defmodule Stripe.Resources.TestHelpers.TestClock do
           name: String.t(),
           object: String.t(),
           status: String.t(),
-          status_details: __MODULE__.StatusDetails.t()
+          status_details: status_details()
         }
 
   defstruct [
@@ -48,39 +48,33 @@ defmodule Stripe.Resources.TestHelpers.TestClock do
 
   def expandable_fields, do: ["status_details"]
 
-  defmodule StatusDetails do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `advancing`
+  """
+  @type status_details :: %{
+          optional(:advancing) => status_details_advancing() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `advancing`
-    """
-    @type t :: %__MODULE__{
-            advancing: __MODULE__.Advancing.t() | nil
-          }
-    defstruct [:advancing]
+  @typedoc """
+  * `target_frozen_time` - The `frozen_time` that the Test Clock is advancing towards. Format: Unix timestamp.
+  """
+  @type status_details_advancing :: %{
+          optional(:target_frozen_time) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Advancing do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `target_frozen_time` - The `frozen_time` that the Test Clock is advancing towards. Format: Unix timestamp.
-      """
-      @type t :: %__MODULE__{
-              target_frozen_time: integer() | nil
-            }
-      defstruct [:target_frozen_time]
-    end
-
-    def __inner_types__ do
-      %{
-        "advancing" => __MODULE__.Advancing
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "status_details" => __MODULE__.StatusDetails
+      "status_details" => %{
+        fields: %{
+          "advancing" => %{
+            fields: %{
+              "target_frozen_time" => :scalar
+            }
+          }
+        }
+      }
     }
   end
 end

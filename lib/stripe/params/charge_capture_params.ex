@@ -23,7 +23,7 @@ defmodule Stripe.Params.ChargeCaptureParams do
           receipt_email: String.t() | nil,
           statement_descriptor: String.t() | nil,
           statement_descriptor_suffix: String.t() | nil,
-          transfer_data: __MODULE__.TransferData.t() | nil,
+          transfer_data: transfer_data() | nil,
           transfer_group: String.t() | nil
         }
 
@@ -39,15 +39,11 @@ defmodule Stripe.Params.ChargeCaptureParams do
     :transfer_group
   ]
 
-  defmodule TransferData do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `amount` - The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
-    """
-    @type t :: %__MODULE__{
-            amount: integer() | nil
-          }
-    defstruct [:amount]
-  end
+  @typedoc """
+  * `amount` - The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
+  """
+  @type transfer_data :: %{
+          optional(:amount) => integer() | nil,
+          optional(String.t()) => term()
+        }
 end

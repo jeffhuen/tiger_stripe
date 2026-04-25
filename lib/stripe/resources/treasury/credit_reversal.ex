@@ -13,7 +13,7 @@ defmodule Stripe.Resources.Treasury.CreditReversal do
   * `financial_account` - The FinancialAccount to reverse funds from. Max length: 5000.
   * `hosted_regulatory_receipt_url` - A [hosted transaction receipt](https://docs.stripe.com/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `network` - The rails used to reverse the funds. Possible values: `ach`, `stripe`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `treasury.credit_reversal`.
@@ -35,7 +35,7 @@ defmodule Stripe.Resources.Treasury.CreditReversal do
           object: String.t(),
           received_credit: String.t(),
           status: String.t(),
-          status_transitions: __MODULE__.StatusTransitions.t(),
+          status_transitions: status_transitions(),
           transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
         }
 
@@ -61,21 +61,21 @@ defmodule Stripe.Resources.Treasury.CreditReversal do
 
   def expandable_fields, do: ["status_transitions", "transaction"]
 
-  defmodule StatusTransitions do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `posted_at` - Timestamp describing when the CreditReversal changed status to `posted` Format: Unix timestamp. Nullable.
+  """
+  @type status_transitions :: %{
+          optional(:posted_at) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `posted_at` - Timestamp describing when the CreditReversal changed status to `posted` Format: Unix timestamp. Nullable.
-    """
-    @type t :: %__MODULE__{
-            posted_at: integer() | nil
-          }
-    defstruct [:posted_at]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "status_transitions" => __MODULE__.StatusTransitions
+      "status_transitions" => %{
+        fields: %{
+          "posted_at" => :scalar
+        }
+      }
     }
   end
 end

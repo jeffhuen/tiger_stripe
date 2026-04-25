@@ -22,9 +22,9 @@ defmodule Stripe.Resources.SwishHandleRedirectOrDisplayQrCode do
 
   def expandable_fields, do: ["qr_code"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "qr_code" => Stripe.Resources.SwishQrCode
+      "qr_code" => {:resource, Stripe.Resources.SwishQrCode}
     }
   end
 end

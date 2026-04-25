@@ -109,8 +109,26 @@ defmodule Stripe.DeserializerTest do
     end
   end
 
-  describe "cast/2 inner types" do
-    test "casts embedded list inner type (Charge.Refunds)" do
+  describe "cast/2 nested shapes" do
+    test "casts known nested resource shapes to atom-key maps" do
+      data = %{
+        "object" => "charge",
+        "id" => "ch_123",
+        "billing_details" => %{
+          "email" => "buyer@example.com",
+          "name" => "Buyer",
+          "private_preview_field" => "kept"
+        }
+      }
+
+      result = Deserializer.cast(data)
+
+      assert %Stripe.Resources.Charge{} = result
+      assert %{email: "buyer@example.com", name: "Buyer"} = result.billing_details
+      assert result.billing_details["private_preview_field"] == "kept"
+    end
+
+    test "casts embedded list nested shape (Charge refunds)" do
       data = %{
         "object" => "charge",
         "id" => "ch_123",
@@ -127,7 +145,7 @@ defmodule Stripe.DeserializerTest do
 
       result = Deserializer.cast(data)
       assert %Stripe.Resources.Charge{} = result
-      assert %Stripe.Resources.Charge.Refunds{} = result.refunds
+      assert %{has_more: false, url: "/v1/charges/ch_123/refunds"} = result.refunds
       assert result.refunds.has_more == false
       assert result.refunds.url == "/v1/charges/ch_123/refunds"
       # The embedded list's data items should be recursively cast
@@ -136,8 +154,8 @@ defmodule Stripe.DeserializerTest do
     end
   end
 
-  describe "cast/2 deeply nested inner types" do
-    test "casts InvoiceLineItem.Parent.SubscriptionItemDetails to struct" do
+  describe "cast/2 deeply nested shapes" do
+    test "casts InvoiceLineItem.Parent.SubscriptionItemDetails to atom-key maps" do
       data = %{
         "object" => "line_item",
         "id" => "il_123",
@@ -163,23 +181,16 @@ defmodule Stripe.DeserializerTest do
 
       result = Deserializer.cast(data)
       assert %Stripe.Resources.InvoiceLineItem{} = result
-      assert %Stripe.Resources.InvoiceLineItem.Parent{} = result.parent
-      assert result.parent.type == "subscription_item_details"
+      assert %{type: "subscription_item_details"} = result.parent
 
-      # Key assertion: nested inner type should be a struct, not a raw map
+      # Nested response shapes are atom-key maps, not compiled child structs.
       sub_details = result.parent.subscription_item_details
-      assert %Stripe.Resources.InvoiceLineItem.Parent.SubscriptionItemDetails{} = sub_details
       assert sub_details.proration == true
       assert sub_details.subscription == "sub_123"
       assert sub_details.subscription_item == "si_123"
 
       # 3 levels deep
-      assert %Stripe.Resources.InvoiceLineItem.Parent.SubscriptionItemDetails.ProrationDetails{} =
-               sub_details.proration_details
-
-      assert %Stripe.Resources.InvoiceLineItem.Parent.SubscriptionItemDetails.ProrationDetails.CreditedItems{} =
-               sub_details.proration_details.credited_items
-
+      assert %{credited_items: %{invoice: "in_456"}} = sub_details.proration_details
       assert sub_details.proration_details.credited_items.invoice == "in_456"
     end
   end
@@ -297,8 +308,8 @@ defmodule Stripe.DeserializerTest do
       assert result.payment_intent.customer.email == "deep@test.com"
     end
 
-    test "list field with no inner type mapping but objects inside" do
-      # A field that is a list of objects with "object" keys but not in __inner_types__
+    test "list field with no nested metadata but objects inside" do
+      # A field that is a list of scalar values should pass through unchanged.
       data = %{
         "object" => "customer",
         "id" => "cus_1",

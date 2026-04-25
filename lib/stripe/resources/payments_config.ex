@@ -20,9 +20,9 @@ defmodule Stripe.Resources.PaymentsConfig do
 
   def expandable_fields, do: ["features"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "features" => Stripe.Resources.PaymentsFeatures
+      "features" => {:resource, Stripe.Resources.PaymentsFeatures}
     }
   end
 end

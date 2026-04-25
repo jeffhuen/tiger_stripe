@@ -34,17 +34,17 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   """
   @type t :: %__MODULE__{
           account: String.t(),
-          additional_addresses: [__MODULE__.AdditionalAddresses.t()] | nil,
-          additional_names: [__MODULE__.AdditionalNames.t()] | nil,
-          additional_terms_of_service: __MODULE__.AdditionalTermsOfService.t() | nil,
-          address: __MODULE__.Address.t() | nil,
+          additional_addresses: [additional_addresses()] | nil,
+          additional_names: [additional_names()] | nil,
+          additional_terms_of_service: additional_terms_of_service() | nil,
+          address: address() | nil,
           created: String.t(),
-          date_of_birth: __MODULE__.DateOfBirth.t() | nil,
-          documents: __MODULE__.Documents.t() | nil,
+          date_of_birth: date_of_birth() | nil,
+          documents: documents() | nil,
           email: String.t() | nil,
           given_name: String.t() | nil,
           id: String.t(),
-          id_numbers: [__MODULE__.IdNumbers.t()] | nil,
+          id_numbers: [id_numbers()] | nil,
           legal_gender: String.t() | nil,
           livemode: boolean(),
           metadata: %{String.t() => String.t()} | nil,
@@ -52,9 +52,9 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
           object: String.t(),
           phone: String.t() | nil,
           political_exposure: String.t() | nil,
-          relationship: __MODULE__.Relationship.t() | nil,
-          script_addresses: __MODULE__.ScriptAddresses.t() | nil,
-          script_names: __MODULE__.ScriptNames.t() | nil,
+          relationship: relationship() | nil,
+          script_addresses: script_addresses() | nil,
+          script_names: script_names() | nil,
           surname: String.t() | nil,
           updated: String.t()
         }
@@ -89,447 +89,444 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   @object_name "v2.core.account_person"
   def object_name, do: @object_name
 
-  defmodule AdditionalAddresses do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `city` - City, district, suburb, town, or village.
-    * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-    * `line1` - Address line 1 (e.g., street, PO Box, or company name).
-    * `line2` - Address line 2 (e.g., apartment, suite, unit, or building).
-    * `postal_code` - ZIP or postal code.
-    * `purpose` - Purpose of additional address. Possible values: `registered`.
-    * `state` - State, county, province, or region.
-    * `town` - Town or district.
-    """
-    @type t :: %__MODULE__{
-            city: String.t() | nil,
-            country: String.t() | nil,
-            line1: String.t() | nil,
-            line2: String.t() | nil,
-            postal_code: String.t() | nil,
-            purpose: String.t() | nil,
-            state: String.t() | nil,
-            town: String.t() | nil
-          }
-    defstruct [:city, :country, :line1, :line2, :postal_code, :purpose, :state, :town]
-  end
-
-  defmodule AdditionalNames do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `full_name` - The individual's full name.
-    * `given_name` - The individual's first or given name.
-    * `purpose` - The purpose or type of the additional name. Possible values: `alias`, `maiden`.
-    * `surname` - The individual's last or family name.
-    """
-    @type t :: %__MODULE__{
-            full_name: String.t() | nil,
-            given_name: String.t() | nil,
-            purpose: String.t() | nil,
-            surname: String.t() | nil
-          }
-    defstruct [:full_name, :given_name, :purpose, :surname]
-  end
-
-  defmodule AdditionalTermsOfService do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `account` - Stripe terms of service agreement.
-    """
-    @type t :: %__MODULE__{
-            account: __MODULE__.Account.t() | nil
-          }
-    defstruct [:account]
-
-    defmodule Account do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `date` - The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z. Format: date-time.
-      * `ip` - The IP address from which the Account's representative accepted the terms of service.
-      * `user_agent` - The user agent of the browser from which the Account's representative accepted the terms of service.
-      """
-      @type t :: %__MODULE__{
-              date: String.t() | nil,
-              ip: String.t() | nil,
-              user_agent: String.t() | nil
-            }
-      defstruct [:date, :ip, :user_agent]
-    end
-
-    def __inner_types__ do
-      %{
-        "account" => __MODULE__.Account
-      }
-    end
-  end
-
-  defmodule Address do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `city` - City, district, suburb, town, or village.
-    * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-    * `line1` - Address line 1 (e.g., street, PO Box, or company name).
-    * `line2` - Address line 2 (e.g., apartment, suite, unit, or building).
-    * `postal_code` - ZIP or postal code.
-    * `state` - State, county, province, or region.
-    * `town` - Town or district.
-    """
-    @type t :: %__MODULE__{
-            city: String.t() | nil,
-            country: String.t() | nil,
-            line1: String.t() | nil,
-            line2: String.t() | nil,
-            postal_code: String.t() | nil,
-            state: String.t() | nil,
-            town: String.t() | nil
-          }
-    defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
-  end
-
-  defmodule DateOfBirth do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `day` - The day of birth, between 1 and 31.
-    * `month` - The month of birth, between 1 and 12.
-    * `year` - The four-digit year of birth.
-    """
-    @type t :: %__MODULE__{
-            day: integer() | nil,
-            month: integer() | nil,
-            year: integer() | nil
-          }
-    defstruct [:day, :month, :year]
-  end
-
-  defmodule Documents do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `company_authorization` - One or more documents that demonstrate proof that this person is authorized to represent the company.
-    * `passport` - One or more documents showing the person’s passport page with photo and personal data.
-    * `primary_verification` - An identifying document showing the person's name, either a passport or local ID card.
-    * `secondary_verification` - A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
-    * `visa` - One or more documents showing the person’s visa required for living in the country where they are residing.
-    """
-    @type t :: %__MODULE__{
-            company_authorization: __MODULE__.CompanyAuthorization.t() | nil,
-            passport: __MODULE__.Passport.t() | nil,
-            primary_verification: __MODULE__.PrimaryVerification.t() | nil,
-            secondary_verification: __MODULE__.SecondaryVerification.t() | nil,
-            visa: __MODULE__.Visa.t() | nil
-          }
-    defstruct [
-      :company_authorization,
-      :passport,
-      :primary_verification,
-      :secondary_verification,
-      :visa
-    ]
-
-    defmodule CompanyAuthorization do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-      * `type` - The format of the document. Currently supports `files` only. Possible values: `files`.
-      """
-      @type t :: %__MODULE__{
-              files: [String.t()] | nil,
-              type: String.t() | nil
-            }
-      defstruct [:files, :type]
-    end
-
-    defmodule Passport do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-      * `type` - The format of the document. Currently supports `files` only. Possible values: `files`.
-      """
-      @type t :: %__MODULE__{
-              files: [String.t()] | nil,
-              type: String.t() | nil
-            }
-      defstruct [:files, :type]
-    end
-
-    defmodule PrimaryVerification do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `front_back` - The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens for the front and back of the verification document.
-      * `type` - The format of the verification document. Currently supports `front_back` only. Possible values: `front_back`.
-      """
-      @type t :: %__MODULE__{
-              front_back: __MODULE__.FrontBack.t() | nil,
-              type: String.t() | nil
-            }
-      defstruct [:front_back, :type]
-
-      defmodule FrontBack do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `back` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-        * `front` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-        """
-        @type t :: %__MODULE__{
-                back: String.t() | nil,
-                front: String.t() | nil
-              }
-        defstruct [:back, :front]
-      end
-
-      def __inner_types__ do
-        %{
-          "front_back" => __MODULE__.FrontBack
+  @typedoc """
+  * `city` - City, district, suburb, town, or village.
+  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+  * `line1` - Address line 1 (e.g., street, PO Box, or company name).
+  * `line2` - Address line 2 (e.g., apartment, suite, unit, or building).
+  * `postal_code` - ZIP or postal code.
+  * `purpose` - Purpose of additional address. Possible values: `registered`.
+  * `state` - State, county, province, or region.
+  * `town` - Town or district.
+  """
+  @type additional_addresses :: %{
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:line1) => String.t() | nil,
+          optional(:line2) => String.t() | nil,
+          optional(:postal_code) => String.t() | nil,
+          optional(:purpose) => String.t() | nil,
+          optional(:state) => String.t() | nil,
+          optional(:town) => String.t() | nil,
+          optional(String.t()) => term()
         }
-      end
-    end
 
-    defmodule SecondaryVerification do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `front_back` - The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens for the front and back of the verification document.
-      * `type` - The format of the verification document. Currently supports `front_back` only. Possible values: `front_back`.
-      """
-      @type t :: %__MODULE__{
-              front_back: __MODULE__.FrontBack.t() | nil,
-              type: String.t() | nil
-            }
-      defstruct [:front_back, :type]
-
-      defmodule FrontBack do
-        @moduledoc "Nested struct within the parent resource."
-
-        @typedoc """
-        * `back` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-        * `front` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-        """
-        @type t :: %__MODULE__{
-                back: String.t() | nil,
-                front: String.t() | nil
-              }
-        defstruct [:back, :front]
-      end
-
-      def __inner_types__ do
-        %{
-          "front_back" => __MODULE__.FrontBack
+  @typedoc """
+  * `full_name` - The individual's full name.
+  * `given_name` - The individual's first or given name.
+  * `purpose` - The purpose or type of the additional name. Possible values: `alias`, `maiden`.
+  * `surname` - The individual's last or family name.
+  """
+  @type additional_names :: %{
+          optional(:full_name) => String.t() | nil,
+          optional(:given_name) => String.t() | nil,
+          optional(:purpose) => String.t() | nil,
+          optional(:surname) => String.t() | nil,
+          optional(String.t()) => term()
         }
-      end
-    end
 
-    defmodule Visa do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `account` - Stripe terms of service agreement.
+  """
+  @type additional_terms_of_service :: %{
+          optional(:account) => additional_terms_of_service_account() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-      * `type` - The format of the document. Currently supports `files` only. Possible values: `files`.
-      """
-      @type t :: %__MODULE__{
-              files: [String.t()] | nil,
-              type: String.t() | nil
-            }
-      defstruct [:files, :type]
-    end
+  @typedoc """
+  * `date` - The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z. Format: date-time.
+  * `ip` - The IP address from which the Account's representative accepted the terms of service.
+  * `user_agent` - The user agent of the browser from which the Account's representative accepted the terms of service.
+  """
+  @type additional_terms_of_service_account :: %{
+          optional(:date) => String.t() | nil,
+          optional(:ip) => String.t() | nil,
+          optional(:user_agent) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    def __inner_types__ do
-      %{
-        "company_authorization" => __MODULE__.CompanyAuthorization,
-        "passport" => __MODULE__.Passport,
-        "primary_verification" => __MODULE__.PrimaryVerification,
-        "secondary_verification" => __MODULE__.SecondaryVerification,
-        "visa" => __MODULE__.Visa
-      }
-    end
-  end
+  @typedoc """
+  * `city` - City, district, suburb, town, or village.
+  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+  * `line1` - Address line 1 (e.g., street, PO Box, or company name).
+  * `line2` - Address line 2 (e.g., apartment, suite, unit, or building).
+  * `postal_code` - ZIP or postal code.
+  * `state` - State, county, province, or region.
+  * `town` - Town or district.
+  """
+  @type address :: %{
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:line1) => String.t() | nil,
+          optional(:line2) => String.t() | nil,
+          optional(:postal_code) => String.t() | nil,
+          optional(:state) => String.t() | nil,
+          optional(:town) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule IdNumbers do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `day` - The day of birth, between 1 and 31.
+  * `month` - The month of birth, between 1 and 12.
+  * `year` - The four-digit year of birth.
+  """
+  @type date_of_birth :: %{
+          optional(:day) => integer() | nil,
+          optional(:month) => integer() | nil,
+          optional(:year) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `type` - The ID number type of an individual. Possible values: `ae_eid`, `ao_nif`, `ar_cuil`, `ar_dni`, `at_stn`, `az_tin`, `bd_brc`, `bd_etin`, `bd_nid`, `be_nrn`, `bg_ucn`, `bn_nric`, `br_cpf`, `ca_sin`, `ch_oasi`, `cl_rut`, `cn_pp`, `co_nuip`, `cr_ci`, `cr_cpf`, `cr_dimex`, `cr_nite`, `cy_tic`, `cz_rc`, `de_stn`, `dk_cpr`, `do_cie`, `do_rcn`, `ec_ci`, `ee_ik`, `es_nif`, `fi_hetu`, `fr_nir`, `gb_nino`, `gr_afm`, `gt_nit`, `hk_id`, `hr_oib`, `hu_ad`, `id_nik`, `ie_ppsn`, `is_kt`, `it_cf`, `jp_inc`, `ke_pin`, `kz_iin`, `li_peid`, `lt_ak`, `lu_nif`, `lv_pk`, `mx_rfc`, `my_nric`, `mz_nuit`, `ng_nin`, `nl_bsn`, `no_nin`, `nz_ird`, `pe_dni`, `pk_cnic`, `pk_snic`, `pl_pesel`, `pt_nif`, `ro_cnp`, `sa_tin`, `se_pin`, `sg_fin`, `sg_nric`, `sk_dic`, `th_lc`, `th_pin`, `tr_tin`, `us_itin`, `us_itin_last_4`, `us_ssn`, `us_ssn_last_4`, `uy_dni`, `za_id`.
-    """
-    @type t :: %__MODULE__{
-            type: String.t() | nil
-          }
-    defstruct [:type]
-  end
+  @typedoc """
+  * `company_authorization` - One or more documents that demonstrate proof that this person is authorized to represent the company.
+  * `passport` - One or more documents showing the person’s passport page with photo and personal data.
+  * `primary_verification` - An identifying document showing the person's name, either a passport or local ID card.
+  * `secondary_verification` - A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
+  * `visa` - One or more documents showing the person’s visa required for living in the country where they are residing.
+  """
+  @type documents :: %{
+          optional(:company_authorization) => documents_company_authorization() | nil,
+          optional(:passport) => documents_passport() | nil,
+          optional(:primary_verification) => documents_primary_verification() | nil,
+          optional(:secondary_verification) => documents_secondary_verification() | nil,
+          optional(:visa) => documents_visa() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Relationship do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+  * `type` - The format of the document. Currently supports `files` only. Possible values: `files`.
+  """
+  @type documents_company_authorization :: %{
+          optional(:files) => [String.t()] | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `authorizer` - Whether the individual is an authorizer of the Account's identity.
-    * `director` - Whether the individual is a director of the Account's identity. Directors are typically members of the governing board of the company or are responsible for making sure that the company meets its regulatory obligations.
-    * `executive` - Whether the individual has significant responsibility to control, manage, or direct the organization.
-    * `legal_guardian` - Whether the individual is the legal guardian of the Account's representative.
-    * `owner` - Whether the individual is an owner of the Account's identity.
-    * `percent_ownership` - The percentage of the Account's identity that the individual owns. Format: decimal string.
-    * `representative` - Whether the individual is authorized as the primary representative of the Account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
-    * `title` - The individual's title (e.g., CEO, Support Engineer).
-    """
-    @type t :: %__MODULE__{
-            authorizer: boolean() | nil,
-            director: boolean() | nil,
-            executive: boolean() | nil,
-            legal_guardian: boolean() | nil,
-            owner: boolean() | nil,
-            percent_ownership: String.t() | nil,
-            representative: boolean() | nil,
-            title: String.t() | nil
-          }
-    defstruct [
-      :authorizer,
-      :director,
-      :executive,
-      :legal_guardian,
-      :owner,
-      :percent_ownership,
-      :representative,
-      :title
-    ]
-  end
+  @typedoc """
+  * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+  * `type` - The format of the document. Currently supports `files` only. Possible values: `files`.
+  """
+  @type documents_passport :: %{
+          optional(:files) => [String.t()] | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule ScriptAddresses do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `front_back` - The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens for the front and back of the verification document.
+  * `type` - The format of the verification document. Currently supports `front_back` only. Possible values: `front_back`.
+  """
+  @type documents_primary_verification :: %{
+          optional(:front_back) => documents_primary_verification_front_back() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `kana` - Kana Address.
-    * `kanji` - Kanji Address.
-    """
-    @type t :: %__MODULE__{
-            kana: __MODULE__.Kana.t() | nil,
-            kanji: __MODULE__.Kanji.t() | nil
-          }
-    defstruct [:kana, :kanji]
+  @typedoc """
+  * `back` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+  * `front` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+  """
+  @type documents_primary_verification_front_back :: %{
+          optional(:back) => String.t() | nil,
+          optional(:front) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Kana do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `front_back` - The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens for the front and back of the verification document.
+  * `type` - The format of the verification document. Currently supports `front_back` only. Possible values: `front_back`.
+  """
+  @type documents_secondary_verification :: %{
+          optional(:front_back) => documents_secondary_verification_front_back() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `city` - City, district, suburb, town, or village.
-      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-      * `line1` - Address line 1 (e.g., street, PO Box, or company name).
-      * `line2` - Address line 2 (e.g., apartment, suite, unit, or building).
-      * `postal_code` - ZIP or postal code.
-      * `state` - State, county, province, or region.
-      * `town` - Town or district.
-      """
-      @type t :: %__MODULE__{
-              city: String.t() | nil,
-              country: String.t() | nil,
-              line1: String.t() | nil,
-              line2: String.t() | nil,
-              postal_code: String.t() | nil,
-              state: String.t() | nil,
-              town: String.t() | nil
-            }
-      defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
-    end
+  @typedoc """
+  * `back` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+  * `front` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the front of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+  """
+  @type documents_secondary_verification_front_back :: %{
+          optional(:back) => String.t() | nil,
+          optional(:front) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Kanji do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+  * `type` - The format of the document. Currently supports `files` only. Possible values: `files`.
+  """
+  @type documents_visa :: %{
+          optional(:files) => [String.t()] | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `city` - City, district, suburb, town, or village.
-      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-      * `line1` - Address line 1 (e.g., street, PO Box, or company name).
-      * `line2` - Address line 2 (e.g., apartment, suite, unit, or building).
-      * `postal_code` - ZIP or postal code.
-      * `state` - State, county, province, or region.
-      * `town` - Town or district.
-      """
-      @type t :: %__MODULE__{
-              city: String.t() | nil,
-              country: String.t() | nil,
-              line1: String.t() | nil,
-              line2: String.t() | nil,
-              postal_code: String.t() | nil,
-              state: String.t() | nil,
-              town: String.t() | nil
-            }
-      defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
-    end
+  @typedoc """
+  * `type` - The ID number type of an individual. Possible values: `ae_eid`, `ao_nif`, `ar_cuil`, `ar_dni`, `at_stn`, `az_tin`, `bd_brc`, `bd_etin`, `bd_nid`, `be_nrn`, `bg_ucn`, `bn_nric`, `br_cpf`, `ca_sin`, `ch_oasi`, `cl_rut`, `cn_pp`, `co_nuip`, `cr_ci`, `cr_cpf`, `cr_dimex`, `cr_nite`, `cy_tic`, `cz_rc`, `de_stn`, `dk_cpr`, `do_cie`, `do_rcn`, `ec_ci`, `ee_ik`, `es_nif`, `fi_hetu`, `fr_nir`, `gb_nino`, `gr_afm`, `gt_nit`, `hk_id`, `hr_oib`, `hu_ad`, `id_nik`, `ie_ppsn`, `is_kt`, `it_cf`, `jp_inc`, `ke_pin`, `kz_iin`, `li_peid`, `lt_ak`, `lu_nif`, `lv_pk`, `mx_rfc`, `my_nric`, `mz_nuit`, `ng_nin`, `nl_bsn`, `no_nin`, `nz_ird`, `pe_dni`, `pk_cnic`, `pk_snic`, `pl_pesel`, `pt_nif`, `ro_cnp`, `sa_tin`, `se_pin`, `sg_fin`, `sg_nric`, `sk_dic`, `th_lc`, `th_pin`, `tr_tin`, `us_itin`, `us_itin_last_4`, `us_ssn`, `us_ssn_last_4`, `uy_dni`, `za_id`.
+  """
+  @type id_numbers :: %{
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    def __inner_types__ do
-      %{
-        "kana" => __MODULE__.Kana,
-        "kanji" => __MODULE__.Kanji
-      }
-    end
-  end
+  @typedoc """
+  * `authorizer` - Whether the individual is an authorizer of the Account's identity.
+  * `director` - Whether the individual is a director of the Account's identity. Directors are typically members of the governing board of the company or are responsible for making sure that the company meets its regulatory obligations.
+  * `executive` - Whether the individual has significant responsibility to control, manage, or direct the organization.
+  * `legal_guardian` - Whether the individual is the legal guardian of the Account's representative.
+  * `owner` - Whether the individual is an owner of the Account's identity.
+  * `percent_ownership` - The percentage of the Account's identity that the individual owns. Format: decimal string.
+  * `representative` - Whether the individual is authorized as the primary representative of the Account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
+  * `title` - The individual's title (e.g., CEO, Support Engineer).
+  """
+  @type relationship :: %{
+          optional(:authorizer) => boolean() | nil,
+          optional(:director) => boolean() | nil,
+          optional(:executive) => boolean() | nil,
+          optional(:legal_guardian) => boolean() | nil,
+          optional(:owner) => boolean() | nil,
+          optional(:percent_ownership) => String.t() | nil,
+          optional(:representative) => boolean() | nil,
+          optional(:title) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule ScriptNames do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `kana` - Kana Address.
+  * `kanji` - Kanji Address.
+  """
+  @type script_addresses :: %{
+          optional(:kana) => script_addresses_kana() | nil,
+          optional(:kanji) => script_addresses_kanji() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `kana` - Persons name in kana script.
-    * `kanji` - Persons name in kanji script.
-    """
-    @type t :: %__MODULE__{
-            kana: __MODULE__.Kana.t() | nil,
-            kanji: __MODULE__.Kanji.t() | nil
-          }
-    defstruct [:kana, :kanji]
+  @typedoc """
+  * `city` - City, district, suburb, town, or village.
+  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+  * `line1` - Address line 1 (e.g., street, PO Box, or company name).
+  * `line2` - Address line 2 (e.g., apartment, suite, unit, or building).
+  * `postal_code` - ZIP or postal code.
+  * `state` - State, county, province, or region.
+  * `town` - Town or district.
+  """
+  @type script_addresses_kana :: %{
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:line1) => String.t() | nil,
+          optional(:line2) => String.t() | nil,
+          optional(:postal_code) => String.t() | nil,
+          optional(:state) => String.t() | nil,
+          optional(:town) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Kana do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `city` - City, district, suburb, town, or village.
+  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+  * `line1` - Address line 1 (e.g., street, PO Box, or company name).
+  * `line2` - Address line 2 (e.g., apartment, suite, unit, or building).
+  * `postal_code` - ZIP or postal code.
+  * `state` - State, county, province, or region.
+  * `town` - Town or district.
+  """
+  @type script_addresses_kanji :: %{
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:line1) => String.t() | nil,
+          optional(:line2) => String.t() | nil,
+          optional(:postal_code) => String.t() | nil,
+          optional(:state) => String.t() | nil,
+          optional(:town) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `given_name` - The person's first or given name.
-      * `surname` - The person's last or family name.
-      """
-      @type t :: %__MODULE__{
-              given_name: String.t() | nil,
-              surname: String.t() | nil
-            }
-      defstruct [:given_name, :surname]
-    end
+  @typedoc """
+  * `kana` - Persons name in kana script.
+  * `kanji` - Persons name in kanji script.
+  """
+  @type script_names :: %{
+          optional(:kana) => script_names_kana() | nil,
+          optional(:kanji) => script_names_kanji() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Kanji do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `given_name` - The person's first or given name.
+  * `surname` - The person's last or family name.
+  """
+  @type script_names_kana :: %{
+          optional(:given_name) => String.t() | nil,
+          optional(:surname) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `given_name` - The person's first or given name.
-      * `surname` - The person's last or family name.
-      """
-      @type t :: %__MODULE__{
-              given_name: String.t() | nil,
-              surname: String.t() | nil
-            }
-      defstruct [:given_name, :surname]
-    end
+  @typedoc """
+  * `given_name` - The person's first or given name.
+  * `surname` - The person's last or family name.
+  """
+  @type script_names_kanji :: %{
+          optional(:given_name) => String.t() | nil,
+          optional(:surname) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    def __inner_types__ do
-      %{
-        "kana" => __MODULE__.Kana,
-        "kanji" => __MODULE__.Kanji
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "additional_addresses" => __MODULE__.AdditionalAddresses,
-      "additional_names" => __MODULE__.AdditionalNames,
-      "additional_terms_of_service" => __MODULE__.AdditionalTermsOfService,
-      "address" => __MODULE__.Address,
-      "date_of_birth" => __MODULE__.DateOfBirth,
-      "documents" => __MODULE__.Documents,
-      "id_numbers" => __MODULE__.IdNumbers,
-      "relationship" => __MODULE__.Relationship,
-      "script_addresses" => __MODULE__.ScriptAddresses,
-      "script_names" => __MODULE__.ScriptNames
+      "additional_addresses" => %{
+        fields: %{
+          "city" => :scalar,
+          "country" => :scalar,
+          "line1" => :scalar,
+          "line2" => :scalar,
+          "postal_code" => :scalar,
+          "purpose" => :scalar,
+          "state" => :scalar,
+          "town" => :scalar
+        }
+      },
+      "additional_names" => %{
+        fields: %{
+          "full_name" => :scalar,
+          "given_name" => :scalar,
+          "purpose" => :scalar,
+          "surname" => :scalar
+        }
+      },
+      "additional_terms_of_service" => %{
+        fields: %{
+          "account" => %{
+            fields: %{
+              "date" => :scalar,
+              "ip" => :scalar,
+              "user_agent" => :scalar
+            }
+          }
+        }
+      },
+      "address" => %{
+        fields: %{
+          "city" => :scalar,
+          "country" => :scalar,
+          "line1" => :scalar,
+          "line2" => :scalar,
+          "postal_code" => :scalar,
+          "state" => :scalar,
+          "town" => :scalar
+        }
+      },
+      "date_of_birth" => %{
+        fields: %{
+          "day" => :scalar,
+          "month" => :scalar,
+          "year" => :scalar
+        }
+      },
+      "documents" => %{
+        fields: %{
+          "company_authorization" => %{
+            fields: %{
+              "files" => {:list, :scalar},
+              "type" => :scalar
+            }
+          },
+          "passport" => %{
+            fields: %{
+              "files" => {:list, :scalar},
+              "type" => :scalar
+            }
+          },
+          "primary_verification" => %{
+            fields: %{
+              "front_back" => %{
+                fields: %{
+                  "back" => :scalar,
+                  "front" => :scalar
+                }
+              },
+              "type" => :scalar
+            }
+          },
+          "secondary_verification" => %{
+            fields: %{
+              "front_back" => %{
+                fields: %{
+                  "back" => :scalar,
+                  "front" => :scalar
+                }
+              },
+              "type" => :scalar
+            }
+          },
+          "visa" => %{
+            fields: %{
+              "files" => {:list, :scalar},
+              "type" => :scalar
+            }
+          }
+        }
+      },
+      "id_numbers" => %{
+        fields: %{
+          "type" => :scalar
+        }
+      },
+      "relationship" => %{
+        fields: %{
+          "authorizer" => :scalar,
+          "director" => :scalar,
+          "executive" => :scalar,
+          "legal_guardian" => :scalar,
+          "owner" => :scalar,
+          "percent_ownership" => :scalar,
+          "representative" => :scalar,
+          "title" => :scalar
+        }
+      },
+      "script_addresses" => %{
+        fields: %{
+          "kana" => %{
+            fields: %{
+              "city" => :scalar,
+              "country" => :scalar,
+              "line1" => :scalar,
+              "line2" => :scalar,
+              "postal_code" => :scalar,
+              "state" => :scalar,
+              "town" => :scalar
+            }
+          },
+          "kanji" => %{
+            fields: %{
+              "city" => :scalar,
+              "country" => :scalar,
+              "line1" => :scalar,
+              "line2" => :scalar,
+              "postal_code" => :scalar,
+              "state" => :scalar,
+              "town" => :scalar
+            }
+          }
+        }
+      },
+      "script_names" => %{
+        fields: %{
+          "kana" => %{
+            fields: %{
+              "given_name" => :scalar,
+              "surname" => :scalar
+            }
+          },
+          "kanji" => %{
+            fields: %{
+              "given_name" => :scalar,
+              "surname" => :scalar
+            }
+          }
+        }
+      }
     }
   end
 end

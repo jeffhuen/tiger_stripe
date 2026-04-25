@@ -10,7 +10,7 @@ defmodule Stripe.Resources.ProductFeature do
   @typedoc """
   * `entitlement_feature` - Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `product_feature`.
   """
   @type t :: %__MODULE__{
@@ -27,9 +27,9 @@ defmodule Stripe.Resources.ProductFeature do
 
   def expandable_fields, do: ["entitlement_feature"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "entitlement_feature" => Stripe.Resources.Entitlements.Feature
+      "entitlement_feature" => {:resource, Stripe.Resources.Entitlements.Feature}
     }
   end
 end

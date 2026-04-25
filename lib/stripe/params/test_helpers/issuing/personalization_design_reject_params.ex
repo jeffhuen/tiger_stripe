@@ -8,22 +8,18 @@ defmodule Stripe.Params.TestHelpers.Issuing.PersonalizationDesignRejectParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          rejection_reasons: __MODULE__.RejectionReasons.t()
+          rejection_reasons: rejection_reasons()
         }
 
   defstruct [:expand, :rejection_reasons]
 
-  defmodule RejectionReasons do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `card_logo` - The reason(s) the card logo was rejected.
-    * `carrier_text` - The reason(s) the carrier text was rejected.
-    """
-    @type t :: %__MODULE__{
-            card_logo: [String.t()] | nil,
-            carrier_text: [String.t()] | nil
-          }
-    defstruct [:card_logo, :carrier_text]
-  end
+  @typedoc """
+  * `card_logo` - The reason(s) the card logo was rejected.
+  * `carrier_text` - The reason(s) the carrier text was rejected.
+  """
+  @type rejection_reasons :: %{
+          optional(:card_logo) => [String.t()] | nil,
+          optional(:carrier_text) => [String.t()] | nil,
+          optional(String.t()) => term()
+        }
 end

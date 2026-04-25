@@ -91,48 +91,42 @@ defmodule Stripe.Deserializer do
   defp populate_struct(module, data, opts) do
     Code.ensure_loaded!(module)
 
-    inner_types =
-      if function_exported?(module, :__inner_types__, 0),
-        do: module.__inner_types__(),
+    nested_fields =
+      if function_exported?(module, :__nested_fields__, 0),
+        do: module.__nested_fields__(),
         else: %{}
 
-    to_struct(module, data, inner_types, opts)
+    to_struct(module, data, nested_fields, opts)
   end
 
-  defp to_struct(module, data, inner_types, opts) do
+  defp to_struct(module, data, nested_fields, opts) do
     module.__struct__()
     |> Map.keys()
     |> List.delete(:__struct__)
     |> Enum.map(fn atom_key ->
       string_key = Atom.to_string(atom_key)
       raw = Map.get(data, string_key)
-      {atom_key, cast_field(string_key, raw, inner_types, opts)}
+      {atom_key, cast_field(string_key, raw, nested_fields, opts)}
     end)
     |> then(&struct(module, &1))
   end
 
-  defp cast_field(_key, nil, _inner_types, _opts), do: nil
+  defp cast_field(_key, nil, _nested_fields, _opts), do: nil
 
-  # Field has an inner type mapping and the value is a list → cast each element
-  defp cast_field(key, raw, inner_types, opts)
-       when is_map_key(inner_types, key) and is_list(raw) do
-    inner_module = Map.fetch!(inner_types, key)
-    Enum.map(raw, &cast_to_inner_struct(inner_module, &1, opts))
+  # Field has generated nested-shape metadata and the value is present.
+  defp cast_field(key, raw, nested_fields, opts) when is_map_key(nested_fields, key) do
+    nested_fields
+    |> Map.fetch!(key)
+    |> cast_with_metadata(raw, opts)
   end
 
-  # Field has an inner type mapping and the value is a map → cast to inner type struct
-  defp cast_field(key, %{} = raw, inner_types, opts) when is_map_key(inner_types, key) do
-    inner_module = Map.fetch!(inner_types, key)
-    cast_to_inner_struct(inner_module, raw, opts)
-  end
-
-  # Expanded object (map with "object" key, no inner type match) → recursive cast
-  defp cast_field(_key, %{"object" => _} = raw, _inner_types, opts) do
+  # Expanded object (map with "object" key, no nested metadata match) → recursive cast
+  defp cast_field(_key, %{"object" => _} = raw, _nested_fields, opts) do
     cast(raw, opts)
   end
 
-  # List without inner type match → cast each element that has an "object" key
-  defp cast_field(_key, raw, _inner_types, opts) when is_list(raw) do
+  # List without nested metadata → cast each element that has an "object" key
+  defp cast_field(_key, raw, _nested_fields, opts) when is_list(raw) do
     Enum.map(raw, fn
       %{"object" => _} = item -> cast(item, opts)
       other -> other
@@ -140,27 +134,41 @@ defmodule Stripe.Deserializer do
   end
 
   # Scalar passthrough
-  defp cast_field(_key, raw, _inner_types, _opts), do: raw
+  defp cast_field(_key, raw, _nested_fields, _opts), do: raw
 
-  # Cast a raw map into an inner type struct, recursively casting fields
-  defp cast_to_inner_struct(module, %{} = raw, opts) do
-    Code.ensure_loaded!(module)
+  defp cast_with_metadata(_metadata, nil, _opts), do: nil
 
-    inner_types =
-      if function_exported?(module, :__inner_types__, 0),
-        do: module.__inner_types__(),
-        else: %{}
-
-    module.__struct__()
-    |> Map.keys()
-    |> List.delete(:__struct__)
-    |> Enum.map(fn atom_key ->
-      string_key = Atom.to_string(atom_key)
-      raw_value = Map.get(raw, string_key)
-      {atom_key, cast_field(string_key, raw_value, inner_types, opts)}
-    end)
-    |> then(&struct(module, &1))
+  defp cast_with_metadata({:list, metadata}, raw, opts) when is_list(raw) do
+    Enum.map(raw, &cast_with_metadata(metadata, &1, opts))
   end
 
-  defp cast_to_inner_struct(_module, raw, _opts), do: raw
+  defp cast_with_metadata({:map, metadata}, raw, opts) when is_map(raw) do
+    Map.new(raw, fn {key, value} -> {key, cast_with_metadata(metadata, value, opts)} end)
+  end
+
+  defp cast_with_metadata({:resource, module}, %{} = raw, opts) do
+    populate_struct(module, raw, opts)
+  end
+
+  defp cast_with_metadata(%{fields: fields}, %{} = raw, opts) do
+    known =
+      fields
+      |> Enum.map(fn {string_key, metadata} ->
+        atom_key = String.to_atom(string_key)
+        raw_value = Map.get(raw, string_key)
+        {atom_key, cast_with_metadata(metadata, raw_value, opts)}
+      end)
+      |> Map.new()
+
+    unknown =
+      raw
+      |> Enum.reject(fn {key, _value} -> Map.has_key?(fields, key) end)
+      |> Map.new()
+
+    Map.merge(unknown, known)
+  end
+
+  defp cast_with_metadata(:scalar, %{"object" => _} = raw, opts), do: cast(raw, opts)
+
+  defp cast_with_metadata(_metadata, raw, _opts), do: raw
 end

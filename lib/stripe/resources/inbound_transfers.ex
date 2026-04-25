@@ -20,9 +20,9 @@ defmodule Stripe.Resources.InboundTransfers do
 
   def expandable_fields, do: ["ach"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "ach" => Stripe.Resources.InboundAchToggleSettings
+      "ach" => {:resource, Stripe.Resources.InboundAchToggleSettings}
     }
   end
 end

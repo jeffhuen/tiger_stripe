@@ -12,36 +12,28 @@ defmodule Stripe.Params.ShippingRateUpdateParams do
   @type t :: %__MODULE__{
           active: boolean() | nil,
           expand: [String.t()] | nil,
-          fixed_amount: __MODULE__.FixedAmount.t() | nil,
+          fixed_amount: fixed_amount() | nil,
           metadata: map() | nil,
           tax_behavior: String.t() | nil
         }
 
   defstruct [:active, :expand, :fixed_amount, :metadata, :tax_behavior]
 
-  defmodule FixedAmount do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `currency_options` - Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+  """
+  @type fixed_amount :: %{
+          optional(:currency_options) => %{String.t() => fixed_amount_currency_options()} | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `currency_options` - Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-    """
-    @type t :: %__MODULE__{
-            currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil
-          }
-    defstruct [:currency_options]
-
-    defmodule CurrencyOptions do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `amount` - A non-negative integer in cents representing how much to charge.
-      * `tax_behavior` - Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Possible values: `exclusive`, `inclusive`, `unspecified`.
-      """
-      @type t :: %__MODULE__{
-              amount: integer() | nil,
-              tax_behavior: String.t() | nil
-            }
-      defstruct [:amount, :tax_behavior]
-    end
-  end
+  @typedoc """
+  * `amount` - A non-negative integer in cents representing how much to charge.
+  * `tax_behavior` - Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Possible values: `exclusive`, `inclusive`, `unspecified`.
+  """
+  @type fixed_amount_currency_options :: %{
+          optional(:amount) => integer() | nil,
+          optional(:tax_behavior) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

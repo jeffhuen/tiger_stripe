@@ -11,7 +11,7 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
   * `carrier_text` - Hash containing carrier text, for use with physical bundles that support carrier text. Nullable. Expandable.
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `lookup_key` - A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters. Max length: 5000. Nullable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `name` - Friendly display name. Max length: 5000. Nullable.
@@ -23,7 +23,7 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
   """
   @type t :: %__MODULE__{
           card_logo: String.t() | Stripe.Resources.File.t(),
-          carrier_text: __MODULE__.CarrierText.t(),
+          carrier_text: carrier_text(),
           created: integer(),
           id: String.t(),
           livemode: boolean(),
@@ -32,8 +32,8 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
           name: String.t(),
           object: String.t(),
           physical_bundle: String.t() | Stripe.Resources.Issuing.PhysicalBundle.t(),
-          preferences: __MODULE__.Preferences.t(),
-          rejection_reasons: __MODULE__.RejectionReasons.t(),
+          preferences: preferences(),
+          rejection_reasons: rejection_reasons(),
           status: String.t()
         }
 
@@ -59,57 +59,62 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
   def expandable_fields,
     do: ["card_logo", "carrier_text", "physical_bundle", "preferences", "rejection_reasons"]
 
-  defmodule CarrierText do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `footer_body` - The footer body text of the carrier letter. Max length: 5000. Nullable.
+  * `footer_title` - The footer title text of the carrier letter. Max length: 5000. Nullable.
+  * `header_body` - The header body text of the carrier letter. Max length: 5000. Nullable.
+  * `header_title` - The header title text of the carrier letter. Max length: 5000. Nullable.
+  """
+  @type carrier_text :: %{
+          optional(:footer_body) => String.t() | nil,
+          optional(:footer_title) => String.t() | nil,
+          optional(:header_body) => String.t() | nil,
+          optional(:header_title) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `footer_body` - The footer body text of the carrier letter. Max length: 5000. Nullable.
-    * `footer_title` - The footer title text of the carrier letter. Max length: 5000. Nullable.
-    * `header_body` - The header body text of the carrier letter. Max length: 5000. Nullable.
-    * `header_title` - The header title text of the carrier letter. Max length: 5000. Nullable.
-    """
-    @type t :: %__MODULE__{
-            footer_body: String.t() | nil,
-            footer_title: String.t() | nil,
-            header_body: String.t() | nil,
-            header_title: String.t() | nil
-          }
-    defstruct [:footer_body, :footer_title, :header_body, :header_title]
-  end
+  @typedoc """
+  * `is_default` - Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
+  * `is_platform_default` - Whether this personalization design is used to create cards when one is not specified and a default for this connected account does not exist. Nullable.
+  """
+  @type preferences :: %{
+          optional(:is_default) => boolean() | nil,
+          optional(:is_platform_default) => boolean() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Preferences do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `card_logo` - The reason(s) the card logo was rejected. Nullable.
+  * `carrier_text` - The reason(s) the carrier text was rejected. Nullable.
+  """
+  @type rejection_reasons :: %{
+          optional(:card_logo) => [String.t()] | nil,
+          optional(:carrier_text) => [String.t()] | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `is_default` - Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
-    * `is_platform_default` - Whether this personalization design is used to create cards when one is not specified and a default for this connected account does not exist. Nullable.
-    """
-    @type t :: %__MODULE__{
-            is_default: boolean() | nil,
-            is_platform_default: boolean() | nil
-          }
-    defstruct [:is_default, :is_platform_default]
-  end
-
-  defmodule RejectionReasons do
-    @moduledoc "Nested struct within the parent resource."
-
-    @typedoc """
-    * `card_logo` - The reason(s) the card logo was rejected. Nullable.
-    * `carrier_text` - The reason(s) the carrier text was rejected. Nullable.
-    """
-    @type t :: %__MODULE__{
-            card_logo: [String.t()] | nil,
-            carrier_text: [String.t()] | nil
-          }
-    defstruct [:card_logo, :carrier_text]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "carrier_text" => __MODULE__.CarrierText,
-      "preferences" => __MODULE__.Preferences,
-      "rejection_reasons" => __MODULE__.RejectionReasons
+      "carrier_text" => %{
+        fields: %{
+          "footer_body" => :scalar,
+          "footer_title" => :scalar,
+          "header_body" => :scalar,
+          "header_title" => :scalar
+        }
+      },
+      "preferences" => %{
+        fields: %{
+          "is_default" => :scalar,
+          "is_platform_default" => :scalar
+        }
+      },
+      "rejection_reasons" => %{
+        fields: %{
+          "card_logo" => {:list, :scalar},
+          "carrier_text" => {:list, :scalar}
+        }
+      }
     }
   end
 end

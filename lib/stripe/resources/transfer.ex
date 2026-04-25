@@ -25,7 +25,7 @@ defmodule Stripe.Resources.Transfer do
   * `destination` - ID of the Stripe account the transfer was sent to. Nullable. Expandable.
   * `destination_payment` - If the destination is a Stripe account, this will be the ID of the payment that the destination account received for the transfer. Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `transfer`.
   * `reversals` - A list of reversals that have been applied to the transfer. Expandable.
@@ -47,7 +47,7 @@ defmodule Stripe.Resources.Transfer do
           livemode: boolean(),
           metadata: %{String.t() => String.t()},
           object: String.t(),
-          reversals: __MODULE__.Reversals.t(),
+          reversals: reversals(),
           reversed: boolean(),
           source_transaction: String.t() | Stripe.Resources.Charge.t(),
           source_type: String.t() | nil,
@@ -86,27 +86,30 @@ defmodule Stripe.Resources.Transfer do
       "source_transaction"
     ]
 
-  defmodule Reversals do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `data` - Details about each object.
+  * `has_more` - True if this list has another page of items after this one that can be fetched.
+  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
+  * `url` - The URL where this list can be accessed. Max length: 5000.
+  """
+  @type reversals :: %{
+          optional(:data) => [Stripe.Resources.TransferReversal.t()] | nil,
+          optional(:has_more) => boolean() | nil,
+          optional(:object) => String.t() | nil,
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `data` - Details about each object.
-    * `has_more` - True if this list has another page of items after this one that can be fetched.
-    * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-    * `url` - The URL where this list can be accessed. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            data: [Stripe.Resources.TransferReversal.t()] | nil,
-            has_more: boolean() | nil,
-            object: String.t() | nil,
-            url: String.t() | nil
-          }
-    defstruct [:data, :has_more, :object, :url]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "reversals" => __MODULE__.Reversals
+      "reversals" => %{
+        fields: %{
+          "data" => {:list, {:resource, Stripe.Resources.TransferReversal}},
+          "has_more" => :scalar,
+          "object" => :scalar,
+          "url" => :scalar
+        }
+      }
     }
   end
 end

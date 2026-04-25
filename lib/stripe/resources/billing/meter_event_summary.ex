@@ -13,7 +13,7 @@ defmodule Stripe.Resources.Billing.MeterEventSummary do
   * `aggregated_value` - Aggregated value of all the events within `start_time` (inclusive) and `end_time` (inclusive). The aggregation strategy is defined on meter via `default_aggregation`.
   * `end_time` - End timestamp for this event summary (exclusive). Must be aligned with minute boundaries. Format: Unix timestamp.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `meter` - The meter associated with this event summary. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `billing.meter_event_summary`.
   * `start_time` - Start timestamp for this event summary (inclusive). Must be aligned with minute boundaries. Format: Unix timestamp.

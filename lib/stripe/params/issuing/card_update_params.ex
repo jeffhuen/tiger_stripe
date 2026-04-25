@@ -17,9 +17,9 @@ defmodule Stripe.Params.Issuing.CardUpdateParams do
           expand: [String.t()] | nil,
           metadata: map() | nil,
           personalization_design: String.t() | nil,
-          pin: __MODULE__.Pin.t() | nil,
-          shipping: __MODULE__.Shipping.t() | nil,
-          spending_controls: __MODULE__.SpendingControls.t() | nil,
+          pin: pin() | nil,
+          shipping: shipping() | nil,
+          spending_controls: spending_controls() | nil,
           status: String.t() | nil
         }
 
@@ -34,138 +34,95 @@ defmodule Stripe.Params.Issuing.CardUpdateParams do
     :status
   ]
 
-  defmodule Pin do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `encrypted_number` - The card's desired new PIN, encrypted under Stripe's public key. Max length: 5000.
+  """
+  @type pin :: %{
+          optional(:encrypted_number) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `encrypted_number` - The card's desired new PIN, encrypted under Stripe's public key. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            encrypted_number: String.t() | nil
-          }
-    defstruct [:encrypted_number]
-  end
+  @typedoc """
+  * `address` - The address that the card is shipped to.
+  * `address_validation` - Address validation settings.
+  * `customs` - Customs information for the shipment.
+  * `name` - The name printed on the shipping label when shipping the card. Max length: 5000.
+  * `phone_number` - Phone number of the recipient of the shipment.
+  * `require_signature` - Whether a signature is required for card delivery.
+  * `service` - Shipment service. Possible values: `express`, `priority`, `standard`.
+  * `type` - Packaging options. Possible values: `bulk`, `individual`.
+  """
+  @type shipping :: %{
+          optional(:address) => shipping_address() | nil,
+          optional(:address_validation) => shipping_address_validation() | nil,
+          optional(:customs) => shipping_customs() | nil,
+          optional(:name) => String.t() | nil,
+          optional(:phone_number) => String.t() | nil,
+          optional(:require_signature) => boolean() | nil,
+          optional(:service) => String.t() | nil,
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule Shipping do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `city` - City, district, suburb, town, or village. Max length: 5000.
+  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+  * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
+  * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
+  * `postal_code` - ZIP or postal code. Max length: 5000.
+  * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+  """
+  @type shipping_address :: %{
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:line1) => String.t() | nil,
+          optional(:line2) => String.t() | nil,
+          optional(:postal_code) => String.t() | nil,
+          optional(:state) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `address` - The address that the card is shipped to.
-    * `address_validation` - Address validation settings.
-    * `customs` - Customs information for the shipment.
-    * `name` - The name printed on the shipping label when shipping the card. Max length: 5000.
-    * `phone_number` - Phone number of the recipient of the shipment.
-    * `require_signature` - Whether a signature is required for card delivery.
-    * `service` - Shipment service. Possible values: `express`, `priority`, `standard`.
-    * `type` - Packaging options. Possible values: `bulk`, `individual`.
-    """
-    @type t :: %__MODULE__{
-            address: __MODULE__.Address.t() | nil,
-            address_validation: __MODULE__.AddressValidation.t() | nil,
-            customs: __MODULE__.Customs.t() | nil,
-            name: String.t() | nil,
-            phone_number: String.t() | nil,
-            require_signature: boolean() | nil,
-            service: String.t() | nil,
-            type: String.t() | nil
-          }
-    defstruct [
-      :address,
-      :address_validation,
-      :customs,
-      :name,
-      :phone_number,
-      :require_signature,
-      :service,
-      :type
-    ]
+  @typedoc """
+  * `mode` - The address validation capabilities to use. Possible values: `disabled`, `normalization_only`, `validation_and_normalization`.
+  """
+  @type shipping_address_validation :: %{
+          optional(:mode) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Address do
-      @moduledoc "Nested parameters."
+  @typedoc """
+  * `eori_number` - The Economic Operators Registration and Identification (EORI) number to use for Customs. Required for bulk shipments to Europe. Max length: 5000.
+  """
+  @type shipping_customs :: %{
+          optional(:eori_number) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `city` - City, district, suburb, town, or village. Max length: 5000.
-      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
-      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
-      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
-      * `postal_code` - ZIP or postal code. Max length: 5000.
-      * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              city: String.t() | nil,
-              country: String.t() | nil,
-              line1: String.t() | nil,
-              line2: String.t() | nil,
-              postal_code: String.t() | nil,
-              state: String.t() | nil
-            }
-      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
-    end
+  @typedoc """
+  * `allowed_categories` - Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
+  * `allowed_merchant_countries` - Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
+  * `blocked_categories` - Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
+  * `blocked_merchant_countries` - Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
+  * `spending_limits` - Limit spending with amount-based rules that apply across any cards this card replaced (i.e., its `replacement_for` card and _that_ card's `replacement_for` card, up the chain).
+  """
+  @type spending_controls :: %{
+          optional(:allowed_categories) => [String.t()] | nil,
+          optional(:allowed_merchant_countries) => [String.t()] | nil,
+          optional(:blocked_categories) => [String.t()] | nil,
+          optional(:blocked_merchant_countries) => [String.t()] | nil,
+          optional(:spending_limits) => [spending_controls_spending_limits()] | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule AddressValidation do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `mode` - The address validation capabilities to use. Possible values: `disabled`, `normalization_only`, `validation_and_normalization`.
-      """
-      @type t :: %__MODULE__{
-              mode: String.t() | nil
-            }
-      defstruct [:mode]
-    end
-
-    defmodule Customs do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `eori_number` - The Economic Operators Registration and Identification (EORI) number to use for Customs. Required for bulk shipments to Europe. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              eori_number: String.t() | nil
-            }
-      defstruct [:eori_number]
-    end
-  end
-
-  defmodule SpendingControls do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `allowed_categories` - Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
-    * `allowed_merchant_countries` - Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
-    * `blocked_categories` - Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
-    * `blocked_merchant_countries` - Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
-    * `spending_limits` - Limit spending with amount-based rules that apply across any cards this card replaced (i.e., its `replacement_for` card and _that_ card's `replacement_for` card, up the chain).
-    """
-    @type t :: %__MODULE__{
-            allowed_categories: [String.t()] | nil,
-            allowed_merchant_countries: [String.t()] | nil,
-            blocked_categories: [String.t()] | nil,
-            blocked_merchant_countries: [String.t()] | nil,
-            spending_limits: [__MODULE__.SpendingLimits.t()] | nil
-          }
-    defstruct [
-      :allowed_categories,
-      :allowed_merchant_countries,
-      :blocked_categories,
-      :blocked_merchant_countries,
-      :spending_limits
-    ]
-
-    defmodule SpendingLimits do
-      @moduledoc "Nested parameters."
-
-      @typedoc """
-      * `amount` - Maximum amount allowed to spend per interval.
-      * `categories` - Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
-      * `interval` - Interval (or event) to which the amount applies. Possible values: `all_time`, `daily`, `monthly`, `per_authorization`, `weekly`, `yearly`.
-      """
-      @type t :: %__MODULE__{
-              amount: integer() | nil,
-              categories: [String.t()] | nil,
-              interval: String.t() | nil
-            }
-      defstruct [:amount, :categories, :interval]
-    end
-  end
+  @typedoc """
+  * `amount` - Maximum amount allowed to spend per interval.
+  * `categories` - Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
+  * `interval` - Interval (or event) to which the amount applies. Possible values: `all_time`, `daily`, `monthly`, `per_authorization`, `weekly`, `yearly`.
+  """
+  @type spending_controls_spending_limits :: %{
+          optional(:amount) => integer() | nil,
+          optional(:categories) => [String.t()] | nil,
+          optional(:interval) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

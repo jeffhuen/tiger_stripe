@@ -20,9 +20,9 @@ defmodule Stripe.Resources.FinancialAddresses do
 
   def expandable_fields, do: ["aba"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "aba" => Stripe.Resources.AbaToggleSettings
+      "aba" => {:resource, Stripe.Resources.AbaToggleSettings}
     }
   end
 end

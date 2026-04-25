@@ -13,9 +13,9 @@ defmodule Stripe.Resources.Radar.ValueList do
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `created_by` - The name or email address of the user who created this value list. Max length: 5000.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `item_type` - The type of items in the value list. One of `card_fingerprint`, `card_bin`, `crypto_fingerprint`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Possible values: `card_bin`, `card_fingerprint`, `case_sensitive_string`, `country`, `crypto_fingerprint`, `customer_id`, `email`, `ip_address`, `sepa_debit_fingerprint`, `string`, `us_bank_account_fingerprint`.
+  * `item_type` - The type of items in the value list. One of `card_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Possible values: `card_bin`, `card_fingerprint`, `case_sensitive_string`, `country`, `customer_id`, `email`, `ip_address`, `sepa_debit_fingerprint`, `string`, `us_bank_account_fingerprint`.
   * `list_items` - List of items contained within this value list. Expandable.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `name` - The name of the value list. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `radar.value_list`.
@@ -26,7 +26,7 @@ defmodule Stripe.Resources.Radar.ValueList do
           created_by: String.t(),
           id: String.t(),
           item_type: String.t(),
-          list_items: __MODULE__.ListItems.t(),
+          list_items: list_items(),
           livemode: boolean(),
           metadata: %{String.t() => String.t()},
           name: String.t(),
@@ -51,27 +51,30 @@ defmodule Stripe.Resources.Radar.ValueList do
 
   def expandable_fields, do: ["list_items"]
 
-  defmodule ListItems do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `data` - Details about each object.
+  * `has_more` - True if this list has another page of items after this one that can be fetched.
+  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
+  * `url` - The URL where this list can be accessed. Max length: 5000.
+  """
+  @type list_items :: %{
+          optional(:data) => [Stripe.Resources.Radar.ValueListItem.t()] | nil,
+          optional(:has_more) => boolean() | nil,
+          optional(:object) => String.t() | nil,
+          optional(:url) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `data` - Details about each object.
-    * `has_more` - True if this list has another page of items after this one that can be fetched.
-    * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-    * `url` - The URL where this list can be accessed. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            data: [Stripe.Resources.Radar.ValueListItem.t()] | nil,
-            has_more: boolean() | nil,
-            object: String.t() | nil,
-            url: String.t() | nil
-          }
-    defstruct [:data, :has_more, :object, :url]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "list_items" => __MODULE__.ListItems
+      "list_items" => %{
+        fields: %{
+          "data" => {:list, {:resource, Stripe.Resources.Radar.ValueListItem}},
+          "has_more" => :scalar,
+          "object" => :scalar,
+          "url" => :scalar
+        }
+      }
     }
   end
 end

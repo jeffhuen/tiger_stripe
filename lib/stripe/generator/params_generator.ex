@@ -84,7 +84,7 @@ defmodule Stripe.Generator.ParamsGenerator do
     type_fields =
       fields
       |> Enum.map_join(",\n", fn f ->
-        type_str = params_typespec(f.type)
+        type_str = params_typespec(f.type, [], f.name)
 
         type_str =
           if f.required do
@@ -96,10 +96,7 @@ defmodule Stripe.Generator.ParamsGenerator do
         "        #{f.name}: #{type_str}"
       end)
 
-    nested_blocks =
-      nested_modules
-      |> Enum.sort_by(fn {name, _} -> name end)
-      |> Enum.map_join("", fn {_name, nested} -> generate_nested_params(nested, "  ") end)
+    nested_blocks = generate_nested_type_aliases(nested_modules)
 
     # @moduledoc from module name
     class_name =
@@ -221,54 +218,91 @@ defmodule Stripe.Generator.ParamsGenerator do
   defp resolve_param_type(_name, %{"type" => "object"}), do: {:map, %{}}
   defp resolve_param_type(_name, _), do: {:map, %{}}
 
-  defp generate_nested_params(nested, indent) do
+  defp generate_nested_type_aliases(nested_modules) when map_size(nested_modules) == 0, do: ""
+
+  defp generate_nested_type_aliases(nested_modules) do
+    nested_modules
+    |> flatten_nested_params([])
+    |> Enum.map_join("", fn {path, nested} -> generate_nested_type_alias(path, nested) end)
+  end
+
+  defp flatten_nested_params(nested_modules, prefix) do
+    nested_modules
+    |> Enum.sort_by(fn {name, _} -> name end)
+    |> Enum.flat_map(fn {name, nested} ->
+      path = prefix ++ [name]
+      children = Map.get(nested, :children, %{})
+
+      [{path, nested} | flatten_nested_params(children, path)]
+    end)
+  end
+
+  defp generate_nested_type_alias(path, nested) do
     fields = Enum.sort_by(nested.fields, & &1.name)
-    struct_fields = Enum.map_join(fields, ", ", fn f -> ":#{f.name}" end)
+    type_name = local_type_name(path)
 
     type_fields =
       fields
       |> Enum.map_join(",\n", fn f ->
-        "#{indent}        #{f.name}: #{params_typespec(f.type)} | nil"
+        "          optional(#{atom_literal(f.name)}) => #{params_typespec(f.type, path, f.name)} | nil"
       end)
+
+    map_fields =
+      case type_fields do
+        "" -> "          optional(String.t()) => term()"
+        fields -> fields <> ",\n          optional(String.t()) => term()"
+      end
 
     typedoc =
       case DocFormatter.build_typedoc_table(fields) do
         nil -> ""
-        table -> "\n#{indent}  @typedoc \"\"\"\n#{table}\n#{indent}  \"\"\""
+        table -> "\n  @typedoc \"\"\"\n#{table}\n  \"\"\""
       end
 
-    children = Map.get(nested, :children, %{})
-
-    child_blocks =
-      children
-      |> Enum.sort_by(fn {name, _} -> name end)
-      |> Enum.map_join("", fn {_name, child} ->
-        generate_nested_params(child, indent <> "  ")
-      end)
-
     """
-
-    #{indent}defmodule #{nested.class_name} do
-    #{indent}  @moduledoc "Nested parameters."
     #{typedoc}
-    #{indent}  @type t :: %__MODULE__{
-    #{type_fields}
-    #{indent}    }
-    #{indent}  defstruct [#{struct_fields}]
-    #{child_blocks}#{indent}end
+      @type #{type_name} :: %{
+    #{map_fields}
+        }
     """
   end
 
-  defp params_typespec(:string), do: "String.t()"
-  defp params_typespec(:integer), do: "integer()"
-  defp params_typespec(:float), do: "float()"
-  defp params_typespec(:boolean), do: "boolean()"
-  defp params_typespec(:map), do: "map()"
-  defp params_typespec({:map, inner}), do: "%{String.t() => #{params_typespec(inner)}}"
-  defp params_typespec({:list, inner}), do: "[#{params_typespec(inner)}]"
-  defp params_typespec({:nullable, inner}), do: params_typespec(inner)
-  defp params_typespec({:nested, name}), do: "__MODULE__.#{name}.t()"
-  defp params_typespec(_), do: "term()"
+  defp atom_literal(name), do: name |> String.to_atom() |> inspect()
+
+  defp local_type_name(path) do
+    path
+    |> Enum.map(&safe_type_part/1)
+    |> Enum.join("_")
+  end
+
+  defp safe_type_part(part) do
+    part =
+      part
+      |> Naming.to_snake_case()
+      |> String.replace(~r/[^a-zA-Z0-9_]/, "_")
+
+    if String.match?(part, ~r/^\d/), do: "field_#{part}", else: part
+  end
+
+  defp params_typespec(:string, _path, _field_name), do: "String.t()"
+  defp params_typespec(:integer, _path, _field_name), do: "integer()"
+  defp params_typespec(:float, _path, _field_name), do: "float()"
+  defp params_typespec(:boolean, _path, _field_name), do: "boolean()"
+  defp params_typespec(:map, _path, _field_name), do: "map()"
+
+  defp params_typespec({:map, inner}, path, field_name),
+    do: "%{String.t() => #{params_typespec(inner, path, field_name)}}"
+
+  defp params_typespec({:list, inner}, path, field_name),
+    do: "[#{params_typespec(inner, path, field_name)}]"
+
+  defp params_typespec({:nullable, inner}, path, field_name),
+    do: params_typespec(inner, path, field_name)
+
+  defp params_typespec({:nested, _name}, path, field_name),
+    do: "#{local_type_name(path ++ [field_name])}()"
+
+  defp params_typespec(_, _path, _field_name), do: "term()"
 
   # When params_overrides() gains entries, match here like resolve_service/2.
   defp resolve_params_class(op), do: op.service_class

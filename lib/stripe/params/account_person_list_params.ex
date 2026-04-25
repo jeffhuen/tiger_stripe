@@ -13,31 +13,27 @@ defmodule Stripe.Params.AccountPersonListParams do
           ending_before: String.t() | nil,
           expand: [String.t()] | nil,
           limit: integer() | nil,
-          relationship: __MODULE__.Relationship.t() | nil,
+          relationship: relationship() | nil,
           starting_after: String.t() | nil
         }
 
   defstruct [:ending_before, :expand, :limit, :relationship, :starting_after]
 
-  defmodule Relationship do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `authorizer` - A filter on the list of people returned based on whether these people are authorizers of the account's representative.
-    * `director` - A filter on the list of people returned based on whether these people are directors of the account's company.
-    * `executive` - A filter on the list of people returned based on whether these people are executives of the account's company.
-    * `legal_guardian` - A filter on the list of people returned based on whether these people are legal guardians of the account's representative.
-    * `owner` - A filter on the list of people returned based on whether these people are owners of the account's company.
-    * `representative` - A filter on the list of people returned based on whether these people are the representative of the account's company.
-    """
-    @type t :: %__MODULE__{
-            authorizer: boolean() | nil,
-            director: boolean() | nil,
-            executive: boolean() | nil,
-            legal_guardian: boolean() | nil,
-            owner: boolean() | nil,
-            representative: boolean() | nil
-          }
-    defstruct [:authorizer, :director, :executive, :legal_guardian, :owner, :representative]
-  end
+  @typedoc """
+  * `authorizer` - A filter on the list of people returned based on whether these people are authorizers of the account's representative.
+  * `director` - A filter on the list of people returned based on whether these people are directors of the account's company.
+  * `executive` - A filter on the list of people returned based on whether these people are executives of the account's company.
+  * `legal_guardian` - A filter on the list of people returned based on whether these people are legal guardians of the account's representative.
+  * `owner` - A filter on the list of people returned based on whether these people are owners of the account's company.
+  * `representative` - A filter on the list of people returned based on whether these people are the representative of the account's company.
+  """
+  @type relationship :: %{
+          optional(:authorizer) => boolean() | nil,
+          optional(:director) => boolean() | nil,
+          optional(:executive) => boolean() | nil,
+          optional(:legal_guardian) => boolean() | nil,
+          optional(:owner) => boolean() | nil,
+          optional(:representative) => boolean() | nil,
+          optional(String.t()) => term()
+        }
 end

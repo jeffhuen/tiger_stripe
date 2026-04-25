@@ -22,10 +22,10 @@ defmodule Stripe.Resources.OutboundTransfers do
 
   def expandable_fields, do: ["ach", "us_domestic_wire"]
 
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "ach" => Stripe.Resources.OutboundAchToggleSettings,
-      "us_domestic_wire" => Stripe.Resources.ToggleSettings
+      "ach" => {:resource, Stripe.Resources.OutboundAchToggleSettings},
+      "us_domestic_wire" => {:resource, Stripe.Resources.ToggleSettings}
     }
   end
 end

@@ -82,7 +82,7 @@ defmodule Stripe.Services.InvoiceService do
   @doc """
   Create an invoice
 
-  This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize](https://docs.stripe.com/api/invoices/finalize) the invoice, which allows you to [pay](https://docs.stripe.com/api/invoices/pay) or [send](https://docs.stripe.com/api/invoices/send) the invoice to your customers.
+  This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize](#finalize_invoice) the invoice, which allows you to [pay](https://docs.stripe.com/api/invoices/pay) or [send](https://docs.stripe.com/api/invoices/send) the invoice to your customers.
   """
   @spec create(Client.t(), map(), keyword()) ::
           {:ok, term()} | {:error, Stripe.Error.t()}
@@ -117,7 +117,7 @@ defmodule Stripe.Services.InvoiceService do
   @doc """
   Delete a draft invoice
 
-  Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://docs.stripe.com/api/invoices/void).
+  Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](#void_invoice).
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
           {:ok, term()} | {:error, Stripe.Error.t()}
@@ -283,9 +283,9 @@ defmodule Stripe.Services.InvoiceService do
   @doc """
   Void an invoice
 
-  Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to [deletion](https://docs.stripe.com/api/invoices/delete), however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.
+  Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to [deletion](#delete_invoice), however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.
 
-  Consult with local regulations to determine whether and how an invoice might be amended, canceled, or voided in the jurisdiction you’re doing business in. You might need to [issue another invoice](https://docs.stripe.com/api/invoices/create) or [credit note](https://docs.stripe.com/api/credit_notes/create) instead. Stripe recommends that you consult with your legal counsel for advice specific to your business.
+  Consult with local regulations to determine whether and how an invoice might be amended, canceled, or voided in the jurisdiction you’re doing business in. You might need to [issue another invoice](#create_invoice) or [credit note](#create_credit_note) instead. Stripe recommends that you consult with your legal counsel for advice specific to your business.
   """
   @spec void_invoice(Client.t(), String.t(), map(), keyword()) ::
           {:ok, term()} | {:error, Stripe.Error.t()}

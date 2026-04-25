@@ -2,8 +2,6 @@
 defmodule Stripe.Resources.V2.Billing.MeterEventAdjustment do
   @moduledoc """
   Meter Event Adjustment
-
-  A Meter Event Adjustment is used to cancel or modify previously recorded meter events. Meter Event Adjustments allow you to correct billing data by canceling individual events or event ranges, with tracking of adjustment status and creation time.
   """
 
   @typedoc """
@@ -17,7 +15,7 @@ defmodule Stripe.Resources.V2.Billing.MeterEventAdjustment do
   * `type` - Open Enum. Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet. Possible values: `cancel`.
   """
   @type t :: %__MODULE__{
-          cancel: __MODULE__.Cancel.t(),
+          cancel: cancel(),
           created: String.t(),
           event_name: String.t(),
           id: String.t(),
@@ -32,21 +30,21 @@ defmodule Stripe.Resources.V2.Billing.MeterEventAdjustment do
   @object_name "v2.billing.meter_event_adjustment"
   def object_name, do: @object_name
 
-  defmodule Cancel do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `identifier` - Unique identifier for the event. You can only cancel events within 24 hours of Stripe receiving them.
+  """
+  @type cancel :: %{
+          optional(:identifier) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `identifier` - Unique identifier for the event. You can only cancel events within 24 hours of Stripe receiving them.
-    """
-    @type t :: %__MODULE__{
-            identifier: String.t() | nil
-          }
-    defstruct [:identifier]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "cancel" => __MODULE__.Cancel
+      "cancel" => %{
+        fields: %{
+          "identifier" => :scalar
+        }
+      }
     }
   end
 end

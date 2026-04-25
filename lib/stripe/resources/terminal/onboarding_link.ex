@@ -14,7 +14,7 @@ defmodule Stripe.Resources.Terminal.OnboardingLink do
   * `redirect_url` - The link passed back to the user for their onboarding. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          link_options: __MODULE__.LinkOptions.t(),
+          link_options: link_options(),
           link_type: String.t(),
           object: String.t(),
           on_behalf_of: String.t(),
@@ -28,41 +28,37 @@ defmodule Stripe.Resources.Terminal.OnboardingLink do
 
   def expandable_fields, do: ["link_options"]
 
-  defmodule LinkOptions do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `apple_terms_and_conditions` - The options associated with the Apple Terms and Conditions link type. Nullable.
+  """
+  @type link_options :: %{
+          optional(:apple_terms_and_conditions) =>
+            link_options_apple_terms_and_conditions() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `apple_terms_and_conditions` - The options associated with the Apple Terms and Conditions link type. Nullable.
-    """
-    @type t :: %__MODULE__{
-            apple_terms_and_conditions: __MODULE__.AppleTermsAndConditions.t() | nil
-          }
-    defstruct [:apple_terms_and_conditions]
+  @typedoc """
+  * `allow_relinking` - Whether the link should also support users relinking their Apple account. Nullable.
+  * `merchant_display_name` - The business name of the merchant accepting Apple's Terms and Conditions. Max length: 5000.
+  """
+  @type link_options_apple_terms_and_conditions :: %{
+          optional(:allow_relinking) => boolean() | nil,
+          optional(:merchant_display_name) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule AppleTermsAndConditions do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `allow_relinking` - Whether the link should also support users relinking their Apple account. Nullable.
-      * `merchant_display_name` - The business name of the merchant accepting Apple's Terms and Conditions. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              allow_relinking: boolean() | nil,
-              merchant_display_name: String.t() | nil
-            }
-      defstruct [:allow_relinking, :merchant_display_name]
-    end
-
-    def __inner_types__ do
-      %{
-        "apple_terms_and_conditions" => __MODULE__.AppleTermsAndConditions
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "link_options" => __MODULE__.LinkOptions
+      "link_options" => %{
+        fields: %{
+          "apple_terms_and_conditions" => %{
+            fields: %{
+              "allow_relinking" => :scalar,
+              "merchant_display_name" => :scalar
+            }
+          }
+        }
+      }
     }
   end
 end

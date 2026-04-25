@@ -22,7 +22,7 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
   * `financial_account` - The FinancialAccount that funds were pulled from. Max length: 5000.
   * `hosted_regulatory_receipt_url` - A [hosted transaction receipt](https://docs.stripe.com/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `treasury.outbound_transfer`.
   * `returned_details` - Details about a returned OutboundTransfer. Only set when the status is `returned`. Nullable. Expandable.
@@ -52,7 +52,7 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
           statement_descriptor: String.t(),
           status: String.t(),
           status_transitions: Stripe.Resources.StatusTransitions.t(),
-          tracking_details: __MODULE__.TrackingDetails.t(),
+          tracking_details: tracking_details(),
           transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
         }
 
@@ -91,63 +91,61 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
       "transaction"
     ]
 
-  defmodule TrackingDetails do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `ach`
+  * `type` - The US bank account network used to send funds. Possible values: `ach`, `us_domestic_wire`.
+  * `us_domestic_wire`
+  """
+  @type tracking_details :: %{
+          optional(:ach) => tracking_details_ach() | nil,
+          optional(:type) => String.t() | nil,
+          optional(:us_domestic_wire) => tracking_details_us_domestic_wire() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `ach`
-    * `type` - The US bank account network used to send funds. Possible values: `ach`, `us_domestic_wire`.
-    * `us_domestic_wire`
-    """
-    @type t :: %__MODULE__{
-            ach: __MODULE__.Ach.t() | nil,
-            type: String.t() | nil,
-            us_domestic_wire: __MODULE__.UsDomesticWire.t() | nil
-          }
-    defstruct [:ach, :type, :us_domestic_wire]
+  @typedoc """
+  * `trace_id` - ACH trace ID of the OutboundTransfer for transfers sent over the `ach` network. Max length: 5000.
+  """
+  @type tracking_details_ach :: %{
+          optional(:trace_id) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    defmodule Ach do
-      @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `chips` - CHIPS System Sequence Number (SSN) of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
+  * `imad` - IMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
+  * `omad` - OMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
+  """
+  @type tracking_details_us_domestic_wire :: %{
+          optional(:chips) => String.t() | nil,
+          optional(:imad) => String.t() | nil,
+          optional(:omad) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-      @typedoc """
-      * `trace_id` - ACH trace ID of the OutboundTransfer for transfers sent over the `ach` network. Max length: 5000.
-      """
-      @type t :: %__MODULE__{
-              trace_id: String.t() | nil
-            }
-      defstruct [:trace_id]
-    end
-
-    defmodule UsDomesticWire do
-      @moduledoc "Nested struct within the parent resource."
-
-      @typedoc """
-      * `chips` - CHIPS System Sequence Number (SSN) of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
-      * `imad` - IMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
-      * `omad` - OMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
-      """
-      @type t :: %__MODULE__{
-              chips: String.t() | nil,
-              imad: String.t() | nil,
-              omad: String.t() | nil
-            }
-      defstruct [:chips, :imad, :omad]
-    end
-
-    def __inner_types__ do
-      %{
-        "ach" => __MODULE__.Ach,
-        "us_domestic_wire" => __MODULE__.UsDomesticWire
-      }
-    end
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "destination_payment_method_details" => Stripe.Resources.DestinationPaymentMethodDetails,
-      "returned_details" => Stripe.Resources.ReturnedDetails,
-      "status_transitions" => Stripe.Resources.StatusTransitions,
-      "tracking_details" => __MODULE__.TrackingDetails
+      "tracking_details" => %{
+        fields: %{
+          "ach" => %{
+            fields: %{
+              "trace_id" => :scalar
+            }
+          },
+          "type" => :scalar,
+          "us_domestic_wire" => %{
+            fields: %{
+              "chips" => :scalar,
+              "imad" => :scalar,
+              "omad" => :scalar
+            }
+          }
+        }
+      },
+      "destination_payment_method_details" =>
+        {:resource, Stripe.Resources.DestinationPaymentMethodDetails},
+      "returned_details" => {:resource, Stripe.Resources.ReturnedDetails},
+      "status_transitions" => {:resource, Stripe.Resources.StatusTransitions}
     }
   end
 end

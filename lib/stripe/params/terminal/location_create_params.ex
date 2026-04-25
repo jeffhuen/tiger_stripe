@@ -15,9 +15,9 @@ defmodule Stripe.Params.Terminal.LocationCreateParams do
   * `phone` - The phone number for the location.
   """
   @type t :: %__MODULE__{
-          address: __MODULE__.Address.t() | nil,
-          address_kana: __MODULE__.AddressKana.t() | nil,
-          address_kanji: __MODULE__.AddressKanji.t() | nil,
+          address: address() | nil,
+          address_kana: address_kana() | nil,
+          address_kanji: address_kanji() | nil,
           configuration_overrides: String.t() | nil,
           display_name: String.t() | nil,
           display_name_kana: String.t() | nil,
@@ -40,73 +40,61 @@ defmodule Stripe.Params.Terminal.LocationCreateParams do
     :phone
   ]
 
-  defmodule Address do
-    @moduledoc "Nested parameters."
+  @typedoc """
+  * `city` - City, district, suburb, town, or village. Max length: 5000.
+  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+  * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
+  * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
+  * `postal_code` - ZIP or postal code. Max length: 5000.
+  * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
+  """
+  @type address :: %{
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:line1) => String.t() | nil,
+          optional(:line2) => String.t() | nil,
+          optional(:postal_code) => String.t() | nil,
+          optional(:state) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `city` - City, district, suburb, town, or village. Max length: 5000.
-    * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
-    * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
-    * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
-    * `postal_code` - ZIP or postal code. Max length: 5000.
-    * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            city: String.t() | nil,
-            country: String.t() | nil,
-            line1: String.t() | nil,
-            line2: String.t() | nil,
-            postal_code: String.t() | nil,
-            state: String.t() | nil
-          }
-    defstruct [:city, :country, :line1, :line2, :postal_code, :state]
-  end
+  @typedoc """
+  * `city` - City or ward. Max length: 5000.
+  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+  * `line1` - Block or building number. Max length: 5000.
+  * `line2` - Building details. Max length: 5000.
+  * `postal_code` - Postal code. Max length: 5000.
+  * `state` - Prefecture. Max length: 5000.
+  * `town` - Town or cho-me. Max length: 5000.
+  """
+  @type address_kana :: %{
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:line1) => String.t() | nil,
+          optional(:line2) => String.t() | nil,
+          optional(:postal_code) => String.t() | nil,
+          optional(:state) => String.t() | nil,
+          optional(:town) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 
-  defmodule AddressKana do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `city` - City or ward. Max length: 5000.
-    * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
-    * `line1` - Block or building number. Max length: 5000.
-    * `line2` - Building details. Max length: 5000.
-    * `postal_code` - Postal code. Max length: 5000.
-    * `state` - Prefecture. Max length: 5000.
-    * `town` - Town or cho-me. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            city: String.t() | nil,
-            country: String.t() | nil,
-            line1: String.t() | nil,
-            line2: String.t() | nil,
-            postal_code: String.t() | nil,
-            state: String.t() | nil,
-            town: String.t() | nil
-          }
-    defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
-  end
-
-  defmodule AddressKanji do
-    @moduledoc "Nested parameters."
-
-    @typedoc """
-    * `city` - City or ward. Max length: 5000.
-    * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
-    * `line1` - Block or building number. Max length: 5000.
-    * `line2` - Building details. Max length: 5000.
-    * `postal_code` - Postal code. Max length: 5000.
-    * `state` - Prefecture. Max length: 5000.
-    * `town` - Town or cho-me. Max length: 5000.
-    """
-    @type t :: %__MODULE__{
-            city: String.t() | nil,
-            country: String.t() | nil,
-            line1: String.t() | nil,
-            line2: String.t() | nil,
-            postal_code: String.t() | nil,
-            state: String.t() | nil,
-            town: String.t() | nil
-          }
-    defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
-  end
+  @typedoc """
+  * `city` - City or ward. Max length: 5000.
+  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+  * `line1` - Block or building number. Max length: 5000.
+  * `line2` - Building details. Max length: 5000.
+  * `postal_code` - Postal code. Max length: 5000.
+  * `state` - Prefecture. Max length: 5000.
+  * `town` - Town or cho-me. Max length: 5000.
+  """
+  @type address_kanji :: %{
+          optional(:city) => String.t() | nil,
+          optional(:country) => String.t() | nil,
+          optional(:line1) => String.t() | nil,
+          optional(:line2) => String.t() | nil,
+          optional(:postal_code) => String.t() | nil,
+          optional(:state) => String.t() | nil,
+          optional(:town) => String.t() | nil,
+          optional(String.t()) => term()
+        }
 end

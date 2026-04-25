@@ -12,7 +12,7 @@ defmodule Stripe.Resources.FinancialConnections.Transaction do
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
   * `description` - The description of this transaction. Max length: 5000.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `financial_connections.transaction`.
   * `status` - The status of the transaction. Possible values: `pending`, `posted`, `void`.
   * `status_transitions` - Expandable.
@@ -29,7 +29,7 @@ defmodule Stripe.Resources.FinancialConnections.Transaction do
           livemode: boolean(),
           object: String.t(),
           status: String.t(),
-          status_transitions: __MODULE__.StatusTransitions.t(),
+          status_transitions: status_transitions(),
           transacted_at: integer(),
           transaction_refresh: String.t(),
           updated: integer()
@@ -55,23 +55,24 @@ defmodule Stripe.Resources.FinancialConnections.Transaction do
 
   def expandable_fields, do: ["status_transitions"]
 
-  defmodule StatusTransitions do
-    @moduledoc "Nested struct within the parent resource."
+  @typedoc """
+  * `posted_at` - Time at which this transaction posted. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
+  * `void_at` - Time at which this transaction was voided. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
+  """
+  @type status_transitions :: %{
+          optional(:posted_at) => integer() | nil,
+          optional(:void_at) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
-    @typedoc """
-    * `posted_at` - Time at which this transaction posted. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
-    * `void_at` - Time at which this transaction was voided. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
-    """
-    @type t :: %__MODULE__{
-            posted_at: integer() | nil,
-            void_at: integer() | nil
-          }
-    defstruct [:posted_at, :void_at]
-  end
-
-  def __inner_types__ do
+  def __nested_fields__ do
     %{
-      "status_transitions" => __MODULE__.StatusTransitions
+      "status_transitions" => %{
+        fields: %{
+          "posted_at" => :scalar,
+          "void_at" => :scalar
+        }
+      }
     }
   end
 end

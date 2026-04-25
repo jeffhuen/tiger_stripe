@@ -8,7 +8,7 @@ defmodule Stripe.Resources.EphemeralKey do
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `expires` - Time at which the key will expire. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `ephemeral_key`.
   * `secret` - The key's secret. You can use this value to make authorized requests to the Stripe API. Max length: 5000.
   """
