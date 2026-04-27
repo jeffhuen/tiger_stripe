@@ -19,7 +19,8 @@ defmodule Stripe.Resources.Issuing.Card do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `last4` - The last 4 digits of the card number. Max length: 5000.
   * `latest_fraud_warning` - Stripe’s assessment of whether this card’s details have been compromised. If this property isn't null, cancel and reissue the card to prevent fraudulent activity risk. Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `lifecycle_controls` - Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://stripe.com/issuing/controls/lifecycle-controls) for more details. Nullable. Expandable.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `number` - The full unredacted card number. For security reasons, this is only available for virtual cards, and will be omitted unless you explicitly request it with [the `expand` parameter](https://docs.stripe.com/api/expanding_objects). Additionally, it's only available via the ["Retrieve a card" endpoint](https://docs.stripe.com/api/issuing/cards/retrieve), not via "List all cards" or any other endpoint. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `issuing.card`.
@@ -47,6 +48,7 @@ defmodule Stripe.Resources.Issuing.Card do
           id: String.t(),
           last4: String.t(),
           latest_fraud_warning: latest_fraud_warning(),
+          lifecycle_controls: lifecycle_controls(),
           livemode: boolean(),
           metadata: %{String.t() => String.t()},
           number: String.t() | nil,
@@ -76,6 +78,7 @@ defmodule Stripe.Resources.Issuing.Card do
     :id,
     :last4,
     :latest_fraud_warning,
+    :lifecycle_controls,
     :livemode,
     :metadata,
     :number,
@@ -99,6 +102,7 @@ defmodule Stripe.Resources.Issuing.Card do
     do: [
       "cardholder",
       "latest_fraud_warning",
+      "lifecycle_controls",
       "personalization_design",
       "replaced_by",
       "replacement_for",
@@ -114,6 +118,22 @@ defmodule Stripe.Resources.Issuing.Card do
   @type latest_fraud_warning :: %{
           optional(:started_at) => integer() | nil,
           optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `cancel_after`
+  """
+  @type lifecycle_controls :: %{
+          optional(:cancel_after) => lifecycle_controls_cancel_after() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `payment_count` - The card is automatically cancelled when it makes this number of non-zero payment authorizations and transactions. The count includes penny authorizations, but doesn't include non-payment actions, such as authorization advice.
+  """
+  @type lifecycle_controls_cancel_after :: %{
+          optional(:payment_count) => integer() | nil,
           optional(String.t()) => term()
         }
 
@@ -237,6 +257,15 @@ defmodule Stripe.Resources.Issuing.Card do
         fields: %{
           "started_at" => :scalar,
           "type" => :scalar
+        }
+      },
+      "lifecycle_controls" => %{
+        fields: %{
+          "cancel_after" => %{
+            fields: %{
+              "payment_count" => :scalar
+            }
+          }
         }
       },
       "shipping" => %{

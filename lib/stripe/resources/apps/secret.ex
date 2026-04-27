@@ -19,7 +19,7 @@ defmodule Stripe.Resources.Apps.Secret do
   * `deleted` - If true, indicates that this secret has been deleted
   * `expires_at` - The Unix timestamp for the expiry time of the secret, after which the secret deletes. Format: Unix timestamp. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `name` - A name for the secret that's unique within the scope. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `apps.secret`.
   * `payload` - The plaintext secret value to be stored. Max length: 5000. Nullable.

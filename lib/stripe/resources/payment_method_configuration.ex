@@ -54,7 +54,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   * `konbini` - Expandable.
   * `kr_card` - Expandable.
   * `link` - Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `mb_way` - Expandable.
   * `mobilepay` - Expandable.
   * `multibanco` - Expandable.
@@ -79,6 +79,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   * `sofort` - Expandable.
   * `swish` - Expandable.
   * `twint` - Expandable.
+  * `upi` - Expandable.
   * `us_bank_account` - Expandable.
   * `wechat_pay` - Expandable.
   * `zip` - Expandable.
@@ -143,6 +144,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
           sofort: sofort() | nil,
           swish: swish() | nil,
           twint: twint() | nil,
+          upi: upi() | nil,
           us_bank_account: us_bank_account() | nil,
           wechat_pay: wechat_pay() | nil,
           zip: zip() | nil
@@ -208,6 +210,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     :sofort,
     :swish,
     :twint,
+    :upi,
     :us_bank_account,
     :wechat_pay,
     :zip
@@ -269,6 +272,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
       "sofort",
       "swish",
       "twint",
+      "upi",
       "us_bank_account",
       "wechat_pay",
       "zip"
@@ -1400,6 +1404,28 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
   * `display_preference`
   """
+  @type upi :: %{
+          optional(:available) => boolean() | nil,
+          optional(:display_preference) => upi_display_preference() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+  * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+  * `value` - The effective display preference value. Possible values: `off`, `on`.
+  """
+  @type upi_display_preference :: %{
+          optional(:overridable) => boolean() | nil,
+          optional(:preference) => String.t() | nil,
+          optional(:value) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+  * `display_preference`
+  """
   @type us_bank_account :: %{
           optional(:available) => boolean() | nil,
           optional(:display_preference) => us_bank_account_display_preference() | nil,
@@ -2065,6 +2091,18 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
         }
       },
       "twint" => %{
+        fields: %{
+          "available" => :scalar,
+          "display_preference" => %{
+            fields: %{
+              "overridable" => :scalar,
+              "preference" => :scalar,
+              "value" => :scalar
+            }
+          }
+        }
+      },
+      "upi" => %{
         fields: %{
           "available" => :scalar,
           "display_preference" => %{

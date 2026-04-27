@@ -75,6 +75,7 @@ defmodule Stripe.Params.Tax.RegistrationCreateParams do
   * `kr` - Options for the registration in KR.
   * `kz` - Options for the registration in KZ.
   * `la` - Options for the registration in LA.
+  * `lk` - Options for the registration in LK.
   * `lt` - Options for the registration in LT.
   * `lu` - Options for the registration in LU.
   * `lv` - Options for the registration in LV.
@@ -177,6 +178,7 @@ defmodule Stripe.Params.Tax.RegistrationCreateParams do
           optional(:kr) => country_options_kr() | nil,
           optional(:kz) => country_options_kz() | nil,
           optional(:la) => country_options_la() | nil,
+          optional(:lk) => country_options_lk() | nil,
           optional(:lt) => country_options_lt() | nil,
           optional(:lu) => country_options_lu() | nil,
           optional(:lv) => country_options_lv() | nil,
@@ -1016,6 +1018,14 @@ defmodule Stripe.Params.Tax.RegistrationCreateParams do
         }
 
   @typedoc """
+  * `type` - Type of registration to be created in `country`. Possible values: `simplified`.
+  """
+  @type country_options_lk :: %{
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
   * `standard` - Options for the standard registration.
   * `type` - Type of registration to be created in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
   """
@@ -1536,7 +1546,7 @@ defmodule Stripe.Params.Tax.RegistrationCreateParams do
         }
 
   @typedoc """
-  * `jurisdiction` - A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago), `02154` (Arlington Heights), `06613` (Bloomington), `10906` (Campton Hills), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), and `68081` (Schiller Park). Max length: 5000.
+  * `jurisdiction` - A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `02154` (Arlington Heights), `05248` (Bensenville), `06613` (Bloomington), `10906` (Campton Hills), `14000` (Chicago), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), `64421` (Riverside), `65806` (Roselle), and `68081` (Schiller Park). Max length: 5000.
   """
   @type country_options_us_local_amusement_tax :: %{
           optional(:jurisdiction) => String.t() | nil,

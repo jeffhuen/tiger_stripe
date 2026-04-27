@@ -203,6 +203,7 @@ defmodule Stripe.Params.AccountCreateParams do
   * `transfers` - The transfers capability.
   * `treasury` - The treasury capability.
   * `twint_payments` - The twint_payments capability.
+  * `upi_payments` - The upi_payments capability.
   * `us_bank_account_ach_payments` - The us_bank_account_ach_payments capability.
   * `us_bank_transfer_payments` - The us_bank_transfer_payments capability.
   * `zip_payments` - The zip_payments capability.
@@ -271,6 +272,7 @@ defmodule Stripe.Params.AccountCreateParams do
           optional(:transfers) => capabilities_transfers() | nil,
           optional(:treasury) => capabilities_treasury() | nil,
           optional(:twint_payments) => capabilities_twint_payments() | nil,
+          optional(:upi_payments) => capabilities_upi_payments() | nil,
           optional(:us_bank_account_ach_payments) =>
             capabilities_us_bank_account_ach_payments() | nil,
           optional(:us_bank_transfer_payments) => capabilities_us_bank_transfer_payments() | nil,
@@ -738,6 +740,14 @@ defmodule Stripe.Params.AccountCreateParams do
   * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
   """
   @type capabilities_twint_payments :: %{
+          optional(:requested) => boolean() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `requested` - Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+  """
+  @type capabilities_upi_payments :: %{
           optional(:requested) => boolean() | nil,
           optional(String.t()) => term()
         }

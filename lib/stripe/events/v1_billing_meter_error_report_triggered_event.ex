@@ -58,7 +58,18 @@ defmodule Stripe.Events.V1BillingMeterErrorReportTriggeredEvent do
           optional(String.t()) => term()
         }
 
-  defstruct [:context, :created, :data, :id, :livemode, :object, :related_object, :type]
+  defstruct [
+    :changes,
+    :context,
+    :created,
+    :data,
+    :id,
+    :livemode,
+    :object,
+    :reason,
+    :related_object,
+    :type
+  ]
 
   def lookup_type, do: "v1.billing.meter.error_report_triggered"
 

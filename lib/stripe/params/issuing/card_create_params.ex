@@ -9,6 +9,7 @@ defmodule Stripe.Params.Issuing.CardCreateParams do
   * `exp_year` - The desired 4-digit expiration year for this card if [specifying a custom expiration date](https://stripe.com/issuing/cards/virtual/issue-cards?testing-method=with-code#exp-dates).
   * `expand` - Specifies which fields in the response should be expanded.
   * `financial_account` - The new financial account ID the card will be associated with. This field allows a card to be reassigned to a different financial account.
+  * `lifecycle_controls` - Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://stripe.com/issuing/controls/lifecycle-controls) for more details.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `personalization_design` - The personalization design object belonging to this card. Max length: 5000.
   * `pin` - The desired PIN for this card.
@@ -27,6 +28,7 @@ defmodule Stripe.Params.Issuing.CardCreateParams do
           exp_year: integer() | nil,
           expand: [String.t()] | nil,
           financial_account: String.t() | nil,
+          lifecycle_controls: lifecycle_controls() | nil,
           metadata: %{String.t() => String.t()} | nil,
           personalization_design: String.t() | nil,
           pin: pin() | nil,
@@ -46,6 +48,7 @@ defmodule Stripe.Params.Issuing.CardCreateParams do
     :exp_year,
     :expand,
     :financial_account,
+    :lifecycle_controls,
     :metadata,
     :personalization_design,
     :pin,
@@ -57,6 +60,22 @@ defmodule Stripe.Params.Issuing.CardCreateParams do
     :status,
     :type
   ]
+
+  @typedoc """
+  * `cancel_after` - Cancels the card after the specified conditions are met.
+  """
+  @type lifecycle_controls :: %{
+          optional(:cancel_after) => lifecycle_controls_cancel_after() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `payment_count` - The card is automatically cancelled when it makes this number of non-zero payment authorizations and transactions. The count includes penny authorizations, but doesn't include non-payment actions, such as authorization advice.
+  """
+  @type lifecycle_controls_cancel_after :: %{
+          optional(:payment_count) => integer() | nil,
+          optional(String.t()) => term()
+        }
 
   @typedoc """
   * `encrypted_number` - The card's desired new PIN, encrypted under Stripe's public key. Max length: 5000.

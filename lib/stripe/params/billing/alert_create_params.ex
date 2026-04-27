@@ -19,7 +19,7 @@ defmodule Stripe.Params.Billing.AlertCreateParams do
 
   @typedoc """
   * `filters` - The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
-  * `gte` - Defines at which value the alert will fire.
+  * `gte` - Defines the threshold value that triggers the alert.
   * `meter` - The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored. Max length: 5000.
   * `recurrence` - Defines how the alert will behave. Possible values: `one_time`.
   """

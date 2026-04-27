@@ -18,7 +18,7 @@ defmodule Stripe.Resources.Treasury.Transaction do
   * `flow_details` - Details of the flow that created the Transaction. Nullable. Expandable.
   * `flow_type` - Type of the flow that created the Transaction. Possible values: `credit_reversal`, `debit_reversal`, `inbound_transfer`, `issuing_authorization`, `other`, `outbound_payment`, `outbound_transfer`, `received_credit`, `received_debit`.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `treasury.transaction`.
   * `status` - Status of the Transaction. Possible values: `open`, `posted`, `void`.
   * `status_transitions` - Expandable.

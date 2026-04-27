@@ -9,7 +9,7 @@ defmodule Stripe.Resources.Mandate do
   @typedoc """
   * `customer_acceptance` - Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `multi_use` - Expandable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `mandate`.
   * `on_behalf_of` - The account (if any) that the mandate is intended for. Max length: 5000.
@@ -101,6 +101,7 @@ defmodule Stripe.Resources.Mandate do
   * `revolut_pay`
   * `sepa_debit`
   * `type` - This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method. Max length: 5000.
+  * `upi`
   * `us_bank_account`
   """
   @type payment_method_details :: %{
@@ -121,6 +122,7 @@ defmodule Stripe.Resources.Mandate do
           optional(:revolut_pay) => Stripe.Resources.RevolutPay.t() | nil,
           optional(:sepa_debit) => Stripe.Resources.SepaDebit.t() | nil,
           optional(:type) => String.t() | nil,
+          optional(:upi) => Stripe.Resources.UPI.t() | nil,
           optional(:us_bank_account) => Stripe.Resources.UsBankAccount.t() | nil,
           optional(String.t()) => term()
         }
@@ -134,15 +136,19 @@ defmodule Stripe.Resources.Mandate do
         }
 
   @typedoc """
+  * `display_name` - The display name for the account on this mandate. Max length: 5000. Nullable.
   * `network_status` - The status of the mandate on the Bacs network. Can be one of `pending`, `revoked`, `refused`, or `accepted`. Possible values: `accepted`, `pending`, `refused`, `revoked`.
   * `reference` - The unique reference identifying the mandate on the Bacs network. Max length: 5000.
   * `revocation_reason` - When the mandate is revoked on the Bacs network this field displays the reason for the revocation. Possible values: `account_closed`, `bank_account_restricted`, `bank_ownership_changed`, `could_not_process`, `debit_not_authorized`. Nullable.
+  * `service_user_number` - The service user number for the account on this mandate. Max length: 5000. Nullable.
   * `url` - The URL that will contain the mandate that the customer has signed. Max length: 5000.
   """
   @type payment_method_details_bacs_debit :: %{
+          optional(:display_name) => String.t() | nil,
           optional(:network_status) => String.t() | nil,
           optional(:reference) => String.t() | nil,
           optional(:revocation_reason) => String.t() | nil,
+          optional(:service_user_number) => String.t() | nil,
           optional(:url) => String.t() | nil,
           optional(String.t()) => term()
         }
@@ -193,9 +199,11 @@ defmodule Stripe.Resources.Mandate do
           },
           "bacs_debit" => %{
             fields: %{
+              "display_name" => :scalar,
               "network_status" => :scalar,
               "reference" => :scalar,
               "revocation_reason" => :scalar,
+              "service_user_number" => :scalar,
               "url" => :scalar
             }
           },
@@ -217,6 +225,7 @@ defmodule Stripe.Resources.Mandate do
           "revolut_pay" => {:resource, Stripe.Resources.RevolutPay},
           "sepa_debit" => {:resource, Stripe.Resources.SepaDebit},
           "type" => :scalar,
+          "upi" => {:resource, Stripe.Resources.UPI},
           "us_bank_account" => {:resource, Stripe.Resources.UsBankAccount}
         }
       },

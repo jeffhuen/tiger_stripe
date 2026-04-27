@@ -204,7 +204,7 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
         }
 
   @typedoc """
-  * `default_value` - The value that will pre-fill the field on the payment page.Must match a `value` in the `options` array. Max length: 100.
+  * `default_value` - The value that pre-fills the field on the payment page.Must match a `value` in the `options` array. Max length: 100.
   * `options` - The options available for the customer to select. Up to 200 options allowed.
   """
   @type custom_fields_dropdown :: %{
@@ -234,7 +234,7 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
         }
 
   @typedoc """
-  * `default_value` - The value that will pre-fill the field on the payment page. Max length: 255.
+  * `default_value` - The value that pre-fills the field on the payment page. Max length: 255.
   * `maximum_length` - The maximum character length constraint for the customer's input.
   * `minimum_length` - The minimum character length requirement for the customer's input.
   """
@@ -246,7 +246,7 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
         }
 
   @typedoc """
-  * `default_value` - The value that will pre-fill the field on the payment page. Max length: 255.
+  * `default_value` - The value that pre-fills the field on the payment page. Max length: 255.
   * `maximum_length` - The maximum character length constraint for the customer's input.
   * `minimum_length` - The minimum character length requirement for the customer's input.
   """

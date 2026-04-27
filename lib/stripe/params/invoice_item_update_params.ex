@@ -12,7 +12,8 @@ defmodule Stripe.Params.InvoiceItemUpdateParams do
   * `period` - The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://docs.stripe.com/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://docs.stripe.com/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
   * `price_data` - Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
   * `pricing` - The pricing information for the invoice item.
-  * `quantity` - Non-negative integer. The quantity of units for the invoice item.
+  * `quantity` - Non-negative integer. The quantity of units for the invoice item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
+  * `quantity_decimal` - Non-negative decimal with at most 12 decimal places. The quantity of units for the line item. Format: decimal string.
   * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
   * `tax_code` - A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
   * `tax_rates` - The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
@@ -29,6 +30,7 @@ defmodule Stripe.Params.InvoiceItemUpdateParams do
           price_data: price_data() | nil,
           pricing: pricing() | nil,
           quantity: integer() | nil,
+          quantity_decimal: String.t() | nil,
           tax_behavior: String.t() | nil,
           tax_code: map() | nil,
           tax_rates: map() | nil,
@@ -46,6 +48,7 @@ defmodule Stripe.Params.InvoiceItemUpdateParams do
     :price_data,
     :pricing,
     :quantity,
+    :quantity_decimal,
     :tax_behavior,
     :tax_code,
     :tax_rates,

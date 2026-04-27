@@ -153,7 +153,8 @@ defmodule Stripe.Params.SetupIntentCreateParams do
   * `sofort` - If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
   * `swish` - If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
   * `twint` - If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
-  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `cashapp`, `crypto`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `cashapp`, `crypto`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `upi` - If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
   * `us_bank_account` - If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
   * `wechat_pay` - If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
   * `zip` - If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -211,6 +212,7 @@ defmodule Stripe.Params.SetupIntentCreateParams do
           optional(:swish) => map() | nil,
           optional(:twint) => map() | nil,
           optional(:type) => String.t() | nil,
+          optional(:upi) => payment_method_data_upi() | nil,
           optional(:us_bank_account) => payment_method_data_us_bank_account() | nil,
           optional(:wechat_pay) => map() | nil,
           optional(:zip) => map() | nil,
@@ -390,6 +392,28 @@ defmodule Stripe.Params.SetupIntentCreateParams do
         }
 
   @typedoc """
+  * `mandate_options` - Configuration options for setting up an eMandate
+  """
+  @type payment_method_data_upi :: %{
+          optional(:mandate_options) => payment_method_data_upi_mandate_options() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `amount` - Amount to be charged for future payments.
+  * `amount_type` - One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param. Possible values: `fixed`, `maximum`.
+  * `description` - A description of the mandate or subscription that is meant to be displayed to the customer. Max length: 20.
+  * `end_date` - End date of the mandate or subscription. Format: Unix timestamp.
+  """
+  @type payment_method_data_upi_mandate_options :: %{
+          optional(:amount) => integer() | nil,
+          optional(:amount_type) => String.t() | nil,
+          optional(:description) => String.t() | nil,
+          optional(:end_date) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
   * `account_holder_type` - Account holder type: individual or company. Possible values: `company`, `individual`.
   * `account_number` - Account number of the bank account. Max length: 5000.
   * `account_type` - Account type: checkings or savings. Defaults to checking if omitted. Possible values: `checking`, `savings`.
@@ -416,6 +440,7 @@ defmodule Stripe.Params.SetupIntentCreateParams do
   * `paypal` - If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
   * `payto` - If this is a `payto` SetupIntent, this sub-hash contains details about the PayTo payment method options.
   * `sepa_debit` - If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
+  * `upi` - If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
   * `us_bank_account` - If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
   """
   @type payment_method_options :: %{
@@ -429,6 +454,7 @@ defmodule Stripe.Params.SetupIntentCreateParams do
           optional(:paypal) => payment_method_options_paypal() | nil,
           optional(:payto) => payment_method_options_payto() | nil,
           optional(:sepa_debit) => payment_method_options_sepa_debit() | nil,
+          optional(:upi) => payment_method_options_upi() | nil,
           optional(:us_bank_account) => payment_method_options_us_bank_account() | nil,
           optional(String.t()) => term()
         }
@@ -436,7 +462,7 @@ defmodule Stripe.Params.SetupIntentCreateParams do
   @typedoc """
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Possible values: `cad`, `usd`.
   * `mandate_options` - Additional fields for Mandate creation
-  * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+  * `verification_method` - Bank account verification method. The default value is `automatic`. Possible values: `automatic`, `instant`, `microdeposits`.
   """
   @type payment_method_options_acss_debit :: %{
           optional(:currency) => String.t() | nil,
@@ -499,7 +525,7 @@ defmodule Stripe.Params.SetupIntentCreateParams do
         }
 
   @typedoc """
-  * `amount` - Amount to be charged for future payments.
+  * `amount` - Amount to be charged for future payments, specified in the presentment currency.
   * `amount_type` - One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param. Possible values: `fixed`, `maximum`.
   * `currency` - Currency in which future payments will be charged. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
   * `description` - A description of the mandate or subscription that is meant to be displayed to the customer. Max length: 200.
@@ -671,10 +697,34 @@ defmodule Stripe.Params.SetupIntentCreateParams do
         }
 
   @typedoc """
+  * `mandate_options` - Configuration options for setting up an eMandate
+  * `setup_future_usage` - Possible values: `none`, `off_session`, `on_session`.
+  """
+  @type payment_method_options_upi :: %{
+          optional(:mandate_options) => payment_method_options_upi_mandate_options() | nil,
+          optional(:setup_future_usage) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `amount` - Amount to be charged for future payments.
+  * `amount_type` - One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param. Possible values: `fixed`, `maximum`.
+  * `description` - A description of the mandate or subscription that is meant to be displayed to the customer. Max length: 20.
+  * `end_date` - End date of the mandate or subscription. Format: Unix timestamp.
+  """
+  @type payment_method_options_upi_mandate_options :: %{
+          optional(:amount) => integer() | nil,
+          optional(:amount_type) => String.t() | nil,
+          optional(:description) => String.t() | nil,
+          optional(:end_date) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
   * `financial_connections` - Additional fields for Financial Connections Session creation
   * `mandate_options` - Additional fields for Mandate creation
   * `networks` - Additional fields for network related functions
-  * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+  * `verification_method` - Bank account verification method. The default value is `automatic`. Possible values: `automatic`, `instant`, `microdeposits`.
   """
   @type payment_method_options_us_bank_account :: %{
           optional(:financial_connections) =>

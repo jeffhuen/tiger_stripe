@@ -2,6 +2,8 @@
 defmodule Stripe.Resources.V2.Billing.MeterEventAdjustment do
   @moduledoc """
   Meter Event Adjustment
+
+  A Meter Event Adjustment is used to cancel or modify previously recorded meter events. Meter Event Adjustments allow you to correct billing data by canceling individual events or event ranges, with tracking of adjustment status and creation time.
   """
 
   @typedoc """

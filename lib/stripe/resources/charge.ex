@@ -32,7 +32,7 @@ defmodule Stripe.Resources.Charge do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `invoice` - ID of the invoice this charge is for if one exists. Nullable.
   * `level3` - Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `charge`.
   * `on_behalf_of` - The account (if any) the charge was made on behalf of without triggering an automatic transfer. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers) for details. Nullable. Expandable.
@@ -338,6 +338,7 @@ defmodule Stripe.Resources.Charge do
   * `type` - The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
   An additional hash is included on `payment_method_details` with a name matching this value.
   It contains information specific to the payment method. Max length: 5000.
+  * `upi`
   * `us_bank_account`
   * `wechat`
   * `wechat_pay`
@@ -398,6 +399,7 @@ defmodule Stripe.Resources.Charge do
           optional(:swish) => payment_method_details_swish() | nil,
           optional(:twint) => map() | nil,
           optional(:type) => String.t() | nil,
+          optional(:upi) => payment_method_details_upi() | nil,
           optional(:us_bank_account) => payment_method_details_us_bank_account() | nil,
           optional(:wechat) => map() | nil,
           optional(:wechat_pay) => payment_method_details_wechat_pay() | nil,
@@ -869,12 +871,14 @@ defmodule Stripe.Resources.Charge do
   * `incremental_authorization_supported` - Whether this [PaymentIntent](https://docs.stripe.com/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
   * `issuer` - The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.) Max length: 5000. Nullable.
   * `last4` - The last four digits of the card. Max length: 5000. Nullable.
+  * `location` - ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to. Max length: 5000.
   * `network` - Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`. Max length: 5000. Nullable.
   * `network_transaction_id` - This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise. Max length: 5000. Nullable.
   * `offline` - Details about payments collected offline. Nullable.
   * `overcapture_supported` - Defines whether the authorized amount can be over-captured or not
   * `preferred_locales` - The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip. Nullable.
   * `read_method` - How card details were read in this transaction. Possible values: `contact_emv`, `contactless_emv`, `contactless_magstripe_mode`, `magnetic_stripe_fallback`, `magnetic_stripe_track2`. Nullable.
+  * `reader` - ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on. Max length: 5000.
   * `receipt` - A collection of fields required to be displayed on receipts. Only required for EMV transactions. Nullable.
   * `wallet`
   """
@@ -896,12 +900,14 @@ defmodule Stripe.Resources.Charge do
           optional(:incremental_authorization_supported) => boolean() | nil,
           optional(:issuer) => String.t() | nil,
           optional(:last4) => String.t() | nil,
+          optional(:location) => String.t() | nil,
           optional(:network) => String.t() | nil,
           optional(:network_transaction_id) => String.t() | nil,
           optional(:offline) => Stripe.Resources.Offline.t() | nil,
           optional(:overcapture_supported) => boolean() | nil,
           optional(:preferred_locales) => [String.t()] | nil,
           optional(:read_method) => String.t() | nil,
+          optional(:reader) => String.t() | nil,
           optional(:receipt) => payment_method_details_card_present_receipt() | nil,
           optional(:wallet) => payment_method_details_card_present_wallet() | nil,
           optional(String.t()) => term()
@@ -1038,10 +1044,12 @@ defmodule Stripe.Resources.Charge do
   * `iin` - Issuer identification number of the card. (For internal use only and not typically available in standard API requests.) Max length: 5000. Nullable.
   * `issuer` - The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.) Max length: 5000. Nullable.
   * `last4` - The last four digits of the card. Max length: 5000. Nullable.
+  * `location` - ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to. Max length: 5000.
   * `network` - Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`. Max length: 5000. Nullable.
   * `network_transaction_id` - This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise. Max length: 5000. Nullable.
   * `preferred_locales` - The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip. Nullable.
   * `read_method` - How card details were read in this transaction. Possible values: `contact_emv`, `contactless_emv`, `contactless_magstripe_mode`, `magnetic_stripe_fallback`, `magnetic_stripe_track2`. Nullable.
+  * `reader` - ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on. Max length: 5000.
   * `receipt` - A collection of fields required to be displayed on receipts. Only required for EMV transactions. Nullable.
   """
   @type payment_method_details_interac_present :: %{
@@ -1058,10 +1066,12 @@ defmodule Stripe.Resources.Charge do
           optional(:iin) => String.t() | nil,
           optional(:issuer) => String.t() | nil,
           optional(:last4) => String.t() | nil,
+          optional(:location) => String.t() | nil,
           optional(:network) => String.t() | nil,
           optional(:network_transaction_id) => String.t() | nil,
           optional(:preferred_locales) => [String.t()] | nil,
           optional(:read_method) => String.t() | nil,
+          optional(:reader) => String.t() | nil,
           optional(:receipt) => Stripe.Resources.Receipt.t() | nil,
           optional(String.t()) => term()
         }
@@ -1384,6 +1394,14 @@ defmodule Stripe.Resources.Charge do
           optional(:fingerprint) => String.t() | nil,
           optional(:payment_reference) => String.t() | nil,
           optional(:verified_phone_last4) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `vpa` - Customer's unique Virtual Payment Address. Max length: 5000. Nullable.
+  """
+  @type payment_method_details_upi :: %{
+          optional(:vpa) => String.t() | nil,
           optional(String.t()) => term()
         }
 
@@ -1769,12 +1787,14 @@ defmodule Stripe.Resources.Charge do
               "incremental_authorization_supported" => :scalar,
               "issuer" => :scalar,
               "last4" => :scalar,
+              "location" => :scalar,
               "network" => :scalar,
               "network_transaction_id" => :scalar,
               "offline" => {:resource, Stripe.Resources.Offline},
               "overcapture_supported" => :scalar,
               "preferred_locales" => {:list, :scalar},
               "read_method" => :scalar,
+              "reader" => :scalar,
               "receipt" => %{
                 fields: %{
                   "account_type" => :scalar,
@@ -1856,10 +1876,12 @@ defmodule Stripe.Resources.Charge do
               "iin" => :scalar,
               "issuer" => :scalar,
               "last4" => :scalar,
+              "location" => :scalar,
               "network" => :scalar,
               "network_transaction_id" => :scalar,
               "preferred_locales" => {:list, :scalar},
               "read_method" => :scalar,
+              "reader" => :scalar,
               "receipt" => {:resource, Stripe.Resources.Receipt}
             }
           },
@@ -2047,6 +2069,11 @@ defmodule Stripe.Resources.Charge do
           },
           "twint" => :scalar,
           "type" => :scalar,
+          "upi" => %{
+            fields: %{
+              "vpa" => :scalar
+            }
+          },
           "us_bank_account" => %{
             fields: %{
               "account_holder_type" => :scalar,

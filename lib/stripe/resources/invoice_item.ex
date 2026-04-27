@@ -24,7 +24,7 @@ defmodule Stripe.Resources.InvoiceItem do
   * `discounts` - The discounts which apply to the invoice item. Item discounts are applied before invoice discounts. Use `expand[]=discounts` to expand each discount. Nullable. Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `invoice` - The ID of the invoice this invoice item belongs to. Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `net_amount` - The amount after discounts, but before credits and taxes. This field is `null` for `discountable=true` items.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `invoiceitem`.
@@ -33,7 +33,8 @@ defmodule Stripe.Resources.InvoiceItem do
   * `pricing` - The pricing information of the invoice item. Nullable. Expandable.
   * `proration` - Whether the invoice item was created automatically as a proration adjustment when the customer switched plans.
   * `proration_details` - Expandable.
-  * `quantity` - Quantity of units for the invoice item. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.
+  * `quantity` - Quantity of units for the invoice item in integer format, with any decimal precision truncated. For the item's full-precision decimal quantity, use `quantity_decimal`. This field will be deprecated in favor of `quantity_decimal` in a future version. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.
+  * `quantity_decimal` - Non-negative decimal with at most 12 decimal places. The quantity of units for the invoice item. Format: decimal string.
   * `tax_rates` - The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Nullable. Expandable.
   * `test_clock` - ID of the test clock this invoice item belongs to. Nullable. Expandable.
   """
@@ -58,6 +59,7 @@ defmodule Stripe.Resources.InvoiceItem do
           proration: boolean(),
           proration_details: proration_details() | nil,
           quantity: integer(),
+          quantity_decimal: String.t(),
           tax_rates: [Stripe.Resources.TaxRate.t()],
           test_clock: String.t() | Stripe.Resources.TestHelpers.TestClock.t()
         }
@@ -83,6 +85,7 @@ defmodule Stripe.Resources.InvoiceItem do
     :proration,
     :proration_details,
     :quantity,
+    :quantity_decimal,
     :tax_rates,
     :test_clock
   ]
