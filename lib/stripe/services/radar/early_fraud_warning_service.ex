@@ -16,7 +16,7 @@ defmodule Stripe.Services.Radar.EarlyFraudWarningService do
   Returns a list of early fraud warnings.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -34,7 +34,7 @@ defmodule Stripe.Services.Radar.EarlyFraudWarningService do
   Please refer to the [early fraud warning](#early_fraud_warning_object) object reference for more details.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Radar.EarlyFraudWarning.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, early_fraud_warning, params \\ %{}, opts \\ []) do
     Client.request(
       client,

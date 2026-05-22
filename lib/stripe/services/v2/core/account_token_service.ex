@@ -13,7 +13,7 @@ defmodule Stripe.Services.V2.Core.AccountTokenService do
   Creates an Account Token.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.V2.Core.AccountToken.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -29,7 +29,7 @@ defmodule Stripe.Services.V2.Core.AccountTokenService do
   Retrieves an Account Token.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.V2.Core.AccountToken.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

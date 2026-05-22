@@ -15,7 +15,7 @@ defmodule Stripe.Services.Tax.TransactionService do
   Creates a Tax Transaction from a calculation, if that calculation hasn’t expired. Calculations expire after 90 days.
   """
   @spec create_from_calculation(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Tax.Transaction.t()} | {:error, Stripe.Error.t()}
   def create_from_calculation(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -31,7 +31,7 @@ defmodule Stripe.Services.Tax.TransactionService do
   Partially or fully reverses a previously created `Transaction`.
   """
   @spec create_reversal(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Tax.Transaction.t()} | {:error, Stripe.Error.t()}
   def create_reversal(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -47,7 +47,7 @@ defmodule Stripe.Services.Tax.TransactionService do
   Retrieves a Tax `Transaction` object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Tax.Transaction.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, transaction, params \\ %{}, opts \\ []) do
     Client.request(
       client,

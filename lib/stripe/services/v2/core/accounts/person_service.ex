@@ -11,7 +11,7 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonService do
   Create a Person. Adds an individual to an Account's identity. You can set relationship attributes and identity information at creation.
   """
   @spec create(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.V2.Core.AccountPerson.t()} | {:error, Stripe.Error.t()}
   def create(client, account_id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -43,7 +43,7 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonService do
   Returns a paginated list of Persons associated with an Account.
   """
   @spec list(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.V2.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, account_id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -59,7 +59,7 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonService do
   Retrieves a Person associated with an Account.
   """
   @spec retrieve(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.V2.Core.AccountPerson.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, account_id, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -75,7 +75,7 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonService do
   Updates a Person associated with an Account.
   """
   @spec update(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.V2.Core.AccountPerson.t()} | {:error, Stripe.Error.t()}
   def update(client, account_id, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

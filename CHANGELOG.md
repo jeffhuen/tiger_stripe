@@ -4,16 +4,32 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
-## [0.2.0] - 2026-04-25
-
-### Breaking
-
-- Remove generated child modules for nested Stripe response, params, and event data shapes. Top-level resources, params, services, and event modules remain public; nested shapes are now local `@type` aliases and deserialize to atom-key maps.
-- Replace generated `__inner_types__/0` metadata with internal `__nested_fields__/0` metadata used by the deserializer.
-- Remove stale preview resources that are no longer emitted by the current vendored Stripe OpenAPI spec and Ruby SDK fixture: `Stripe.Resources.Reserve.Hold`, `Stripe.Resources.Reserve.Plan`, `Stripe.Resources.Reserve.Release`, `Stripe.Resources.UPI`, `Stripe.Resources.UPIHandleRedirectOrDisplayQrCode`, and `Stripe.Resources.UPIQRCode`.
+## [0.3.0] - 2026-05-22
 
 ### Changed
 
+- **Breaking:** remove library application configuration as public API. `Stripe.client/0` no longer reads `config :tiger_stripe`; construct clients with `Stripe.client(api_key)` or read credentials from your own application before calling TigerStripe.
+- **Breaking:** stop auto-starting `Stripe.Finch`. Add `Stripe` to your application's supervision tree, or pass `finch: MyApp.Finch` when using an existing Finch pool.
+- **Breaking:** move test stubbing to an explicit client transport. Tests that use `Stripe.Test.stub/1` should construct clients with `Stripe.Test.client/2` or pass `transport: Stripe.Test.transport()`.
+- Compute `uname` once at compile time for the client user-agent instead of shelling out on every request.
+- Generate concrete service success specs from each operation's actual response object — e.g. `Stripe.Resources.PaymentMethod.t()`, `Stripe.ListObject.t()`, `Stripe.SearchResult.t()` — instead of `term()`. Operations with a polymorphic union or non-JSON response keep `term()`.
+- Update the Igniter installer to generate an application-owned Stripe wrapper module and add the default Finch pool to the supervision tree.
+
+### Added
+
+- Add a migration guide: [`guides/migrating-0.2-to-0.3.md`](guides/migrating-0.2-to-0.3.md).
+
+### Fixed
+
+- Return `{:error, %Stripe.Error{}}` for malformed webhook signature timestamps instead of raising on hostile input.
+
+## [0.2.0] - 2026-04-25
+
+### Changed
+
+- **Breaking:** remove generated child modules for nested Stripe response, params, and event data shapes. Top-level resources, params, services, and event modules remain public; nested shapes are now local `@type` aliases and deserialize to atom-key maps.
+- **Breaking:** replace generated `__inner_types__/0` metadata with internal `__nested_fields__/0` metadata used by the deserializer.
+- **Breaking:** remove stale preview resources that are no longer emitted by the current vendored Stripe OpenAPI spec and Ruby SDK fixture: `Stripe.Resources.Reserve.Hold`, `Stripe.Resources.Reserve.Plan`, `Stripe.Resources.Reserve.Release`, `Stripe.Resources.UPI`, `Stripe.Resources.UPIHandleRedirectOrDisplayQrCode`, and `Stripe.Resources.UPIQRCode`.
 - Reduce the generated public module surface so clean compiles in consuming apps do not pay for thousands of nested JSON-shape modules.
 - Preserve top-level resource structs and recursively cast known nested response shapes to atom-key maps while preserving unknown Stripe fields as string keys.
 
@@ -134,6 +150,7 @@ The format is based on [Common Changelog](https://common-changelog.org/).
 - Add telemetry events for request lifecycle observability
 - Add Finch HTTP client with connection pooling (Mint + NimblePool)
 
+[0.3.0]: https://github.com/jeffhuen/tiger_stripe/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.11...v0.2.0
 [0.1.11]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.10...v0.1.11
 [0.1.10]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.9...v0.1.10

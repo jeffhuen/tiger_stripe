@@ -13,7 +13,7 @@ defmodule Stripe.Services.Treasury.TransactionEntryService do
   Retrieves a list of TransactionEntry objects.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -29,7 +29,7 @@ defmodule Stripe.Services.Treasury.TransactionEntryService do
   Retrieves a TransactionEntry object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.TransactionEntry.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

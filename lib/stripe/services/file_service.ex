@@ -21,7 +21,7 @@ defmodule Stripe.Services.FileService do
   All of Stripe’s officially supported Client libraries support sending `multipart/form-data`.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.File.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/files", Keyword.merge(opts, params: params))
   end
@@ -32,7 +32,7 @@ defmodule Stripe.Services.FileService do
   Returns a list of the files that your account has access to. Stripe sorts and returns the files by their creation dates, placing the most recently created files at the top.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/files", Keyword.merge(opts, params: params))
   end
@@ -43,7 +43,7 @@ defmodule Stripe.Services.FileService do
   Retrieves the details of an existing file object. After you supply a unique file ID, Stripe returns the corresponding file object. Learn how to [access file contents](https://docs.stripe.com/docs/file-upload#download-file-contents).
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.File.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, file, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/files/#{file}", Keyword.merge(opts, params: params))
   end

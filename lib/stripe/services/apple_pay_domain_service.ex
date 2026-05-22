@@ -9,7 +9,7 @@ defmodule Stripe.Services.ApplePayDomainService do
   Create an apple pay domain.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.ApplePayDomain.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/apple_pay/domains", Keyword.merge(opts, params: params))
   end
@@ -18,7 +18,7 @@ defmodule Stripe.Services.ApplePayDomainService do
   Delete an apple pay domain.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.ApplePayDomain.t()} | {:error, Stripe.Error.t()}
   def delete(client, domain, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -32,7 +32,7 @@ defmodule Stripe.Services.ApplePayDomainService do
   List apple pay domains.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/apple_pay/domains", Keyword.merge(opts, params: params))
   end
@@ -41,7 +41,7 @@ defmodule Stripe.Services.ApplePayDomainService do
   Retrieve an apple pay domain.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.ApplePayDomain.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, domain, params \\ %{}, opts \\ []) do
     Client.request(
       client,

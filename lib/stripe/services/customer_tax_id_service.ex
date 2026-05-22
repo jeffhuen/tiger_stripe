@@ -11,7 +11,7 @@ defmodule Stripe.Services.CustomerTaxIdService do
   Creates a new `tax_id` object for a customer.
   """
   @spec create(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.TaxId.t()} | {:error, Stripe.Error.t()}
   def create(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -27,7 +27,7 @@ defmodule Stripe.Services.CustomerTaxIdService do
   Deletes an existing `tax_id` object.
   """
   @spec delete(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.TaxId.t()} | {:error, Stripe.Error.t()}
   def delete(client, customer, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -43,7 +43,7 @@ defmodule Stripe.Services.CustomerTaxIdService do
   Returns a list of tax IDs for a customer.
   """
   @spec list(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -59,7 +59,7 @@ defmodule Stripe.Services.CustomerTaxIdService do
   Retrieves the `tax_id` object with the given identifier.
   """
   @spec retrieve(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.TaxId.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, customer, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

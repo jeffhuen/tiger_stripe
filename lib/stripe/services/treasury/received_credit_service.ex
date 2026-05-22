@@ -13,7 +13,7 @@ defmodule Stripe.Services.Treasury.ReceivedCreditService do
   Returns a list of ReceivedCredits.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -29,7 +29,7 @@ defmodule Stripe.Services.Treasury.ReceivedCreditService do
   Retrieves the details of an existing ReceivedCredit by passing the unique ReceivedCredit ID from the ReceivedCredit list.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.ReceivedCredit.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

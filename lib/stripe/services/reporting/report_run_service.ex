@@ -20,7 +20,7 @@ defmodule Stripe.Services.Reporting.ReportRunService do
   Creates a new object and begin running the report. (Certain report types require a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).)
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Reporting.ReportRun.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -36,7 +36,7 @@ defmodule Stripe.Services.Reporting.ReportRunService do
   Returns a list of Report Runs, with the most recent appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/reporting/report_runs", Keyword.merge(opts, params: params))
   end
@@ -47,7 +47,7 @@ defmodule Stripe.Services.Reporting.ReportRunService do
   Retrieves the details of an existing Report Run.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Reporting.ReportRun.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, report_run, params \\ %{}, opts \\ []) do
     Client.request(
       client,

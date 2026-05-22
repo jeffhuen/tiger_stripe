@@ -13,7 +13,7 @@ defmodule Stripe.Services.CustomerFundingInstructionsService do
   funding instructions will be retrieved. In other words, we will return the same funding instructions each time.
   """
   @spec create_funding_instructions(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.FundingInstructions.t()} | {:error, Stripe.Error.t()}
   def create_funding_instructions(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -28,7 +28,7 @@ defmodule Stripe.Services.Forwarding.RequestService do
   Creates a ForwardingRequest object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Forwarding.Request.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/forwarding/requests", Keyword.merge(opts, params: params))
   end
@@ -39,7 +39,7 @@ defmodule Stripe.Services.Forwarding.RequestService do
   Lists all ForwardingRequest objects.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/forwarding/requests", Keyword.merge(opts, params: params))
   end
@@ -50,7 +50,7 @@ defmodule Stripe.Services.Forwarding.RequestService do
   Retrieves a ForwardingRequest object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Forwarding.Request.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -18,7 +18,7 @@ defmodule Stripe.Services.PaymentRecordService do
   Records in a terminal state directly, through this method.
   """
   @spec report_payment(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentRecord.t()} | {:error, Stripe.Error.t()}
   def report_payment(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -35,7 +35,7 @@ defmodule Stripe.Services.PaymentRecordService do
   attempt can only be specified if all other payment attempts are canceled or failed.
   """
   @spec report_payment_attempt(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentRecord.t()} | {:error, Stripe.Error.t()}
   def report_payment_attempt(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -52,7 +52,7 @@ defmodule Stripe.Services.PaymentRecordService do
   was canceled.
   """
   @spec report_payment_attempt_canceled(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentRecord.t()} | {:error, Stripe.Error.t()}
   def report_payment_attempt_canceled(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -69,7 +69,7 @@ defmodule Stripe.Services.PaymentRecordService do
   failed or errored.
   """
   @spec report_payment_attempt_failed(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentRecord.t()} | {:error, Stripe.Error.t()}
   def report_payment_attempt_failed(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -86,7 +86,7 @@ defmodule Stripe.Services.PaymentRecordService do
   was guaranteed.
   """
   @spec report_payment_attempt_guaranteed(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentRecord.t()} | {:error, Stripe.Error.t()}
   def report_payment_attempt_guaranteed(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -102,7 +102,7 @@ defmodule Stripe.Services.PaymentRecordService do
   Report informational updates on the specified Payment Record.
   """
   @spec report_payment_attempt_informational(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentRecord.t()} | {:error, Stripe.Error.t()}
   def report_payment_attempt_informational(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -119,7 +119,7 @@ defmodule Stripe.Services.PaymentRecordService do
   was refunded.
   """
   @spec report_refund(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentRecord.t()} | {:error, Stripe.Error.t()}
   def report_refund(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -135,7 +135,7 @@ defmodule Stripe.Services.PaymentRecordService do
   Retrieves a Payment Record with the given ID
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentRecord.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/payment_records/#{id}", Keyword.merge(opts, params: params))
   end

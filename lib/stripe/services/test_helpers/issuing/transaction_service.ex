@@ -11,7 +11,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.TransactionService do
   Allows the user to capture an arbitrary amount, also known as a forced capture.
   """
   @spec create_force_capture(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Transaction.t()} | {:error, Stripe.Error.t()}
   def create_force_capture(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -27,7 +27,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.TransactionService do
   Allows the user to refund an arbitrary amount, also known as a unlinked refund.
   """
   @spec create_unlinked_refund(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Transaction.t()} | {:error, Stripe.Error.t()}
   def create_unlinked_refund(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -43,7 +43,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.TransactionService do
   Refund a test-mode Transaction.
   """
   @spec refund(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Transaction.t()} | {:error, Stripe.Error.t()}
   def refund(client, transaction, params \\ %{}, opts \\ []) do
     Client.request(
       client,

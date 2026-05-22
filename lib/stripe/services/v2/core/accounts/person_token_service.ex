@@ -11,7 +11,7 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonTokenService do
   Creates a Person Token associated with an Account.
   """
   @spec create(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.V2.Core.AccountPersonToken.t()} | {:error, Stripe.Error.t()}
   def create(client, account_id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -27,7 +27,7 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonTokenService do
   Retrieves a Person Token associated with an Account.
   """
   @spec retrieve(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.V2.Core.AccountPersonToken.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, account_id, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

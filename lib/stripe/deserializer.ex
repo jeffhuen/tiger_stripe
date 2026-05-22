@@ -91,18 +91,21 @@ defmodule Stripe.Deserializer do
   defp populate_struct(module, data, opts) do
     Code.ensure_loaded!(module)
 
+    struct_keys =
+      module.__struct__()
+      |> Map.keys()
+      |> List.delete(:__struct__)
+
     nested_fields =
       if function_exported?(module, :__nested_fields__, 0),
         do: module.__nested_fields__(),
         else: %{}
 
-    to_struct(module, data, nested_fields, opts)
+    to_struct(module, data, struct_keys, nested_fields, opts)
   end
 
-  defp to_struct(module, data, nested_fields, opts) do
-    module.__struct__()
-    |> Map.keys()
-    |> List.delete(:__struct__)
+  defp to_struct(module, data, struct_keys, nested_fields, opts) do
+    struct_keys
     |> Enum.map(fn atom_key ->
       string_key = Atom.to_string(atom_key)
       raw = Map.get(data, string_key)

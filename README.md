@@ -56,7 +56,7 @@ charge = Stripe::Charge.retrieve("ch_123")
 
 ```elixir
 # Elixir
-client = Stripe.client()
+client = Stripe.client("sk_test_...")
 {:ok, charge} = Stripe.Services.ChargeService.retrieve(client, "ch_123")
 ```
 
@@ -108,49 +108,49 @@ Add `tiger_stripe` to your dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:tiger_stripe, "~> 0.2.0"}
+    {:tiger_stripe, "~> 0.3.0"}
   ]
 end
 ```
 
 Requires Elixir 1.19+ and OTP 27+.
 
-## Configuration
+## Client Setup
 
 ```elixir
-# config/dev.exs — sandbox credentials
-config :tiger_stripe,
-  api_key: "sk_test_...",
-  webhook_secret: "whsec_test_..."
+# lib/my_app/application.ex
+children = [
+  Stripe
+]
 
-# config/runtime.exs — production credentials
-if config_env() == :prod do
-  config :tiger_stripe,
-    api_key: System.fetch_env!("STRIPE_SECRET_KEY"),
-    webhook_secret: System.fetch_env!("STRIPE_WEBHOOK_SECRET")
+# lib/my_app/stripe.ex
+defmodule MyApp.Stripe do
+  def client do
+    Stripe.client(System.fetch_env!("STRIPE_SECRET_KEY"))
+  end
+
+  def webhook_secret do
+    System.fetch_env!("STRIPE_WEBHOOK_SECRET")
+  end
 end
 ```
 
-Optional global defaults (all have sensible defaults if omitted):
+Client options can be passed when constructing the client:
 
 ```elixir
-config :tiger_stripe,
-  api_key: "sk_test_...",
-  webhook_secret: "whsec_...",
+Stripe.client("sk_test_...",
   api_version: "2026-01-28.clover",  # pin API version
   client_id: "ca_...",               # OAuth client ID (Connect platforms)
   max_retries: 3,                    # default: 2
   open_timeout: 30_000,              # connection timeout in ms
   read_timeout: 80_000               # read timeout in ms
+)
 ```
-
-See the [Getting Started](guides/getting-started.md) guide for all config
-options and precedence rules.
 
 ## Quick Start
 
 ```elixir
-client = Stripe.client()
+client = Stripe.client("sk_test_...")
 
 # Create a customer
 {:ok, customer} = Stripe.Services.CustomerService.create(client, %{
@@ -172,10 +172,10 @@ customer.email     #=> "jane@example.com"
 customer.__struct__ #=> Stripe.Resources.Customer
 ```
 
-Override config per-client for Connect or multi-key scenarios:
+Create another client for Connect or multi-key scenarios:
 
 ```elixir
-client = Stripe.client(stripe_account: "acct_connected")
+client = Stripe.client("sk_test_...", stripe_account: "acct_connected")
 client = Stripe.client("sk_test_other_key", max_retries: 5)
 ```
 
@@ -221,6 +221,7 @@ client = Stripe.client("sk_test_other_key", max_retries: 5)
 - [Igniter Installer](guides/igniter-installer.md) — one-command Phoenix setup (beta)
 - [Webhooks](guides/webhooks.md) — signature verification, WebhookPlug setup, typed event modules
 - [Connect & OAuth](guides/connect-and-oauth.md) — connected accounts, OAuth flow, multi-tenant patterns
+- [Migrating from 0.2.x to 0.3.0](guides/migrating-0.2-to-0.3.md) — explicit client config, Finch supervision, and test transport changes
 - [Migrating from 0.1.x to 0.2.0](guides/migrating-0.1-to-0.2.md) — breaking changes, audit commands, and upgrade patterns
 - [Testing](guides/testing.md) — process-scoped HTTP stubs with `async: true` support
 - [Telemetry](guides/telemetry.md) — request lifecycle events, logging, metrics

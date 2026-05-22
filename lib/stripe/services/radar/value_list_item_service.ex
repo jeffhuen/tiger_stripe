@@ -15,7 +15,7 @@ defmodule Stripe.Services.Radar.ValueListItemService do
   Creates a new `ValueListItem` object, which is added to the specified parent value list.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Radar.ValueListItem.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -31,7 +31,7 @@ defmodule Stripe.Services.Radar.ValueListItemService do
   Deletes a `ValueListItem` object, removing it from its parent value list.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Radar.ValueListItem.t()} | {:error, Stripe.Error.t()}
   def delete(client, item, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -47,7 +47,7 @@ defmodule Stripe.Services.Radar.ValueListItemService do
   Returns a list of `ValueListItem` objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -63,7 +63,7 @@ defmodule Stripe.Services.Radar.ValueListItemService do
   Retrieves a `ValueListItem` object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Radar.ValueListItem.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, item, params \\ %{}, opts \\ []) do
     Client.request(
       client,

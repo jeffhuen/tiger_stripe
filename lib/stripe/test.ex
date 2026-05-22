@@ -20,7 +20,7 @@ defmodule Stripe.Test do
           {200, [], ~s({"id": "ch_123", "object": "charge"})}
         end)
 
-        client = Stripe.client("sk_test_123")
+        client = Stripe.Test.client("sk_test_123")
 
         {:ok, data} =
           Stripe.Client.request(client, :post, "/v1/charges",
@@ -32,15 +32,14 @@ defmodule Stripe.Test do
 
   ## Async Tests
 
-  Stubs are automatically scoped to the calling process. For async tests that
-  spawn processes (Tasks, GenServers), use `allow/2` to grant access:
+  `Stripe.Test.client/2` captures the calling test process in the client's
+  transport, so spawned processes can use that client:
 
       test "works from a spawned task" do
         Stripe.Test.stub(fn _req -> {200, [], ~s({"ok": true})} end)
-        test_pid = self()
+        client = Stripe.Test.client("sk_test_123")
 
         Task.async(fn ->
-          Stripe.Test.allow(test_pid, self())
           Stripe.Client.request(client, :get, "/v1/balance")
         end)
         |> Task.await()
@@ -63,6 +62,39 @@ defmodule Stripe.Test do
   """
 
   @ownership __MODULE__.Ownership
+
+  @doc """
+  Create a Stripe client configured to use the current test process's stub.
+  """
+  @spec client(String.t(), keyword()) :: Stripe.Client.t()
+  def client(api_key, opts \\ []) when is_binary(api_key) and is_list(opts) do
+    Stripe.client(api_key, Keyword.put(opts, :transport, transport()))
+  end
+
+  @doc """
+  Return a transport function that uses the current test process's stub.
+
+  Pass this as `transport: Stripe.Test.transport()` when constructing a client
+  manually.
+  """
+  @spec transport(pid()) :: Stripe.Client.transport()
+  def transport(owner_pid \\ self()) do
+    fn request ->
+      case fetch_stub(owner_pid) do
+        {:ok, stub_fn} ->
+          stub_fn.(request)
+
+        :error ->
+          raise """
+          No Stripe test stub registered for this process.
+
+          Call Stripe.Test.stub/1 before issuing requests with a Stripe.Test client:
+
+              Stripe.Test.stub(fn _req -> {200, [], ~s({"id": "ch_123"})} end)
+          """
+      end
+    end
+  end
 
   @doc "Start the test stub server. Call this in `test/test_helper.exs`."
   @spec start() :: {:ok, pid()}
@@ -111,9 +143,9 @@ defmodule Stripe.Test do
   end
 
   @doc false
-  @spec fetch_stub() :: {:ok, function()} | :error
-  def fetch_stub do
-    callers = [self()] ++ (Process.get(:"$callers") || [])
+  @spec fetch_stub(pid()) :: {:ok, function()} | :error
+  def fetch_stub(owner_pid \\ self()) do
+    callers = [self(), owner_pid] ++ (Process.get(:"$callers") || [])
 
     with pid when is_pid(pid) <- GenServer.whereis(@ownership),
          owner when is_pid(owner) <- find_owner(callers),

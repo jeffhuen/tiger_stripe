@@ -42,7 +42,7 @@ defmodule Stripe.Services.ExchangeRateService do
   Returns a list of objects that contain the rates at which foreign currencies are converted to one another. Only shows the currencies for which Stripe supports.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/exchange_rates", Keyword.merge(opts, params: params))
   end
@@ -55,7 +55,7 @@ defmodule Stripe.Services.ExchangeRateService do
   Retrieves the exchange rates from the given currency to every supported currency.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.ExchangeRate.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, rate_id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

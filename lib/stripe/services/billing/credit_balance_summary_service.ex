@@ -13,7 +13,7 @@ defmodule Stripe.Services.Billing.CreditBalanceSummaryService do
   Retrieves the credit balance summary for a customer.
   """
   @spec retrieve(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.CreditBalanceSummary.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,

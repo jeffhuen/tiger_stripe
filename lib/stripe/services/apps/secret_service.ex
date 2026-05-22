@@ -21,7 +21,7 @@ defmodule Stripe.Services.Apps.SecretService do
   Create or replace a secret in the secret store.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Apps.Secret.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/apps/secrets", Keyword.merge(opts, params: params))
   end
@@ -32,7 +32,7 @@ defmodule Stripe.Services.Apps.SecretService do
   Deletes a secret from the secret store by name and scope.
   """
   @spec delete_where(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Apps.Secret.t()} | {:error, Stripe.Error.t()}
   def delete_where(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/apps/secrets/delete", Keyword.merge(opts, params: params))
   end
@@ -43,7 +43,7 @@ defmodule Stripe.Services.Apps.SecretService do
   Finds a secret in the secret store by name and scope.
   """
   @spec find(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Apps.Secret.t()} | {:error, Stripe.Error.t()}
   def find(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/apps/secrets/find", Keyword.merge(opts, params: params))
   end
@@ -54,7 +54,7 @@ defmodule Stripe.Services.Apps.SecretService do
   List all secrets stored on the given scope.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/apps/secrets", Keyword.merge(opts, params: params))
   end

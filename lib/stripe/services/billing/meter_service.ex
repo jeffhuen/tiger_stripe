@@ -15,7 +15,7 @@ defmodule Stripe.Services.Billing.MeterService do
   Creates a billing meter.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.Meter.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/billing/meters", Keyword.merge(opts, params: params))
   end
@@ -26,7 +26,7 @@ defmodule Stripe.Services.Billing.MeterService do
   When a meter is deactivated, no more meter events will be accepted for this meter. You can’t attach a deactivated meter to a price.
   """
   @spec deactivate(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.Meter.t()} | {:error, Stripe.Error.t()}
   def deactivate(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -42,7 +42,7 @@ defmodule Stripe.Services.Billing.MeterService do
   Retrieve a list of billing meters.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/billing/meters", Keyword.merge(opts, params: params))
   end
@@ -53,7 +53,7 @@ defmodule Stripe.Services.Billing.MeterService do
   When a meter is reactivated, events for this meter can be accepted and you can attach the meter to a price.
   """
   @spec reactivate(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.Meter.t()} | {:error, Stripe.Error.t()}
   def reactivate(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -69,7 +69,7 @@ defmodule Stripe.Services.Billing.MeterService do
   Retrieves a billing meter given an ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.Meter.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/billing/meters/#{id}", Keyword.merge(opts, params: params))
   end
@@ -80,7 +80,7 @@ defmodule Stripe.Services.Billing.MeterService do
   Updates a billing meter.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.Meter.t()} | {:error, Stripe.Error.t()}
   def update(client, id, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/billing/meters/#{id}", Keyword.merge(opts, params: params))
   end

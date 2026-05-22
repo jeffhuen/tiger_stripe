@@ -14,7 +14,7 @@ defmodule Stripe.Services.Treasury.FinancialAccountService do
   Closes a FinancialAccount. A FinancialAccount can only be closed if it has a zero balance, has no pending InboundTransfers, and has canceled all attached Issuing cards.
   """
   @spec close(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.FinancialAccount.t()} | {:error, Stripe.Error.t()}
   def close(client, financial_account, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -30,7 +30,7 @@ defmodule Stripe.Services.Treasury.FinancialAccountService do
   Creates a new FinancialAccount. Each connected account can have up to three FinancialAccounts by default.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.FinancialAccount.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -46,7 +46,7 @@ defmodule Stripe.Services.Treasury.FinancialAccountService do
   Returns a list of FinancialAccounts.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -62,7 +62,7 @@ defmodule Stripe.Services.Treasury.FinancialAccountService do
   Retrieves the details of a FinancialAccount.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.FinancialAccount.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, financial_account, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -78,7 +78,7 @@ defmodule Stripe.Services.Treasury.FinancialAccountService do
   Updates the details of a FinancialAccount.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.FinancialAccount.t()} | {:error, Stripe.Error.t()}
   def update(client, financial_account, params \\ %{}, opts \\ []) do
     Client.request(
       client,

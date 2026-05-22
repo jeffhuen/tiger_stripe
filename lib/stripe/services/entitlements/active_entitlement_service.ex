@@ -13,7 +13,7 @@ defmodule Stripe.Services.Entitlements.ActiveEntitlementService do
   Retrieve a list of active entitlements for a customer
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -29,7 +29,7 @@ defmodule Stripe.Services.Entitlements.ActiveEntitlementService do
   Retrieve an active entitlement
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Entitlements.ActiveEntitlement.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

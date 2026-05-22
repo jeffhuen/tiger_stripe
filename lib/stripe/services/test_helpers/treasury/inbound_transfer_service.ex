@@ -11,7 +11,7 @@ defmodule Stripe.Services.TestHelpers.Treasury.InboundTransferService do
   Transitions a test mode created InboundTransfer to the `failed` status. The InboundTransfer must already be in the `processing` state.
   """
   @spec fail(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.InboundTransfer.t()} | {:error, Stripe.Error.t()}
   def fail(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -27,7 +27,7 @@ defmodule Stripe.Services.TestHelpers.Treasury.InboundTransferService do
   Marks the test mode InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the `succeeded` state.
   """
   @spec return_inbound_transfer(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.InboundTransfer.t()} | {:error, Stripe.Error.t()}
   def return_inbound_transfer(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -43,7 +43,7 @@ defmodule Stripe.Services.TestHelpers.Treasury.InboundTransferService do
   Transitions a test mode created InboundTransfer to the `succeeded` status. The InboundTransfer must already be in the `processing` state.
   """
   @spec succeed(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.InboundTransfer.t()} | {:error, Stripe.Error.t()}
   def succeed(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

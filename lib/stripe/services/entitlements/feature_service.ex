@@ -14,7 +14,7 @@ defmodule Stripe.Services.Entitlements.FeatureService do
   Creates a feature
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Entitlements.Feature.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -30,7 +30,7 @@ defmodule Stripe.Services.Entitlements.FeatureService do
   Retrieve a list of features
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/entitlements/features", Keyword.merge(opts, params: params))
   end
@@ -41,7 +41,7 @@ defmodule Stripe.Services.Entitlements.FeatureService do
   Retrieves a feature
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Entitlements.Feature.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -57,7 +57,7 @@ defmodule Stripe.Services.Entitlements.FeatureService do
   Update a feature’s metadata or permanently deactivate it.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Entitlements.Feature.t()} | {:error, Stripe.Error.t()}
   def update(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

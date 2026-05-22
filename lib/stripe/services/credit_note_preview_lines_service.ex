@@ -11,7 +11,7 @@ defmodule Stripe.Services.CreditNotePreviewLinesService do
   When retrieving a credit note preview, you’ll get a **lines** property containing the first handful of those items. This URL you can retrieve the full (paginated) list of line items.
   """
   @spec preview_lines(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def preview_lines(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,

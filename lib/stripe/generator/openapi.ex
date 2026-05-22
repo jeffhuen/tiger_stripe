@@ -33,7 +33,7 @@ defmodule Stripe.Generator.OpenAPI do
       |> resolve_service_classes()
       |> Enum.sort_by(& &1.schema_id)
 
-    path_specs = parse_paths(paths)
+    path_specs = parse_paths(paths, schemas)
 
     event_types = parse_event_types(schemas)
 
@@ -600,7 +600,7 @@ defmodule Stripe.Generator.OpenAPI do
 
   # -- Path Spec Parsing (for params generation) ------------------------------
 
-  defp parse_paths(paths) do
+  defp parse_paths(paths, schemas) do
     paths
     |> Enum.flat_map(fn {path, methods} ->
       methods
@@ -618,12 +618,51 @@ defmodule Stripe.Generator.OpenAPI do
            method: method,
            summary: spec["summary"],
            description: spec["description"],
-           deprecated: spec["deprecated"] == true
+           deprecated: spec["deprecated"] == true,
+           response_object: extract_response_object(spec, schemas)
          }}
       end)
     end)
     |> Map.new()
   end
+
+  # Resolves the object name of an operation's 200 response, used to type the
+  # generated `@spec`. Returns a Stripe object name (e.g. `"customer"`),
+  # `"list"`, `"search_result"`, the `:v2_list` sentinel, or `nil` when the
+  # response shape can't be determined.
+  defp extract_response_object(method_spec, schemas) do
+    method_spec
+    |> get_in(["responses", "200", "content", "application/json", "schema"])
+    |> resolve_response_object(schemas)
+  end
+
+  defp resolve_response_object(nil, _schemas), do: nil
+
+  defp resolve_response_object(%{"$ref" => ref}, schemas) do
+    case Map.get(schemas, ref_to_name(ref)) do
+      %{} = schema -> resolve_response_object(schema, schemas)
+      _ -> nil
+    end
+  end
+
+  # A union response (e.g. customer | deleted_customer) is only typeable when
+  # every variant resolves to the same object; otherwise stay untyped.
+  defp resolve_response_object(%{"anyOf" => variants}, schemas) when is_list(variants) do
+    case variants |> Enum.map(&resolve_response_object(&1, schemas)) |> Enum.uniq() do
+      [single] -> single
+      _ -> nil
+    end
+  end
+
+  defp resolve_response_object(%{"properties" => %{"object" => %{"enum" => [object]}}}, _schemas) do
+    object
+  end
+
+  defp resolve_response_object(%{"properties" => %{"next_page_url" => _, "data" => _}}, _schemas) do
+    :v2_list
+  end
+
+  defp resolve_response_object(_schema, _schemas), do: nil
 
   defp extract_params_schema("post", spec) do
     get_in(spec, ["requestBody", "content", "application/x-www-form-urlencoded", "schema"]) ||

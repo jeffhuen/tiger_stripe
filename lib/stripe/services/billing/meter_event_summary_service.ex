@@ -16,7 +16,7 @@ defmodule Stripe.Services.Billing.MeterEventSummaryService do
   Retrieve a list of billing meter event summaries.
   """
   @spec list(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

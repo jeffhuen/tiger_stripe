@@ -17,7 +17,7 @@ defmodule Stripe.Services.Treasury.OutboundTransferService do
   An OutboundTransfer can be canceled if the funds have not yet been paid out.
   """
   @spec cancel(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.OutboundTransfer.t()} | {:error, Stripe.Error.t()}
   def cancel(client, outbound_transfer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -33,7 +33,7 @@ defmodule Stripe.Services.Treasury.OutboundTransferService do
   Creates an OutboundTransfer.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.OutboundTransfer.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -49,7 +49,7 @@ defmodule Stripe.Services.Treasury.OutboundTransferService do
   Returns a list of OutboundTransfers sent from the specified FinancialAccount.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -65,7 +65,7 @@ defmodule Stripe.Services.Treasury.OutboundTransferService do
   Retrieves the details of an existing OutboundTransfer by passing the unique OutboundTransfer ID from either the OutboundTransfer creation request or OutboundTransfer list.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.OutboundTransfer.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, outbound_transfer, params \\ %{}, opts \\ []) do
     Client.request(
       client,

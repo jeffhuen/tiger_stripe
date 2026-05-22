@@ -22,7 +22,7 @@ defmodule Stripe.ListObjectTest do
         url: "/v1/charges"
       }
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       items = page |> ListObject.auto_paging_stream(client) |> Enum.to_list()
 
       assert length(items) == 2
@@ -60,7 +60,7 @@ defmodule Stripe.ListObjectTest do
         url: "/v1/charges"
       }
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       items = page |> ListObject.auto_paging_stream(client) |> Enum.to_list()
 
       assert length(items) == 3
@@ -110,7 +110,7 @@ defmodule Stripe.ListObjectTest do
         url: "/v1/charges"
       }
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       items = page |> ListObject.auto_paging_stream(client) |> Enum.to_list()
 
       assert Enum.map(items, & &1.id) == ["ch_1", "ch_2", "ch_3", "ch_4"]
@@ -129,7 +129,7 @@ defmodule Stripe.ListObjectTest do
         url: "/v1/charges"
       }
 
-      client = Stripe.client("sk_test_123", max_retries: 0)
+      client = Stripe.Test.client("sk_test_123", max_retries: 0)
       items = page |> ListObject.auto_paging_stream(client) |> Enum.to_list()
 
       # Only gets the first page's items, stops gracefully on error
@@ -163,7 +163,7 @@ defmodule Stripe.ListObjectTest do
         url: "/v1/charges"
       }
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       # Take only 4 items from an infinite stream — should not fetch all pages
       items = page |> ListObject.auto_paging_stream(client) |> Enum.take(4)
 
@@ -190,7 +190,7 @@ defmodule Stripe.ListObjectTest do
         total_count: 1
       }
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       items = page |> SearchResult.auto_paging_stream(client) |> Enum.to_list()
 
       assert length(items) == 1
@@ -244,7 +244,7 @@ defmodule Stripe.ListObjectTest do
         total_count: 5
       }
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       items = page |> SearchResult.auto_paging_stream(client) |> Enum.to_list()
 
       assert Enum.map(items, & &1.id) == ["ch_1", "ch_2", "ch_3", "ch_4"]
@@ -265,7 +265,7 @@ defmodule Stripe.ListObjectTest do
         total_count: 1
       }
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       items = page |> SearchResult.auto_paging_stream(client) |> Enum.to_list()
 
       assert length(items) == 1
@@ -290,7 +290,7 @@ defmodule Stripe.ListObjectTest do
         next_page_url: nil
       }
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       items = page |> V2.ListObject.auto_paging_stream(client) |> Enum.to_list()
 
       assert length(items) == 1
@@ -338,7 +338,7 @@ defmodule Stripe.ListObjectTest do
         next_page_url: "https://api.stripe.com/v2/billing/meter_events?page=2"
       }
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       items = page |> V2.ListObject.auto_paging_stream(client) |> Enum.to_list()
 
       assert length(items) == 3
@@ -386,7 +386,7 @@ defmodule Stripe.ListObjectTest do
         next_page_url: "https://api.stripe.com/v2/billing/meter_events?page=2"
       }
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       items = page |> V2.ListObject.auto_paging_stream(client) |> Enum.to_list()
 
       assert length(items) == 3

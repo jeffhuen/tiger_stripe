@@ -17,7 +17,7 @@ defmodule Stripe.Services.Issuing.TransactionService do
   Returns a list of Issuing `Transaction` objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/issuing/transactions", Keyword.merge(opts, params: params))
   end
@@ -28,7 +28,7 @@ defmodule Stripe.Services.Issuing.TransactionService do
   Retrieves an Issuing `Transaction` object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Transaction.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, transaction, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -44,7 +44,7 @@ defmodule Stripe.Services.Issuing.TransactionService do
   Updates the specified Issuing `Transaction` object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Transaction.t()} | {:error, Stripe.Error.t()}
   def update(client, transaction, params \\ %{}, opts \\ []) do
     Client.request(
       client,

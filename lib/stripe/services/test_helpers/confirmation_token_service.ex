@@ -11,7 +11,7 @@ defmodule Stripe.Services.TestHelpers.ConfirmationTokenService do
   Creates a test mode Confirmation Token server side for your integration tests.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.ConfirmationToken.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,

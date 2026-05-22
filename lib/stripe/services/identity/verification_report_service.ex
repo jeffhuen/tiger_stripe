@@ -23,7 +23,7 @@ defmodule Stripe.Services.Identity.VerificationReportService do
   List all verification reports.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -39,7 +39,7 @@ defmodule Stripe.Services.Identity.VerificationReportService do
   Retrieves an existing VerificationReport
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Identity.VerificationReport.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, report, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -13,7 +13,7 @@ defmodule Stripe.Services.Issuing.PersonalizationDesignService do
   Creates a personalization design object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.PersonalizationDesign.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -29,7 +29,7 @@ defmodule Stripe.Services.Issuing.PersonalizationDesignService do
   Returns a list of personalization design objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -45,7 +45,7 @@ defmodule Stripe.Services.Issuing.PersonalizationDesignService do
   Retrieves a personalization design object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.PersonalizationDesign.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, personalization_design, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -61,7 +61,7 @@ defmodule Stripe.Services.Issuing.PersonalizationDesignService do
   Updates a card personalization object.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.PersonalizationDesign.t()} | {:error, Stripe.Error.t()}
   def update(client, personalization_design, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -13,7 +13,7 @@ defmodule Stripe.Services.Billing.MeterEventAdjustmentService do
   Creates a billing meter event adjustment.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.MeterEventAdjustment.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,

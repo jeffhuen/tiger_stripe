@@ -13,7 +13,7 @@ defmodule Stripe.Services.Treasury.CreditReversalService do
   Reverses a ReceivedCredit and creates a CreditReversal object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.CreditReversal.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -29,7 +29,7 @@ defmodule Stripe.Services.Treasury.CreditReversalService do
   Returns a list of CreditReversals.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -45,7 +45,7 @@ defmodule Stripe.Services.Treasury.CreditReversalService do
   Retrieves the details of an existing CreditReversal by passing the unique CreditReversal ID from either the CreditReversal creation request or CreditReversal list
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.CreditReversal.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, credit_reversal, params \\ %{}, opts \\ []) do
     Client.request(
       client,

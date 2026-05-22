@@ -2,44 +2,25 @@ defmodule Stripe do
   @moduledoc """
   Elixir SDK and client for the Stripe API.
 
-  ## Configuration
+  ## Client Configuration
 
-  Add your Stripe credentials to your application config:
+  Create a client with explicit options:
 
-      # config/runtime.exs
-      config :tiger_stripe,
-        api_key: System.fetch_env!("STRIPE_SECRET_KEY"),
-        webhook_secret: System.fetch_env!("STRIPE_WEBHOOK_SECRET")
-
-  Then create a client — it picks up your config automatically:
-
-      client = Stripe.client()
+      client = Stripe.client("sk_test_...")
 
       {:ok, customer} = Stripe.Services.CustomerService.create(client, %{
         email: "jane@example.com"
       })
 
-  ## Per-Client Overrides
-
-  Override any config option when creating a client:
+  ## Per-Client Options
 
       # Connect: act on behalf of a connected account
-      client = Stripe.client(stripe_account: "acct_...")
+      client = Stripe.client("sk_test_...", stripe_account: "acct_...")
 
-      # Explicit key (ignores config)
+      # Explicit key with retry policy
       client = Stripe.client("sk_test_other", max_retries: 5)
 
-  ## Config Precedence
-
-  Options are resolved in this order (highest wins):
-
-    1. Explicit arguments to `client/1` or `client/2`
-    2. Application config (`config :tiger_stripe, ...`)
-    3. Struct defaults (e.g. `max_retries: 2`)
-
-  ## Supported Config Keys
-
-  Client options (used by `Stripe.client/0,1,2`):
+  ## Supported Client Options
 
     * `:api_key` - Stripe secret key (required)
     * `:api_version` - Pin a specific Stripe API version
@@ -49,60 +30,58 @@ defmodule Stripe do
     * `:open_timeout` - Connection timeout in ms (default: 30_000)
     * `:read_timeout` - Read timeout in ms (default: 80_000)
     * `:finch` - Custom Finch instance name (default: `Stripe.Finch`)
-
-  Non-client options (used by other modules):
-
-    * `:webhook_secret` - Webhook signing secret (used by `Stripe.WebhookPlug`)
+    * `:transport` - Custom HTTP transport for tests or advanced integrations
   """
 
   @version Mix.Project.config()[:version]
-
-  # Fields that are valid on %Stripe.Client{}
-  @client_keys Map.keys(%Stripe.Client{}) -- [:__struct__]
 
   @doc "Returns the library version."
   @spec version() :: String.t()
   def version, do: @version
 
   @doc """
-  Create a new Stripe client from application config.
+  Returns a child spec for the default Finch pool.
 
-  Reads `:api_key` and other options from `config :tiger_stripe`.
-  Raises if `:api_key` is not configured.
+  Add this to your application's supervision tree when using the default
+  `Stripe.Finch` pool:
 
-  ## Example
+      children = [
+        Stripe
+      ]
 
-      # config/runtime.exs
-      config :tiger_stripe, api_key: System.fetch_env!("STRIPE_SECRET_KEY")
-
-      # Then in your code:
-      client = Stripe.client()
+  Pass `finch: MyApp.Finch` to `Stripe.client/2` when using your own Finch
+  pool instead.
   """
-  @spec client() :: Stripe.Client.t()
+  @spec child_spec(keyword()) :: Supervisor.child_spec()
+  def child_spec(opts \\ []) when is_list(opts) do
+    opts
+    |> Keyword.put_new(:name, Stripe.Finch)
+    |> Finch.child_spec()
+  end
+
+  @doc """
+  Raises because libraries should not read application configuration.
+
+  Pass an API key explicitly with `Stripe.client/1`, or read credentials from
+  your own application's configuration before constructing a client.
+  """
+  @spec client() :: no_return()
   def client do
-    config = config_defaults()
+    raise ArgumentError, """
+    Stripe.client/0 does not read application configuration.
 
-    case Keyword.fetch(config, :api_key) do
-      {:ok, api_key} when is_binary(api_key) and api_key != "" ->
-        struct!(Stripe.Client, config)
+    Pass an API key explicitly:
 
-      _ ->
-        raise ArgumentError, """
-        Stripe API key not configured. Add to your config:
+        Stripe.client("sk_test_...")
 
-            config :tiger_stripe, api_key: "sk_test_..."
+    Or read from your own application and pass the value:
 
-        Or pass it explicitly:
-
-            Stripe.client("sk_test_...")
-        """
-    end
+        Stripe.client(MyApp.Config.stripe_api_key())
+    """
   end
 
   @doc """
   Create a new Stripe client with an explicit API key.
-
-  Application config provides defaults for all other options.
 
   ## Examples
 
@@ -110,55 +89,43 @@ defmodule Stripe do
       client = Stripe.client("sk_test_...", stripe_account: "acct_...", max_retries: 5)
   """
   @spec client(String.t(), keyword()) :: Stripe.Client.t()
-  def client(api_key, opts) when is_binary(api_key) do
-    config = config_defaults()
-    merged = Keyword.merge(config, opts) |> Keyword.put(:api_key, api_key)
-    struct!(Stripe.Client, merged)
+  def client(api_key, opts) when is_binary(api_key) and is_list(opts) do
+    opts
+    |> Keyword.put(:api_key, api_key)
+    |> build_client()
   end
 
   @doc """
-  Create a new Stripe client with overrides.
+  Create a new Stripe client.
 
   When given a string, treated as an explicit API key.
-  When given a keyword list, merges with application config.
+  When given a keyword list, the list must include `:api_key`.
 
   ## Examples
 
-      # Explicit API key
       client = Stripe.client("sk_test_...")
-
-      # Config defaults + overrides
-      client = Stripe.client(stripe_account: "acct_...", max_retries: 5)
+      client = Stripe.client(api_key: "sk_test_...", max_retries: 5)
   """
   @spec client(String.t() | keyword()) :: Stripe.Client.t()
-  def client(api_key) when is_binary(api_key) do
-    client(api_key, [])
-  end
+  def client(api_key) when is_binary(api_key), do: client(api_key, [])
 
-  def client(opts) when is_list(opts) do
-    config = config_defaults()
-    merged = Keyword.merge(config, opts)
+  def client(opts) when is_list(opts), do: build_client(opts)
 
-    case Keyword.fetch(merged, :api_key) do
+  defp build_client(opts) do
+    case Keyword.fetch(opts, :api_key) do
       {:ok, api_key} when is_binary(api_key) and api_key != "" ->
-        struct!(Stripe.Client, merged)
+        struct!(Stripe.Client, opts)
 
       _ ->
         raise ArgumentError, """
-        Stripe API key not configured. Add to your config:
-
-            config :tiger_stripe, api_key: "sk_test_..."
-
-        Or pass it explicitly:
+        Stripe API key not configured. Pass an API key explicitly:
 
             Stripe.client("sk_test_...")
+
+        Or with keyword options:
+
+            Stripe.client(api_key: "sk_test_...")
         """
     end
-  end
-
-  # Read application config and filter to valid Client struct fields.
-  defp config_defaults do
-    Application.get_all_env(:tiger_stripe)
-    |> Keyword.take(@client_keys)
   end
 end

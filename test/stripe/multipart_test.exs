@@ -127,7 +127,7 @@ defmodule Stripe.MultipartTest do
         {200, [], ~s({"id": "file_123", "object": "file", "purpose": "identity_document"})}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
 
       {:ok, data} =
         Stripe.Client.request(client, :post, "/v1/files",
@@ -154,7 +154,7 @@ defmodule Stripe.MultipartTest do
         {200, [], ~s({"id": "ch_123", "object": "charge"})}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
 
       {:ok, _} =
         Stripe.Client.request(client, :post, "/v1/charges",

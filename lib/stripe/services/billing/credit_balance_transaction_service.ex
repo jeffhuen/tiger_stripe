@@ -13,7 +13,7 @@ defmodule Stripe.Services.Billing.CreditBalanceTransactionService do
   Retrieve a list of credit balance transactions.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -29,7 +29,8 @@ defmodule Stripe.Services.Billing.CreditBalanceTransactionService do
   Retrieves a credit balance transaction.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.CreditBalanceTransaction.t()}
+          | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -11,7 +11,7 @@ defmodule Stripe.Services.PaymentIntentAmountDetailsLineItemService do
   Lists all LineItems of a given PaymentIntent.
   """
   @spec list(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,

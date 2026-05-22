@@ -13,7 +13,7 @@ defmodule Stripe.Services.AccountLoginLinkService do
   **You can only create login links for accounts that use the [Express Dashboard](https://stripe.com/connect/express-dashboard) and are connected to your platform**.
   """
   @spec create(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.LoginLink.t()} | {:error, Stripe.Error.t()}
   def create(client, account, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -43,7 +43,7 @@ defmodule Stripe.Services.AccountExternalAccountService do
   List external accounts for an account.
   """
   @spec list(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, account, params \\ %{}, opts \\ []) do
     Client.request(
       client,

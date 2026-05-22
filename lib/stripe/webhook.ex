@@ -87,7 +87,7 @@ defmodule Stripe.Webhook do
 
     timestamp =
       case List.keyfind(parts, "t", 0) do
-        {"t", ts} -> String.to_integer(ts)
+        {"t", ts} -> parse_timestamp(ts)
         nil -> nil
       end
 
@@ -105,6 +105,13 @@ defmodule Stripe.Webhook do
 
       true ->
         {:ok, timestamp, signatures}
+    end
+  end
+
+  defp parse_timestamp(value) do
+    case Integer.parse(value) do
+      {timestamp, ""} -> timestamp
+      _ -> nil
     end
   end
 

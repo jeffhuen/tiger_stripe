@@ -16,7 +16,7 @@ defmodule Stripe.Services.PaymentAttemptRecordService do
   List all the Payment Attempt Records attached to the specified Payment Record.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -32,7 +32,7 @@ defmodule Stripe.Services.PaymentAttemptRecordService do
   Retrieves a Payment Attempt Record with the given ID
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentAttemptRecord.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

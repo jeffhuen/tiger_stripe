@@ -18,7 +18,7 @@ defmodule Stripe.Services.CustomerBalanceTransactionService do
   Creates an immutable transaction that updates the customer’s credit [balance](https://docs.stripe.com/docs/billing/customer/balance).
   """
   @spec create(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CustomerBalanceTransaction.t()} | {:error, Stripe.Error.t()}
   def create(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -34,7 +34,7 @@ defmodule Stripe.Services.CustomerBalanceTransactionService do
   Returns a list of transactions that updated the customer’s [balances](https://docs.stripe.com/docs/billing/customer/balance).
   """
   @spec list(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -50,7 +50,7 @@ defmodule Stripe.Services.CustomerBalanceTransactionService do
   Retrieves a specific customer balance transaction that updated the customer’s [balances](https://docs.stripe.com/docs/billing/customer/balance).
   """
   @spec retrieve(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CustomerBalanceTransaction.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, customer, transaction, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -66,7 +66,7 @@ defmodule Stripe.Services.CustomerBalanceTransactionService do
   Most credit balance transaction fields are immutable, but you may update its `description` and `metadata`.
   """
   @spec update(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CustomerBalanceTransaction.t()} | {:error, Stripe.Error.t()}
   def update(client, customer, transaction, params \\ %{}, opts \\ []) do
     Client.request(
       client,

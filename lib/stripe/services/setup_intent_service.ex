@@ -35,7 +35,7 @@ defmodule Stripe.Services.SetupIntentService do
   After you cancel it, setup is abandoned and any operations on the SetupIntent fail with an error. You can’t cancel the SetupIntent for a Checkout Session. [Expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire) instead.
   """
   @spec cancel(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.SetupIntent.t()} | {:error, Stripe.Error.t()}
   def cancel(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -64,7 +64,7 @@ defmodule Stripe.Services.SetupIntentService do
   confirmation limit is reached.
   """
   @spec confirm(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.SetupIntent.t()} | {:error, Stripe.Error.t()}
   def confirm(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -83,7 +83,7 @@ defmodule Stripe.Services.SetupIntentService do
   it to collect any required permissions to charge the payment method later.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.SetupIntent.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/setup_intents", Keyword.merge(opts, params: params))
   end
@@ -94,7 +94,7 @@ defmodule Stripe.Services.SetupIntentService do
   Returns a list of SetupIntents.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/setup_intents", Keyword.merge(opts, params: params))
   end
@@ -109,7 +109,7 @@ defmodule Stripe.Services.SetupIntentService do
   When retrieved with a publishable key, only a subset of properties will be returned. Please refer to the [SetupIntent](#setup_intent_object) object reference for more details.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.SetupIntent.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -125,7 +125,7 @@ defmodule Stripe.Services.SetupIntentService do
   Updates a SetupIntent object.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.SetupIntent.t()} | {:error, Stripe.Error.t()}
   def update(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -141,7 +141,7 @@ defmodule Stripe.Services.SetupIntentService do
   Verifies microdeposits on a SetupIntent object.
   """
   @spec verify_microdeposits(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.SetupIntent.t()} | {:error, Stripe.Error.t()}
   def verify_microdeposits(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,

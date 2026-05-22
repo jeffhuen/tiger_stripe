@@ -17,7 +17,7 @@ defmodule Stripe.Services.Climate.OrderService do
   provides 90 days advance notice and refunds the `amount_total`.
   """
   @spec cancel(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Climate.Order.t()} | {:error, Stripe.Error.t()}
   def cancel(client, order, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -34,7 +34,7 @@ defmodule Stripe.Services.Climate.OrderService do
   after creation and payment will be deducted your Stripe balance.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Climate.Order.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/climate/orders", Keyword.merge(opts, params: params))
   end
@@ -46,7 +46,7 @@ defmodule Stripe.Services.Climate.OrderService do
   most recently created orders appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/climate/orders", Keyword.merge(opts, params: params))
   end
@@ -57,7 +57,7 @@ defmodule Stripe.Services.Climate.OrderService do
   Retrieves the details of a Climate order object with the given ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Climate.Order.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, order, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -73,7 +73,7 @@ defmodule Stripe.Services.Climate.OrderService do
   Updates the specified order by setting the values of the parameters passed.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Climate.Order.t()} | {:error, Stripe.Error.t()}
   def update(client, order, params \\ %{}, opts \\ []) do
     Client.request(
       client,

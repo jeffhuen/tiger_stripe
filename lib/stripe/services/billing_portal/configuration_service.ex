@@ -13,7 +13,7 @@ defmodule Stripe.Services.BillingPortal.ConfigurationService do
   Creates a configuration that describes the functionality and behavior of a PortalSession
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.BillingPortal.Configuration.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -29,7 +29,7 @@ defmodule Stripe.Services.BillingPortal.ConfigurationService do
   Returns a list of configurations that describe the functionality of the customer portal.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -45,7 +45,7 @@ defmodule Stripe.Services.BillingPortal.ConfigurationService do
   Retrieves a configuration that describes the functionality of the customer portal.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.BillingPortal.Configuration.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, configuration, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -61,7 +61,7 @@ defmodule Stripe.Services.BillingPortal.ConfigurationService do
   Updates a configuration that describes the functionality of the customer portal.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.BillingPortal.Configuration.t()} | {:error, Stripe.Error.t()}
   def update(client, configuration, params \\ %{}, opts \\ []) do
     Client.request(
       client,

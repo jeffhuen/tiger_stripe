@@ -2,7 +2,7 @@ defmodule Stripe.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/jeffhuen/tiger_stripe"
-  @version "0.2.0"
+  @version "0.3.0"
 
   def project do
     [
@@ -33,8 +33,7 @@ defmodule Stripe.MixProject do
 
   def application do
     [
-      extra_applications: [:logger],
-      mod: {Stripe.Application, []}
+      extra_applications: [:logger]
     ]
   end
 
@@ -59,6 +58,7 @@ defmodule Stripe.MixProject do
       {:plug, "~> 1.16", only: :test},
       {:mox, "~> 1.1", only: :test},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:ex_slop, "~> 0.4", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false}
     ]
@@ -71,7 +71,7 @@ defmodule Stripe.MixProject do
         "Complete Stripe SDK for Elixir with 1:1 parity to the official " <>
           "Ruby SDK. V1+V2 API coverage (190 services, 307 resources, 523 typed params). " <>
           "Fully typed per-event modules. Modern stack: Finch HTTP/2, RustyJSON, " <>
-          "automatic retries, OAuth, webhooks, telemetry, per-client config, streaming pagination.",
+          "automatic retries, OAuth, webhooks, telemetry, explicit per-client config, streaming pagination.",
       maintainers: ["Jeff Huen"],
       licenses: ["MIT"],
       links: %{
@@ -94,6 +94,7 @@ defmodule Stripe.MixProject do
         "guides/igniter-installer.md",
         "guides/webhooks.md",
         "guides/connect-and-oauth.md",
+        "guides/migrating-0.2-to-0.3.md",
         "guides/migrating-0.1-to-0.2.md",
         "guides/testing.md",
         "guides/telemetry.md",
@@ -105,13 +106,14 @@ defmodule Stripe.MixProject do
           "guides/igniter-installer.md",
           "guides/webhooks.md",
           "guides/connect-and-oauth.md",
+          "guides/migrating-0.2-to-0.3.md",
           "guides/migrating-0.1-to-0.2.md",
           "guides/testing.md",
           "guides/telemetry.md"
         ]
       ],
       groups_for_modules: [
-        Core: [Stripe, Stripe.Client, Stripe.Config],
+        Core: [Stripe, Stripe.Client],
         "Error Handling": [Stripe.Error],
         Pagination: [Stripe.ListObject, Stripe.SearchResult],
         Webhooks: [Stripe.Webhook, Stripe.WebhookPlug],

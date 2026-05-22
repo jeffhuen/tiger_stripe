@@ -11,7 +11,7 @@ defmodule Stripe.Services.CustomerCashBalanceService do
   Retrieves a customer’s cash balance.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CashBalance.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -27,7 +27,7 @@ defmodule Stripe.Services.CustomerCashBalanceService do
   Changes the settings on a customer’s cash balance.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CashBalance.t()} | {:error, Stripe.Error.t()}
   def update(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,

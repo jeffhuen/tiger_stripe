@@ -14,7 +14,8 @@ defmodule Stripe.Services.Treasury.FinancialAccountFeaturesService do
   Retrieves Features information associated with the FinancialAccount.
   """
   @spec retrieve_features(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.FinancialAccountFeatures.t()}
+          | {:error, Stripe.Error.t()}
   def retrieve_features(client, financial_account, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -30,7 +31,8 @@ defmodule Stripe.Services.Treasury.FinancialAccountFeaturesService do
   Updates the Features associated with a FinancialAccount.
   """
   @spec update_features(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.FinancialAccountFeatures.t()}
+          | {:error, Stripe.Error.t()}
   def update_features(client, financial_account, params \\ %{}, opts \\ []) do
     Client.request(
       client,

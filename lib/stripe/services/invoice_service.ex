@@ -44,7 +44,7 @@ defmodule Stripe.Services.InvoiceService do
   Adds multiple line items to an invoice. This is only possible when an invoice is still a draft.
   """
   @spec add_lines(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def add_lines(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -69,7 +69,7 @@ defmodule Stripe.Services.InvoiceService do
   See: [Partial payments](https://docs.stripe.com/docs/invoicing/partial-payments) to learn more.
   """
   @spec attach_payment(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def attach_payment(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -85,7 +85,7 @@ defmodule Stripe.Services.InvoiceService do
   This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize](#finalize_invoice) the invoice, which allows you to [pay](https://docs.stripe.com/api/invoices/pay) or [send](https://docs.stripe.com/api/invoices/send) the invoice to your customers.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/invoices", Keyword.merge(opts, params: params))
   end
@@ -104,7 +104,7 @@ defmodule Stripe.Services.InvoiceService do
   Note: Currency conversion calculations use the latest exchange rates. Exchange rates may vary between the time of the preview and the time of the actual invoice creation. [Learn more](https://docs.stripe.com/currencies/conversions)
   """
   @spec create_preview(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def create_preview(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -120,7 +120,7 @@ defmodule Stripe.Services.InvoiceService do
   Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](#void_invoice).
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def delete(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -136,7 +136,7 @@ defmodule Stripe.Services.InvoiceService do
   Stripe automatically finalizes drafts before sending and attempting payment on invoices. However, if you’d like to finalize a draft invoice manually, you can do so using this method.
   """
   @spec finalize_invoice(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def finalize_invoice(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -152,7 +152,7 @@ defmodule Stripe.Services.InvoiceService do
   You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/invoices", Keyword.merge(opts, params: params))
   end
@@ -163,7 +163,7 @@ defmodule Stripe.Services.InvoiceService do
   Marking an invoice as uncollectible is useful for keeping track of bad debts that can be written off for accounting purposes.
   """
   @spec mark_uncollectible(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def mark_uncollectible(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -179,7 +179,7 @@ defmodule Stripe.Services.InvoiceService do
   Stripe automatically creates and then attempts to collect payment on invoices for customers on subscriptions according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). However, if you’d like to attempt payment on an invoice out of the normal collection schedule or for some other reason, you can do so.
   """
   @spec pay(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def pay(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -195,7 +195,7 @@ defmodule Stripe.Services.InvoiceService do
   Removes multiple line items from an invoice. This is only possible when an invoice is still a draft.
   """
   @spec remove_lines(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def remove_lines(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -211,7 +211,7 @@ defmodule Stripe.Services.InvoiceService do
   Retrieves the invoice with the given ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/invoices/#{invoice}", Keyword.merge(opts, params: params))
   end
@@ -225,7 +225,7 @@ defmodule Stripe.Services.InvoiceService do
   to an hour behind during outages. Search functionality is not available to merchants in India.
   """
   @spec search(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.SearchResult.t()} | {:error, Stripe.Error.t()}
   def search(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/invoices/search", Keyword.merge(opts, params: params))
   end
@@ -238,7 +238,7 @@ defmodule Stripe.Services.InvoiceService do
   Requests made in test-mode result in no emails being sent, despite sending an `invoice.sent` event.
   """
   @spec send_invoice(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def send_invoice(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -259,7 +259,7 @@ defmodule Stripe.Services.InvoiceService do
   `auto_advance=false`.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def update(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/invoices/#{invoice}", Keyword.merge(opts, params: params))
   end
@@ -270,7 +270,7 @@ defmodule Stripe.Services.InvoiceService do
   Updates multiple line items on an invoice. This is only possible when an invoice is still a draft.
   """
   @spec update_lines(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def update_lines(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -288,7 +288,7 @@ defmodule Stripe.Services.InvoiceService do
   Consult with local regulations to determine whether and how an invoice might be amended, canceled, or voided in the jurisdiction you’re doing business in. You might need to [issue another invoice](#create_invoice) or [credit note](#create_credit_note) instead. Stripe recommends that you consult with your legal counsel for advice specific to your business.
   """
   @spec void_invoice(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Invoice.t()} | {:error, Stripe.Error.t()}
   def void_invoice(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(
       client,

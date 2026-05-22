@@ -14,7 +14,7 @@ defmodule Stripe.Services.ProductFeatureService do
   Creates a product_feature, which represents a feature attachment to a product
   """
   @spec create(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.ProductFeature.t()} | {:error, Stripe.Error.t()}
   def create(client, product, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -30,7 +30,7 @@ defmodule Stripe.Services.ProductFeatureService do
   Deletes the feature attachment to a product
   """
   @spec delete(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.ProductFeature.t()} | {:error, Stripe.Error.t()}
   def delete(client, product, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -46,7 +46,7 @@ defmodule Stripe.Services.ProductFeatureService do
   Retrieve a list of features for a product
   """
   @spec list(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, product, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -62,7 +62,7 @@ defmodule Stripe.Services.ProductFeatureService do
   Retrieves a product_feature, which represents a feature attachment to a product
   """
   @spec retrieve(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.ProductFeature.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, product, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

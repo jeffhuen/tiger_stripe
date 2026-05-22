@@ -26,7 +26,7 @@ defmodule Stripe.Services.PaymentMethodConfigurationService do
   Creates a payment method configuration
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentMethodConfiguration.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -42,7 +42,7 @@ defmodule Stripe.Services.PaymentMethodConfigurationService do
   List payment method configurations
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -58,7 +58,7 @@ defmodule Stripe.Services.PaymentMethodConfigurationService do
   Retrieve payment method configuration
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentMethodConfiguration.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, configuration, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -74,7 +74,7 @@ defmodule Stripe.Services.PaymentMethodConfigurationService do
   Update payment method configuration
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentMethodConfiguration.t()} | {:error, Stripe.Error.t()}
   def update(client, configuration, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -28,10 +28,10 @@ defmodule Stripe.WebhookPlugTest do
       end
     end
 
-    test "does not require :secret when config may provide it" do
-      # No raise — secret will be resolved at call time from config
-      opts = WebhookPlug.init(path: @path)
-      assert Keyword.get(opts, :path) == @path
+    test "requires :secret option" do
+      assert_raise ArgumentError, ~r/requires :secret option/, fn ->
+        WebhookPlug.init(path: @path)
+      end
     end
 
     test "accepts explicit :secret" do
@@ -42,66 +42,18 @@ defmodule Stripe.WebhookPlugTest do
 
   # -- secret resolution -----------------------------------------------------
 
-  describe "secret from config" do
-    setup do
-      on_exit(fn ->
-        Application.delete_env(:tiger_stripe, :webhook_secret)
-      end)
-
-      :ok
-    end
-
-    test "uses :webhook_secret from application config" do
-      Application.put_env(:tiger_stripe, :webhook_secret, @secret)
-
-      opts = WebhookPlug.init(path: @path)
-      conn = signed_conn() |> WebhookPlug.call(opts)
-
-      refute conn.halted
-      assert %Stripe.Resources.Event{id: "evt_plug"} = conn.assigns.stripe_event
-    end
-
-    test "raises when no secret in config and no explicit secret" do
-      # Ensure no config is set
-      Application.delete_env(:tiger_stripe, :webhook_secret)
-
-      opts = WebhookPlug.init(path: @path)
-
-      assert_raise ArgumentError, ~r/Stripe webhook secret not configured/, fn ->
-        signed_conn() |> WebhookPlug.call(opts)
-      end
-    end
-  end
-
   describe "explicit secret" do
-    test "uses explicit :secret over config" do
-      # Set config to a wrong secret
-      Application.put_env(:tiger_stripe, :webhook_secret, "whsec_wrong_config")
-
+    test "uses explicit :secret" do
       opts = WebhookPlug.init(secret: @secret, path: @path)
       conn = signed_conn() |> WebhookPlug.call(opts)
 
       refute conn.halted
       assert conn.assigns.stripe_event.id == "evt_plug"
-
-      Application.delete_env(:tiger_stripe, :webhook_secret)
     end
   end
 
   describe "MFA secret" do
     test "resolves secret from {mod, fun, args} tuple" do
-      Application.put_env(:tiger_stripe, :webhook_secret, {__MODULE__, :test_secret, []})
-
-      opts = WebhookPlug.init(path: @path)
-      conn = signed_conn() |> WebhookPlug.call(opts)
-
-      refute conn.halted
-      assert conn.assigns.stripe_event.id == "evt_plug"
-
-      Application.delete_env(:tiger_stripe, :webhook_secret)
-    end
-
-    test "resolves explicit MFA secret" do
       opts = WebhookPlug.init(secret: {__MODULE__, :test_secret, []}, path: @path)
       conn = signed_conn() |> WebhookPlug.call(opts)
 
@@ -113,14 +65,8 @@ defmodule Stripe.WebhookPlugTest do
   # -- plug behavior ---------------------------------------------------------
 
   describe "call/2" do
-    setup do
-      Application.put_env(:tiger_stripe, :webhook_secret, @secret)
-      on_exit(fn -> Application.delete_env(:tiger_stripe, :webhook_secret) end)
-      :ok
-    end
-
     test "assigns stripe_event on valid signature" do
-      opts = WebhookPlug.init(path: @path)
+      opts = WebhookPlug.init(secret: @secret, path: @path)
       conn = signed_conn() |> WebhookPlug.call(opts)
 
       refute conn.halted
@@ -129,7 +75,7 @@ defmodule Stripe.WebhookPlugTest do
     end
 
     test "returns 400 on invalid signature" do
-      opts = WebhookPlug.init(path: @path)
+      opts = WebhookPlug.init(secret: @secret, path: @path)
       conn = signed_conn("whsec_wrong") |> WebhookPlug.call(opts)
 
       assert conn.halted
@@ -137,7 +83,7 @@ defmodule Stripe.WebhookPlugTest do
     end
 
     test "returns 400 on missing signature header" do
-      opts = WebhookPlug.init(path: @path)
+      opts = WebhookPlug.init(secret: @secret, path: @path)
 
       conn =
         conn(:post, @path, @payload)
@@ -150,7 +96,7 @@ defmodule Stripe.WebhookPlugTest do
     end
 
     test "passes through non-matching paths" do
-      opts = WebhookPlug.init(path: @path)
+      opts = WebhookPlug.init(secret: @secret, path: @path)
 
       conn =
         conn(:post, "/other/path", "")

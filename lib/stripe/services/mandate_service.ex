@@ -13,7 +13,7 @@ defmodule Stripe.Services.MandateService do
   Retrieves a Mandate object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Mandate.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, mandate, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/mandates/#{mandate}", Keyword.merge(opts, params: params))
   end

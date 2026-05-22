@@ -15,7 +15,7 @@ defmodule Stripe.Services.TestHelpers.TestClockService do
   Starts advancing a test clock to a specified time in the future. Advancement is done when status changes to `Ready`.
   """
   @spec advance(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.TestHelpers.TestClock.t()} | {:error, Stripe.Error.t()}
   def advance(client, test_clock, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -31,7 +31,7 @@ defmodule Stripe.Services.TestHelpers.TestClockService do
   Creates a new test clock that can be attached to new customers and quotes.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.TestHelpers.TestClock.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -47,7 +47,7 @@ defmodule Stripe.Services.TestHelpers.TestClockService do
   Deletes a test clock.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.TestHelpers.TestClock.t()} | {:error, Stripe.Error.t()}
   def delete(client, test_clock, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -63,7 +63,7 @@ defmodule Stripe.Services.TestHelpers.TestClockService do
   Returns a list of your test clocks.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -79,7 +79,7 @@ defmodule Stripe.Services.TestHelpers.TestClockService do
   Retrieves a test clock.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.TestHelpers.TestClock.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, test_clock, params \\ %{}, opts \\ []) do
     Client.request(
       client,

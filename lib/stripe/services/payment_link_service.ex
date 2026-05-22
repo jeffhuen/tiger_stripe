@@ -17,7 +17,7 @@ defmodule Stripe.Services.PaymentLinkService do
   Creates a payment link.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentLink.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/payment_links", Keyword.merge(opts, params: params))
   end
@@ -28,7 +28,7 @@ defmodule Stripe.Services.PaymentLinkService do
   Returns a list of your payment links.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/payment_links", Keyword.merge(opts, params: params))
   end
@@ -39,7 +39,7 @@ defmodule Stripe.Services.PaymentLinkService do
   Retrieve a payment link.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentLink.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, payment_link, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -55,7 +55,7 @@ defmodule Stripe.Services.PaymentLinkService do
   Updates a payment link.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentLink.t()} | {:error, Stripe.Error.t()}
   def update(client, payment_link, params \\ %{}, opts \\ []) do
     Client.request(
       client,

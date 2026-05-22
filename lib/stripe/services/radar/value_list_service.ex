@@ -15,7 +15,7 @@ defmodule Stripe.Services.Radar.ValueListService do
   Creates a new `ValueList` object, which can then be referenced in rules.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Radar.ValueList.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/radar/value_lists", Keyword.merge(opts, params: params))
   end
@@ -26,7 +26,7 @@ defmodule Stripe.Services.Radar.ValueListService do
   Deletes a `ValueList` object, also deleting any items contained within the value list. To be deleted, a value list must not be referenced in any rules.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Radar.ValueList.t()} | {:error, Stripe.Error.t()}
   def delete(client, value_list, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -42,7 +42,7 @@ defmodule Stripe.Services.Radar.ValueListService do
   Returns a list of `ValueList` objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/radar/value_lists", Keyword.merge(opts, params: params))
   end
@@ -53,7 +53,7 @@ defmodule Stripe.Services.Radar.ValueListService do
   Retrieves a `ValueList` object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Radar.ValueList.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, value_list, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -69,7 +69,7 @@ defmodule Stripe.Services.Radar.ValueListService do
   Updates a `ValueList` object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Note that `item_type` is immutable.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Radar.ValueList.t()} | {:error, Stripe.Error.t()}
   def update(client, value_list, params \\ %{}, opts \\ []) do
     Client.request(
       client,

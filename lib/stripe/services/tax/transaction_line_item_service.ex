@@ -11,7 +11,7 @@ defmodule Stripe.Services.Tax.TransactionLineItemService do
   Retrieves the line items of a committed standalone transaction as a collection.
   """
   @spec list_line_items(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list_line_items(client, transaction, params \\ %{}, opts \\ []) do
     Client.request(
       client,

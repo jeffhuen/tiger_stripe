@@ -17,7 +17,7 @@ defmodule Stripe.Services.CouponService do
   A coupon has either a `percent_off` or an `amount_off` and `currency`. If you set an `amount_off`, that amount will be subtracted from any invoice’s subtotal. For example, an invoice with a subtotal of 100 will have a final total of 0 if a coupon with an `amount_off` of 200 is applied to it and an invoice with a subtotal of 300 will have a final total of 100 if a coupon with an `amount_off` of 200 is applied to it.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Coupon.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/coupons", Keyword.merge(opts, params: params))
   end
@@ -28,7 +28,7 @@ defmodule Stripe.Services.CouponService do
   You can delete coupons via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can’t redeem the coupon. You can also delete coupons via the API.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Coupon.t()} | {:error, Stripe.Error.t()}
   def delete(client, coupon, params \\ %{}, opts \\ []) do
     Client.request(client, :delete, "/v1/coupons/#{coupon}", Keyword.merge(opts, params: params))
   end
@@ -39,7 +39,7 @@ defmodule Stripe.Services.CouponService do
   Returns a list of your coupons.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/coupons", Keyword.merge(opts, params: params))
   end
@@ -50,7 +50,7 @@ defmodule Stripe.Services.CouponService do
   Retrieves the coupon with the given ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Coupon.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, coupon, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/coupons/#{coupon}", Keyword.merge(opts, params: params))
   end
@@ -61,7 +61,7 @@ defmodule Stripe.Services.CouponService do
   Updates the metadata of a coupon. Other coupon details (currency, duration, amount_off) are, by design, not editable.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Coupon.t()} | {:error, Stripe.Error.t()}
   def update(client, coupon, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/coupons/#{coupon}", Keyword.merge(opts, params: params))
   end

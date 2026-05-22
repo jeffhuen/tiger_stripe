@@ -11,7 +11,7 @@ defmodule Stripe.Services.EphemeralKeyService do
   Creates a short-lived API key for a given resource.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.EphemeralKey.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/ephemeral_keys", Keyword.merge(opts, params: params))
   end
@@ -22,7 +22,7 @@ defmodule Stripe.Services.EphemeralKeyService do
   Invalidates a short-lived API key for a given resource.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.EphemeralKey.t()} | {:error, Stripe.Error.t()}
   def delete(client, key, params \\ %{}, opts \\ []) do
     Client.request(
       client,

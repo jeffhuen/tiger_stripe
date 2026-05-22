@@ -16,7 +16,7 @@ defmodule Stripe.Services.SetupAttemptService do
   Returns a list of SetupAttempts that associate with a provided SetupIntent.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/setup_attempts", Keyword.merge(opts, params: params))
   end

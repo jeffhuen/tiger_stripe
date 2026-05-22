@@ -14,7 +14,7 @@ defmodule Stripe.Services.CustomerService do
   Creates a new customer object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Customer.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/customers", Keyword.merge(opts, params: params))
   end
@@ -25,7 +25,7 @@ defmodule Stripe.Services.CustomerService do
   Permanently deletes a customer. It cannot be undone. Also immediately cancels any active subscriptions on the customer.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Customer.t()} | {:error, Stripe.Error.t()}
   def delete(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -41,7 +41,7 @@ defmodule Stripe.Services.CustomerService do
   Removes the currently applied discount on a customer.
   """
   @spec delete_discount(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Discount.t()} | {:error, Stripe.Error.t()}
   def delete_discount(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -57,7 +57,7 @@ defmodule Stripe.Services.CustomerService do
   Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/customers", Keyword.merge(opts, params: params))
   end
@@ -68,7 +68,7 @@ defmodule Stripe.Services.CustomerService do
   Retrieves a Customer object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Customer.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, customer, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/customers/#{customer}", Keyword.merge(opts, params: params))
   end
@@ -82,7 +82,7 @@ defmodule Stripe.Services.CustomerService do
   to an hour behind during outages. Search functionality is not available to merchants in India.
   """
   @spec search(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.SearchResult.t()} | {:error, Stripe.Error.t()}
   def search(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/customers/search", Keyword.merge(opts, params: params))
   end
@@ -95,7 +95,7 @@ defmodule Stripe.Services.CustomerService do
   This request accepts mostly the same arguments as the customer creation call.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Customer.t()} | {:error, Stripe.Error.t()}
   def update(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,

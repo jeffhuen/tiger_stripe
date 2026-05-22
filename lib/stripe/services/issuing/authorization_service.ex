@@ -19,7 +19,7 @@ defmodule Stripe.Services.Issuing.AuthorizationService do
   """
   @deprecated "This endpoint is deprecated by Stripe."
   @spec approve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Authorization.t()} | {:error, Stripe.Error.t()}
   def approve(client, authorization, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -37,7 +37,7 @@ defmodule Stripe.Services.Issuing.AuthorizationService do
   """
   @deprecated "This endpoint is deprecated by Stripe."
   @spec decline(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Authorization.t()} | {:error, Stripe.Error.t()}
   def decline(client, authorization, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -53,7 +53,7 @@ defmodule Stripe.Services.Issuing.AuthorizationService do
   Returns a list of Issuing `Authorization` objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -69,7 +69,7 @@ defmodule Stripe.Services.Issuing.AuthorizationService do
   Retrieves an Issuing `Authorization` object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Authorization.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, authorization, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -85,7 +85,7 @@ defmodule Stripe.Services.Issuing.AuthorizationService do
   Updates the specified Issuing `Authorization` object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Authorization.t()} | {:error, Stripe.Error.t()}
   def update(client, authorization, params \\ %{}, opts \\ []) do
     Client.request(
       client,

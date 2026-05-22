@@ -11,7 +11,7 @@ defmodule Stripe.Services.TestHelpers.Treasury.OutboundTransferService do
   Transitions a test mode created OutboundTransfer to the `failed` status. The OutboundTransfer must already be in the `processing` state.
   """
   @spec fail(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.OutboundTransfer.t()} | {:error, Stripe.Error.t()}
   def fail(client, outbound_transfer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -27,7 +27,7 @@ defmodule Stripe.Services.TestHelpers.Treasury.OutboundTransferService do
   Transitions a test mode created OutboundTransfer to the `posted` status. The OutboundTransfer must already be in the `processing` state.
   """
   @spec post(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.OutboundTransfer.t()} | {:error, Stripe.Error.t()}
   def post(client, outbound_transfer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -43,7 +43,7 @@ defmodule Stripe.Services.TestHelpers.Treasury.OutboundTransferService do
   Transitions a test mode created OutboundTransfer to the `returned` status. The OutboundTransfer must already be in the `processing` state.
   """
   @spec return_outbound_transfer(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.OutboundTransfer.t()} | {:error, Stripe.Error.t()}
   def return_outbound_transfer(client, outbound_transfer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -59,7 +59,7 @@ defmodule Stripe.Services.TestHelpers.Treasury.OutboundTransferService do
   Updates a test mode created OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and cannot be in the `canceled` or `failed` states.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.OutboundTransfer.t()} | {:error, Stripe.Error.t()}
   def update(client, outbound_transfer, params \\ %{}, opts \\ []) do
     Client.request(
       client,

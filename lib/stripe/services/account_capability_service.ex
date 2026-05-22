@@ -11,7 +11,7 @@ defmodule Stripe.Services.AccountCapabilityService do
   Returns a list of capabilities associated with the account. The capabilities are returned sorted by creation date, with the most recent capability appearing first.
   """
   @spec list(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, account, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -27,7 +27,7 @@ defmodule Stripe.Services.AccountCapabilityService do
   Retrieves information about the specified Account Capability.
   """
   @spec retrieve(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Capability.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, account, capability, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -43,7 +43,7 @@ defmodule Stripe.Services.AccountCapabilityService do
   Updates an existing Account Capability. Request or remove a capability by updating its `requested` parameter.
   """
   @spec update(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Capability.t()} | {:error, Stripe.Error.t()}
   def update(client, account, capability, params \\ %{}, opts \\ []) do
     Client.request(
       client,

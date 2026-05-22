@@ -11,7 +11,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.AuthorizationService do
   Capture a test-mode authorization.
   """
   @spec capture(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Authorization.t()} | {:error, Stripe.Error.t()}
   def capture(client, authorization, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -27,7 +27,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.AuthorizationService do
   Create a test-mode authorization.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Authorization.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -43,7 +43,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.AuthorizationService do
   Expire a test-mode Authorization.
   """
   @spec expire(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Authorization.t()} | {:error, Stripe.Error.t()}
   def expire(client, authorization, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -59,7 +59,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.AuthorizationService do
   Finalize the amount on an Authorization prior to capture, when the initial authorization was for an estimated amount.
   """
   @spec finalize_amount(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Authorization.t()} | {:error, Stripe.Error.t()}
   def finalize_amount(client, authorization, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -75,7 +75,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.AuthorizationService do
   Increment a test-mode Authorization.
   """
   @spec increment(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Authorization.t()} | {:error, Stripe.Error.t()}
   def increment(client, authorization, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -91,7 +91,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.AuthorizationService do
   Respond to a fraud challenge on a testmode Issuing authorization, simulating either a confirmation of fraud or a correction of legitimacy.
   """
   @spec respond(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Authorization.t()} | {:error, Stripe.Error.t()}
   def respond(client, authorization, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -107,7 +107,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.AuthorizationService do
   Reverse a test-mode Authorization.
   """
   @spec reverse(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Authorization.t()} | {:error, Stripe.Error.t()}
   def reverse(client, authorization, params \\ %{}, opts \\ []) do
     Client.request(
       client,

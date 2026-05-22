@@ -28,12 +28,15 @@ verifying the signature, deserializing the event, and assigning it to
 
 ### Setup
 
-First, configure your webhook secret (see [Getting Started](getting-started.md)):
+First, expose your webhook secret from your application:
 
 ```elixir
-# config/runtime.exs
-config :tiger_stripe,
-  webhook_secret: System.fetch_env!("STRIPE_WEBHOOK_SECRET")
+# lib/my_app/stripe.ex
+defmodule MyApp.Stripe do
+  def webhook_secret do
+    System.fetch_env!("STRIPE_WEBHOOK_SECRET")
+  end
+end
 ```
 
 Then add the plug to your endpoint **before** `Plug.Parsers` (which consumes
@@ -43,6 +46,7 @@ the raw body):
 # lib/my_app_web/endpoint.ex
 
 plug Stripe.WebhookPlug,
+  secret: {MyApp.Stripe, :webhook_secret, []},
   path: "/webhook/stripe"
 
 # This must come AFTER WebhookPlug
@@ -50,8 +54,6 @@ plug Plug.Parsers,
   parsers: [:urlencoded, :multipart, :json],
   json_decoder: JSON
 ```
-
-The secret is read automatically from `config :tiger_stripe, :webhook_secret`.
 
 ### Per-Plug Secret Override
 
@@ -76,7 +78,7 @@ plug Stripe.WebhookPlug,
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `:secret` | `String.t()` or `{mod, fun, args}` | from config | Webhook signing secret |
+| `:secret` | `String.t()` or `{mod, fun, args}` | required | Webhook signing secret |
 | `:path` | `String.t()` | required | Request path to match |
 | `:tolerance` | `integer()` | `300` | Maximum event age in seconds |
 

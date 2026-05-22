@@ -13,26 +13,19 @@ if Code.ensure_loaded?(Plug.Conn) do
     Add to your endpoint *before* `Plug.Parsers` (which consumes the body):
 
         plug Stripe.WebhookPlug,
+          secret: {MyApp.Config, :stripe_webhook_secret, []},
           path: "/webhook/stripe"
 
-    The signing secret is read from `config :tiger_stripe, :webhook_secret`.
-
-    To override the secret per-plug (e.g. multiple webhook endpoints):
+    Or pass the secret directly for a specific endpoint:
 
         plug Stripe.WebhookPlug,
           secret: "whsec_other",
           path: "/webhook/stripe"
 
-    Or use a runtime MFA tuple:
-
-        plug Stripe.WebhookPlug,
-          secret: {MyApp.Config, :stripe_webhook_secret, []},
-          path: "/webhook/stripe"
-
     ## Options
 
       * `:secret` - Signing secret (string or `{mod, fun, args}` MFA tuple).
-        Defaults to `Application.get_env(:tiger_stripe, :webhook_secret)`.
+        Required.
       * `:path` - Request path to match (string). Required.
       * `:tolerance` - Maximum event age in seconds (default: 300).
     """
@@ -45,6 +38,9 @@ if Code.ensure_loaded?(Plug.Conn) do
     def init(opts) do
       unless Keyword.has_key?(opts, :path),
         do: raise(ArgumentError, "Stripe.WebhookPlug requires :path option")
+
+      unless Keyword.has_key?(opts, :secret),
+        do: raise(ArgumentError, "Stripe.WebhookPlug requires :secret option")
 
       opts
     end
@@ -91,27 +87,9 @@ if Code.ensure_loaded?(Plug.Conn) do
     end
 
     defp resolve_secret(opts) do
-      case Keyword.get(opts, :secret) do
-        nil ->
-          case Application.get_env(:tiger_stripe, :webhook_secret) do
-            nil ->
-              raise ArgumentError, """
-              Stripe webhook secret not configured. Either:
-
-                  config :tiger_stripe, webhook_secret: "whsec_..."
-
-              Or pass it explicitly:
-
-                  plug Stripe.WebhookPlug, secret: "whsec_...", path: "/webhook/stripe"
-              """
-
-            secret ->
-              resolve_secret_value(secret)
-          end
-
-        secret ->
-          resolve_secret_value(secret)
-      end
+      opts
+      |> Keyword.fetch!(:secret)
+      |> resolve_secret_value()
     end
 
     defp resolve_secret_value({mod, fun, args}), do: apply(mod, fun, args)

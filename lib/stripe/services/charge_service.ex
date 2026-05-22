@@ -19,7 +19,7 @@ defmodule Stripe.Services.ChargeService do
   Don’t use this method to capture a PaymentIntent-initiated charge. Use [Capture a PaymentIntent](https://docs.stripe.com/docs/api/payment_intents/capture).
   """
   @spec capture(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Charge.t()} | {:error, Stripe.Error.t()}
   def capture(client, charge, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -35,7 +35,7 @@ defmodule Stripe.Services.ChargeService do
   object used to request payment.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Charge.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/charges", Keyword.merge(opts, params: params))
   end
@@ -46,7 +46,7 @@ defmodule Stripe.Services.ChargeService do
   Returns a list of charges you’ve previously created. The charges are returned in sorted order, with the most recent charges appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/charges", Keyword.merge(opts, params: params))
   end
@@ -57,7 +57,7 @@ defmodule Stripe.Services.ChargeService do
   Retrieves the details of a charge that has previously been created. Supply the unique charge ID that was returned from your previous request, and Stripe will return the corresponding charge information. The same information is returned when creating or refunding the charge.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Charge.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, charge, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/charges/#{charge}", Keyword.merge(opts, params: params))
   end
@@ -71,7 +71,7 @@ defmodule Stripe.Services.ChargeService do
   to an hour behind during outages. Search functionality is not available to merchants in India.
   """
   @spec search(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.SearchResult.t()} | {:error, Stripe.Error.t()}
   def search(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/charges/search", Keyword.merge(opts, params: params))
   end
@@ -82,7 +82,7 @@ defmodule Stripe.Services.ChargeService do
   Updates the specified charge by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Charge.t()} | {:error, Stripe.Error.t()}
   def update(client, charge, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/charges/#{charge}", Keyword.merge(opts, params: params))
   end

@@ -18,7 +18,7 @@ defmodule Stripe.Services.CountrySpecService do
   Lists all Country Spec objects available in the API.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/country_specs", Keyword.merge(opts, params: params))
   end
@@ -29,7 +29,7 @@ defmodule Stripe.Services.CountrySpecService do
   Returns a Country Spec for a given Country code.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CountrySpec.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, country, params \\ %{}, opts \\ []) do
     Client.request(
       client,

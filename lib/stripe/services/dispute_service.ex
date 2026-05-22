@@ -19,7 +19,7 @@ defmodule Stripe.Services.DisputeService do
   The status of the dispute will change from `needs_response` to `lost`. *Closing a dispute is irreversible*.
   """
   @spec close(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Dispute.t()} | {:error, Stripe.Error.t()}
   def close(client, dispute, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -35,7 +35,7 @@ defmodule Stripe.Services.DisputeService do
   Returns a list of your disputes.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/disputes", Keyword.merge(opts, params: params))
   end
@@ -46,7 +46,7 @@ defmodule Stripe.Services.DisputeService do
   Retrieves the dispute with the given ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Dispute.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, dispute, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/disputes/#{dispute}", Keyword.merge(opts, params: params))
   end
@@ -59,7 +59,7 @@ defmodule Stripe.Services.DisputeService do
   Depending on your dispute type, different evidence fields will give you a better chance of winning your dispute. To figure out which evidence fields to provide, see our [guide to dispute types](https://docs.stripe.com/docs/disputes/categories).
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Dispute.t()} | {:error, Stripe.Error.t()}
   def update(client, dispute, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/disputes/#{dispute}", Keyword.merge(opts, params: params))
   end

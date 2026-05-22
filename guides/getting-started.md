@@ -16,8 +16,8 @@ mix igniter.install tiger_stripe
 
 This will:
 
-- Add API key config to `config/dev.exs`
-- Add runtime env var config to `config/runtime.exs`
+- Add a small Stripe wrapper module that reads your app's environment
+- Add the default `Stripe.Finch` pool to your supervision tree
 - Add `Stripe.WebhookPlug` to your endpoint (before `Plug.Parsers`)
 - Scaffold a `StripeWebhookController` with event handler stubs
 - Add the webhook route to your router
@@ -34,109 +34,107 @@ Add `tiger_stripe` to your dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:tiger_stripe, "~> 0.2.0"}
+    {:tiger_stripe, "~> 0.3.0"}
   ]
 end
 ```
 
 Requires Elixir 1.19+ and OTP 27+.
 
-## Configuration
+## Client Setup
 
-Add your Stripe credentials to your application config. The recommended
-pattern is to use `config/dev.exs` for sandbox keys and `config/runtime.exs`
-for production:
+TigerStripe does not read library application environment. Start the default Finch pool
+in your application supervision tree, then pass credentials explicitly when
+constructing a client:
 
 ```elixir
-# config/dev.exs
-import Config
-
-config :tiger_stripe,
-  api_key: "sk_test_...",
-  webhook_secret: "whsec_test_..."
+# lib/my_app/application.ex
+children = [
+  Stripe
+]
 ```
 
 ```elixir
-# config/runtime.exs
-import Config
+# lib/my_app/stripe.ex
+defmodule MyApp.Stripe do
+  def client do
+    Stripe.client(secret_key())
+  end
 
-if config_env() == :prod do
-  config :tiger_stripe,
-    api_key: System.fetch_env!("STRIPE_SECRET_KEY"),
-    webhook_secret: System.fetch_env!("STRIPE_WEBHOOK_SECRET")
+  def client(opts) do
+    secret_key()
+    |> Stripe.client(opts)
+  end
+
+  def webhook_secret do
+    System.fetch_env!("STRIPE_WEBHOOK_SECRET")
+  end
+
+  defp secret_key do
+    System.fetch_env!("STRIPE_SECRET_KEY")
+  end
 end
 ```
 
-### All Config Options
+### Client Options
 
-The only required key is `:api_key`. Everything else has sensible defaults:
+The only required value is the API key. Everything else has sensible defaults:
 
 ```elixir
-config :tiger_stripe,
-  # Required
-  api_key: "sk_test_...",
-
-  # Webhooks (required if using WebhookPlug)
-  webhook_secret: "whsec_...",
-
-  # Optional — all have defaults if omitted
+Stripe.client("sk_test_...",
   api_version: "2026-01-28.clover",  # pin API version (default: latest)
   client_id: "ca_...",               # OAuth client ID (Connect platforms)
   max_retries: 3,                    # default: 2
   open_timeout: 30_000,              # connection timeout ms (default: 30,000)
   read_timeout: 80_000,              # read timeout ms (default: 80,000)
   finch: MyApp.Finch                 # custom Finch pool (default: Stripe.Finch)
+)
 ```
 
 | Key | Used By | Default | Description |
 |-----|---------|---------|-------------|
-| `:api_key` | `Stripe.client/0,1,2` | required | Stripe secret key |
-| `:webhook_secret` | `Stripe.WebhookPlug` | — | Webhook signing secret |
-| `:api_version` | `Stripe.client/0,1,2` | latest | Pin a specific API version |
-| `:client_id` | `Stripe.client/0,1,2` | — | OAuth client ID (Connect) |
-| `:max_retries` | `Stripe.client/0,1,2` | `2` | Max retry attempts |
-| `:open_timeout` | `Stripe.client/0,1,2` | `30_000` | Connection timeout in ms |
-| `:read_timeout` | `Stripe.client/0,1,2` | `80_000` | Read timeout in ms |
-| `:finch` | `Stripe.client/0,1,2` | `Stripe.Finch` | Custom Finch pool name |
+| API key | `Stripe.client/1,2` | required | Stripe secret key |
+| `:api_version` | `Stripe.client/1,2` | latest | Pin a specific API version |
+| `:client_id` | `Stripe.client/1,2` | — | OAuth client ID (Connect) |
+| `:max_retries` | `Stripe.client/1,2` | `2` | Max retry attempts |
+| `:open_timeout` | `Stripe.client/1,2` | `30_000` | Connection timeout in ms |
+| `:read_timeout` | `Stripe.client/1,2` | `80_000` | Read timeout in ms |
+| `:finch` | `Stripe.client/1,2` | `Stripe.Finch` | Custom Finch pool name |
 
 ## Creating a Client
 
-Once configured, create a client with no arguments — it reads from your config
-automatically:
+Create a client with an explicit API key:
 
 ```elixir
-client = Stripe.client()
+client = Stripe.client("sk_test_...")
 ```
 
-### Overriding Config
+Or use your own wrapper:
 
-Pass options to override any config value for a specific client:
+```elixir
+client = MyApp.Stripe.client()
+```
+
+### Per-Client Options
+
+Pass options for a specific client:
 
 ```elixir
 # Override just the connected account
-client = Stripe.client(stripe_account: "acct_connected")
+client = Stripe.client("sk_test_...", stripe_account: "acct_connected")
 
 # Override retries and timeout
-client = Stripe.client(max_retries: 5, read_timeout: 120_000)
+client = Stripe.client("sk_test_...", max_retries: 5, read_timeout: 120_000)
 ```
 
 ### Explicit API Key
 
-Pass a string to use a different API key (config defaults still apply for
-other options):
+Pass a different API key for another account or environment:
 
 ```elixir
 client = Stripe.client("sk_test_other_key")
 client = Stripe.client("sk_test_other_key", max_retries: 5)
 ```
-
-### Config Precedence
-
-Options are resolved in this order (highest wins):
-
-1. Explicit arguments to `client/1` or `client/2`
-2. Application config (`config :tiger_stripe, ...`)
-3. Struct defaults (e.g. `max_retries: 2`)
 
 Clients are plain structs with no global state — safe for concurrent use
 with multiple API keys or connected accounts.
@@ -292,11 +290,7 @@ with exponential backoff and jitter. The library respects Stripe's
 `stripe-should-retry` response header.
 
 ```elixir
-# Via config
-config :tiger_stripe, max_retries: 5
-
-# Or per-client
-client = Stripe.client(max_retries: 5)
+client = Stripe.client("sk_test_...", max_retries: 5)
 ```
 
 Idempotency keys are auto-generated for V2 POST/DELETE requests. For V1, pass

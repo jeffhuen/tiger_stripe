@@ -13,7 +13,7 @@ defmodule Stripe.Services.FinancialConnections.TransactionService do
   Returns a list of Financial Connections `Transaction` objects.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -29,7 +29,8 @@ defmodule Stripe.Services.FinancialConnections.TransactionService do
   Retrieves the details of a Financial Connections `Transaction`
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.FinancialConnections.Transaction.t()}
+          | {:error, Stripe.Error.t()}
   def retrieve(client, transaction, params \\ %{}, opts \\ []) do
     Client.request(
       client,

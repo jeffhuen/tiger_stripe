@@ -45,7 +45,7 @@ defmodule Stripe.Services.CustomerPaymentSourceService do
   List sources for a specified customer.
   """
   @spec list(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -89,7 +89,7 @@ defmodule Stripe.Services.CustomerPaymentSourceService do
   Verify a specified bank account for a given customer.
   """
   @spec verify(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.BankAccount.t()} | {:error, Stripe.Error.t()}
   def verify(client, customer, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

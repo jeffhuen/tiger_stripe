@@ -25,7 +25,7 @@ defmodule Stripe.Services.CreditNoteService do
   `post_payment_credit_notes_amount`, or both, depending on the invoice’s `amount_remaining` at the time of credit note creation.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CreditNote.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/credit_notes", Keyword.merge(opts, params: params))
   end
@@ -36,7 +36,7 @@ defmodule Stripe.Services.CreditNoteService do
   Returns a list of credit notes.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/credit_notes", Keyword.merge(opts, params: params))
   end
@@ -47,7 +47,7 @@ defmodule Stripe.Services.CreditNoteService do
   Get a preview of a credit note without creating it.
   """
   @spec preview(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CreditNote.t()} | {:error, Stripe.Error.t()}
   def preview(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/credit_notes/preview", Keyword.merge(opts, params: params))
   end
@@ -58,7 +58,7 @@ defmodule Stripe.Services.CreditNoteService do
   Retrieves the credit note object with the given identifier.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CreditNote.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/credit_notes/#{id}", Keyword.merge(opts, params: params))
   end
@@ -69,7 +69,7 @@ defmodule Stripe.Services.CreditNoteService do
   Updates an existing credit note.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CreditNote.t()} | {:error, Stripe.Error.t()}
   def update(client, id, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/credit_notes/#{id}", Keyword.merge(opts, params: params))
   end
@@ -80,7 +80,7 @@ defmodule Stripe.Services.CreditNoteService do
   Marks a credit note as void. Learn more about [voiding credit notes](https://docs.stripe.com/docs/billing/invoices/credit-notes#voiding).
   """
   @spec void_credit_note(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CreditNote.t()} | {:error, Stripe.Error.t()}
   def void_credit_note(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

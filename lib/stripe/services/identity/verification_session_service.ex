@@ -25,7 +25,7 @@ defmodule Stripe.Services.Identity.VerificationSessionService do
   Once canceled, future submission attempts are disabled. This cannot be undone. [Learn more](https://docs.stripe.com/docs/identity/verification-sessions#cancel).
   """
   @spec cancel(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Identity.VerificationSession.t()} | {:error, Stripe.Error.t()}
   def cancel(client, session, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -47,7 +47,7 @@ defmodule Stripe.Services.Identity.VerificationSessionService do
   Related guide: [Verify your users’ identity documents](https://docs.stripe.com/docs/identity/verify-identity-documents)
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Identity.VerificationSession.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -63,7 +63,7 @@ defmodule Stripe.Services.Identity.VerificationSessionService do
   Returns a list of VerificationSessions
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -97,7 +97,7 @@ defmodule Stripe.Services.Identity.VerificationSessionService do
   [Learn more](https://docs.stripe.com/docs/identity/verification-sessions#redact).
   """
   @spec redact(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Identity.VerificationSession.t()} | {:error, Stripe.Error.t()}
   def redact(client, session, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -116,7 +116,7 @@ defmodule Stripe.Services.Identity.VerificationSessionService do
   `client_secret` or `url` to allow re-submission.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Identity.VerificationSession.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, session, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -135,7 +135,7 @@ defmodule Stripe.Services.Identity.VerificationSessionService do
   verification check and options.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Identity.VerificationSession.t()} | {:error, Stripe.Error.t()}
   def update(client, session, params \\ %{}, opts \\ []) do
     Client.request(
       client,

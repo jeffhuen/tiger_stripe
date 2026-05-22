@@ -20,7 +20,7 @@ defmodule Stripe.Services.PlanService do
   You can now model subscriptions more flexibly using the [Prices API](#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Plan.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/plans", Keyword.merge(opts, params: params))
   end
@@ -31,7 +31,7 @@ defmodule Stripe.Services.PlanService do
   Deleting plans means new subscribers can’t be added. Existing subscribers aren’t affected.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Plan.t()} | {:error, Stripe.Error.t()}
   def delete(client, plan, params \\ %{}, opts \\ []) do
     Client.request(client, :delete, "/v1/plans/#{plan}", Keyword.merge(opts, params: params))
   end
@@ -42,7 +42,7 @@ defmodule Stripe.Services.PlanService do
   Returns a list of your plans.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/plans", Keyword.merge(opts, params: params))
   end
@@ -53,7 +53,7 @@ defmodule Stripe.Services.PlanService do
   Retrieves the plan with the given ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Plan.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, plan, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/plans/#{plan}", Keyword.merge(opts, params: params))
   end
@@ -64,7 +64,7 @@ defmodule Stripe.Services.PlanService do
   Updates the specified plan by setting the values of the parameters passed. Any parameters not provided are left unchanged. By design, you cannot change a plan’s ID, amount, currency, or billing cycle.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Plan.t()} | {:error, Stripe.Error.t()}
   def update(client, plan, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/plans/#{plan}", Keyword.merge(opts, params: params))
   end

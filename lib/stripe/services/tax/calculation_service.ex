@@ -15,7 +15,7 @@ defmodule Stripe.Services.Tax.CalculationService do
   Calculates tax based on the input and returns a Tax `Calculation` object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Tax.Calculation.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/tax/calculations", Keyword.merge(opts, params: params))
   end
@@ -26,7 +26,7 @@ defmodule Stripe.Services.Tax.CalculationService do
   Retrieves a Tax `Calculation` object, if the calculation hasn’t expired.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Tax.Calculation.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, calculation, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -26,7 +26,7 @@ defmodule Stripe.Services.BillingPortal.SessionService do
   Creates a session of the customer portal.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.BillingPortal.Session.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,

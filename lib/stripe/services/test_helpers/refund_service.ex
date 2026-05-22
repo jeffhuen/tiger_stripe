@@ -11,7 +11,7 @@ defmodule Stripe.Services.TestHelpers.RefundService do
   Expire a refund with a status of `requires_action`.
   """
   @spec expire(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Refund.t()} | {:error, Stripe.Error.t()}
   def expire(client, refund, params \\ %{}, opts \\ []) do
     Client.request(
       client,

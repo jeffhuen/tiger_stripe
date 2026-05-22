@@ -22,7 +22,7 @@ defmodule Stripe.Services.TransferService do
   To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](#balance) must be able to cover the transfer amount, or you’ll receive an “Insufficient Funds” error.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Transfer.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/transfers", Keyword.merge(opts, params: params))
   end
@@ -33,7 +33,7 @@ defmodule Stripe.Services.TransferService do
   Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/transfers", Keyword.merge(opts, params: params))
   end
@@ -44,7 +44,7 @@ defmodule Stripe.Services.TransferService do
   Retrieves the details of an existing transfer. Supply the unique transfer ID from either a transfer creation request or the transfer list, and Stripe will return the corresponding transfer information.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Transfer.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, transfer, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/transfers/#{transfer}", Keyword.merge(opts, params: params))
   end
@@ -57,7 +57,7 @@ defmodule Stripe.Services.TransferService do
   This request accepts only metadata as an argument.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Transfer.t()} | {:error, Stripe.Error.t()}
   def update(client, transfer, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -14,7 +14,7 @@ defmodule Stripe.Services.QuoteService do
   Accepts the specified quote.
   """
   @spec accept(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Quote.t()} | {:error, Stripe.Error.t()}
   def accept(client, quote, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -30,7 +30,7 @@ defmodule Stripe.Services.QuoteService do
   Cancels the quote.
   """
   @spec cancel(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Quote.t()} | {:error, Stripe.Error.t()}
   def cancel(client, quote, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -46,7 +46,7 @@ defmodule Stripe.Services.QuoteService do
   A quote models prices and services for a customer. Default options for `header`, `description`, `footer`, and `expires_at` can be set in the dashboard via the [quote template](https://dashboard.stripe.com/settings/billing/quote).
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Quote.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/quotes", Keyword.merge(opts, params: params))
   end
@@ -57,7 +57,7 @@ defmodule Stripe.Services.QuoteService do
   Finalizes the quote.
   """
   @spec finalize_quote(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Quote.t()} | {:error, Stripe.Error.t()}
   def finalize_quote(client, quote, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -73,7 +73,7 @@ defmodule Stripe.Services.QuoteService do
   Returns a list of your quotes.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/quotes", Keyword.merge(opts, params: params))
   end
@@ -95,7 +95,7 @@ defmodule Stripe.Services.QuoteService do
   Retrieves the quote with the given ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Quote.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, quote, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/quotes/#{quote}", Keyword.merge(opts, params: params))
   end
@@ -106,7 +106,7 @@ defmodule Stripe.Services.QuoteService do
   A quote models prices and services for a customer.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Quote.t()} | {:error, Stripe.Error.t()}
   def update(client, quote, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/quotes/#{quote}", Keyword.merge(opts, params: params))
   end

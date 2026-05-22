@@ -19,7 +19,7 @@ defmodule Stripe.Services.AccountSessionService do
   Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.AccountSession.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/account_sessions", Keyword.merge(opts, params: params))
   end

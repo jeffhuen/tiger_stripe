@@ -18,7 +18,7 @@ defmodule Stripe.Services.BalanceTransactionService do
   Note that this endpoint was previously called “Balance history” and used the path `/v1/balance/history`.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/balance_transactions", Keyword.merge(opts, params: params))
   end
@@ -31,7 +31,7 @@ defmodule Stripe.Services.BalanceTransactionService do
   Note that this endpoint previously used the path `/v1/balance/history/:id`.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.BalanceTransaction.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

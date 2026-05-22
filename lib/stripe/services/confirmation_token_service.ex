@@ -19,7 +19,7 @@ defmodule Stripe.Services.ConfirmationTokenService do
   Retrieves an existing ConfirmationToken object
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.ConfirmationToken.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, confirmation_token, params \\ %{}, opts \\ []) do
     Client.request(
       client,

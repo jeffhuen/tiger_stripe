@@ -16,7 +16,7 @@ defmodule Stripe.Services.Sigma.ScheduledQueryRunService do
   Returns a list of scheduled query runs.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -32,7 +32,7 @@ defmodule Stripe.Services.Sigma.ScheduledQueryRunService do
   Retrieves the details of an scheduled query run.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Sigma.ScheduledQueryRun.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, scheduled_query_run, params \\ %{}, opts \\ []) do
     Client.request(
       client,

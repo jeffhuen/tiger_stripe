@@ -56,7 +56,7 @@ defmodule Stripe.OAuthTest do
          ~s({"access_token": "sk_live_xxx", "stripe_user_id": "acct_123", "token_type": "bearer"})}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
 
       {:ok, data} =
         OAuth.token(client, %{
@@ -78,7 +78,7 @@ defmodule Stripe.OAuthTest do
         {200, [], ~s({"stripe_user_id": "acct_123"})}
       end)
 
-      client = Stripe.client("sk_test_123", client_id: "ca_test")
+      client = Stripe.Test.client("sk_test_123", client_id: "ca_test")
 
       {:ok, data} = OAuth.deauthorize(client, %{"stripe_user_id" => "acct_123"})
       assert data["stripe_user_id"] == "acct_123"
@@ -103,7 +103,7 @@ defmodule Stripe.OAuthTest do
         {200, [], ~s({"access_token": "sk_live_xxx", "token_type": "bearer"})}
       end)
 
-      client = Stripe.client("sk_test_original_key")
+      client = Stripe.Test.client("sk_test_original_key")
 
       {:ok, _data} =
         OAuth.token(client, %{
@@ -126,7 +126,7 @@ defmodule Stripe.OAuthTest do
         {200, [], ~s({"access_token": "sk_live_xxx", "token_type": "bearer"})}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
 
       {:ok, _} =
         OAuth.token(client, %{

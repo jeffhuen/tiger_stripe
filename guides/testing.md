@@ -28,7 +28,7 @@ defmodule MyApp.BillingTest do
       {200, [], ~s({"id": "ch_123", "object": "charge", "amount": 2000})}
     end)
 
-    client = Stripe.client("sk_test_123")
+    client = Stripe.Test.client("sk_test_123")
 
     {:ok, charge} = Stripe.Services.ChargeService.create(client, %{
       amount: 2000,
@@ -39,6 +39,9 @@ defmodule MyApp.BillingTest do
   end
 end
 ```
+
+Use `Stripe.Test.client/2` in tests. A regular `Stripe.client/1` uses the
+normal Finch transport and does not check test stubs.
 
 ## Asserting on Request Parameters
 
@@ -54,7 +57,7 @@ test "sends correct params" do
     {200, [], ~s({"id": "ch_123", "object": "charge"})}
   end)
 
-  client = Stripe.client("sk_test_123")
+  client = Stripe.Test.client("sk_test_123")
   {:ok, _} = Stripe.Services.ChargeService.create(client, %{amount: 2000, currency: "usd"})
 end
 ```
@@ -70,7 +73,7 @@ test "handles card decline" do
      ~s({"error": {"type": "card_error", "code": "card_declined", "message": "Your card was declined."}})}
   end)
 
-  client = Stripe.client("sk_test_123")
+  client = Stripe.Test.client("sk_test_123")
   {:error, err} = Stripe.Services.ChargeService.create(client, %{amount: 2000, currency: "usd"})
 
   assert err.type == :card_error
@@ -87,8 +90,8 @@ Stubs are scoped to the test process that defines them. This means:
 - **Automatic cleanup** — stubs are removed when the test process exits
 
 Under the hood, `Stripe.Test` uses `NimbleOwnership` to associate stubs
-with the calling process. If your test spawns child processes that make
-Stripe calls, you can allow them to share the parent's stubs:
+with the calling process. `Stripe.Test.client/2` captures the current test
+process in the client's transport, so spawned processes can use that client:
 
 ```elixir
 test "works in spawned processes" do
@@ -96,9 +99,9 @@ test "works in spawned processes" do
     {200, [], ~s({"id": "cus_123", "object": "customer"})}
   end)
 
-  # Allow the Task process to use this test's stubs
+  client = Stripe.Test.client("sk_test_123")
+
   task = Task.async(fn ->
-    client = Stripe.client("sk_test_123")
     Stripe.Services.CustomerService.retrieve(client, "cus_123")
   end)
 

@@ -16,7 +16,7 @@ defmodule Stripe.Services.PaymentMethodDomainService do
   Creates a payment method domain.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentMethodDomain.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -32,7 +32,7 @@ defmodule Stripe.Services.PaymentMethodDomainService do
   Lists the details of existing payment method domains.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -48,7 +48,7 @@ defmodule Stripe.Services.PaymentMethodDomainService do
   Retrieves the details of an existing payment method domain.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentMethodDomain.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, payment_method_domain, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -64,7 +64,7 @@ defmodule Stripe.Services.PaymentMethodDomainService do
   Updates an existing payment method domain.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentMethodDomain.t()} | {:error, Stripe.Error.t()}
   def update(client, payment_method_domain, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -85,7 +85,7 @@ defmodule Stripe.Services.PaymentMethodDomainService do
   Related guides: [Payment method domains](https://docs.stripe.com/docs/payments/payment-methods/pmd-registration).
   """
   @spec validate(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentMethodDomain.t()} | {:error, Stripe.Error.t()}
   def validate(client, payment_method_domain, params \\ %{}, opts \\ []) do
     Client.request(
       client,

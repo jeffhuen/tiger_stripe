@@ -16,7 +16,7 @@ defmodule Stripe.Services.TaxIdService do
   Creates a new account or customer `tax_id` object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.TaxId.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/tax_ids", Keyword.merge(opts, params: params))
   end
@@ -27,7 +27,7 @@ defmodule Stripe.Services.TaxIdService do
   Deletes an existing account or customer `tax_id` object.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.TaxId.t()} | {:error, Stripe.Error.t()}
   def delete(client, id, params \\ %{}, opts \\ []) do
     Client.request(client, :delete, "/v1/tax_ids/#{id}", Keyword.merge(opts, params: params))
   end
@@ -38,7 +38,7 @@ defmodule Stripe.Services.TaxIdService do
   Returns a list of tax IDs.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/tax_ids", Keyword.merge(opts, params: params))
   end
@@ -49,7 +49,7 @@ defmodule Stripe.Services.TaxIdService do
   Retrieves an account or customer `tax_id` object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.TaxId.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/tax_ids/#{id}", Keyword.merge(opts, params: params))
   end

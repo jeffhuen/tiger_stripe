@@ -26,7 +26,7 @@ defmodule Stripe.Services.Checkout.SessionService do
   Creates a Checkout Session object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Checkout.Session.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/checkout/sessions", Keyword.merge(opts, params: params))
   end
@@ -39,7 +39,7 @@ defmodule Stripe.Services.Checkout.SessionService do
   After it expires, a customer can’t complete a Checkout Session and customers loading the Checkout Session see a message saying the Checkout Session is expired.
   """
   @spec expire(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Checkout.Session.t()} | {:error, Stripe.Error.t()}
   def expire(client, session, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -55,7 +55,7 @@ defmodule Stripe.Services.Checkout.SessionService do
   Returns a list of Checkout Sessions.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/checkout/sessions", Keyword.merge(opts, params: params))
   end
@@ -66,7 +66,7 @@ defmodule Stripe.Services.Checkout.SessionService do
   Retrieves a Checkout Session object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Checkout.Session.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, session, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -84,7 +84,7 @@ defmodule Stripe.Services.Checkout.SessionService do
   Related guide: [Dynamically update a Checkout Session](https://stripe.com/payments/advanced/dynamic-updates)
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Checkout.Session.t()} | {:error, Stripe.Error.t()}
   def update(client, session, params \\ %{}, opts \\ []) do
     Client.request(
       client,

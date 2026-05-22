@@ -23,7 +23,7 @@ defmodule Stripe.Services.PaymentIntentService do
   Manually reconcile the remaining amount for a `customer_balance` PaymentIntent.
   """
   @spec apply_customer_balance(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentIntent.t()} | {:error, Stripe.Error.t()}
   def apply_customer_balance(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -43,7 +43,7 @@ defmodule Stripe.Services.PaymentIntentService do
   You can’t cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire) instead.
   """
   @spec cancel(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentIntent.t()} | {:error, Stripe.Error.t()}
   def cancel(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -63,7 +63,7 @@ defmodule Stripe.Services.PaymentIntentService do
   Learn more about [separate authorization and capture](https://docs.stripe.com/docs/payments/capture-later).
   """
   @spec capture(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentIntent.t()} | {:error, Stripe.Error.t()}
   def capture(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -108,7 +108,7 @@ defmodule Stripe.Services.PaymentIntentService do
   transition the PaymentIntent to the `canceled` state.
   """
   @spec confirm(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentIntent.t()} | {:error, Stripe.Error.t()}
   def confirm(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -133,7 +133,7 @@ defmodule Stripe.Services.PaymentIntentService do
   `confirm=true`.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentIntent.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/payment_intents", Keyword.merge(opts, params: params))
   end
@@ -167,7 +167,7 @@ defmodule Stripe.Services.PaymentIntentService do
   Learn more about [incremental authorizations](https://docs.stripe.com/docs/terminal/features/incremental-authorizations).
   """
   @spec increment_authorization(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentIntent.t()} | {:error, Stripe.Error.t()}
   def increment_authorization(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -183,7 +183,7 @@ defmodule Stripe.Services.PaymentIntentService do
   Returns a list of PaymentIntents.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/payment_intents", Keyword.merge(opts, params: params))
   end
@@ -198,7 +198,7 @@ defmodule Stripe.Services.PaymentIntentService do
   If you retrieve a PaymentIntent with a publishable key, it only returns a subset of properties. Refer to the [payment intent](#payment_intent_object) object reference for more details.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentIntent.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -217,7 +217,7 @@ defmodule Stripe.Services.PaymentIntentService do
   to an hour behind during outages. Search functionality is not available to merchants in India.
   """
   @spec search(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.SearchResult.t()} | {:error, Stripe.Error.t()}
   def search(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -239,7 +239,7 @@ defmodule Stripe.Services.PaymentIntentService do
   the [confirm API](https://docs.stripe.com/docs/api/payment_intents/confirm) instead.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentIntent.t()} | {:error, Stripe.Error.t()}
   def update(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -255,7 +255,7 @@ defmodule Stripe.Services.PaymentIntentService do
   Verifies microdeposits on a PaymentIntent object.
   """
   @spec verify_microdeposits(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.PaymentIntent.t()} | {:error, Stripe.Error.t()}
   def verify_microdeposits(client, intent, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -16,7 +16,7 @@ defmodule Stripe.Services.Terminal.LocationService do
   For further details, including which address fields are required in each country, see the [Manage locations](https://docs.stripe.com/docs/terminal/fleet/locations) guide.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Location.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/terminal/locations", Keyword.merge(opts, params: params))
   end
@@ -27,7 +27,7 @@ defmodule Stripe.Services.Terminal.LocationService do
   Deletes a `Location` object.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Location.t()} | {:error, Stripe.Error.t()}
   def delete(client, location, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -43,7 +43,7 @@ defmodule Stripe.Services.Terminal.LocationService do
   Returns a list of `Location` objects.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/terminal/locations", Keyword.merge(opts, params: params))
   end
@@ -54,7 +54,7 @@ defmodule Stripe.Services.Terminal.LocationService do
   Retrieves a `Location` object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Location.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, location, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -70,7 +70,7 @@ defmodule Stripe.Services.Terminal.LocationService do
   Updates a `Location` object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Location.t()} | {:error, Stripe.Error.t()}
   def update(client, location, params \\ %{}, opts \\ []) do
     Client.request(
       client,

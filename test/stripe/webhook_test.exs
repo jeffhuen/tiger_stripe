@@ -91,6 +91,15 @@ defmodule Stripe.WebhookTest do
       assert message =~ "Unable to extract timestamp"
     end
 
+    test "returns error with malformed timestamp" do
+      header = "t=not-an-integer,v1=somesignature"
+
+      assert {:error, %Error{message: message}} =
+               Webhook.verify_header(@payload, header, @secret)
+
+      assert message =~ "Unable to extract timestamp"
+    end
+
     test "handles multiple v1 signatures (one valid)" do
       timestamp = System.system_time(:second)
       good_sig = Webhook.compute_signature(timestamp, @payload, @secret)

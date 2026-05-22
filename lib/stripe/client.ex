@@ -10,6 +10,25 @@ defmodule Stripe.Client do
 
   alias Stripe.{Deserializer, Error, Multipart}
 
+  # Resolved at compile time. Wrapped because `System.cmd/3` raises (rather than
+  # returning a non-zero status) when `uname` is absent — e.g. on Windows or
+  # minimal build images — and that must not break compilation.
+  @uname (try do
+            case System.cmd("uname", ["-a"], stderr_to_stdout: true) do
+              {result, 0} -> String.trim(result)
+              _ -> "unknown"
+            end
+          rescue
+            _ -> "unknown"
+          end)
+
+  @type transport ::
+          :finch
+          | (map() ->
+               {integer(), [{String.t(), String.t()}], binary()}
+               | {:ok, integer(), [{String.t(), String.t()}], binary()}
+               | {:error, term()})
+
   @type t :: %__MODULE__{
           api_key: String.t(),
           api_version: String.t() | nil,
@@ -23,7 +42,8 @@ defmodule Stripe.Client do
           max_retries: non_neg_integer(),
           open_timeout: pos_integer(),
           read_timeout: pos_integer(),
-          finch: atom()
+          finch: atom(),
+          transport: transport()
         }
 
   defstruct [
@@ -39,7 +59,8 @@ defmodule Stripe.Client do
     max_retries: 2,
     open_timeout: 30_000,
     read_timeout: 80_000,
-    finch: Stripe.Finch
+    finch: Stripe.Finch,
+    transport: :finch
   ]
 
   @doc """
@@ -179,18 +200,8 @@ defmodule Stripe.Client do
     headers = build_headers(client, method, api_mode, opts)
     {url, headers, body} = encode_request(method, url, headers, params, api_mode)
 
-    # Check for test stub first
-    case Stripe.Test.fetch_stub() do
-      {:ok, stub_fn} ->
-        {status, resp_headers, resp_body} =
-          stub_fn.(%{method: method, url: url, headers: headers, body: body})
-
-        acc = fun.({:status, status}, acc)
-        acc = fun.({:headers, resp_headers}, acc)
-        acc = fun.({:data, resp_body}, acc)
-        {:ok, acc}
-
-      :error ->
+    case client.transport do
+      :finch ->
         req = Finch.build(method, url, headers, body)
 
         case Finch.stream(req, client.finch, acc, fun, receive_timeout: client.read_timeout) do
@@ -198,6 +209,18 @@ defmodule Stripe.Client do
             {:ok, acc}
 
           {:error, reason, _acc} ->
+            {:error, Error.connection_error("Stream failed: #{inspect(reason)}")}
+        end
+
+      _custom ->
+        case do_request(client, %{method: method, url: url, headers: headers, body: body}) do
+          {:ok, status, resp_headers, resp_body} ->
+            acc = fun.({:status, status}, acc)
+            acc = fun.({:headers, resp_headers}, acc)
+            acc = fun.({:data, resp_body}, acc)
+            {:ok, acc}
+
+          {:error, reason} ->
             {:error, Error.connection_error("Stream failed: #{inspect(reason)}")}
         end
     end
@@ -307,25 +330,38 @@ defmodule Stripe.Client do
     end
   end
 
-  # Check for a test stub first; fall through to Finch if none registered.
-  defp do_request(client, %{method: method, url: url, headers: headers, body: body} = request) do
-    case Stripe.Test.fetch_stub() do
-      {:ok, stub_fn} ->
-        {status, resp_headers, resp_body} = stub_fn.(request)
+  defp do_request(%__MODULE__{transport: :finch} = client, %{
+         method: method,
+         url: url,
+         headers: headers,
+         body: body
+       }) do
+    req = Finch.build(method, url, headers, body)
+
+    case Finch.request(req, client.finch, receive_timeout: client.read_timeout) do
+      {:ok, %Finch.Response{status: status, body: resp_body, headers: resp_headers}} ->
         {:ok, status, resp_headers, resp_body}
 
-      :error ->
-        req = Finch.build(method, url, headers, body)
-
-        case Finch.request(req, client.finch, receive_timeout: client.read_timeout) do
-          {:ok, %Finch.Response{status: status, body: resp_body, headers: resp_headers}} ->
-            {:ok, status, resp_headers, resp_body}
-
-          {:error, reason} ->
-            {:error, reason}
-        end
+      {:error, reason} ->
+        {:error, reason}
     end
   end
+
+  defp do_request(%__MODULE__{transport: transport}, request) when is_function(transport, 1) do
+    request
+    |> transport.()
+    |> normalize_transport_result()
+  end
+
+  defp normalize_transport_result({status, headers, body}) when is_integer(status) do
+    {:ok, status, headers, body}
+  end
+
+  defp normalize_transport_result({:ok, status, headers, body}) when is_integer(status) do
+    {:ok, status, headers, body}
+  end
+
+  defp normalize_transport_result({:error, reason}), do: {:error, reason}
 
   defp should_retry?(status, headers, attempt, max_retries) when attempt < max_retries do
     case List.keyfind(headers, "stripe-should-retry", 0) do
@@ -409,10 +445,7 @@ defmodule Stripe.Client do
   end
 
   defp uname do
-    case System.cmd("uname", ["-a"], stderr_to_stdout: true) do
-      {result, 0} -> String.trim(result)
-      _ -> "unknown"
-    end
+    @uname
   end
 
   defp generate_idempotency_key do

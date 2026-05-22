@@ -33,7 +33,7 @@ defmodule Stripe.Services.TokenService do
   You can use this token with any v1 API method in place of a bank account dictionary. You can only use this token once. To do so, attach it to a [connected account](#accounts) where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Token.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/tokens", Keyword.merge(opts, params: params))
   end
@@ -44,7 +44,7 @@ defmodule Stripe.Services.TokenService do
   Retrieves the token with the given ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Token.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, token, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/tokens/#{token}", Keyword.merge(opts, params: params))
   end

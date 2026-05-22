@@ -42,9 +42,8 @@ defmodule Stripe.ClientTest do
     end
   end
 
-  describe "client/0 (from config)" do
+  describe "client construction" do
     setup do
-      # Clean up after each test
       on_exit(fn ->
         Application.delete_env(:tiger_stripe, :api_key)
         Application.delete_env(:tiger_stripe, :max_retries)
@@ -55,58 +54,36 @@ defmodule Stripe.ClientTest do
       :ok
     end
 
-    test "creates client from application config" do
+    test "client/0 does not read application config" do
       Application.put_env(:tiger_stripe, :api_key, "sk_test_from_config")
-      client = Stripe.client()
-      assert client.api_key == "sk_test_from_config"
-    end
 
-    test "raises when api_key not configured" do
-      Application.delete_env(:tiger_stripe, :api_key)
-
-      assert_raise ArgumentError, ~r/Stripe API key not configured/, fn ->
+      assert_raise ArgumentError, ~r/pass an API key/i, fn ->
         Stripe.client()
       end
     end
 
-    test "merges config options into client" do
-      Application.put_env(:tiger_stripe, :api_key, "sk_test_cfg")
-      Application.put_env(:tiger_stripe, :max_retries, 5)
-      Application.put_env(:tiger_stripe, :stripe_account, "acct_cfg")
-
-      client = Stripe.client()
-      assert client.api_key == "sk_test_cfg"
-      assert client.max_retries == 5
-      assert client.stripe_account == "acct_cfg"
+    test "client/1 keyword opts must provide api_key explicitly" do
+      assert_raise ArgumentError, ~r/pass an API key/i, fn ->
+        Stripe.client(max_retries: 10)
+      end
     end
 
-    test "ignores non-client config keys like webhook_secret" do
-      Application.put_env(:tiger_stripe, :api_key, "sk_test_cfg")
-      Application.put_env(:tiger_stripe, :webhook_secret, "whsec_123")
-
-      client = Stripe.client()
-      assert client.api_key == "sk_test_cfg"
-      # webhook_secret is not a field on Client struct — no crash
-    end
-  end
-
-  describe "client/1 (keyword overrides)" do
-    setup do
-      on_exit(fn ->
-        Application.delete_env(:tiger_stripe, :api_key)
-        Application.delete_env(:tiger_stripe, :max_retries)
-      end)
-
-      :ok
-    end
-
-    test "overrides config with keyword opts" do
+    test "client/1 keyword opts do not merge application config" do
       Application.put_env(:tiger_stripe, :api_key, "sk_test_cfg")
       Application.put_env(:tiger_stripe, :max_retries, 5)
 
-      client = Stripe.client(max_retries: 10)
-      assert client.api_key == "sk_test_cfg"
-      assert client.max_retries == 10
+      client = Stripe.client(api_key: "sk_test_kwarg")
+      assert client.api_key == "sk_test_kwarg"
+      assert client.max_retries == 2
+    end
+
+    test "client/2 does not merge application config defaults" do
+      Application.put_env(:tiger_stripe, :max_retries, 5)
+
+      client = Stripe.client("sk_test_key", stripe_account: "acct_123")
+      assert client.api_key == "sk_test_key"
+      assert client.max_retries == 2
+      assert client.stripe_account == "acct_123"
     end
 
     test "keyword opts can provide api_key" do
@@ -128,14 +105,6 @@ defmodule Stripe.ClientTest do
       Application.put_env(:tiger_stripe, :api_key, "sk_test_cfg")
       client = Stripe.client("sk_test_explicit")
       assert client.api_key == "sk_test_explicit"
-    end
-
-    test "merges config defaults with explicit opts" do
-      Application.put_env(:tiger_stripe, :max_retries, 5)
-      client = Stripe.client("sk_test_key", stripe_account: "acct_123")
-      assert client.api_key == "sk_test_key"
-      assert client.max_retries == 5
-      assert client.stripe_account == "acct_123"
     end
 
     test "explicit opts override config" do
@@ -166,7 +135,7 @@ defmodule Stripe.ClientTest do
         {200, [], ~s({"id": "ch_123", "object": "charge", "amount": 2000})}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       {:ok, data} = Client.request(client, :get, "/v1/charges/ch_123")
 
       assert data.id == "ch_123"
@@ -184,7 +153,7 @@ defmodule Stripe.ClientTest do
         {200, [], ~s({"id": "ch_new", "object": "charge"})}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
 
       {:ok, data} =
         Client.request(client, :post, "/v1/charges", params: %{amount: 2000, currency: "usd"})
@@ -200,7 +169,7 @@ defmodule Stripe.ClientTest do
         {200, [], ~s({"id": "evt_123"})}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
 
       {:ok, data} =
         Client.request(client, :post, "/v2/billing/meter_events",
@@ -219,8 +188,26 @@ defmodule Stripe.ClientTest do
         {200, [], ~s({"ok": true})}
       end)
 
-      client = Stripe.client("sk_test_secret")
+      client = Stripe.Test.client("sk_test_secret")
       assert {:ok, _} = Client.request(client, :get, "/v1/balance")
+    end
+
+    test "does not shell out to uname while building headers" do
+      Stripe.Test.stub(fn _req ->
+        {200, [], ~s({"ok": true})}
+      end)
+
+      :erlang.trace(self(), true, [:call])
+      :erlang.trace_pattern({System, :cmd, 3}, true, [:local])
+
+      try do
+        client = Stripe.Test.client("sk_test_secret")
+        assert {:ok, _} = Client.request(client, :get, "/v1/balance")
+        refute_receive {:trace, _pid, :call, {System, :cmd, ["uname", ["-a"], _opts]}}
+      after
+        :erlang.trace_pattern({System, :cmd, 3}, false, [:local])
+        :erlang.trace(self(), false, [:call])
+      end
     end
 
     test "sends stripe-version header when set" do
@@ -231,7 +218,7 @@ defmodule Stripe.ClientTest do
         {200, [], ~s({"ok": true})}
       end)
 
-      client = Stripe.client("sk_test_123", api_version: "2026-01-28.clover")
+      client = Stripe.Test.client("sk_test_123", api_version: "2026-01-28.clover")
       assert {:ok, _} = Client.request(client, :get, "/v1/balance")
     end
 
@@ -241,7 +228,7 @@ defmodule Stripe.ClientTest do
         {200, [], ~s({"ok": true})}
       end)
 
-      client = Stripe.client("sk_test_123", stripe_account: "acct_connect")
+      client = Stripe.Test.client("sk_test_123", stripe_account: "acct_connect")
       assert {:ok, _} = Client.request(client, :get, "/v1/balance")
     end
 
@@ -253,7 +240,7 @@ defmodule Stripe.ClientTest do
         {200, [], ~s({"ok": true})}
       end)
 
-      client = Stripe.client("sk_test_123", api_version: "2026-01-28.clover")
+      client = Stripe.Test.client("sk_test_123", api_version: "2026-01-28.clover")
 
       assert {:ok, _} =
                Client.request(client, :get, "/v1/balance", api_version: "2025-12-18.acacia")
@@ -265,7 +252,7 @@ defmodule Stripe.ClientTest do
         {200, [], ~s({"ok": true})}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
 
       assert {:ok, _} =
                Client.request(client, :post, "/v1/charges", idempotency_key: "my-key-123")
@@ -281,7 +268,7 @@ defmodule Stripe.ClientTest do
         {404, [{"request-id", "req_abc"}], body}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       {:error, error} = Client.request(client, :get, "/v1/charges/ch_bad")
 
       assert error.type == :invalid_request_error
@@ -304,7 +291,7 @@ defmodule Stripe.ClientTest do
         end
       end)
 
-      client = Stripe.client("sk_test_123", max_retries: 2)
+      client = Stripe.Test.client("sk_test_123", max_retries: 2)
       {:ok, data} = Client.request(client, :get, "/v1/charges/ch_123")
 
       assert data["id"] == "ch_123"
@@ -316,7 +303,7 @@ defmodule Stripe.ClientTest do
         {500, [{"stripe-should-retry", "false"}], ~s({"error": {"message": "Fatal"}})}
       end)
 
-      client = Stripe.client("sk_test_123", max_retries: 3)
+      client = Stripe.Test.client("sk_test_123", max_retries: 3)
       {:error, error} = Client.request(client, :get, "/v1/charges")
 
       assert error.type == :api_error
@@ -329,7 +316,7 @@ defmodule Stripe.ClientTest do
         {200, [], ~s({"id": "ch_123"})}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       assert {:ok, _} = Client.request(client, :get, "/v1/charges/ch_123", expand: ["customer"])
     end
   end
@@ -370,7 +357,7 @@ defmodule Stripe.ClientTest do
         {200, [{"request-id", "req_test_123"}], ~s({"id": "ch_1"})}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       {:ok, _} = Client.request(client, :get, "/v1/charges/ch_1")
 
       assert_receive {:telemetry_start, ^ref, [:stripe, :request, :start], %{system_time: _},
@@ -397,7 +384,7 @@ defmodule Stripe.ClientTest do
         {400, [{"request-id", "req_fail"}], body}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       {:error, _} = Client.request(client, :get, "/v1/bad")
 
       assert_receive {:telemetry_stop, ^ref, _, %{duration: _},
@@ -423,7 +410,7 @@ defmodule Stripe.ClientTest do
         end
       end)
 
-      client = Stripe.client("sk_test_123", max_retries: 2)
+      client = Stripe.Test.client("sk_test_123", max_retries: 2)
       {:ok, _} = Client.request(client, :get, "/v1/charges")
 
       assert_receive {:telemetry_stop, ^ref, _, _,
@@ -435,7 +422,7 @@ defmodule Stripe.ClientTest do
         {200, [], ~s({"id": "ch_1"})}
       end)
 
-      client = Stripe.client("sk_test_123")
+      client = Stripe.Test.client("sk_test_123")
       {:ok, _} = Client.request(client, :get, "/v1/charges/ch_1")
 
       assert_receive {:telemetry_stop, ^ref, _, _, %{request_id: nil}}

@@ -16,7 +16,7 @@ defmodule Stripe.Services.CustomerCashBalanceTransactionService do
   Returns a list of transactions that modified the customer’s [cash balance](https://docs.stripe.com/docs/payments/customer-balance).
   """
   @spec list(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -32,7 +32,7 @@ defmodule Stripe.Services.CustomerCashBalanceTransactionService do
   Retrieves a specific cash balance transaction, which updated the customer’s [cash balance](https://docs.stripe.com/docs/payments/customer-balance).
   """
   @spec retrieve(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CustomerCashBalanceTransaction.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, customer, transaction, params \\ %{}, opts \\ []) do
     Client.request(
       client,

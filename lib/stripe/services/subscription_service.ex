@@ -19,7 +19,7 @@ defmodule Stripe.Services.SubscriptionService do
   By default, upon subscription cancellation, Stripe stops automatic collection of all finalized invoices for the customer. This is intended to prevent unexpected payment attempts after the customer has canceled a subscription. However, you can resume automatic collection of the invoices manually after subscription cancellation to have us proceed. Or, you could check for unpaid invoices before allowing the customer to cancel the subscription at all.
   """
   @spec cancel(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Subscription.t()} | {:error, Stripe.Error.t()}
   def cancel(client, subscription_exposed_id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -41,7 +41,7 @@ defmodule Stripe.Services.SubscriptionService do
   Schedules provide the flexibility to model more complex billing configurations that change over time.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Subscription.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/subscriptions", Keyword.merge(opts, params: params))
   end
@@ -52,7 +52,7 @@ defmodule Stripe.Services.SubscriptionService do
   Removes the currently applied discount on a subscription.
   """
   @spec delete_discount(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Discount.t()} | {:error, Stripe.Error.t()}
   def delete_discount(client, subscription_exposed_id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -68,7 +68,7 @@ defmodule Stripe.Services.SubscriptionService do
   By default, returns a list of subscriptions that have not been canceled. In order to list canceled subscriptions, specify `status=canceled`.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/subscriptions", Keyword.merge(opts, params: params))
   end
@@ -79,7 +79,7 @@ defmodule Stripe.Services.SubscriptionService do
   Upgrade the billing_mode of an existing subscription.
   """
   @spec migrate(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Subscription.t()} | {:error, Stripe.Error.t()}
   def migrate(client, subscription, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -95,7 +95,7 @@ defmodule Stripe.Services.SubscriptionService do
   Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become `active`, and if payment fails the subscription will be `past_due`. The resumption invoice will void automatically if not paid by the expiration date.
   """
   @spec resume(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Subscription.t()} | {:error, Stripe.Error.t()}
   def resume(client, subscription, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -111,7 +111,7 @@ defmodule Stripe.Services.SubscriptionService do
   Retrieves the subscription with the given ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Subscription.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, subscription_exposed_id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -130,7 +130,7 @@ defmodule Stripe.Services.SubscriptionService do
   to an hour behind during outages. Search functionality is not available to merchants in India.
   """
   @spec search(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.SearchResult.t()} | {:error, Stripe.Error.t()}
   def search(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/subscriptions/search", Keyword.merge(opts, params: params))
   end
@@ -159,7 +159,7 @@ defmodule Stripe.Services.SubscriptionService do
   Updating the quantity on a subscription many times in an hour may result in [rate limiting](https://docs.stripe.com/docs/rate-limits). If you need to bill for a frequently changing quantity, consider integrating [usage-based billing](https://docs.stripe.com/docs/billing/subscriptions/usage-based) instead.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Subscription.t()} | {:error, Stripe.Error.t()}
   def update(client, subscription_exposed_id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -20,7 +20,7 @@ defmodule Stripe.Services.InvoicePaymentService do
   When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/invoice_payments", Keyword.merge(opts, params: params))
   end
@@ -31,7 +31,7 @@ defmodule Stripe.Services.InvoicePaymentService do
   Retrieves the invoice payment with the given ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.InvoicePayment.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, invoice_payment, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -27,7 +27,7 @@ defmodule Stripe.Services.AccountService do
   You can prefill any information on the account.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Account.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/accounts", Keyword.merge(opts, params: params))
   end
@@ -44,7 +44,7 @@ defmodule Stripe.Services.AccountService do
   If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Account.t()} | {:error, Stripe.Error.t()}
   def delete(client, account, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -60,7 +60,7 @@ defmodule Stripe.Services.AccountService do
   Returns a list of accounts connected to your platform via [Connect](https://docs.stripe.com/docs/connect). If you’re not a platform, the list is empty.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/accounts", Keyword.merge(opts, params: params))
   end
@@ -73,7 +73,7 @@ defmodule Stripe.Services.AccountService do
   Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected. Test-mode accounts can be rejected at any time. Live-mode accounts can only be rejected after all balances are zero.
   """
   @spec reject(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Account.t()} | {:error, Stripe.Error.t()}
   def reject(client, account, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -89,7 +89,7 @@ defmodule Stripe.Services.AccountService do
   Retrieves the details of an account.
   """
   @spec retrieve(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Account.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, params, opts) do
     Client.request(client, :get, "/v1/account", Keyword.merge(opts, params: params))
   end
@@ -100,7 +100,7 @@ defmodule Stripe.Services.AccountService do
   Retrieves the details of an account.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Account.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, account, params, opts) do
     Client.request(client, :get, "/v1/accounts/#{account}", Keyword.merge(opts, params: params))
   end
@@ -123,7 +123,7 @@ defmodule Stripe.Services.AccountService do
   [Connect](https://docs.stripe.com/docs/connect/updating-accounts) documentation to learn more about updating accounts.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Account.t()} | {:error, Stripe.Error.t()}
   def update(client, account, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/accounts/#{account}", Keyword.merge(opts, params: params))
   end

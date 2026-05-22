@@ -26,4 +26,15 @@ defmodule StripeTest do
     assert is_binary(Stripe.version())
     assert Stripe.version() =~ ~r/^\d+\.\d+\.\d+/
   end
+
+  test "application does not auto-start a supervisor" do
+    assert Application.spec(:tiger_stripe, :mod) == []
+  end
+
+  test "child_spec/1 returns the Finch child spec for the default pool" do
+    assert %{
+             id: Stripe.Finch,
+             start: {Finch, :start_link, [[name: Stripe.Finch]]}
+           } = Stripe.child_spec([])
+  end
 end

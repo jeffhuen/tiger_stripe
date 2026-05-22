@@ -17,7 +17,7 @@ defmodule Stripe.Services.Treasury.OutboundPaymentService do
   Cancel an OutboundPayment.
   """
   @spec cancel(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.OutboundPayment.t()} | {:error, Stripe.Error.t()}
   def cancel(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -33,7 +33,7 @@ defmodule Stripe.Services.Treasury.OutboundPaymentService do
   Creates an OutboundPayment.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.OutboundPayment.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -49,7 +49,7 @@ defmodule Stripe.Services.Treasury.OutboundPaymentService do
   Returns a list of OutboundPayments sent from the specified FinancialAccount.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -65,7 +65,7 @@ defmodule Stripe.Services.Treasury.OutboundPaymentService do
   Retrieves the details of an existing OutboundPayment by passing the unique OutboundPayment ID from either the OutboundPayment creation request or OutboundPayment list.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.OutboundPayment.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

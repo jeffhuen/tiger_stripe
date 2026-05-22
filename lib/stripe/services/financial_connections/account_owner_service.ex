@@ -13,7 +13,7 @@ defmodule Stripe.Services.FinancialConnections.AccountOwnerService do
   Lists all owners for a given `Account`
   """
   @spec list_owners(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list_owners(client, account, params \\ %{}, opts \\ []) do
     Client.request(
       client,

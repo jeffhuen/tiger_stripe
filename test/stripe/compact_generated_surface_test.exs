@@ -47,6 +47,31 @@ defmodule Stripe.CompactGeneratedSurfaceTest do
              1
   end
 
+  test "generated service specs expose concrete success types" do
+    charge_service = File.read!("lib/stripe/services/charge_service.ex")
+
+    assert charge_service =~ "{:ok, Stripe.Resources.Charge.t()} | {:error, Stripe.Error.t()}"
+    assert charge_service =~ "{:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}"
+    assert charge_service =~ "{:ok, Stripe.SearchResult.t()} | {:error, Stripe.Error.t()}"
+
+    generated_services =
+      "lib/stripe/services/**/*_service.ex"
+      |> Path.wildcard()
+      |> Enum.reject(&(&1 == "lib/stripe/services/oauth_service.ex"))
+
+    assert generated_services != []
+
+    # `term()` is the honest fallback for the handful of operations whose 200
+    # response is a polymorphic union (e.g. card | bank_account | source) or a
+    # non-JSON body. It must stay the rare exception, not the rule.
+    with_term =
+      Enum.count(generated_services, fn path ->
+        File.read!(path) =~ "{:ok, term()}"
+      end)
+
+    assert with_term / length(generated_services) < 0.1
+  end
+
   defp defmodule_count(path) do
     path
     |> File.read!()

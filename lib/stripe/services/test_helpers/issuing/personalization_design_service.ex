@@ -11,7 +11,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.PersonalizationDesignService do
   Updates the `status` of the specified testmode personalization design object to `active`.
   """
   @spec activate(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.PersonalizationDesign.t()} | {:error, Stripe.Error.t()}
   def activate(client, personalization_design, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -27,7 +27,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.PersonalizationDesignService do
   Updates the `status` of the specified testmode personalization design object to `inactive`.
   """
   @spec deactivate(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.PersonalizationDesign.t()} | {:error, Stripe.Error.t()}
   def deactivate(client, personalization_design, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -43,7 +43,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.PersonalizationDesignService do
   Updates the `status` of the specified testmode personalization design object to `rejected`.
   """
   @spec reject(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.PersonalizationDesign.t()} | {:error, Stripe.Error.t()}
   def reject(client, personalization_design, params \\ %{}, opts \\ []) do
     Client.request(
       client,

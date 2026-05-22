@@ -13,7 +13,7 @@ defmodule Stripe.Services.Billing.MeterEventService do
   Creates a billing meter event.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.MeterEvent.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/billing/meter_events", Keyword.merge(opts, params: params))
   end

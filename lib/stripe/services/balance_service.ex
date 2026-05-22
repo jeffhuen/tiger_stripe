@@ -19,7 +19,7 @@ defmodule Stripe.Services.BalanceService do
   For a sample request, see [Accounting for negative balances](https://docs.stripe.com/docs/connect/account-balances#accounting-for-negative-balances).
   """
   @spec retrieve(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Balance.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/balance", Keyword.merge(opts, params: params))
   end

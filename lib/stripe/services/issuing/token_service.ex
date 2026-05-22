@@ -13,7 +13,7 @@ defmodule Stripe.Services.Issuing.TokenService do
   Lists all Issuing `Token` objects for a given card.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/issuing/tokens", Keyword.merge(opts, params: params))
   end
@@ -24,7 +24,7 @@ defmodule Stripe.Services.Issuing.TokenService do
   Retrieves an Issuing `Token` object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Token.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, token, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -40,7 +40,7 @@ defmodule Stripe.Services.Issuing.TokenService do
   Attempts to update the specified Issuing `Token` object to the status specified.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Token.t()} | {:error, Stripe.Error.t()}
   def update(client, token, params \\ %{}, opts \\ []) do
     Client.request(
       client,

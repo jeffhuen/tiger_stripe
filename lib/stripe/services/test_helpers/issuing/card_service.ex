@@ -11,7 +11,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.CardService do
   Updates the shipping status of the specified Issuing `Card` object to `delivered`.
   """
   @spec deliver_card(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Card.t()} | {:error, Stripe.Error.t()}
   def deliver_card(client, card, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -27,7 +27,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.CardService do
   Updates the shipping status of the specified Issuing `Card` object to `failure`.
   """
   @spec fail_card(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Card.t()} | {:error, Stripe.Error.t()}
   def fail_card(client, card, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -43,7 +43,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.CardService do
   Updates the shipping status of the specified Issuing `Card` object to `returned`.
   """
   @spec return_card(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Card.t()} | {:error, Stripe.Error.t()}
   def return_card(client, card, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -59,7 +59,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.CardService do
   Updates the shipping status of the specified Issuing `Card` object to `shipped`.
   """
   @spec ship_card(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Card.t()} | {:error, Stripe.Error.t()}
   def ship_card(client, card, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -75,7 +75,7 @@ defmodule Stripe.Services.TestHelpers.Issuing.CardService do
   Updates the shipping status of the specified Issuing `Card` object to `submitted`. This method requires Stripe Version ‘2024-09-30.acacia’ or later.
   """
   @spec submit_card(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.Card.t()} | {:error, Stripe.Error.t()}
   def submit_card(client, card, params \\ %{}, opts \\ []) do
     Client.request(
       client,

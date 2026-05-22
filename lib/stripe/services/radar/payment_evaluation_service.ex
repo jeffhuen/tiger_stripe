@@ -13,7 +13,7 @@ defmodule Stripe.Services.Radar.PaymentEvaluationService do
   Request a Radar API fraud risk score from Stripe for a payment before sending it for external processor authorization.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Radar.PaymentEvaluation.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,

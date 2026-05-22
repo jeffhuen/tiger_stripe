@@ -13,7 +13,7 @@ defmodule Stripe.Services.Billing.AlertService do
   Reactivates this alert, allowing it to trigger again.
   """
   @spec activate(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.Alert.t()} | {:error, Stripe.Error.t()}
   def activate(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -29,7 +29,7 @@ defmodule Stripe.Services.Billing.AlertService do
   Archives this alert, removing it from the list view and APIs. This is non-reversible.
   """
   @spec archive(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.Alert.t()} | {:error, Stripe.Error.t()}
   def archive(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -45,7 +45,7 @@ defmodule Stripe.Services.Billing.AlertService do
   Creates a billing alert
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.Alert.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/billing/alerts", Keyword.merge(opts, params: params))
   end
@@ -56,7 +56,7 @@ defmodule Stripe.Services.Billing.AlertService do
   Deactivates this alert, preventing it from triggering.
   """
   @spec deactivate(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.Alert.t()} | {:error, Stripe.Error.t()}
   def deactivate(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -72,7 +72,7 @@ defmodule Stripe.Services.Billing.AlertService do
   Lists billing active and inactive alerts
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/billing/alerts", Keyword.merge(opts, params: params))
   end
@@ -83,7 +83,7 @@ defmodule Stripe.Services.Billing.AlertService do
   Retrieves a billing alert given an ID
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.Alert.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/billing/alerts/#{id}", Keyword.merge(opts, params: params))
   end

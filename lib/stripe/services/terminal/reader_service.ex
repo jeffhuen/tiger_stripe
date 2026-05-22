@@ -15,7 +15,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Cancels the current reader action. See [Programmatic Cancellation](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven#programmatic-cancellation) for more details.
   """
   @spec cancel_action(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def cancel_action(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -31,7 +31,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Initiates an [input collection flow](https://docs.stripe.com/docs/terminal/features/collect-inputs) on a Reader to display input forms and collect information from your customers.
   """
   @spec collect_inputs(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def collect_inputs(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -47,7 +47,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation. See [Collecting a Payment method](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven&process=inspect#collect-a-paymentmethod) for more details.
   """
   @spec collect_payment_method(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def collect_payment_method(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -63,7 +63,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Finalizes a payment on a Reader. See [Confirming a Payment](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven&process=inspect#confirm-the-paymentintent) for more details.
   """
   @spec confirm_payment_intent(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def confirm_payment_intent(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -79,7 +79,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Creates a new `Reader` object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/terminal/readers", Keyword.merge(opts, params: params))
   end
@@ -90,7 +90,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Deletes a `Reader` object.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def delete(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -106,7 +106,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Returns a list of `Reader` objects.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/terminal/readers", Keyword.merge(opts, params: params))
   end
@@ -117,7 +117,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Initiates a payment flow on a Reader. See [process the payment](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven&process=immediately#process-payment) for more details.
   """
   @spec process_payment_intent(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def process_payment_intent(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -133,7 +133,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Initiates a SetupIntent flow on a Reader. See [Save directly without charging](https://docs.stripe.com/docs/terminal/features/saving-payment-details/save-directly) for more details.
   """
   @spec process_setup_intent(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def process_setup_intent(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -149,7 +149,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Initiates an in-person refund on a Reader. See [Refund an Interac Payment](https://docs.stripe.com/docs/terminal/payments/regional?integration-country=CA#refund-an-interac-payment) for more details.
   """
   @spec refund_payment(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def refund_payment(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -165,7 +165,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Retrieves a `Reader` object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -181,7 +181,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Sets the reader display to show [cart details](https://docs.stripe.com/docs/terminal/features/display).
   """
   @spec set_reader_display(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def set_reader_display(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -197,7 +197,7 @@ defmodule Stripe.Services.Terminal.ReaderService do
   Updates a `Reader` object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def update(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,

@@ -20,7 +20,7 @@ defmodule Stripe.Services.InvoiceItemService do
   Creates an item to be added to a draft invoice (up to 250 items per invoice). If no invoice is specified, the item will be on the next invoice created for the customer specified.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.InvoiceItem.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/invoiceitems", Keyword.merge(opts, params: params))
   end
@@ -31,7 +31,7 @@ defmodule Stripe.Services.InvoiceItemService do
   Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they’re not attached to invoices, or if it’s attached to a draft invoice.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.InvoiceItem.t()} | {:error, Stripe.Error.t()}
   def delete(client, invoiceitem, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -47,7 +47,7 @@ defmodule Stripe.Services.InvoiceItemService do
   Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/invoiceitems", Keyword.merge(opts, params: params))
   end
@@ -58,7 +58,7 @@ defmodule Stripe.Services.InvoiceItemService do
   Retrieves the invoice item with the given ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.InvoiceItem.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, invoiceitem, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -74,7 +74,7 @@ defmodule Stripe.Services.InvoiceItemService do
   Updates the amount or description of an invoice item on an upcoming invoice. Updating an invoice item is only possible before the invoice it’s attached to is closed.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.InvoiceItem.t()} | {:error, Stripe.Error.t()}
   def update(client, invoiceitem, params \\ %{}, opts \\ []) do
     Client.request(
       client,

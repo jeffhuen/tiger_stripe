@@ -15,7 +15,7 @@ defmodule Stripe.Services.Tax.SettingsService do
   Retrieves Tax `Settings` for a merchant.
   """
   @spec retrieve(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Tax.Settings.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/tax/settings", Keyword.merge(opts, params: params))
   end
@@ -26,7 +26,7 @@ defmodule Stripe.Services.Tax.SettingsService do
   Updates Tax `Settings` parameters used in tax calculations. All parameters are editable but none can be removed once set.
   """
   @spec update(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Tax.Settings.t()} | {:error, Stripe.Error.t()}
   def update(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/tax/settings", Keyword.merge(opts, params: params))
   end

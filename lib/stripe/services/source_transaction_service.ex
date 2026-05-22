@@ -14,7 +14,7 @@ defmodule Stripe.Services.SourceTransactionService do
   List source transactions for a given source.
   """
   @spec source_transactions(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def source_transactions(client, source, params \\ %{}, opts \\ []) do
     Client.request(
       client,

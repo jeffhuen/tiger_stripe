@@ -15,7 +15,7 @@ defmodule Stripe.Services.Treasury.InboundTransferService do
   Cancels an InboundTransfer.
   """
   @spec cancel(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.InboundTransfer.t()} | {:error, Stripe.Error.t()}
   def cancel(client, inbound_transfer, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -31,7 +31,7 @@ defmodule Stripe.Services.Treasury.InboundTransferService do
   Creates an InboundTransfer.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.InboundTransfer.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -47,7 +47,7 @@ defmodule Stripe.Services.Treasury.InboundTransferService do
   Returns a list of InboundTransfers sent from the specified FinancialAccount.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -63,7 +63,7 @@ defmodule Stripe.Services.Treasury.InboundTransferService do
   Retrieves the details of an existing InboundTransfer.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.InboundTransfer.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

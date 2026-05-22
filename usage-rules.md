@@ -7,15 +7,16 @@ Elixir SDK for the Stripe API, auto-generated from the official OpenAPI spec.
 Always create a client first. Every API call takes the client as the first argument.
 
 ```elixir
-client = Stripe.client()
+client = Stripe.client("sk_test_...")
 {:ok, customer} = Stripe.Services.CustomerService.create(client, %{email: "jane@example.com"})
 ```
 
-The zero-arity `Stripe.client()` reads from application config. Override per-call:
+TigerStripe does not read library application config. Read credentials in your
+own app and pass them explicitly:
 
 ```elixir
-client = Stripe.client("sk_test_other_key")
-client = Stripe.client(stripe_account: "acct_connected", max_retries: 5)
+client = Stripe.client(System.fetch_env!("STRIPE_SECRET_KEY"))
+client = Stripe.client("sk_test_...", stripe_account: "acct_connected", max_retries: 5)
 ```
 
 Clients are plain structs — no global state, safe for concurrent use.
@@ -67,11 +68,14 @@ It must go **before** `Plug.Parsers` in the endpoint (it needs the raw body).
 
 ```elixir
 # endpoint.ex
-plug Stripe.WebhookPlug, path: "/webhook/stripe"
+plug Stripe.WebhookPlug,
+  secret: {MyApp.Stripe, :webhook_secret, []},
+  path: "/webhook/stripe"
+
 plug Plug.Parsers, ...
 ```
 
-The secret is read from `config :tiger_stripe, :webhook_secret`.
+The secret is explicit and may be a binary or an MFA tuple.
 
 For manual verification without the plug:
 
@@ -79,17 +83,17 @@ For manual verification without the plug:
 {:ok, event} = Stripe.Webhook.construct_event(payload, sig_header, secret)
 ```
 
-## Configuration
+## Supervision
 
 ```elixir
-# config/runtime.exs
-config :tiger_stripe,
-  api_key: System.fetch_env!("STRIPE_SECRET_KEY"),
-  webhook_secret: System.fetch_env!("STRIPE_WEBHOOK_SECRET")
+# lib/my_app/application.ex
+children = [
+  Stripe
+]
 ```
 
-Optional keys: `:api_version`, `:client_id`, `:max_retries` (default 2),
-`:open_timeout` (default 30s), `:read_timeout` (default 80s), `:finch`.
+This starts the default `Stripe.Finch` pool. If your app already starts its
+own Finch pool, pass `finch: MyApp.Finch` when building the client.
 
 ## Testing
 
@@ -98,12 +102,14 @@ Use `Stripe.Test` for process-scoped HTTP stubs compatible with `async: true`:
 ```elixir
 setup do
   Stripe.Test.stub(fn req -> {200, [], ~s({"id": "ch_1", "object": "charge"})} end)
-  :ok
+  %{client: Stripe.Test.client("sk_test_123")}
 end
 ```
 
 The stub callback receives a `%{method, url, headers, body}` map and returns
-`{status, headers, body}`. Stubs are isolated per test process.
+`{status, headers, body}`. Stubs are isolated per test process and are used
+only by clients built with `Stripe.Test.client/2` or
+`transport: Stripe.Test.transport()`.
 
 ## String keys vs atom keys
 

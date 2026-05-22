@@ -11,7 +11,7 @@ defmodule Stripe.Services.QuoteComputedUpfrontLineItemsService do
   When retrieving a quote, there is an includable [**computed.upfront.line_items**](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
   """
   @spec list_computed_upfront_line_items(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list_computed_upfront_line_items(client, quote, params \\ %{}, opts \\ []) do
     Client.request(
       client,

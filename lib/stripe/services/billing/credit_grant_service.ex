@@ -15,7 +15,7 @@ defmodule Stripe.Services.Billing.CreditGrantService do
   Creates a credit grant.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.CreditGrant.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -31,7 +31,7 @@ defmodule Stripe.Services.Billing.CreditGrantService do
   Expires a credit grant.
   """
   @spec expire(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.CreditGrant.t()} | {:error, Stripe.Error.t()}
   def expire(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -47,7 +47,7 @@ defmodule Stripe.Services.Billing.CreditGrantService do
   Retrieve a list of credit grants.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/billing/credit_grants", Keyword.merge(opts, params: params))
   end
@@ -58,7 +58,7 @@ defmodule Stripe.Services.Billing.CreditGrantService do
   Retrieves a credit grant.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.CreditGrant.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -74,7 +74,7 @@ defmodule Stripe.Services.Billing.CreditGrantService do
   Updates a credit grant.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.CreditGrant.t()} | {:error, Stripe.Error.t()}
   def update(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -90,7 +90,7 @@ defmodule Stripe.Services.Billing.CreditGrantService do
   Voids a credit grant.
   """
   @spec void_grant(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Billing.CreditGrant.t()} | {:error, Stripe.Error.t()}
   def void_grant(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

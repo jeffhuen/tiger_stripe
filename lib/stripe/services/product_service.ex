@@ -20,7 +20,7 @@ defmodule Stripe.Services.ProductService do
   Creates a new product object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Product.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/products", Keyword.merge(opts, params: params))
   end
@@ -31,7 +31,7 @@ defmodule Stripe.Services.ProductService do
   Delete a product. Deleting a product is only possible if it has no prices associated with it. Additionally, deleting a product with `type=good` is only possible if it has no SKUs associated with it.
   """
   @spec delete(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Product.t()} | {:error, Stripe.Error.t()}
   def delete(client, id, params \\ %{}, opts \\ []) do
     Client.request(client, :delete, "/v1/products/#{id}", Keyword.merge(opts, params: params))
   end
@@ -42,7 +42,7 @@ defmodule Stripe.Services.ProductService do
   Returns a list of your products. The products are returned sorted by creation date, with the most recently created products appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/products", Keyword.merge(opts, params: params))
   end
@@ -53,7 +53,7 @@ defmodule Stripe.Services.ProductService do
   Retrieves the details of an existing product. Supply the unique product ID from either a product creation request or the product list, and Stripe will return the corresponding product information.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Product.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/products/#{id}", Keyword.merge(opts, params: params))
   end
@@ -67,7 +67,7 @@ defmodule Stripe.Services.ProductService do
   to an hour behind during outages. Search functionality is not available to merchants in India.
   """
   @spec search(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.SearchResult.t()} | {:error, Stripe.Error.t()}
   def search(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/products/search", Keyword.merge(opts, params: params))
   end
@@ -78,7 +78,7 @@ defmodule Stripe.Services.ProductService do
   Updates the specific product by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Product.t()} | {:error, Stripe.Error.t()}
   def update(client, id, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/products/#{id}", Keyword.merge(opts, params: params))
   end

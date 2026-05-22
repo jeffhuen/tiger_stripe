@@ -11,7 +11,7 @@ defmodule Stripe.Services.Tax.CalculationLineItemService do
   Retrieves the line items of a tax calculation as a collection, if the calculation hasn’t expired.
   """
   @spec list_line_items(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list_line_items(client, calculation, params \\ %{}, opts \\ []) do
     Client.request(
       client,

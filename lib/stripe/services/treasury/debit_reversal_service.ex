@@ -13,7 +13,7 @@ defmodule Stripe.Services.Treasury.DebitReversalService do
   Reverses a ReceivedDebit and creates a DebitReversal object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.DebitReversal.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -29,7 +29,7 @@ defmodule Stripe.Services.Treasury.DebitReversalService do
   Returns a list of DebitReversals.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -45,7 +45,7 @@ defmodule Stripe.Services.Treasury.DebitReversalService do
   Retrieves a DebitReversal object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Treasury.DebitReversal.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, debit_reversal, params \\ %{}, opts \\ []) do
     Client.request(
       client,

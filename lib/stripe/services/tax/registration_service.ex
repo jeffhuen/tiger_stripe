@@ -17,7 +17,7 @@ defmodule Stripe.Services.Tax.RegistrationService do
   Creates a new Tax `Registration` object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Tax.Registration.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/tax/registrations", Keyword.merge(opts, params: params))
   end
@@ -28,7 +28,7 @@ defmodule Stripe.Services.Tax.RegistrationService do
   Returns a list of Tax `Registration` objects.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/tax/registrations", Keyword.merge(opts, params: params))
   end
@@ -39,7 +39,7 @@ defmodule Stripe.Services.Tax.RegistrationService do
   Returns a Tax `Registration` object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Tax.Registration.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -57,7 +57,7 @@ defmodule Stripe.Services.Tax.RegistrationService do
   A registration cannot be deleted after it has been created. If you wish to end a registration you may do so by setting `expires_at`.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Tax.Registration.t()} | {:error, Stripe.Error.t()}
   def update(client, id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

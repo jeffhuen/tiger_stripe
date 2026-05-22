@@ -14,7 +14,7 @@ defmodule Stripe.Services.ShippingRateService do
   Creates a new shipping rate object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.ShippingRate.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/shipping_rates", Keyword.merge(opts, params: params))
   end
@@ -25,7 +25,7 @@ defmodule Stripe.Services.ShippingRateService do
   Returns a list of your shipping rates.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/shipping_rates", Keyword.merge(opts, params: params))
   end
@@ -36,7 +36,7 @@ defmodule Stripe.Services.ShippingRateService do
   Returns the shipping rate object with the given ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.ShippingRate.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, shipping_rate_token, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -52,7 +52,7 @@ defmodule Stripe.Services.ShippingRateService do
   Updates an existing shipping rate object.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.ShippingRate.t()} | {:error, Stripe.Error.t()}
   def update(client, shipping_rate_token, params \\ %{}, opts \\ []) do
     Client.request(
       client,

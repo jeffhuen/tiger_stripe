@@ -11,7 +11,7 @@ defmodule Stripe.Services.TestHelpers.CustomerService do
   Create an incoming testmode bank transfer
   """
   @spec fund_cash_balance(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.CustomerCashBalanceTransaction.t()} | {:error, Stripe.Error.t()}
   def fund_cash_balance(client, customer, params \\ %{}, opts \\ []) do
     Client.request(
       client,

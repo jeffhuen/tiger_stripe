@@ -15,7 +15,7 @@ defmodule Stripe.Services.InvoiceLineItemService do
   When retrieving an invoice, you’ll get a **lines** property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
   """
   @spec list(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, invoice, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -34,7 +34,7 @@ defmodule Stripe.Services.InvoiceLineItemService do
   Updating an invoice’s line item is only possible before the invoice is finalized.
   """
   @spec update(Client.t(), String.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.InvoiceLineItem.t()} | {:error, Stripe.Error.t()}
   def update(client, invoice, line_item_id, params \\ %{}, opts \\ []) do
     Client.request(
       client,

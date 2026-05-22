@@ -9,12 +9,13 @@ defmodule Stripe.StreamingTest do
   end
 
   describe "raw_request/4" do
-    test "returns raw response without deserialization", %{client: client} do
+    test "returns raw response without deserialization" do
       Stripe.Test.stub(fn _req ->
         {200, [{"request-id", "req_abc"}],
          ~s({"id": "ch_123", "object": "charge", "amount": 2000})}
       end)
 
+      client = Stripe.Test.client("sk_test_123")
       {:ok, resp} = Client.raw_request(client, :get, "/v1/charges/ch_123")
 
       assert resp.status == 200
@@ -25,20 +26,20 @@ defmodule Stripe.StreamingTest do
     end
 
     test "returns error tuple on connection failure", %{client: client} do
-      # Use a client pointing to a non-existent server and no stub
-      bad_client = %{client | api_base: "http://localhost:1", max_retries: 0}
+      bad_client = %{client | transport: fn _request -> {:error, :econnrefused} end}
 
       {:error, error} = Client.raw_request(bad_client, :get, "/v1/charges")
 
       assert %Stripe.Error{type: :api_connection_error} = error
     end
 
-    test "passes params as query string for GET", %{client: client} do
+    test "passes params as query string for GET" do
       Stripe.Test.stub(fn %{url: url} ->
         assert url =~ "limit=5"
         {200, [], ~s({"ok": true})}
       end)
 
+      client = Stripe.Test.client("sk_test_123")
       {:ok, resp} = Client.raw_request(client, :get, "/v1/charges", params: %{"limit" => 5})
 
       assert resp.status == 200
@@ -46,12 +47,14 @@ defmodule Stripe.StreamingTest do
   end
 
   describe "stream_request/6" do
-    test "streams response chunks through accumulator", %{client: client} do
+    test "streams response chunks through accumulator" do
       body = String.duplicate("chunk_data", 100)
 
       Stripe.Test.stub(fn _req ->
         {200, [{"content-type", "text/event-stream"}], body}
       end)
+
+      client = Stripe.Test.client("sk_test_123")
 
       {:ok, result} =
         Client.stream_request(
@@ -73,13 +76,15 @@ defmodule Stripe.StreamingTest do
       assert hd(result.chunks) == body
     end
 
-    test "streams large payload", %{client: client} do
+    test "streams large payload" do
       # 1MB payload
       large_body = :crypto.strong_rand_bytes(1_000_000) |> Base.encode64()
 
       Stripe.Test.stub(fn _req ->
         {200, [], large_body}
       end)
+
+      client = Stripe.Test.client("sk_test_123")
 
       {:ok, result} =
         Client.stream_request(
@@ -97,12 +102,14 @@ defmodule Stripe.StreamingTest do
       assert result == byte_size(large_body)
     end
 
-    test "uses api_mode for V2 requests", %{client: client} do
+    test "uses api_mode for V2 requests" do
       Stripe.Test.stub(fn %{headers: headers} ->
         # V2 requests should have an idempotency-key header for POST
         assert Enum.any?(headers, fn {k, _} -> k == "idempotency-key" end)
         {200, [], ~s({"ok": true})}
       end)
+
+      client = Stripe.Test.client("sk_test_123")
 
       {:ok, _} =
         Client.stream_request(

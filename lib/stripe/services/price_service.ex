@@ -18,7 +18,7 @@ defmodule Stripe.Services.PriceService do
   Creates a new [Price](https://docs.stripe.com/api/prices) for an existing [Product](https://docs.stripe.com/api/products). The Price can be recurring or one-time.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Price.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/prices", Keyword.merge(opts, params: params))
   end
@@ -29,7 +29,7 @@ defmodule Stripe.Services.PriceService do
   Returns a list of your active prices, excluding [inline prices](https://docs.stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set `active` to false.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/prices", Keyword.merge(opts, params: params))
   end
@@ -40,7 +40,7 @@ defmodule Stripe.Services.PriceService do
   Retrieves the price with the given ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Price.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, price, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/prices/#{price}", Keyword.merge(opts, params: params))
   end
@@ -54,7 +54,7 @@ defmodule Stripe.Services.PriceService do
   to an hour behind during outages. Search functionality is not available to merchants in India.
   """
   @spec search(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.SearchResult.t()} | {:error, Stripe.Error.t()}
   def search(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/prices/search", Keyword.merge(opts, params: params))
   end
@@ -65,7 +65,7 @@ defmodule Stripe.Services.PriceService do
   Updates the specified price by setting the values of the parameters passed. Any parameters not provided are left unchanged.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Price.t()} | {:error, Stripe.Error.t()}
   def update(client, price, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/prices/#{price}", Keyword.merge(opts, params: params))
   end

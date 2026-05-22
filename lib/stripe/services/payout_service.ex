@@ -20,7 +20,7 @@ defmodule Stripe.Services.PayoutService do
   You can cancel a previously created payout if its status is `pending`. Stripe refunds the funds to your available balance. You can’t cancel automatic Stripe payouts.
   """
   @spec cancel(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Payout.t()} | {:error, Stripe.Error.t()}
   def cancel(client, payout, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -40,7 +40,7 @@ defmodule Stripe.Services.PayoutService do
   If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The [balance object](#balance_object) details available and pending amounts by source type.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Payout.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/payouts", Keyword.merge(opts, params: params))
   end
@@ -51,7 +51,7 @@ defmodule Stripe.Services.PayoutService do
   Returns a list of existing payouts sent to third-party bank accounts or payouts that Stripe sent to you. The payouts return in sorted order, with the most recently created payouts appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/payouts", Keyword.merge(opts, params: params))
   end
@@ -62,7 +62,7 @@ defmodule Stripe.Services.PayoutService do
   Retrieves the details of an existing payout. Supply the unique payout ID from either a payout creation request or the payout list. Stripe returns the corresponding payout information.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Payout.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, payout, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/payouts/#{payout}", Keyword.merge(opts, params: params))
   end
@@ -75,7 +75,7 @@ defmodule Stripe.Services.PayoutService do
   By requesting a reversal through `/v1/payouts/:id/reverse`, you confirm that the authorized signatory of the selected bank account authorizes the debit on the bank account and that no other authorization is required.
   """
   @spec reverse(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Payout.t()} | {:error, Stripe.Error.t()}
   def reverse(client, payout, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -91,7 +91,7 @@ defmodule Stripe.Services.PayoutService do
   Updates the specified payout by setting the values of the parameters you pass. We don’t change parameters that you don’t provide. This request only accepts the metadata as arguments.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Payout.t()} | {:error, Stripe.Error.t()}
   def update(client, payout, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/payouts/#{payout}", Keyword.merge(opts, params: params))
   end

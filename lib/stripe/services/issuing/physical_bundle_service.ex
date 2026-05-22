@@ -13,7 +13,7 @@ defmodule Stripe.Services.Issuing.PhysicalBundleService do
   Returns a list of physical bundle objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
   """
   @spec list(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -29,7 +29,7 @@ defmodule Stripe.Services.Issuing.PhysicalBundleService do
   Retrieves a physical bundle object.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Issuing.PhysicalBundle.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, physical_bundle, params \\ %{}, opts \\ []) do
     Client.request(
       client,

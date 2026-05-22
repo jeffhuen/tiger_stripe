@@ -11,7 +11,7 @@ defmodule Stripe.Services.TestHelpers.Terminal.ReaderService do
   Presents a payment method on a simulated reader. Can be used to simulate accepting a payment, saving a card or refunding a transaction.
   """
   @spec present_payment_method(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def present_payment_method(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -27,7 +27,7 @@ defmodule Stripe.Services.TestHelpers.Terminal.ReaderService do
   Use this endpoint to trigger a successful input collection on a simulated reader.
   """
   @spec succeed_input_collection(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def succeed_input_collection(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,
@@ -43,7 +43,7 @@ defmodule Stripe.Services.TestHelpers.Terminal.ReaderService do
   Use this endpoint to complete an input collection with a timeout error on a simulated reader.
   """
   @spec timeout_input_collection(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Terminal.Reader.t()} | {:error, Stripe.Error.t()}
   def timeout_input_collection(client, reader, params \\ %{}, opts \\ []) do
     Client.request(
       client,

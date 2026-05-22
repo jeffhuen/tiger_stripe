@@ -5,8 +5,8 @@
 > You can always fall back to [manual installation](getting-started.md).
 
 The Igniter installer configures `tiger_stripe` in a Phoenix project with a
-single command. It adds config files, wires up webhook verification, scaffolds
-a controller, and adds the route.
+single command. It adds a small runtime wrapper module, starts the Finch pool,
+wires up webhook verification, scaffolds a controller, and adds the route.
 
 ## Prerequisites
 
@@ -39,29 +39,34 @@ Both commands do the same thing. The only difference is that
 The installer makes five changes to your project. Igniter shows a unified
 diff of every change and asks for confirmation before writing anything.
 
-### 1. Dev Config
+### 1. Runtime Wrapper
 
-Adds a placeholder API key to `config/dev.exs`:
-
-```elixir
-config :tiger_stripe, api_key: "sk_test_YOUR_KEY_HERE"
-```
-
-Replace this with your actual test-mode secret key from the
-[Stripe Dashboard](https://dashboard.stripe.com/apikeys).
-
-### 2. Runtime Config
-
-Adds production env var config inside the `if config_env() == :prod` block
-in `config/runtime.exs`:
+Adds a helper module for constructing clients and resolving webhook secrets:
 
 ```elixir
-config :tiger_stripe,
-  api_key: System.fetch_env!("STRIPE_SECRET_KEY"),
-  webhook_secret: System.fetch_env!("STRIPE_WEBHOOK_SECRET")
+defmodule MyApp.Stripe do
+  def client do
+    Stripe.client(System.fetch_env!("STRIPE_SECRET_KEY"))
+  end
+
+  def webhook_secret do
+    System.fetch_env!("STRIPE_WEBHOOK_SECRET")
+  end
+end
 ```
 
-Your deployment environment needs both variables set.
+### 2. Finch Supervision
+
+Adds the default `Stripe.Finch` pool to your application supervision tree:
+
+```elixir
+children = [
+  Stripe
+]
+```
+
+Your deployment environment needs `STRIPE_SECRET_KEY` and
+`STRIPE_WEBHOOK_SECRET` set.
 
 ### 3. Webhook Plug
 
@@ -71,7 +76,9 @@ Injects `Stripe.WebhookPlug` into your Phoenix endpoint, directly before
 ```elixir
 # lib/my_app_web/endpoint.ex
 
-plug Stripe.WebhookPlug, path: "/webhook/stripe"
+plug Stripe.WebhookPlug,
+  secret: {MyApp.Stripe, :webhook_secret, []},
+  path: "/webhook/stripe"
 
 plug Plug.Parsers,
   parsers: [:urlencoded, :multipart, :json],
@@ -128,20 +135,18 @@ If your project has multiple routers, Igniter will prompt you to choose.
 
 ## After Installation
 
-1. **Set your test API key** in `config/dev.exs` (replace the placeholder)
-
-2. **Set production environment variables:**
+1. **Set Stripe environment variables:**
 
        STRIPE_SECRET_KEY=sk_live_...
        STRIPE_WEBHOOK_SECRET=whsec_...
 
-3. **Create a webhook endpoint** in the
+2. **Create a webhook endpoint** in the
    [Stripe Dashboard](https://dashboard.stripe.com/webhooks) pointed at
    `https://your-domain.com/webhook/stripe`
 
-4. **Customize the controller** event handlers with your business logic
+3. **Customize the controller** event handlers with your business logic
 
-5. **Test locally** with the [Stripe CLI](https://docs.stripe.com/stripe-cli):
+4. **Test locally** with the [Stripe CLI](https://docs.stripe.com/stripe-cli):
 
        stripe listen --forward-to localhost:4000/webhook/stripe
 
@@ -149,17 +154,18 @@ If your project has multiple routers, Igniter will prompt you to choose.
 
 The installer is safe to run multiple times:
 
-- Config values are only added if not already present
+- The wrapper module is only created if it does not already exist
+- The Finch child is only added if it is not already present
 - The controller is only created if the module doesn't exist
 - The webhook plug is only injected if not already in the endpoint
 
 If you need to reset and re-run, delete the generated controller file and
-remove the plug/route/config lines manually, then run the installer again.
+remove the plug/route/wrapper lines manually, then run the installer again.
 
 ## Non-Phoenix Projects
 
 If no Phoenix endpoint or router is found, the installer skips the plug,
-controller, and route steps. You still get the config changes, plus notices
+controller, and route steps. You still get the wrapper module, plus notices
 explaining how to set up webhook handling manually. See the
 [Webhooks guide](webhooks.md) for the manual setup instructions.
 

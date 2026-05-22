@@ -14,9 +14,10 @@ defmodule Stripe.Generator.ServiceGenerator do
     services = group_operations(spec.resources)
     path_specs = spec.path_specs
     resource_docs = spec.resource_docs
+    object_map = build_object_map(spec.resources)
 
     service_files =
-      Enum.flat_map(services, &generate_service(&1, path_specs, resource_docs))
+      Enum.flat_map(services, &generate_service(&1, path_specs, resource_docs, object_map))
 
     namespace_files = generate_namespace_services(services)
     aggregate_files = generate_aggregates(services)
@@ -34,13 +35,15 @@ defmodule Stripe.Generator.ServiceGenerator do
     |> Enum.flat_map(fn resource ->
       resource.operations
       |> Enum.map(fn op ->
+        package = op.service_package || resource.package
+
         %{
           method_name: op.method_name,
           http_method: op.http_method,
           path: op.path,
           path_params: op.path_params,
           service_class: op.service_class,
-          package: op.service_package || resource.package,
+          package: package,
           base_address: op.base_address,
           api_mode: op.api_mode
         }
@@ -60,9 +63,18 @@ defmodule Stripe.Generator.ServiceGenerator do
     |> Enum.sort_by(fn s -> {s.package, s.class_name} end)
   end
 
+  # Builds `object_name => resource module`, mirroring Stripe.ObjectTypes, so
+  # operation return types resolve to the struct the deserializer actually
+  # produces (keyed on the response's `"object"` field).
+  defp build_object_map(resources) do
+    resources
+    |> Enum.filter(fn r -> r.is_primary && r.object_name != nil end)
+    |> Map.new(fn r -> {r.object_name, Naming.resource_module(r.class_name, r.package)} end)
+  end
+
   # -- Generate individual service modules ------------------------------------
 
-  defp generate_service(service, path_specs, resource_docs) do
+  defp generate_service(service, path_specs, resource_docs, object_map) do
     module_name = inspect(service.module)
     path = Naming.module_to_path(service.module)
 
@@ -72,7 +84,7 @@ defmodule Stripe.Generator.ServiceGenerator do
     methods =
       service.operations
       |> Enum.map_join("\n", fn op ->
-        generate_method(op, op.method_name in conflicting_methods, path_specs)
+        generate_method(op, op.method_name in conflicting_methods, path_specs, object_map)
       end)
 
     # @moduledoc from resource_docs lookup
@@ -111,7 +123,7 @@ defmodule Stripe.Generator.ServiceGenerator do
     |> MapSet.new()
   end
 
-  defp generate_method(op, strip_defaults, path_specs) do
+  defp generate_method(op, strip_defaults, path_specs, object_map) do
     path_params = op.path_params
 
     # Build function signature
@@ -162,7 +174,7 @@ defmodule Stripe.Generator.ServiceGenerator do
         ["map()", "keyword()"]
 
     spec_line =
-      "  @spec #{op.method_name}(#{Enum.join(spec_args, ", ")}) ::\n          {:ok, term()} | {:error, Stripe.Error.t()}\n"
+      "  @spec #{op.method_name}(#{Enum.join(spec_args, ", ")}) ::\n          {:ok, #{return_type(op, path_specs, object_map)}} | {:error, Stripe.Error.t()}\n"
 
     """
     #{doc_line}#{deprecated_line}#{spec_line}  def #{op.method_name}(#{sig}) do
@@ -204,6 +216,35 @@ defmodule Stripe.Generator.ServiceGenerator do
       extras ->
         opts_str = ["params: params" | extras] |> Enum.join(", ")
         "Keyword.merge(opts, #{opts_str})"
+    end
+  end
+
+  # The generated success type is derived from the operation's actual 200
+  # response object — not the service's primary resource — so it matches what
+  # the deserializer produces (e.g. a customer sub-resource service that
+  # returns a PaymentMethod). Falls back to `term()` when the response can't
+  # be resolved to a known struct.
+  defp return_type(op, path_specs, object_map) do
+    key = "#{String.upcase(to_string(op.http_method))} #{op.path}"
+
+    case path_specs do
+      %{^key => %{response_object: response_object}} ->
+        response_module(response_object, object_map)
+
+      _ ->
+        "term()"
+    end
+  end
+
+  defp response_module(:v2_list, _object_map), do: "Stripe.V2.ListObject.t()"
+  defp response_module("list", _object_map), do: "Stripe.ListObject.t()"
+  defp response_module("search_result", _object_map), do: "Stripe.SearchResult.t()"
+  defp response_module(nil, _object_map), do: "term()"
+
+  defp response_module(object_name, object_map) do
+    case Map.get(object_map, object_name) do
+      nil -> "term()"
+      module -> "#{inspect(module)}.t()"
     end
   end
 

@@ -22,7 +22,7 @@ defmodule Stripe.Services.SourceService do
   Creates a new source object.
   """
   @spec create(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Source.t()} | {:error, Stripe.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/sources", Keyword.merge(opts, params: params))
   end
@@ -33,7 +33,7 @@ defmodule Stripe.Services.SourceService do
   Retrieves an existing source object. Supply the unique source ID from a source creation request and Stripe will return the corresponding up-to-date source object information.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Source.t()} | {:error, Stripe.Error.t()}
   def retrieve(client, source, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/sources/#{source}", Keyword.merge(opts, params: params))
   end
@@ -46,7 +46,7 @@ defmodule Stripe.Services.SourceService do
   This request accepts the `metadata` and `owner` as arguments. It is also possible to update type specific information for selected payment methods. Please refer to our [payment method guides](https://docs.stripe.com/docs/sources) for more detail.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Source.t()} | {:error, Stripe.Error.t()}
   def update(client, source, params \\ %{}, opts \\ []) do
     Client.request(client, :post, "/v1/sources/#{source}", Keyword.merge(opts, params: params))
   end
@@ -55,7 +55,7 @@ defmodule Stripe.Services.SourceService do
   Verify a given source.
   """
   @spec verify(Client.t(), String.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Source.t()} | {:error, Stripe.Error.t()}
   def verify(client, source, params \\ %{}, opts \\ []) do
     Client.request(
       client,

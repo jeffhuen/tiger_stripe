@@ -7,8 +7,8 @@ if Code.ensure_loaded?(Igniter.Mix.Task) do
 
     This installer:
 
-    1. Adds Stripe API key config to `config/dev.exs`
-    2. Adds runtime config with env vars to `config/runtime.exs`
+    1. Adds a small Stripe wrapper module that reads env vars
+    2. Adds the default `Stripe.Finch` pool to your supervision tree
     3. Adds `Stripe.WebhookPlug` to the Phoenix endpoint (before `Plug.Parsers`)
     4. Scaffolds a `StripeWebhookController` with event handler skeleton
     5. Adds the webhook route to the router
@@ -26,42 +26,65 @@ if Code.ensure_loaded?(Igniter.Mix.Task) do
     @impl Igniter.Mix.Task
     def igniter(igniter) do
       igniter
-      |> configure_dev()
-      |> configure_runtime()
+      |> add_stripe_wrapper()
+      |> add_finch_child()
       |> add_webhook_plug_to_endpoint()
       |> scaffold_webhook_controller()
       |> add_webhook_route()
       |> add_next_steps()
     end
 
-    # -- Step 1: Dev config ------------------------------------------------------
+    # -- Step 1: Stripe wrapper --------------------------------------------------
 
-    defp configure_dev(igniter) do
-      Igniter.Project.Config.configure_new(
-        igniter,
-        "dev.exs",
-        :tiger_stripe,
-        [:api_key],
-        "sk_test_YOUR_KEY_HERE"
-      )
+    defp add_stripe_wrapper(igniter) do
+      case Igniter.Project.Application.app_module(igniter) do
+        nil ->
+          Igniter.add_notice(igniter, """
+          Could not determine your application module. Add a helper manually:
+
+              defmodule MyApp.Stripe do
+                def client do
+                  Stripe.client(System.fetch_env!("STRIPE_SECRET_KEY"))
+                end
+
+                def webhook_secret do
+                  System.fetch_env!("STRIPE_WEBHOOK_SECRET")
+                end
+              end
+          """)
+
+        app_module ->
+          stripe_module = Module.concat(app_module, Stripe)
+
+          Igniter.Project.Module.create_module(igniter, stripe_module, """
+            @moduledoc \"\"\"
+            Builds Stripe clients and resolves Stripe runtime secrets.
+            \"\"\"
+
+            def client do
+              Stripe.client(secret_key())
+            end
+
+            def client(opts) do
+              secret_key()
+              |> Stripe.client(opts)
+            end
+
+            def webhook_secret do
+              System.fetch_env!("STRIPE_WEBHOOK_SECRET")
+            end
+
+            defp secret_key do
+              System.fetch_env!("STRIPE_SECRET_KEY")
+            end
+          """)
+      end
     end
 
-    # -- Step 2: Runtime config --------------------------------------------------
+    # -- Step 2: Finch child -----------------------------------------------------
 
-    defp configure_runtime(igniter) do
-      igniter
-      |> Igniter.Project.Config.configure_runtime_env(
-        :prod,
-        :tiger_stripe,
-        [:api_key],
-        {:code, Sourceror.parse_string!(~S[System.fetch_env!("STRIPE_SECRET_KEY")])}
-      )
-      |> Igniter.Project.Config.configure_runtime_env(
-        :prod,
-        :tiger_stripe,
-        [:webhook_secret],
-        {:code, Sourceror.parse_string!(~S[System.fetch_env!("STRIPE_WEBHOOK_SECRET")])}
-      )
+    defp add_finch_child(igniter) do
+      Igniter.Project.Application.add_new_child(igniter, Stripe)
     end
 
     # -- Step 3: Endpoint plug ---------------------------------------------------
@@ -73,12 +96,23 @@ if Code.ensure_loaded?(Igniter.Mix.Task) do
           No Phoenix endpoint found. Add Stripe.WebhookPlug to your endpoint
           manually, before Plug.Parsers:
 
-              plug Stripe.WebhookPlug, path: "/webhook/stripe"
+              plug Stripe.WebhookPlug,
+                secret: {MyApp.Stripe, :webhook_secret, []},
+                path: "/webhook/stripe"
           """)
 
         {igniter, endpoint} ->
+          secret_module =
+            igniter
+            |> Igniter.Project.Application.app_module()
+            |> case do
+              nil -> MyApp.Stripe
+              app_module -> Module.concat(app_module, Stripe)
+            end
+
           Igniter.Project.Module.find_and_update_module!(igniter, endpoint, fn zipper ->
-            plug_code = ~s(plug Stripe.WebhookPlug, path: "/webhook/stripe")
+            plug_code =
+              ~s(plug Stripe.WebhookPlug, secret: {#{inspect(secret_module)}, :webhook_secret, []}, path: "/webhook/stripe")
 
             with :error <-
                    insert_before_plug_parsers(zipper, plug_code, 2),
@@ -89,7 +123,9 @@ if Code.ensure_loaded?(Igniter.Mix.Task) do
                Could not find `plug Plug.Parsers` in #{inspect(endpoint)}.
                Add Stripe.WebhookPlug manually before Plug.Parsers:
 
-                   plug Stripe.WebhookPlug, path: "/webhook/stripe"
+                   plug Stripe.WebhookPlug,
+                     secret: {#{inspect(secret_module)}, :webhook_secret, []},
+                     path: "/webhook/stripe"
                """}
             end
           end)
@@ -214,22 +250,18 @@ if Code.ensure_loaded?(Igniter.Mix.Task) do
       Igniter.add_notice(igniter, """
       tiger_stripe has been installed! Next steps:
 
-      1. Set your test API key in config/dev.exs:
+      1. Set environment variables for the app:
 
-             config :tiger_stripe, api_key: "sk_test_..."
-
-      2. Set production environment variables:
-
-             STRIPE_SECRET_KEY=sk_live_...
+             STRIPE_SECRET_KEY=sk_test_... or sk_live_...
              STRIPE_WEBHOOK_SECRET=whsec_...
 
-      3. Create a webhook endpoint in the Stripe Dashboard:
+      2. Create a webhook endpoint in the Stripe Dashboard:
          https://dashboard.stripe.com/webhooks
          Point it to: https://your-domain.com/webhook/stripe
 
-      4. Customize event handlers in your StripeWebhookController.
+      3. Customize event handlers in your StripeWebhookController.
 
-      5. For local testing, use the Stripe CLI:
+      4. For local testing, use the Stripe CLI:
 
              stripe listen --forward-to localhost:4000/webhook/stripe
       """)

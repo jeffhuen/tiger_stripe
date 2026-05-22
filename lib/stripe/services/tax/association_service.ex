@@ -13,7 +13,7 @@ defmodule Stripe.Services.Tax.AssociationService do
   Finds a tax association object by PaymentIntent id.
   """
   @spec find(Client.t(), map(), keyword()) ::
-          {:ok, term()} | {:error, Stripe.Error.t()}
+          {:ok, Stripe.Resources.Tax.Association.t()} | {:error, Stripe.Error.t()}
   def find(client, params \\ %{}, opts \\ []) do
     Client.request(client, :get, "/v1/tax/associations/find", Keyword.merge(opts, params: params))
   end
