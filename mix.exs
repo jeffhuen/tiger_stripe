@@ -68,8 +68,8 @@ defmodule Stripe.MixProject do
     [
       name: "tiger_stripe",
       description:
-        "Complete Stripe SDK for Elixir with 1:1 parity to the official " <>
-          "Ruby SDK. V1+V2 API coverage (190 services, 307 resources, 523 typed params). " <>
+        "Complete Stripe SDK for Elixir with parity to the official " <>
+          "Ruby SDK. V1+V2 coverage (190 services, 307 resources, 523 typed params). " <>
           "Fully typed per-event modules. Modern stack: Finch HTTP/2, RustyJSON, " <>
           "automatic retries, OAuth, webhooks, telemetry, explicit per-client config, streaming pagination.",
       maintainers: ["Jeff Huen"],

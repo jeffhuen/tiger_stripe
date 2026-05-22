@@ -27,6 +27,12 @@ defmodule StripeTest do
     assert Stripe.version() =~ ~r/^\d+\.\d+\.\d+/
   end
 
+  test "package description fits Hex metadata limit" do
+    description = Mix.Project.config()[:package][:description]
+
+    assert String.length(description) <= 300
+  end
+
   test "application does not auto-start a supervisor" do
     assert Application.spec(:tiger_stripe, :mod) == []
   end
