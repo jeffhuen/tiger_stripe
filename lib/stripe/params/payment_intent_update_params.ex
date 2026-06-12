@@ -181,7 +181,8 @@ defmodule Stripe.Params.PaymentIntentUpdateParams do
   * `sofort` - If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
   * `swish` - If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
   * `twint` - If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
-  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `cashapp`, `crypto`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `cashapp`, `crypto`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `upi` - If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
   * `us_bank_account` - If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
   * `wechat_pay` - If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
   * `zip` - If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -239,6 +240,7 @@ defmodule Stripe.Params.PaymentIntentUpdateParams do
           optional(:swish) => map() | nil,
           optional(:twint) => map() | nil,
           optional(:type) => String.t() | nil,
+          optional(:upi) => payment_method_data_upi() | nil,
           optional(:us_bank_account) => payment_method_data_us_bank_account() | nil,
           optional(:wechat_pay) => map() | nil,
           optional(:zip) => map() | nil,
@@ -418,6 +420,28 @@ defmodule Stripe.Params.PaymentIntentUpdateParams do
         }
 
   @typedoc """
+  * `mandate_options` - Configuration options for setting up an eMandate
+  """
+  @type payment_method_data_upi :: %{
+          optional(:mandate_options) => payment_method_data_upi_mandate_options() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `amount` - Amount to be charged for future payments.
+  * `amount_type` - One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param. Possible values: `fixed`, `maximum`.
+  * `description` - A description of the mandate or subscription that is meant to be displayed to the customer. Max length: 20.
+  * `end_date` - End date of the mandate or subscription. Format: Unix timestamp.
+  """
+  @type payment_method_data_upi_mandate_options :: %{
+          optional(:amount) => integer() | nil,
+          optional(:amount_type) => String.t() | nil,
+          optional(:description) => String.t() | nil,
+          optional(:end_date) => integer() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
   * `account_holder_type` - Account holder type: individual or company. Possible values: `company`, `individual`.
   * `account_number` - Account number of the bank account. Max length: 5000.
   * `account_type` - Account type: checkings or savings. Defaults to checking if omitted. Possible values: `checking`, `savings`.
@@ -483,6 +507,7 @@ defmodule Stripe.Params.PaymentIntentUpdateParams do
   * `sofort` - If this is a `sofort` PaymentMethod, this sub-hash contains details about the SOFORT payment method options.
   * `swish` - If this is a `Swish` PaymentMethod, this sub-hash contains details about the Swish payment method options.
   * `twint` - If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
+  * `upi` - If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
   * `us_bank_account` - If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
   * `wechat_pay` - If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
   * `zip` - If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
@@ -537,6 +562,7 @@ defmodule Stripe.Params.PaymentIntentUpdateParams do
           optional(:sofort) => map() | nil,
           optional(:swish) => map() | nil,
           optional(:twint) => map() | nil,
+          optional(:upi) => map() | nil,
           optional(:us_bank_account) => map() | nil,
           optional(:wechat_pay) => map() | nil,
           optional(:zip) => map() | nil,

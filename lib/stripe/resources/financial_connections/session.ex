@@ -12,7 +12,7 @@ defmodule Stripe.Resources.FinancialConnections.Session do
   * `client_secret` - A value that will be passed to the client to launch the authentication flow. Max length: 5000. Nullable.
   * `filters` - Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `financial_connections.session`.
   * `permissions` - Permissions requested for accounts collected during this session.
   * `prefetch` - Data features requested to be retrieved upon account creation. Nullable.

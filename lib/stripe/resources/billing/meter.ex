@@ -16,7 +16,7 @@ defmodule Stripe.Resources.Billing.Meter do
   * `event_name` - The name of the meter event to record usage for. Corresponds with the `event_name` field on meter events. Max length: 5000.
   * `event_time_window` - The time window which meter events have been pre-aggregated for, if any. Possible values: `day`, `hour`. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `billing.meter`.
   * `status` - The meter's status. Possible values: `active`, `inactive`.
   * `status_transitions` - Expandable.

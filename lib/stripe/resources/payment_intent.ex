@@ -51,7 +51,7 @@ defmodule Stripe.Resources.PaymentIntent do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `last_payment_error` - The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason. Nullable. Expandable.
   * `latest_charge` - ID of the latest [Charge object](https://docs.stripe.com/api/charges) created by this PaymentIntent. This property is `null` until PaymentIntent confirmation is attempted. Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Learn more about [storing information in metadata](https://docs.stripe.com/payments/payment-intents/creating-payment-intents#storing-information-in-metadata).
   * `next_action` - If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source. Nullable. Expandable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `payment_intent`.
@@ -328,6 +328,7 @@ defmodule Stripe.Resources.PaymentIntent do
   * `redirect_to_url`
   * `swish_handle_redirect_or_display_qr_code`
   * `type` - Type of the next action to perform. Refer to the other child attributes under `next_action` for available values. Examples include: `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`. Max length: 5000.
+  * `upi_handle_redirect_or_display_qr_code`
   * `use_stripe_sdk` - When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
   * `verify_with_microdeposits`
   * `wechat_pay_display_qr_code`
@@ -359,6 +360,8 @@ defmodule Stripe.Resources.PaymentIntent do
           optional(:swish_handle_redirect_or_display_qr_code) =>
             Stripe.Resources.SwishHandleRedirectOrDisplayQrCode.t() | nil,
           optional(:type) => String.t() | nil,
+          optional(:upi_handle_redirect_or_display_qr_code) =>
+            Stripe.Resources.UPIHandleRedirectOrDisplayQrCode.t() | nil,
           optional(:use_stripe_sdk) => map() | nil,
           optional(:verify_with_microdeposits) => next_action_verify_with_microdeposits() | nil,
           optional(:wechat_pay_display_qr_code) =>
@@ -387,8 +390,6 @@ defmodule Stripe.Resources.PaymentIntent do
 
   This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. Max length: 5000. Nullable.
   * `order_reference` - A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
-
-  Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
 
   For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app. Max length: 5000. Nullable.
   """
@@ -458,6 +459,7 @@ defmodule Stripe.Resources.PaymentIntent do
   * `sofort`
   * `swish`
   * `twint`
+  * `upi`
   * `us_bank_account`
   * `wechat_pay`
   * `zip`
@@ -512,6 +514,7 @@ defmodule Stripe.Resources.PaymentIntent do
           optional(:sofort) => payment_method_options_sofort() | nil,
           optional(:swish) => payment_method_options_swish() | nil,
           optional(:twint) => payment_method_options_twint() | nil,
+          optional(:upi) => payment_method_options_upi() | nil,
           optional(:us_bank_account) => payment_method_options_us_bank_account() | nil,
           optional(:wechat_pay) => payment_method_options_wechat_pay() | nil,
           optional(:zip) => payment_method_options_zip() | nil,
@@ -528,7 +531,7 @@ defmodule Stripe.Resources.PaymentIntent do
 
   When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`, `on_session`.
   * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
-  * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+  * `verification_method` - Bank account verification method. The default value is `automatic`. Possible values: `automatic`, `instant`, `microdeposits`.
   """
   @type payment_method_options_acss_debit :: %{
           optional(:mandate_options) => payment_method_options_acss_debit_mandate_options() | nil,
@@ -873,7 +876,7 @@ defmodule Stripe.Resources.PaymentIntent do
         }
 
   @typedoc """
-  * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
+  * `country` - The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
   """
   @type payment_method_options_customer_balance_bank_transfer_eu_bank_transfer :: %{
           optional(:country) => String.t() | nil,
@@ -1353,6 +1356,20 @@ defmodule Stripe.Resources.PaymentIntent do
         }
 
   @typedoc """
+  * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
+
+  If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+
+  If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+
+  When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `off_session`, `on_session`.
+  """
+  @type payment_method_options_upi :: %{
+          optional(:setup_future_usage) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
   * `financial_connections`
   * `mandate_options`
   * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1363,7 +1380,8 @@ defmodule Stripe.Resources.PaymentIntent do
 
   When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`, `on_session`.
   * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
-  * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+  * `transaction_purpose` - The purpose of the transaction. Possible values: `goods`, `other`, `services`, `unspecified`.
+  * `verification_method` - Bank account verification method. The default value is `automatic`. Possible values: `automatic`, `instant`, `microdeposits`.
   """
   @type payment_method_options_us_bank_account :: %{
           optional(:financial_connections) =>
@@ -1372,6 +1390,7 @@ defmodule Stripe.Resources.PaymentIntent do
             payment_method_options_us_bank_account_mandate_options() | nil,
           optional(:setup_future_usage) => String.t() | nil,
           optional(:target_date) => String.t() | nil,
+          optional(:transaction_purpose) => String.t() | nil,
           optional(:verification_method) => String.t() | nil,
           optional(String.t()) => term()
         }
@@ -1552,6 +1571,8 @@ defmodule Stripe.Resources.PaymentIntent do
           "swish_handle_redirect_or_display_qr_code" =>
             {:resource, Stripe.Resources.SwishHandleRedirectOrDisplayQrCode},
           "type" => :scalar,
+          "upi_handle_redirect_or_display_qr_code" =>
+            {:resource, Stripe.Resources.UPIHandleRedirectOrDisplayQrCode},
           "use_stripe_sdk" => :scalar,
           "verify_with_microdeposits" => %{
             fields: %{
@@ -1921,6 +1942,11 @@ defmodule Stripe.Resources.PaymentIntent do
               "setup_future_usage" => :scalar
             }
           },
+          "upi" => %{
+            fields: %{
+              "setup_future_usage" => :scalar
+            }
+          },
           "us_bank_account" => %{
             fields: %{
               "financial_connections" => %{
@@ -1942,6 +1968,7 @@ defmodule Stripe.Resources.PaymentIntent do
               },
               "setup_future_usage" => :scalar,
               "target_date" => :scalar,
+              "transaction_purpose" => :scalar,
               "verification_method" => :scalar
             }
           },

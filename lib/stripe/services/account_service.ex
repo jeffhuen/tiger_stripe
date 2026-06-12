@@ -3,6 +3,8 @@ defmodule Stripe.Services.AccountService do
   @moduledoc """
   Account
 
+  For new integrations, we recommend using the [Accounts v2 API](https://docs.stripe.com/api/v2/core/accounts), in place of /v1/accounts and /v1/customers to represent a user.
+
   This is an object representing a Stripe account. You can retrieve it to see
   properties on the account like its current requirements or if the account is
   enabled to make live charges or receive payouts.

@@ -12,12 +12,13 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
   * `customer_details` - Expandable.
   * `events` - Event information associated with the payment evaluation, such as refunds, dispute, early fraud warnings, or user interventions. Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `insights` - Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `radar.payment_evaluation`.
   * `outcome` - Indicates the final outcome for the payment evaluation. Nullable. Expandable.
   * `payment_details` - Expandable.
+  * `recommended_action` - Recommended action based on the score of the fraudulent_payment signal. Possible values are `block` and `continue`. Possible values: `block`, `continue`.
+  * `signals` - Expandable.
   """
   @type t :: %__MODULE__{
           client_device_metadata_details: client_device_metadata_details() | nil,
@@ -25,12 +26,13 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
           customer_details: customer_details() | nil,
           events: [events()] | nil,
           id: String.t(),
-          insights: insights(),
           livemode: boolean(),
           metadata: %{String.t() => String.t()},
           object: String.t(),
           outcome: outcome() | nil,
-          payment_details: payment_details() | nil
+          payment_details: payment_details() | nil,
+          recommended_action: String.t(),
+          signals: signals()
         }
 
   defstruct [
@@ -39,12 +41,13 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     :customer_details,
     :events,
     :id,
-    :insights,
     :livemode,
     :metadata,
     :object,
     :outcome,
-    :payment_details
+    :payment_details,
+    :recommended_action,
+    :signals
   ]
 
   @object_name "radar.payment_evaluation"
@@ -55,9 +58,9 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
       "client_device_metadata_details",
       "customer_details",
       "events",
-      "insights",
       "outcome",
-      "payment_details"
+      "payment_details",
+      "signals"
     ]
 
   @typedoc """
@@ -163,38 +166,6 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
   @type events_user_intervention_resolved :: %{
           optional(:key) => String.t() | nil,
           optional(:outcome) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `card_issuer_decline` - Stripe Radar's evaluation of the likelihood of a card issuer decline on this payment. Nullable.
-  * `evaluated_at` - The timestamp when the evaluation was performed. Format: Unix timestamp.
-  * `fraudulent_dispute`
-  """
-  @type insights :: %{
-          optional(:card_issuer_decline) => insights_card_issuer_decline() | nil,
-          optional(:evaluated_at) => integer() | nil,
-          optional(:fraudulent_dispute) => insights_fraudulent_dispute() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `model_score` - Stripe Radar's evaluation of the likelihood that the payment will be declined by the card issuer. Scores range from 0 to 100, with higher values indicating a higher likelihood of decline.
-  * `recommended_action` - Recommended action based on the model score. Possible values are `block` and `continue`. Possible values: `block`, `continue`.
-  """
-  @type insights_card_issuer_decline :: %{
-          optional(:model_score) => float() | nil,
-          optional(:recommended_action) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `recommended_action` - Recommended action based on the risk score. Possible values are `block` and `continue`. Possible values: `block`, `continue`.
-  * `risk_score` - Stripe Radar’s evaluation of the risk level of the payment. Possible values for evaluated payments are between 0 and 100, with higher scores indicating higher risk.
-  """
-  @type insights_fraudulent_dispute :: %{
-          optional(:recommended_action) => String.t() | nil,
-          optional(:risk_score) => integer() | nil,
           optional(String.t()) => term()
         }
 
@@ -378,6 +349,26 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
           optional(String.t()) => term()
         }
 
+  @typedoc """
+  * `fraudulent_payment`
+  """
+  @type signals :: %{
+          optional(:fraudulent_payment) => signals_fraudulent_payment() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `evaluated_at` - The time when this signal was evaluated. Format: Unix timestamp.
+  * `risk_level` - Risk level of this signal, based on the score. Possible values: `elevated`, `highest`, `normal`.
+  * `score` - Score for this insight. Possible values for evaluated payments are -1 and any value between 0 and 100. The value is returned with two decimal places. A score of -1 indicates a test integration and higher scores indicate a higher likelihood of the signal being true.
+  """
+  @type signals_fraudulent_payment :: %{
+          optional(:evaluated_at) => integer() | nil,
+          optional(:risk_level) => String.t() | nil,
+          optional(:score) => float() | nil,
+          optional(String.t()) => term()
+        }
+
   def __nested_fields__ do
     %{
       "client_device_metadata_details" => %{
@@ -432,23 +423,6 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
             fields: %{
               "key" => :scalar,
               "outcome" => :scalar
-            }
-          }
-        }
-      },
-      "insights" => %{
-        fields: %{
-          "card_issuer_decline" => %{
-            fields: %{
-              "model_score" => :scalar,
-              "recommended_action" => :scalar
-            }
-          },
-          "evaluated_at" => :scalar,
-          "fraudulent_dispute" => %{
-            fields: %{
-              "recommended_action" => :scalar,
-              "risk_score" => :scalar
             }
           }
         }
@@ -542,6 +516,17 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
             }
           },
           "statement_descriptor" => :scalar
+        }
+      },
+      "signals" => %{
+        fields: %{
+          "fraudulent_payment" => %{
+            fields: %{
+              "evaluated_at" => :scalar,
+              "risk_level" => :scalar,
+              "score" => :scalar
+            }
+          }
         }
       }
     }

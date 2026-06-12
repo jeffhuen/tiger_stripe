@@ -17,6 +17,9 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
   * `line_items` - The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
   * `name_collection` - Controls settings applied for collecting the customer's name.
+  * `optional_items` - A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
+  There is a maximum of 10 optional items allowed on a payment link, and the existing limits on the number of line items allowed on a payment link apply to the combined number of line items and optional items.
+  There is a maximum of 20 combined line items and optional items.
   * `payment_intent_data` - A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
   * `payment_method_collection` - Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.This may occur if the Checkout Session includes a free trial or a discount.
 
@@ -48,6 +51,7 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
           line_items: [line_items()] | nil,
           metadata: %{String.t() => String.t()} | nil,
           name_collection: map() | nil,
+          optional_items: map() | nil,
           payment_intent_data: payment_intent_data() | nil,
           payment_method_collection: String.t() | nil,
           payment_method_types: map() | nil,
@@ -74,6 +78,7 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
     :line_items,
     :metadata,
     :name_collection,
+    :optional_items,
     :payment_intent_data,
     :payment_method_collection,
     :payment_method_types,

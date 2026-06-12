@@ -17,7 +17,7 @@ defmodule Stripe.Resources.Tax.Registration do
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `expires_at` - If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `tax.registration`.
   * `status` - The status of the registration. This field is present for convenience and can be deduced from `active_from` and `expires_at`. Possible values: `active`, `expired`, `scheduled`.
   """
@@ -106,6 +106,7 @@ defmodule Stripe.Resources.Tax.Registration do
   * `kr`
   * `kz`
   * `la`
+  * `lk`
   * `lt`
   * `lu`
   * `lv`
@@ -208,6 +209,7 @@ defmodule Stripe.Resources.Tax.Registration do
           optional(:kr) => country_options_kr() | nil,
           optional(:kz) => country_options_kz() | nil,
           optional(:la) => country_options_la() | nil,
+          optional(:lk) => country_options_lk() | nil,
           optional(:lt) => country_options_lt() | nil,
           optional(:lu) => country_options_lu() | nil,
           optional(:lv) => country_options_lv() | nil,
@@ -912,6 +914,14 @@ defmodule Stripe.Resources.Tax.Registration do
   * `type` - Type of registration in `country`. Possible values: `simplified`.
   """
   @type country_options_la :: %{
+          optional(:type) => String.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `type` - Type of registration in `country`. Possible values: `simplified`.
+  """
+  @type country_options_lk :: %{
           optional(:type) => String.t() | nil,
           optional(String.t()) => term()
         }
@@ -1843,6 +1853,11 @@ defmodule Stripe.Resources.Tax.Registration do
             }
           },
           "la" => %{
+            fields: %{
+              "type" => :scalar
+            }
+          },
+          "lk" => %{
             fields: %{
               "type" => :scalar
             }

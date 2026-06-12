@@ -17,7 +17,7 @@ defmodule Stripe.Resources.Review do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `ip_address` - The IP address where the payment originated. Max length: 5000. Nullable.
   * `ip_address_location` - Information related to the location of the payment. Note that this information is an approximation and attempts to locate the nearest population center - it should not be used to determine a specific address. Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `review`.
   * `open` - If `true`, the review needs action.
   * `opened_reason` - The reason the review was opened. One of `rule` or `manual`. Possible values: `manual`, `rule`.

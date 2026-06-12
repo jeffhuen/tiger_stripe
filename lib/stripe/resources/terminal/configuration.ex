@@ -10,14 +10,16 @@ defmodule Stripe.Resources.Terminal.Configuration do
   @typedoc """
   * `bbpos_wisepad3` - Expandable.
   * `bbpos_wisepos_e` - Expandable.
+  * `cellular` - Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `is_account_default` - Whether this Configuration is the default for your account Nullable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `name` - String indicating the name of the Configuration object, set by the user Max length: 5000. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `terminal.configuration`.
   * `offline` - Expandable.
   * `reboot_window` - Expandable.
   * `stripe_s700` - Expandable.
+  * `stripe_s710` - Expandable.
   * `tipping` - Expandable.
   * `verifone_p400` - Expandable.
   * `wifi` - Expandable.
@@ -25,6 +27,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
   @type t :: %__MODULE__{
           bbpos_wisepad3: bbpos_wisepad3() | nil,
           bbpos_wisepos_e: bbpos_wisepos_e() | nil,
+          cellular: cellular() | nil,
           id: String.t(),
           is_account_default: boolean(),
           livemode: boolean(),
@@ -33,6 +36,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
           offline: offline() | nil,
           reboot_window: reboot_window() | nil,
           stripe_s700: stripe_s700() | nil,
+          stripe_s710: stripe_s710() | nil,
           tipping: tipping() | nil,
           verifone_p400: verifone_p400() | nil,
           wifi: wifi() | nil
@@ -41,6 +45,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
   defstruct [
     :bbpos_wisepad3,
     :bbpos_wisepos_e,
+    :cellular,
     :id,
     :is_account_default,
     :livemode,
@@ -49,6 +54,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     :offline,
     :reboot_window,
     :stripe_s700,
+    :stripe_s710,
     :tipping,
     :verifone_p400,
     :wifi
@@ -61,9 +67,11 @@ defmodule Stripe.Resources.Terminal.Configuration do
     do: [
       "bbpos_wisepad3",
       "bbpos_wisepos_e",
+      "cellular",
       "offline",
       "reboot_window",
       "stripe_s700",
+      "stripe_s710",
       "tipping",
       "verifone_p400",
       "wifi"
@@ -82,6 +90,14 @@ defmodule Stripe.Resources.Terminal.Configuration do
   """
   @type bbpos_wisepos_e :: %{
           optional(:splashscreen) => String.t() | Stripe.Resources.File.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `enabled` - Whether a cellular-capable reader can connect to the internet over cellular.
+  """
+  @type cellular :: %{
+          optional(:enabled) => boolean() | nil,
           optional(String.t()) => term()
         }
 
@@ -107,6 +123,14 @@ defmodule Stripe.Resources.Terminal.Configuration do
   * `splashscreen` - A File ID representing an image to display on the reader
   """
   @type stripe_s700 :: %{
+          optional(:splashscreen) => String.t() | Stripe.Resources.File.t() | nil,
+          optional(String.t()) => term()
+        }
+
+  @typedoc """
+  * `splashscreen` - A File ID representing an image to display on the reader
+  """
+  @type stripe_s710 :: %{
           optional(:splashscreen) => String.t() | Stripe.Resources.File.t() | nil,
           optional(String.t()) => term()
         }
@@ -485,6 +509,11 @@ defmodule Stripe.Resources.Terminal.Configuration do
           "splashscreen" => {:resource, Stripe.Resources.File}
         }
       },
+      "cellular" => %{
+        fields: %{
+          "enabled" => :scalar
+        }
+      },
       "offline" => %{
         fields: %{
           "enabled" => :scalar
@@ -497,6 +526,11 @@ defmodule Stripe.Resources.Terminal.Configuration do
         }
       },
       "stripe_s700" => %{
+        fields: %{
+          "splashscreen" => {:resource, Stripe.Resources.File}
+        }
+      },
+      "stripe_s710" => %{
         fields: %{
           "splashscreen" => {:resource, Stripe.Resources.File}
         }

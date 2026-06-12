@@ -20,7 +20,7 @@ defmodule Stripe.Resources.Product do
   * `description` - The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `images` - A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `marketing_features` - A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://docs.stripe.com/payments/checkout/pricing-table). Expandable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `name` - The product's name, meant to be displayable to the customer. Max length: 5000.

@@ -88,7 +88,7 @@ defmodule Stripe.Services.V2.Core.EventDestinationService do
   end
 
   @doc """
-  Ping an event destination
+  Ping an Event Destination
 
   Send a `ping` event to an event destination.
   """
