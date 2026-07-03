@@ -22,20 +22,7 @@ defmodule Stripe.Resources.SourceMandateNotification do
   * `status` - The status of the mandate notification. Valid statuses are `pending` or `submitted`. Max length: 5000.
   * `type` - The type of source this mandate notification is attached to. Should be the source type identifier code for the payment method, such as `three_d_secure`. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          acss_debit: acss_debit() | nil,
-          amount: integer(),
-          bacs_debit: bacs_debit() | nil,
-          created: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          reason: String.t(),
-          sepa_debit: sepa_debit() | nil,
-          source: Stripe.Resources.Source.t(),
-          status: String.t(),
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :acss_debit,
@@ -56,34 +43,6 @@ defmodule Stripe.Resources.SourceMandateNotification do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["acss_debit", "bacs_debit", "sepa_debit", "source"]
-
-  @typedoc """
-  * `statement_descriptor` - The statement descriptor associate with the debit. Max length: 5000.
-  """
-  @type acss_debit :: %{
-          optional(:statement_descriptor) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `last4` - Last 4 digits of the account number associated with the debit. Max length: 5000.
-  """
-  @type bacs_debit :: %{
-          optional(:last4) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `creditor_identifier` - SEPA creditor ID. Max length: 5000.
-  * `last4` - Last 4 digits of the account number associated with the debit. Max length: 5000.
-  * `mandate_reference` - Mandate reference associated with the debit. Max length: 5000.
-  """
-  @type sepa_debit :: %{
-          optional(:creditor_identifier) => String.t() | nil,
-          optional(:last4) => String.t() | nil,
-          optional(:mandate_reference) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

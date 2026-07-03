@@ -23,27 +23,7 @@ defmodule Stripe.Params.InvoiceItemCreateParams do
   * `tax_rates` - The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item.
   * `unit_amount_decimal` - The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places. Format: decimal string.
   """
-  @type t :: %__MODULE__{
-          amount: integer() | nil,
-          currency: String.t() | nil,
-          customer: String.t() | nil,
-          customer_account: String.t() | nil,
-          description: String.t() | nil,
-          discountable: boolean() | nil,
-          discounts: map() | nil,
-          expand: [String.t()] | nil,
-          invoice: String.t() | nil,
-          metadata: map() | nil,
-          period: period() | nil,
-          price_data: price_data() | nil,
-          pricing: pricing() | nil,
-          quantity: integer() | nil,
-          subscription: String.t() | nil,
-          tax_behavior: String.t() | nil,
-          tax_code: map() | nil,
-          tax_rates: [String.t()] | nil,
-          unit_amount_decimal: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -66,38 +46,4 @@ defmodule Stripe.Params.InvoiceItemCreateParams do
     :tax_rates,
     :unit_amount_decimal
   ]
-
-  @typedoc """
-  * `end` - The end of the period, which must be greater than or equal to the start. This value is inclusive. Format: Unix timestamp.
-  * `start` - The start of the period. This value is inclusive. Format: Unix timestamp.
-  """
-  @type period :: %{
-          optional(:end) => integer() | nil,
-          optional(:start) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-  * `product` - The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. Max length: 5000.
-  * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
-  * `unit_amount` - A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-  * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
-  """
-  @type price_data :: %{
-          optional(:currency) => String.t() | nil,
-          optional(:product) => String.t() | nil,
-          optional(:tax_behavior) => String.t() | nil,
-          optional(:unit_amount) => integer() | nil,
-          optional(:unit_amount_decimal) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `price` - The ID of the price object. Max length: 5000.
-  """
-  @type pricing :: %{
-          optional(:price) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

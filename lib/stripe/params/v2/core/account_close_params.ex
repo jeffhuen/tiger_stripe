@@ -5,9 +5,7 @@ defmodule Stripe.Params.V2.Core.AccountCloseParams do
   @typedoc """
   * `applied_configurations` - Configurations on the Account to be closed. All configurations on the Account must be passed in for this request to succeed.
   """
-  @type t :: %__MODULE__{
-          applied_configurations: [String.t()] | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:applied_configurations]
 end

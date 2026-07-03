@@ -25,27 +25,7 @@ defmodule Stripe.Resources.Components do
   * `tax_registrations` - Expandable.
   * `tax_settings` - Expandable.
   """
-  @type t :: %__MODULE__{
-          account_management: Stripe.Resources.AccountConfig.t(),
-          account_onboarding: Stripe.Resources.AccountConfig.t(),
-          balances: Stripe.Resources.PayoutsConfig.t(),
-          disputes_list: Stripe.Resources.DisputesListConfig.t(),
-          documents: Stripe.Resources.BaseConfig.t(),
-          financial_account: Stripe.Resources.FinancialAccountConfig.t(),
-          financial_account_transactions: Stripe.Resources.FinancialAccountTransactionsConfig.t(),
-          instant_payouts_promotion: Stripe.Resources.InstantPayoutsPromotionConfig.t(),
-          issuing_card: Stripe.Resources.IssuingCardConfig.t(),
-          issuing_cards_list: Stripe.Resources.IssuingCardsListConfig.t(),
-          notification_banner: Stripe.Resources.AccountConfig.t(),
-          payment_details: Stripe.Resources.PaymentsConfig.t(),
-          payment_disputes: Stripe.Resources.PaymentDisputesConfig.t(),
-          payments: Stripe.Resources.PaymentsConfig.t(),
-          payout_details: Stripe.Resources.BaseConfig.t(),
-          payouts: Stripe.Resources.PayoutsConfig.t(),
-          payouts_list: Stripe.Resources.BaseConfig.t(),
-          tax_registrations: Stripe.Resources.BaseConfig.t(),
-          tax_settings: Stripe.Resources.BaseConfig.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :account_management,

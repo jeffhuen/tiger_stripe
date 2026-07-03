@@ -7,9 +7,7 @@ defmodule Stripe.Resources.WechatPayRedirectToIosApp do
   @typedoc """
   * `native_url` - An universal link that redirect to WeChat Pay app Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          native_url: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:native_url]
 

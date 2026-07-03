@@ -10,12 +10,7 @@ defmodule Stripe.Resources.IssuingCardFeatures do
   * `cardholder_management` - Whether to allow cardholder management features.
   * `spend_control_management` - Whether to allow spend control management features.
   """
-  @type t :: %__MODULE__{
-          card_management: boolean(),
-          card_spend_dispute_management: boolean(),
-          cardholder_management: boolean(),
-          spend_control_management: boolean()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :card_management,

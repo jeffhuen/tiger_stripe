@@ -13,13 +13,7 @@ defmodule Stripe.Resources.Aba do
   * `bank_name` - Name of the bank. Max length: 5000.
   * `routing_number` - Routing number for the account. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          account_holder_name: String.t(),
-          account_number: String.t() | nil,
-          account_number_last4: String.t(),
-          bank_name: String.t(),
-          routing_number: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :account_holder_name,

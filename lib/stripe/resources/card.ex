@@ -48,42 +48,7 @@ defmodule Stripe.Resources.Card do
   * `status` - For external accounts that are cards, possible values are `new` and `errored`. If a payout fails, the status is set to `errored` and [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) are stopped until account details are updated. Max length: 5000. Nullable.
   * `tokenization_method` - If the card number is tokenized, this is the method that was used. Can be `android_pay` (includes Google Pay), `apple_pay`, `masterpass`, `visa_checkout`, or null. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          account: String.t() | Stripe.Resources.Account.t() | nil,
-          address_city: String.t(),
-          address_country: String.t(),
-          address_line1: String.t(),
-          address_line1_check: String.t(),
-          address_line2: String.t(),
-          address_state: String.t(),
-          address_zip: String.t(),
-          address_zip_check: String.t(),
-          allow_redisplay: String.t() | nil,
-          available_payout_methods: [String.t()] | nil,
-          brand: String.t(),
-          country: String.t(),
-          currency: String.t() | nil,
-          customer: String.t() | Stripe.Resources.Customer.t() | nil,
-          cvc_check: String.t(),
-          default_for_currency: boolean() | nil,
-          description: String.t() | nil,
-          dynamic_last4: String.t(),
-          exp_month: integer(),
-          exp_year: integer(),
-          fingerprint: String.t() | nil,
-          funding: String.t(),
-          id: String.t(),
-          iin: String.t() | nil,
-          issuer: String.t() | nil,
-          last4: String.t(),
-          metadata: %{String.t() => String.t()},
-          name: String.t(),
-          networks: networks() | nil,
-          object: String.t(),
-          regulated_status: String.t(),
-          status: String.t() | nil,
-          tokenization_method: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :account,
@@ -126,14 +91,6 @@ defmodule Stripe.Resources.Card do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["account", "customer", "networks"]
-
-  @typedoc """
-  * `preferred` - The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card. Max length: 5000. Nullable.
-  """
-  @type networks :: %{
-          optional(:preferred) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

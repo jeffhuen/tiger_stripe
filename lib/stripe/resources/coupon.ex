@@ -27,25 +27,7 @@ defmodule Stripe.Resources.Coupon do
   * `times_redeemed` - Number of times this coupon has been applied to a customer.
   * `valid` - Taking account of the above properties, whether this coupon can still be applied to a customer.
   """
-  @type t :: %__MODULE__{
-          amount_off: integer(),
-          applies_to: applies_to() | nil,
-          created: integer(),
-          currency: String.t(),
-          currency_options: %{String.t() => currency_options()} | nil,
-          duration: String.t(),
-          duration_in_months: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          max_redemptions: integer(),
-          metadata: %{String.t() => String.t()},
-          name: String.t(),
-          object: String.t(),
-          percent_off: float(),
-          redeem_by: integer(),
-          times_redeemed: integer(),
-          valid: boolean()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount_off,
@@ -71,22 +53,6 @@ defmodule Stripe.Resources.Coupon do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["applies_to", "currency_options"]
-
-  @typedoc """
-  * `products` - A list of product IDs this coupon applies to
-  """
-  @type applies_to :: %{
-          optional(:products) => [String.t()] | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `amount_off` - Amount (in the `currency` specified) that will be taken off the subtotal of any invoices for this customer.
-  """
-  @type currency_options :: %{
-          optional(:amount_off) => integer() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

@@ -7,11 +7,7 @@ defmodule Stripe.Params.PaymentRecordReportPaymentAttemptFailedParams do
   * `failed_at` - When the reported payment failed. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `metadata`
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          failed_at: integer(),
-          metadata: map() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :failed_at, :metadata]
 end

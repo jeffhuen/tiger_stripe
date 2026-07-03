@@ -16,41 +16,12 @@ defmodule Stripe.Resources.V2.Core.Event do
   * `reason` - Reason for the event.
   * `type` - The type of the event.
   """
-  @type t :: %__MODULE__{
-          changes: map() | nil,
-          context: String.t() | nil,
-          created: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          reason: reason() | nil,
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:changes, :context, :created, :id, :livemode, :object, :reason, :type]
 
   @object_name "v2.core.event"
   def object_name, do: @object_name
-
-  @typedoc """
-  * `request` - Information on the API request that instigated the event.
-  * `type` - Event reason type. Possible values: `request`.
-  """
-  @type reason :: %{
-          optional(:request) => reason_request() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `id` - ID of the API request that caused the event.
-  * `idempotency_key` - The idempotency key transmitted during the request.
-  """
-  @type reason_request :: %{
-          optional(:id) => String.t() | nil,
-          optional(:idempotency_key) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

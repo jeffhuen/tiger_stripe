@@ -21,21 +21,7 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
   * `rejection_reasons` - Expandable.
   * `status` - Whether this personalization design can be used to create cards. Possible values: `active`, `inactive`, `rejected`, `review`.
   """
-  @type t :: %__MODULE__{
-          card_logo: String.t() | Stripe.Resources.File.t(),
-          carrier_text: carrier_text(),
-          created: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          lookup_key: String.t(),
-          metadata: %{String.t() => String.t()},
-          name: String.t(),
-          object: String.t(),
-          physical_bundle: String.t() | Stripe.Resources.Issuing.PhysicalBundle.t(),
-          preferences: preferences(),
-          rejection_reasons: rejection_reasons(),
-          status: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :card_logo,
@@ -58,40 +44,6 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
 
   def expandable_fields,
     do: ["card_logo", "carrier_text", "physical_bundle", "preferences", "rejection_reasons"]
-
-  @typedoc """
-  * `footer_body` - The footer body text of the carrier letter. Max length: 5000. Nullable.
-  * `footer_title` - The footer title text of the carrier letter. Max length: 5000. Nullable.
-  * `header_body` - The header body text of the carrier letter. Max length: 5000. Nullable.
-  * `header_title` - The header title text of the carrier letter. Max length: 5000. Nullable.
-  """
-  @type carrier_text :: %{
-          optional(:footer_body) => String.t() | nil,
-          optional(:footer_title) => String.t() | nil,
-          optional(:header_body) => String.t() | nil,
-          optional(:header_title) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `is_default` - Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
-  * `is_platform_default` - Whether this personalization design is used to create cards when one is not specified and a default for this connected account does not exist. Nullable.
-  """
-  @type preferences :: %{
-          optional(:is_default) => boolean() | nil,
-          optional(:is_platform_default) => boolean() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `card_logo` - The reason(s) the card logo was rejected. Nullable.
-  * `carrier_text` - The reason(s) the carrier text was rejected. Nullable.
-  """
-  @type rejection_reasons :: %{
-          optional(:card_logo) => [String.t()] | nil,
-          optional(:carrier_text) => [String.t()] | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

@@ -9,13 +9,7 @@ defmodule Stripe.Params.Billing.MeterEventCreateParams do
   * `payload` - The payload of the event. This must contain the fields corresponding to a meter's `customer_mapping.event_payload_key` (default is `stripe_customer_id`) and `value_settings.event_payload_key` (default is `value`). Read more about the [payload](https://docs.stripe.com/billing/subscriptions/usage-based/meters/configure#meter-configuration-attributes).
   * `timestamp` - The time of the event. Measured in seconds since the Unix epoch. Must be within the past 35 calendar days or up to 5 minutes in the future. Defaults to current timestamp if not specified. Format: Unix timestamp.
   """
-  @type t :: %__MODULE__{
-          event_name: String.t(),
-          expand: [String.t()] | nil,
-          identifier: String.t() | nil,
-          payload: %{String.t() => String.t()},
-          timestamp: integer() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:event_name, :expand, :identifier, :payload, :timestamp]
 end

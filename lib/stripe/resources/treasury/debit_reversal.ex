@@ -23,23 +23,7 @@ defmodule Stripe.Resources.Treasury.DebitReversal do
   * `status_transitions` - Expandable.
   * `transaction` - The Transaction associated with this object. Nullable. Expandable.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          created: integer(),
-          currency: String.t(),
-          financial_account: String.t(),
-          hosted_regulatory_receipt_url: String.t(),
-          id: String.t(),
-          linked_flows: linked_flows(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          network: String.t(),
-          object: String.t(),
-          received_debit: String.t(),
-          status: String.t(),
-          status_transitions: status_transitions(),
-          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -63,22 +47,6 @@ defmodule Stripe.Resources.Treasury.DebitReversal do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["linked_flows", "status_transitions", "transaction"]
-
-  @typedoc """
-  * `issuing_dispute` - Set if there is an Issuing dispute associated with the DebitReversal. Max length: 5000. Nullable.
-  """
-  @type linked_flows :: %{
-          optional(:issuing_dispute) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `completed_at` - Timestamp describing when the DebitReversal changed status to `completed`. Format: Unix timestamp. Nullable.
-  """
-  @type status_transitions :: %{
-          optional(:completed_at) => integer() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

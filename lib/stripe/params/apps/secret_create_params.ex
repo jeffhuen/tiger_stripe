@@ -9,23 +9,7 @@ defmodule Stripe.Params.Apps.SecretCreateParams do
   * `payload` - The plaintext secret value to be stored. Max length: 5000.
   * `scope` - Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          expires_at: integer() | nil,
-          name: String.t(),
-          payload: String.t(),
-          scope: scope()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :expires_at, :name, :payload, :scope]
-
-  @typedoc """
-  * `type` - The secret scope type. Possible values: `account`, `user`.
-  * `user` - The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`. Max length: 5000.
-  """
-  @type scope :: %{
-          optional(:type) => String.t() | nil,
-          optional(:user) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

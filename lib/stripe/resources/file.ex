@@ -25,19 +25,7 @@ defmodule Stripe.Resources.File do
   * `type` - The returned file type (for example, `csv`, `pdf`, `jpg`, or `png`). Max length: 5000. Nullable.
   * `url` - Use your live secret API key to download the file from this URL. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          expires_at: integer(),
-          filename: String.t(),
-          id: String.t(),
-          links: links() | nil,
-          object: String.t(),
-          purpose: String.t(),
-          size: integer(),
-          title: String.t(),
-          type: String.t(),
-          url: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :created,
@@ -57,20 +45,6 @@ defmodule Stripe.Resources.File do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["links"]
-
-  @typedoc """
-  * `data` - Details about each object.
-  * `has_more` - True if this list has another page of items after this one that can be fetched.
-  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-  * `url` - The URL where this list can be accessed. Max length: 5000.
-  """
-  @type links :: %{
-          optional(:data) => [Stripe.Resources.FileLink.t()] | nil,
-          optional(:has_more) => boolean() | nil,
-          optional(:object) => String.t() | nil,
-          optional(:url) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

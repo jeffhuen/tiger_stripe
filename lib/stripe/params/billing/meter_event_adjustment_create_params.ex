@@ -8,20 +8,7 @@ defmodule Stripe.Params.Billing.MeterEventAdjustmentCreateParams do
   * `expand` - Specifies which fields in the response should be expanded.
   * `type` - Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet. Possible values: `cancel`.
   """
-  @type t :: %__MODULE__{
-          cancel: cancel() | nil,
-          event_name: String.t(),
-          expand: [String.t()] | nil,
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:cancel, :event_name, :expand, :type]
-
-  @typedoc """
-  * `identifier` - Unique identifier for the event. You can only cancel events within 24 hours of Stripe receiving them. Max length: 100.
-  """
-  @type cancel :: %{
-          optional(:identifier) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

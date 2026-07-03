@@ -6,10 +6,7 @@ defmodule Stripe.Params.ApplePayDomainCreateParams do
   * `domain_name`
   * `expand` - Specifies which fields in the response should be expanded.
   """
-  @type t :: %__MODULE__{
-          domain_name: String.t(),
-          expand: [String.t()] | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:domain_name, :expand]
 end

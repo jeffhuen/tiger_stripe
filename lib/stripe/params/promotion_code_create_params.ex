@@ -16,18 +16,7 @@ defmodule Stripe.Params.PromotionCodeCreateParams do
   * `promotion` - The promotion referenced by this promotion code.
   * `restrictions` - Settings that restrict the redemption of the promotion code.
   """
-  @type t :: %__MODULE__{
-          active: boolean() | nil,
-          code: String.t() | nil,
-          customer: String.t() | nil,
-          customer_account: String.t() | nil,
-          expand: [String.t()] | nil,
-          expires_at: integer() | nil,
-          max_redemptions: integer() | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          promotion: promotion(),
-          restrictions: restrictions() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :active,
@@ -41,36 +30,4 @@ defmodule Stripe.Params.PromotionCodeCreateParams do
     :promotion,
     :restrictions
   ]
-
-  @typedoc """
-  * `coupon` - If promotion `type` is `coupon`, the coupon for this promotion code. Max length: 5000.
-  * `type` - Specifies the type of promotion. Possible values: `coupon`.
-  """
-  @type promotion :: %{
-          optional(:coupon) => String.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `currency_options` - Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-  * `first_time_transaction` - A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
-  * `minimum_amount` - Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
-  * `minimum_amount_currency` - Three-letter [ISO code](https://stripe.com/docs/currencies) for minimum_amount Format: ISO 4217 currency code.
-  """
-  @type restrictions :: %{
-          optional(:currency_options) => %{String.t() => restrictions_currency_options()} | nil,
-          optional(:first_time_transaction) => boolean() | nil,
-          optional(:minimum_amount) => integer() | nil,
-          optional(:minimum_amount_currency) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `minimum_amount` - Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
-  """
-  @type restrictions_currency_options :: %{
-          optional(:minimum_amount) => integer() | nil,
-          optional(String.t()) => term()
-        }
 end

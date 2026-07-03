@@ -11,15 +11,7 @@ defmodule Stripe.Params.Radar.ValueListItemListParams do
   * `value` - Return items belonging to the parent list whose value matches the specified value (using an "is like" match). Max length: 800.
   * `value_list` - Identifier for the parent value list this item belongs to. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          created: map() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          value: String.t() | nil,
-          value_list: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :ending_before, :expand, :limit, :starting_after, :value, :value_list]
 end

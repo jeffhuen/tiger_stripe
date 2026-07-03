@@ -9,13 +9,7 @@ defmodule Stripe.Params.Radar.ValueListCreateParams do
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `name` - The human-readable name of the value list. Max length: 100.
   """
-  @type t :: %__MODULE__{
-          alias: String.t(),
-          expand: [String.t()] | nil,
-          item_type: String.t() | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          name: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:alias, :expand, :item_type, :metadata, :name]
 end

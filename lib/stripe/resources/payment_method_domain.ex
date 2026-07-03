@@ -23,20 +23,7 @@ defmodule Stripe.Resources.PaymentMethodDomain do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `payment_method_domain`.
   * `paypal` - Expandable.
   """
-  @type t :: %__MODULE__{
-          amazon_pay: amazon_pay(),
-          apple_pay: apple_pay(),
-          created: integer(),
-          domain_name: String.t(),
-          enabled: boolean(),
-          google_pay: google_pay(),
-          id: String.t(),
-          klarna: klarna(),
-          link: link(),
-          livemode: boolean(),
-          object: String.t(),
-          paypal: paypal()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amazon_pay,
@@ -57,114 +44,6 @@ defmodule Stripe.Resources.PaymentMethodDomain do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["amazon_pay", "apple_pay", "google_pay", "klarna", "link", "paypal"]
-
-  @typedoc """
-  * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
-  * `status_details`
-  """
-  @type amazon_pay :: %{
-          optional(:status) => String.t() | nil,
-          optional(:status_details) => amazon_pay_status_details() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
-  """
-  @type amazon_pay_status_details :: %{
-          optional(:error_message) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
-  * `status_details`
-  """
-  @type apple_pay :: %{
-          optional(:status) => String.t() | nil,
-          optional(:status_details) => apple_pay_status_details() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
-  """
-  @type apple_pay_status_details :: %{
-          optional(:error_message) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
-  * `status_details`
-  """
-  @type google_pay :: %{
-          optional(:status) => String.t() | nil,
-          optional(:status_details) => google_pay_status_details() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
-  """
-  @type google_pay_status_details :: %{
-          optional(:error_message) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
-  * `status_details`
-  """
-  @type klarna :: %{
-          optional(:status) => String.t() | nil,
-          optional(:status_details) => klarna_status_details() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
-  """
-  @type klarna_status_details :: %{
-          optional(:error_message) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
-  * `status_details`
-  """
-  @type link :: %{
-          optional(:status) => String.t() | nil,
-          optional(:status_details) => link_status_details() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
-  """
-  @type link_status_details :: %{
-          optional(:error_message) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
-  * `status_details`
-  """
-  @type paypal :: %{
-          optional(:status) => String.t() | nil,
-          optional(:status_details) => paypal_status_details() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
-  """
-  @type paypal_status_details :: %{
-          optional(:error_message) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

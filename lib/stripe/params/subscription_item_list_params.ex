@@ -9,13 +9,7 @@ defmodule Stripe.Params.SubscriptionItemListParams do
   * `starting_after` - A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list.
   * `subscription` - The ID of the subscription whose items will be retrieved. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          subscription: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:ending_before, :expand, :limit, :starting_after, :subscription]
 end

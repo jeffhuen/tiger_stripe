@@ -24,17 +24,7 @@ defmodule Stripe.Resources.Reporting.ReportType do
   * `updated` - When this Report Type was latest updated. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `version` - Version of the Report Type. Different versions report with the same ID will have the same purpose, but may take different run parameters or have different result schemas.
   """
-  @type t :: %__MODULE__{
-          data_available_end: integer(),
-          data_available_start: integer(),
-          default_columns: [String.t()],
-          id: String.t(),
-          livemode: boolean(),
-          name: String.t(),
-          object: String.t(),
-          updated: integer(),
-          version: integer()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :data_available_end,

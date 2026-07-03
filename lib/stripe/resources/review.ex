@@ -25,22 +25,7 @@ defmodule Stripe.Resources.Review do
   * `reason` - The reason the review is currently open or closed. One of `rule`, `manual`, `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, `canceled`, `payment_never_settled`, or `acknowledged`. Max length: 5000.
   * `session` - Information related to the browsing session of the user who initiated the payment. Nullable. Expandable.
   """
-  @type t :: %__MODULE__{
-          billing_zip: String.t(),
-          charge: String.t() | Stripe.Resources.Charge.t(),
-          closed_reason: String.t(),
-          created: integer(),
-          id: String.t(),
-          ip_address: String.t(),
-          ip_address_location: ip_address_location(),
-          livemode: boolean(),
-          object: String.t(),
-          open: boolean(),
-          opened_reason: String.t(),
-          payment_intent: String.t() | Stripe.Resources.PaymentIntent.t() | nil,
-          reason: String.t(),
-          session: session()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :billing_zip,
@@ -63,36 +48,6 @@ defmodule Stripe.Resources.Review do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["charge", "ip_address_location", "payment_intent", "session"]
-
-  @typedoc """
-  * `city` - The city where the payment originated. Max length: 5000. Nullable.
-  * `country` - Two-letter ISO code representing the country where the payment originated. Max length: 5000. Nullable.
-  * `latitude` - The geographic latitude where the payment originated. Nullable.
-  * `longitude` - The geographic longitude where the payment originated. Nullable.
-  * `region` - The state/county/province/region where the payment originated. Max length: 5000. Nullable.
-  """
-  @type ip_address_location :: %{
-          optional(:city) => String.t() | nil,
-          optional(:country) => String.t() | nil,
-          optional(:latitude) => float() | nil,
-          optional(:longitude) => float() | nil,
-          optional(:region) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `browser` - The browser used in this browser session (e.g., `Chrome`). Max length: 5000. Nullable.
-  * `device` - Information about the device used for the browser session (e.g., `Samsung SM-G930T`). Max length: 5000. Nullable.
-  * `platform` - The platform for the browser session (e.g., `Macintosh`). Max length: 5000. Nullable.
-  * `version` - The version for the browser session (e.g., `61.0.3163.100`). Max length: 5000. Nullable.
-  """
-  @type session :: %{
-          optional(:browser) => String.t() | nil,
-          optional(:device) => String.t() | nil,
-          optional(:platform) => String.t() | nil,
-          optional(:version) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

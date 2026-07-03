@@ -12,16 +12,7 @@ defmodule Stripe.Params.QuoteListParams do
   * `status` - The status of the quote. Possible values: `accepted`, `canceled`, `draft`, `open`.
   * `test_clock` - Provides a list of quotes that are associated with the specified test clock. The response will not include quotes with test clocks if this and the customer parameter is not set. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          customer: String.t() | nil,
-          customer_account: String.t() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          status: String.t() | nil,
-          test_clock: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :customer,

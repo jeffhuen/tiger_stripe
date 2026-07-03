@@ -16,20 +16,7 @@ defmodule Stripe.Params.Checkout.SessionListParams do
   * `status` - Only return the Checkout Sessions matching the given status. Possible values: `complete`, `expired`, `open`.
   * `subscription` - Only return the Checkout Session for the subscription specified. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          created: map() | nil,
-          customer: String.t() | nil,
-          customer_account: String.t() | nil,
-          customer_details: customer_details() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          payment_intent: String.t() | nil,
-          payment_link: String.t() | nil,
-          starting_after: String.t() | nil,
-          status: String.t() | nil,
-          subscription: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :created,
@@ -45,12 +32,4 @@ defmodule Stripe.Params.Checkout.SessionListParams do
     :status,
     :subscription
   ]
-
-  @typedoc """
-  * `email` - Customer's email address.
-  """
-  @type customer_details :: %{
-          optional(:email) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

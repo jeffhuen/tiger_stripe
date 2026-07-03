@@ -9,11 +9,7 @@ defmodule Stripe.Resources.NextActionKonbiniDisplayDetails do
   * `hosted_voucher_url` - The URL for the Konbini payment instructions page, which allows customers to view and print a Konbini voucher. Max length: 5000. Nullable.
   * `stores` - Expandable.
   """
-  @type t :: %__MODULE__{
-          expires_at: integer(),
-          hosted_voucher_url: String.t(),
-          stores: Stripe.Resources.Stores.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expires_at, :hosted_voucher_url, :stores]
 

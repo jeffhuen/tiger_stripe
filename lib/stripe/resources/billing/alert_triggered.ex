@@ -12,14 +12,7 @@ defmodule Stripe.Resources.Billing.AlertTriggered do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `billing.alert_triggered`.
   * `value` - The value triggering the alert
   """
-  @type t :: %__MODULE__{
-          alert: Stripe.Resources.Billing.Alert.t(),
-          created: integer(),
-          customer: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          value: integer()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:alert, :created, :customer, :livemode, :object, :value]
 

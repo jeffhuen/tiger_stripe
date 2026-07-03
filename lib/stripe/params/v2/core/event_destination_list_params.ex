@@ -6,10 +6,7 @@ defmodule Stripe.Params.V2.Core.EventDestinationListParams do
   * `include` - Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
   * `limit` - The page size.
   """
-  @type t :: %__MODULE__{
-          include: [String.t()] | nil,
-          limit: integer() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:include, :limit]
 end

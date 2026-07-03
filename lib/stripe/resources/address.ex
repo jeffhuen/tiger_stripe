@@ -12,14 +12,7 @@ defmodule Stripe.Resources.Address do
   * `postal_code` - ZIP or postal code. Max length: 5000. Nullable.
   * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          city: String.t(),
-          country: String.t(),
-          line1: String.t(),
-          line2: String.t(),
-          postal_code: String.t(),
-          state: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:city, :country, :line1, :line2, :postal_code, :state]
 

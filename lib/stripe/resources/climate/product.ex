@@ -20,17 +20,7 @@ defmodule Stripe.Resources.Climate.Product do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `climate.product`.
   * `suppliers` - The carbon removal suppliers that fulfill orders for this Climate product. Expandable.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          current_prices_per_metric_ton: %{String.t() => current_prices_per_metric_ton()},
-          delivery_year: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          metric_tons_available: String.t(),
-          name: String.t(),
-          object: String.t(),
-          suppliers: [Stripe.Resources.Climate.Supplier.t()]
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :created,
@@ -48,18 +38,6 @@ defmodule Stripe.Resources.Climate.Product do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["current_prices_per_metric_ton", "suppliers"]
-
-  @typedoc """
-  * `amount_fees` - Fees for one metric ton of carbon removal in the currency's smallest unit.
-  * `amount_subtotal` - Subtotal for one metric ton of carbon removal (excluding fees) in the currency's smallest unit.
-  * `amount_total` - Total for one metric ton of carbon removal (including fees) in the currency's smallest unit.
-  """
-  @type current_prices_per_metric_ton :: %{
-          optional(:amount_fees) => integer() | nil,
-          optional(:amount_subtotal) => integer() | nil,
-          optional(:amount_total) => integer() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

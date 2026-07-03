@@ -8,20 +8,7 @@ defmodule Stripe.Params.CouponUpdateParams do
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `name` - Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set. Max length: 40.
   """
-  @type t :: %__MODULE__{
-          currency_options: %{String.t() => currency_options()} | nil,
-          expand: [String.t()] | nil,
-          metadata: map() | nil,
-          name: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:currency_options, :expand, :metadata, :name]
-
-  @typedoc """
-  * `amount_off` - A positive integer representing the amount to subtract from an invoice total.
-  """
-  @type currency_options :: %{
-          optional(:amount_off) => integer() | nil,
-          optional(String.t()) => term()
-        }
 end

@@ -19,21 +19,7 @@ defmodule Stripe.Resources.DeletedDiscount do
   * `subscription` - The subscription that this coupon is applied to, if it is applied to a particular subscription. Max length: 5000. Nullable.
   * `subscription_item` - The subscription item that this coupon is applied to, if it is applied to a particular subscription item. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          checkout_session: String.t(),
-          customer: String.t() | Stripe.Resources.Customer.t(),
-          customer_account: String.t(),
-          deleted: boolean(),
-          id: String.t(),
-          invoice: String.t(),
-          invoice_item: String.t(),
-          object: String.t(),
-          promotion_code: String.t() | Stripe.Resources.PromotionCode.t(),
-          source: source(),
-          start: integer(),
-          subscription: String.t(),
-          subscription_item: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :checkout_session,
@@ -55,16 +41,6 @@ defmodule Stripe.Resources.DeletedDiscount do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["customer", "promotion_code", "source"]
-
-  @typedoc """
-  * `coupon` - The coupon that was redeemed to create this discount. Nullable.
-  * `type` - The source type of the discount. Possible values: `coupon`.
-  """
-  @type source :: %{
-          optional(:coupon) => String.t() | Stripe.Resources.Coupon.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

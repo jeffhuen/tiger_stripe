@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
+## [0.4.0] - 2026-07-03
+
+### Changed
+
+- **Breaking:** flatten generated resource and params public types. `Stripe.Resources.*.t()` and `Stripe.Params.*Params.t()` remain, but now expand to `%__MODULE__{}` instead of recursive field maps.
+- **Breaking:** remove generated nested helper type aliases from resource and params modules, such as `Stripe.Resources.Invoice.lines()` and `Stripe.Params.PaymentIntentCreateParams.payment_method_data()`.
+- Preserve generated `@moduledoc`, top-level `@typedoc`, `defstruct`, service `@spec`s, `object_name/0`, `expandable_fields/0`, and resource `__nested_fields__/0` deserialization metadata.
+- Reduce Dialyzer and compile-time analysis load from recursive generated typespec graphs while keeping runtime response casting unchanged.
+
+### Added
+
+- Add a migration guide: [`guides/migrating-0.3-to-0.4.md`](guides/migrating-0.3-to-0.4.md).
+
+### Fixed
+
+- Include the generator's `:rustyjson` dependency in the Dialyzer PLT config so `mix dialyzer` can analyze the local generator modules.
+
 ## [0.3.0] - 2026-05-22
 
 ### Changed
@@ -150,6 +167,7 @@ The format is based on [Common Changelog](https://common-changelog.org/).
 - Add telemetry events for request lifecycle observability
 - Add Finch HTTP client with connection pooling (Mint + NimblePool)
 
+[0.4.0]: https://github.com/jeffhuen/tiger_stripe/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/jeffhuen/tiger_stripe/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.11...v0.2.0
 [0.1.11]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.10...v0.1.11

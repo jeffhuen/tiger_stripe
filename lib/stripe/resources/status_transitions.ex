@@ -9,11 +9,7 @@ defmodule Stripe.Resources.StatusTransitions do
   * `failed_at` - Timestamp describing when an InboundTransfer changed status to `failed`. Format: Unix timestamp. Nullable.
   * `succeeded_at` - Timestamp describing when an InboundTransfer changed status to `succeeded`. Format: Unix timestamp. Nullable.
   """
-  @type t :: %__MODULE__{
-          canceled_at: integer() | nil,
-          failed_at: integer(),
-          succeeded_at: integer()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:canceled_at, :failed_at, :succeeded_at]
 

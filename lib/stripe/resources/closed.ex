@@ -7,9 +7,7 @@ defmodule Stripe.Resources.Closed do
   @typedoc """
   * `reasons` - The array that contains reasons for a FinancialAccount closure.
   """
-  @type t :: %__MODULE__{
-          reasons: [String.t()]
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:reasons]
 

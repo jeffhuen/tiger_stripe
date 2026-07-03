@@ -7,9 +7,7 @@ defmodule Stripe.Resources.SepaDebitMandateOptions do
   @typedoc """
   * `reference_prefix` - Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          reference_prefix: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:reference_prefix]
 

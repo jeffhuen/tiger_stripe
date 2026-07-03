@@ -8,10 +8,7 @@ defmodule Stripe.Resources.NextActionCardAwaitNotification do
   * `charge_attempt_at` - The time that payment will be attempted. If customer approval is required, they need to provide approval before this time. Format: Unix timestamp. Nullable.
   * `customer_approval_required` - For payments greater than INR 15000, the customer must provide explicit approval of the payment with their bank. For payments of lower amount, no customer action is required. Nullable.
   """
-  @type t :: %__MODULE__{
-          charge_attempt_at: integer(),
-          customer_approval_required: boolean()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:charge_attempt_at, :customer_approval_required]
 

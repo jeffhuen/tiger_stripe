@@ -13,17 +13,7 @@ defmodule Stripe.Params.Issuing.CardholderListParams do
   * `status` - Only return cardholders that have the given status. One of `active`, `inactive`, or `blocked`. Possible values: `active`, `blocked`, `inactive`.
   * `type` - Only return cardholders that have the given type. One of `individual` or `company`. Possible values: `company`, `individual`.
   """
-  @type t :: %__MODULE__{
-          created: map() | nil,
-          email: String.t() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          phone_number: String.t() | nil,
-          starting_after: String.t() | nil,
-          status: String.t() | nil,
-          type: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :created,

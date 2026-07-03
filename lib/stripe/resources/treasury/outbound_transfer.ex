@@ -32,29 +32,7 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
   * `tracking_details` - Details about network-specific tracking information if available. Nullable. Expandable.
   * `transaction` - The Transaction associated with this object. Expandable.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          cancelable: boolean(),
-          created: integer(),
-          currency: String.t(),
-          description: String.t(),
-          destination_payment_method: String.t(),
-          destination_payment_method_details:
-            Stripe.Resources.DestinationPaymentMethodDetails.t(),
-          expected_arrival_date: integer(),
-          financial_account: String.t(),
-          hosted_regulatory_receipt_url: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          returned_details: Stripe.Resources.ReturnedDetails.t(),
-          statement_descriptor: String.t(),
-          status: String.t(),
-          status_transitions: Stripe.Resources.StatusTransitions.t(),
-          tracking_details: tracking_details(),
-          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -90,38 +68,6 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
       "tracking_details",
       "transaction"
     ]
-
-  @typedoc """
-  * `ach`
-  * `type` - The US bank account network used to send funds. Possible values: `ach`, `us_domestic_wire`.
-  * `us_domestic_wire`
-  """
-  @type tracking_details :: %{
-          optional(:ach) => tracking_details_ach() | nil,
-          optional(:type) => String.t() | nil,
-          optional(:us_domestic_wire) => tracking_details_us_domestic_wire() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `trace_id` - ACH trace ID of the OutboundTransfer for transfers sent over the `ach` network. Max length: 5000.
-  """
-  @type tracking_details_ach :: %{
-          optional(:trace_id) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `chips` - CHIPS System Sequence Number (SSN) of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
-  * `imad` - IMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
-  * `omad` - OMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
-  """
-  @type tracking_details_us_domestic_wire :: %{
-          optional(:chips) => String.t() | nil,
-          optional(:imad) => String.t() | nil,
-          optional(:omad) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

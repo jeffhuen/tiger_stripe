@@ -22,24 +22,7 @@ defmodule Stripe.Resources.StripeError do
   * `source` - Expandable.
   * `type` - The type of error returned. One of `api_error`, `card_error`, `idempotency_error`, or `invalid_request_error` Possible values: `api_error`, `card_error`, `idempotency_error`, `invalid_request_error`.
   """
-  @type t :: %__MODULE__{
-          advice_code: String.t() | nil,
-          charge: String.t() | nil,
-          code: String.t() | nil,
-          decline_code: String.t() | nil,
-          doc_url: String.t() | nil,
-          message: String.t() | nil,
-          network_advice_code: String.t() | nil,
-          network_decline_code: String.t() | nil,
-          param: String.t() | nil,
-          payment_intent: Stripe.Resources.PaymentIntent.t() | nil,
-          payment_method: Stripe.Resources.PaymentMethod.t() | nil,
-          payment_method_type: String.t() | nil,
-          request_log_url: String.t() | nil,
-          setup_intent: Stripe.Resources.SetupIntent.t() | nil,
-          source: Stripe.Resources.PaymentSource.t() | nil,
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :advice_code,

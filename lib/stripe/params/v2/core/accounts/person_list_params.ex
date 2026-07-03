@@ -5,9 +5,7 @@ defmodule Stripe.Params.V2.Core.Accounts.PersonListParams do
   @typedoc """
   * `limit` - The upper limit on the number of accounts returned by the List Account request.
   """
-  @type t :: %__MODULE__{
-          limit: integer() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:limit]
 end

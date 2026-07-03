@@ -13,17 +13,7 @@ defmodule Stripe.Params.Issuing.PersonalizationDesignUpdateParams do
   * `preferences` - Information on whether this personalization design is used to create cards when one is not specified.
   * `transfer_lookup_key` - If set to true, will atomically remove the lookup key from the existing personalization design, and assign it to this personalization design.
   """
-  @type t :: %__MODULE__{
-          card_logo: map() | nil,
-          carrier_text: map() | nil,
-          expand: [String.t()] | nil,
-          lookup_key: map() | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          name: map() | nil,
-          physical_bundle: String.t() | nil,
-          preferences: preferences() | nil,
-          transfer_lookup_key: boolean() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :card_logo,
@@ -36,12 +26,4 @@ defmodule Stripe.Params.Issuing.PersonalizationDesignUpdateParams do
     :preferences,
     :transfer_lookup_key
   ]
-
-  @typedoc """
-  * `is_default` - Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
-  """
-  @type preferences :: %{
-          optional(:is_default) => boolean() | nil,
-          optional(String.t()) => term()
-        }
 end

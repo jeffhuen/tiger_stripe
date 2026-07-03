@@ -10,12 +10,7 @@ defmodule Stripe.Resources.CustomFieldNumeric do
   * `minimum_length` - The minimum character length requirement for the customer's input. Nullable.
   * `value` - The value entered by the customer, containing only digits. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          default_value: String.t(),
-          maximum_length: integer(),
-          minimum_length: integer(),
-          value: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:default_value, :maximum_length, :minimum_length, :value]
 

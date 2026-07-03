@@ -11,11 +11,7 @@ defmodule Stripe.Params.PaymentIntentApplyCustomerBalanceParams do
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
   * `expand` - Specifies which fields in the response should be expanded.
   """
-  @type t :: %__MODULE__{
-          amount: integer() | nil,
-          currency: String.t() | nil,
-          expand: [String.t()] | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:amount, :currency, :expand]
 end

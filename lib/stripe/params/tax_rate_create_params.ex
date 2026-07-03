@@ -15,19 +15,7 @@ defmodule Stripe.Params.TaxRateCreateParams do
   * `state` - [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2), without country prefix. For example, "NY" for New York, United States. Max length: 5000.
   * `tax_type` - The high-level tax type, such as `vat` or `sales_tax`. Possible values: `amusement_tax`, `communications_tax`, `gst`, `hst`, `igst`, `jct`, `lease_tax`, `pst`, `qst`, `retail_delivery_fee`, `rst`, `sales_tax`, `service_tax`, `vat`.
   """
-  @type t :: %__MODULE__{
-          active: boolean() | nil,
-          country: String.t() | nil,
-          description: String.t() | nil,
-          display_name: String.t(),
-          expand: [String.t()] | nil,
-          inclusive: boolean(),
-          jurisdiction: String.t() | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          percentage: float(),
-          state: String.t() | nil,
-          tax_type: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :active,

@@ -18,22 +18,7 @@ defmodule Stripe.Params.CustomerPaymentSourceUpdateParams do
   * `name` - Cardholder name. Max length: 5000.
   * `owner`
   """
-  @type t :: %__MODULE__{
-          account_holder_name: String.t() | nil,
-          account_holder_type: String.t() | nil,
-          address_city: String.t() | nil,
-          address_country: String.t() | nil,
-          address_line1: String.t() | nil,
-          address_line2: String.t() | nil,
-          address_state: String.t() | nil,
-          address_zip: String.t() | nil,
-          exp_month: String.t() | nil,
-          exp_year: String.t() | nil,
-          expand: [String.t()] | nil,
-          metadata: map() | nil,
-          name: String.t() | nil,
-          owner: owner() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :account_holder_name,
@@ -51,36 +36,4 @@ defmodule Stripe.Params.CustomerPaymentSourceUpdateParams do
     :name,
     :owner
   ]
-
-  @typedoc """
-  * `address` - Owner's address.
-  * `email` - Owner's email address.
-  * `name` - Owner's full name. Max length: 5000.
-  * `phone` - Owner's phone number. Max length: 5000.
-  """
-  @type owner :: %{
-          optional(:address) => owner_address() | nil,
-          optional(:email) => String.t() | nil,
-          optional(:name) => String.t() | nil,
-          optional(:phone) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `city` - City, district, suburb, town, or village. Max length: 5000.
-  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
-  * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000.
-  * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000.
-  * `postal_code` - ZIP or postal code. Max length: 5000.
-  * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
-  """
-  @type owner_address :: %{
-          optional(:city) => String.t() | nil,
-          optional(:country) => String.t() | nil,
-          optional(:line1) => String.t() | nil,
-          optional(:line2) => String.t() | nil,
-          optional(:postal_code) => String.t() | nil,
-          optional(:state) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

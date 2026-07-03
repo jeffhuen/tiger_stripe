@@ -34,25 +34,7 @@ defmodule Stripe.Resources.Transfer do
   * `source_type` - The source balance this transfer came from. One of `card`, `fpx`, or `bank_account`. Max length: 5000.
   * `transfer_group` - A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          amount_reversed: integer(),
-          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
-          created: integer(),
-          currency: String.t(),
-          description: String.t(),
-          destination: String.t() | Stripe.Resources.Account.t(),
-          destination_payment: String.t() | Stripe.Resources.Charge.t() | nil,
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          reversals: reversals(),
-          reversed: boolean(),
-          source_transaction: String.t() | Stripe.Resources.Charge.t(),
-          source_type: String.t() | nil,
-          transfer_group: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -85,20 +67,6 @@ defmodule Stripe.Resources.Transfer do
       "reversals",
       "source_transaction"
     ]
-
-  @typedoc """
-  * `data` - Details about each object.
-  * `has_more` - True if this list has another page of items after this one that can be fetched.
-  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-  * `url` - The URL where this list can be accessed. Max length: 5000.
-  """
-  @type reversals :: %{
-          optional(:data) => [Stripe.Resources.TransferReversal.t()] | nil,
-          optional(:has_more) => boolean() | nil,
-          optional(:object) => String.t() | nil,
-          optional(:url) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

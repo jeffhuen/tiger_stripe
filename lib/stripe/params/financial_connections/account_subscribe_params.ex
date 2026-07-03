@@ -6,10 +6,7 @@ defmodule Stripe.Params.FinancialConnections.AccountSubscribeParams do
   * `expand` - Specifies which fields in the response should be expanded.
   * `features` - The list of account features to which you would like to subscribe.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          features: [String.t()]
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :features]
 end

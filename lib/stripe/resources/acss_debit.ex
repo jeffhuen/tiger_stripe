@@ -16,18 +16,7 @@ defmodule Stripe.Resources.AcssDebit do
   * `last4` - Nullable.
   * `routing_number` - Nullable.
   """
-  @type t :: %__MODULE__{
-          bank_address_city: String.t() | nil,
-          bank_address_line_1: String.t() | nil,
-          bank_address_line_2: String.t() | nil,
-          bank_address_postal_code: String.t() | nil,
-          bank_name: String.t() | nil,
-          category: String.t() | nil,
-          country: String.t() | nil,
-          fingerprint: String.t() | nil,
-          last4: String.t() | nil,
-          routing_number: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :bank_address_city,

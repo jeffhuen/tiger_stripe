@@ -13,12 +13,7 @@ defmodule Stripe.Resources.ProductFeature do
   * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `product_feature`.
   """
-  @type t :: %__MODULE__{
-          entitlement_feature: Stripe.Resources.Entitlements.Feature.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:entitlement_feature, :id, :livemode, :object]
 

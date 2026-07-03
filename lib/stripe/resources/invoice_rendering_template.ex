@@ -17,16 +17,7 @@ defmodule Stripe.Resources.InvoiceRenderingTemplate do
   * `status` - The status of the template, one of `active` or `archived`. Possible values: `active`, `archived`.
   * `version` - Version of this template; version increases by one when an update on the template changes any field that controls invoice rendering
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          nickname: String.t(),
-          object: String.t(),
-          status: String.t(),
-          version: integer()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :id, :livemode, :metadata, :nickname, :object, :status, :version]
 

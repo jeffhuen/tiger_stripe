@@ -13,14 +13,14 @@ with verified 1:1 feature parity to the official [Ruby SDK](https://github.com/s
 
 ### What's Included
 
-The **SDK layer** provides typed resource structs, typed request params, per-event
-modules, and auto-paging pagination — all generated from the spec with full
+The **SDK layer** provides typed resource structs, documented request params,
+per-event modules, and auto-paging pagination — all generated from the spec with full
 documentation. The **client layer** handles HTTP execution via Finch with
 connection pooling, automatic retries, request encoding, response
 deserialization, and telemetry.
 
 Together, the full V1 + V2 API surface is covered: 190 service modules,
-307 typed resource structs, 523 typed params modules, webhook signature
+307 typed resource structs, 523 documented params modules, webhook signature
 verification, OAuth, file uploads, streaming responses, and per-event typed
 modules.
 
@@ -108,7 +108,7 @@ Add `tiger_stripe` to your dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:tiger_stripe, "~> 0.3.0"}
+    {:tiger_stripe, "~> 0.4.0"}
   ]
 end
 ```
@@ -185,10 +185,10 @@ client = Stripe.client("sk_test_other_key", max_retries: 5)
 
 - **Full API coverage** — every V1 and V2 endpoint from the OpenAPI spec, with
   dedicated service modules matching the Ruby SDK layout
-- **Typed resources** — API responses are deserialized into typed Elixir structs
-  with `@type t` definitions, expandable field support, and typed nested maps
-- **Typed params** — request parameters have dedicated struct modules with
-  `@typedoc` annotations sourced from the OpenAPI spec
+- **Typed resources** — API responses are deserialized into Elixir structs
+  with shallow `@type t` definitions, expandable field support, and nested cast metadata
+- **Documented params** — request parameters have dedicated struct modules with
+  shallow `@type t` definitions and `@typedoc` annotations sourced from the OpenAPI spec
 - **Per-event typed modules** — V2 and thin V1 events get dedicated modules
   with typed data maps and `fetch_related_object/2`
 - **Auto-paging pagination** — lazy `Stream`-based iteration for V1 lists,
@@ -221,6 +221,7 @@ client = Stripe.client("sk_test_other_key", max_retries: 5)
 - [Igniter Installer](guides/igniter-installer.md) — one-command Phoenix setup (beta)
 - [Webhooks](guides/webhooks.md) — signature verification, WebhookPlug setup, typed event modules
 - [Connect & OAuth](guides/connect-and-oauth.md) — connected accounts, OAuth flow, multi-tenant patterns
+- [Migrating from 0.3.x to 0.4.0](guides/migrating-0.3-to-0.4.md) — shallow generated resource and params types
 - [Migrating from 0.2.x to 0.3.0](guides/migrating-0.2-to-0.3.md) — explicit client config, Finch supervision, and test transport changes
 - [Migrating from 0.1.x to 0.2.0](guides/migrating-0.1-to-0.2.md) — breaking changes, audit commands, and upgrade patterns
 - [Testing](guides/testing.md) — process-scoped HTTP stubs with `async: true` support
@@ -248,8 +249,8 @@ The SDK is auto-generated from Stripe's unified OpenAPI spec (`spec3.sdk.json`)
 via `mix stripe.generate`. The generator produces 1,044 files:
 
 - **190 service modules** (189 generated + 1 hand-written `OAuthService`)
-- **307 resource structs** with `@type t`, expandable fields, and typed nested maps
-- **523 params modules** with `@typedoc` field annotations
+- **307 resource structs** with shallow `@type t`, expandable fields, and nested cast metadata
+- **523 params modules** with shallow `@type t` and `@typedoc` field annotations
 - **2 registries** (object types and event types)
 - **22 event modules** (20 per-event typed + 1 constants + 1 unknown fallback)
 

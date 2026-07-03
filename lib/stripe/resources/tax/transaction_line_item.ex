@@ -19,21 +19,7 @@ defmodule Stripe.Resources.Tax.TransactionLineItem do
   * `tax_code` - The [tax code](https://docs.stripe.com/tax/tax-categories) ID used for this resource. Max length: 5000.
   * `type` - If `reversal`, this line item reverses an earlier transaction. Possible values: `reversal`, `transaction`.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          amount_tax: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          product: String.t(),
-          quantity: integer(),
-          reference: String.t(),
-          reversal: reversal(),
-          tax_behavior: String.t(),
-          tax_code: String.t(),
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -55,14 +41,6 @@ defmodule Stripe.Resources.Tax.TransactionLineItem do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["reversal"]
-
-  @typedoc """
-  * `original_line_item` - The `id` of the line item to reverse in the original transaction. Max length: 5000.
-  """
-  @type reversal :: %{
-          optional(:original_line_item) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

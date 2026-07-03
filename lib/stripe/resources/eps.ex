@@ -8,10 +8,7 @@ defmodule Stripe.Resources.Eps do
   * `reference` - Nullable.
   * `statement_descriptor` - Nullable.
   """
-  @type t :: %__MODULE__{
-          reference: String.t() | nil,
-          statement_descriptor: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:reference, :statement_descriptor]
 

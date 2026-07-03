@@ -9,9 +9,7 @@ defmodule Stripe.Resources.InboundTransfers do
   @typedoc """
   * `ach` - Expandable.
   """
-  @type t :: %__MODULE__{
-          ach: Stripe.Resources.InboundAchToggleSettings.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:ach]
 

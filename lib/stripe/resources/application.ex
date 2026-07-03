@@ -9,11 +9,7 @@ defmodule Stripe.Resources.Application do
   * `name` - The name of the application. Max length: 5000. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `application`.
   """
-  @type t :: %__MODULE__{
-          id: String.t(),
-          name: String.t(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:id, :name, :object]
 

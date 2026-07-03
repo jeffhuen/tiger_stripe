@@ -8,10 +8,7 @@ defmodule Stripe.Resources.CustomerNotification do
   * `approval_requested` - Whether customer approval has been requested for this payment. For payments greater than INR 15000 or mandate amount, the customer must provide explicit approval of the payment with their bank. Nullable.
   * `completes_at` - If customer approval is required, they need to provide approval before this time. Format: Unix timestamp. Nullable.
   """
-  @type t :: %__MODULE__{
-          approval_requested: boolean(),
-          completes_at: integer()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:approval_requested, :completes_at]
 

@@ -23,21 +23,7 @@ defmodule Stripe.Params.SubscriptionItemCreateParams do
   * `subscription` - The identifier of the subscription to modify. Max length: 5000.
   * `tax_rates` - A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
   """
-  @type t :: %__MODULE__{
-          billing_thresholds: map() | nil,
-          discounts: map() | nil,
-          expand: [String.t()] | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          payment_behavior: String.t() | nil,
-          plan: String.t() | nil,
-          price: String.t() | nil,
-          price_data: price_data() | nil,
-          proration_behavior: String.t() | nil,
-          proration_date: integer() | nil,
-          quantity: integer() | nil,
-          subscription: String.t(),
-          tax_rates: map() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :billing_thresholds,
@@ -54,32 +40,4 @@ defmodule Stripe.Params.SubscriptionItemCreateParams do
     :subscription,
     :tax_rates
   ]
-
-  @typedoc """
-  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-  * `product` - The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. Max length: 5000.
-  * `recurring` - The recurring components of a price such as `interval` and `interval_count`.
-  * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
-  * `unit_amount` - A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-  * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
-  """
-  @type price_data :: %{
-          optional(:currency) => String.t() | nil,
-          optional(:product) => String.t() | nil,
-          optional(:recurring) => price_data_recurring() | nil,
-          optional(:tax_behavior) => String.t() | nil,
-          optional(:unit_amount) => integer() | nil,
-          optional(:unit_amount_decimal) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `interval` - Specifies billing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
-  * `interval_count` - The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
-  """
-  @type price_data_recurring :: %{
-          optional(:interval) => String.t() | nil,
-          optional(:interval_count) => integer() | nil,
-          optional(String.t()) => term()
-        }
 end

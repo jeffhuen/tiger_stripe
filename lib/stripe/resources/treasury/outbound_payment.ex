@@ -34,30 +34,7 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
   * `tracking_details` - Details about network-specific tracking information if available. Nullable. Expandable.
   * `transaction` - The Transaction associated with this object. Expandable.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          cancelable: boolean(),
-          created: integer(),
-          currency: String.t(),
-          customer: String.t(),
-          description: String.t(),
-          destination_payment_method: String.t(),
-          destination_payment_method_details: destination_payment_method_details(),
-          end_user_details: end_user_details(),
-          expected_arrival_date: integer(),
-          financial_account: String.t(),
-          hosted_regulatory_receipt_url: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          returned_details: returned_details(),
-          statement_descriptor: String.t(),
-          status: String.t(),
-          status_transitions: Stripe.Resources.StatusTransitions.t(),
-          tracking_details: tracking_details(),
-          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -96,72 +73,6 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
       "tracking_details",
       "transaction"
     ]
-
-  @typedoc """
-  * `billing_details`
-  * `financial_account`
-  * `type` - The type of the payment method used in the OutboundPayment. Possible values: `financial_account`, `us_bank_account`.
-  * `us_bank_account`
-  """
-  @type destination_payment_method_details :: %{
-          optional(:billing_details) => Stripe.Resources.BillingDetails.t() | nil,
-          optional(:financial_account) => Stripe.Resources.FinancialAccount.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(:us_bank_account) => Stripe.Resources.UsBankAccount.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `ip_address` - IP address of the user initiating the OutboundPayment. Set if `present` is set to `true`. IP address collection is required for risk and compliance reasons. This will be used to help determine if the OutboundPayment is authorized or should be blocked. Max length: 5000. Nullable.
-  * `present` - `true` if the OutboundPayment creation request is being made on behalf of an end user by a platform. Otherwise, `false`.
-  """
-  @type end_user_details :: %{
-          optional(:ip_address) => String.t() | nil,
-          optional(:present) => boolean() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `code` - Reason for the return. Possible values: `account_closed`, `account_frozen`, `bank_account_restricted`, `bank_ownership_changed`, `declined`, `incorrect_account_holder_name`, `invalid_account_number`, `invalid_currency`, `no_account`, `other`.
-  * `transaction` - The Transaction associated with this object.
-  """
-  @type returned_details :: %{
-          optional(:code) => String.t() | nil,
-          optional(:transaction) => String.t() | Stripe.Resources.Treasury.Transaction.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `ach`
-  * `type` - The US bank account network used to send funds. Possible values: `ach`, `us_domestic_wire`.
-  * `us_domestic_wire`
-  """
-  @type tracking_details :: %{
-          optional(:ach) => tracking_details_ach() | nil,
-          optional(:type) => String.t() | nil,
-          optional(:us_domestic_wire) => tracking_details_us_domestic_wire() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `trace_id` - ACH trace ID of the OutboundPayment for payments sent over the `ach` network. Max length: 5000.
-  """
-  @type tracking_details_ach :: %{
-          optional(:trace_id) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `chips` - CHIPS System Sequence Number (SSN) of the OutboundPayment for payments sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
-  * `imad` - IMAD of the OutboundPayment for payments sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
-  * `omad` - OMAD of the OutboundPayment for payments sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
-  """
-  @type tracking_details_us_domestic_wire :: %{
-          optional(:chips) => String.t() | nil,
-          optional(:imad) => String.t() | nil,
-          optional(:omad) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

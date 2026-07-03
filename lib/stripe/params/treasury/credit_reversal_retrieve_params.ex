@@ -5,9 +5,7 @@ defmodule Stripe.Params.Treasury.CreditReversalRetrieveParams do
   @typedoc """
   * `expand` - Specifies which fields in the response should be expanded.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand]
 end

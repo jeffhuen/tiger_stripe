@@ -10,12 +10,7 @@ defmodule Stripe.Resources.DestinationPaymentMethodDetails do
   * `type` - The type of the payment method used in the OutboundTransfer. Possible values: `financial_account`, `us_bank_account`.
   * `us_bank_account` - Expandable.
   """
-  @type t :: %__MODULE__{
-          billing_details: Stripe.Resources.BillingDetails.t(),
-          financial_account: Stripe.Resources.FinancialAccount.t() | nil,
-          type: String.t(),
-          us_bank_account: Stripe.Resources.UsBankAccount.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:billing_details, :financial_account, :type, :us_bank_account]
 

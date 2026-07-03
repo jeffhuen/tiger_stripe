@@ -20,24 +20,7 @@ defmodule Stripe.Params.AccountExternalAccountUpdateParams do
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `name` - Cardholder name. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          account_holder_name: String.t() | nil,
-          account_holder_type: String.t() | nil,
-          account_type: String.t() | nil,
-          address_city: String.t() | nil,
-          address_country: String.t() | nil,
-          address_line1: String.t() | nil,
-          address_line2: String.t() | nil,
-          address_state: String.t() | nil,
-          address_zip: String.t() | nil,
-          default_for_currency: boolean() | nil,
-          documents: documents() | nil,
-          exp_month: String.t() | nil,
-          exp_year: String.t() | nil,
-          expand: [String.t()] | nil,
-          metadata: map() | nil,
-          name: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :account_holder_name,
@@ -57,21 +40,4 @@ defmodule Stripe.Params.AccountExternalAccountUpdateParams do
     :metadata,
     :name
   ]
-
-  @typedoc """
-  * `bank_account_ownership_verification` - One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
-  """
-  @type documents :: %{
-          optional(:bank_account_ownership_verification) =>
-            documents_bank_account_ownership_verification() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `files` - One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-  """
-  @type documents_bank_account_ownership_verification :: %{
-          optional(:files) => [String.t()] | nil,
-          optional(String.t()) => term()
-        }
 end

@@ -8,9 +8,7 @@ defmodule Stripe.Resources.ShippingAddressCollection do
   * `allowed_countries` - An array of two-letter ISO country codes representing which countries Checkout should provide as options for
   shipping locations. Unsupported country codes: `AS, CX, CC, CU, HM, IR, KP, MH, FM, NF, MP, PW, SY, UM, VI`.
   """
-  @type t :: %__MODULE__{
-          allowed_countries: [String.t()]
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:allowed_countries]
 

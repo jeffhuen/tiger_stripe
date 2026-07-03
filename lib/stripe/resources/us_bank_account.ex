@@ -9,11 +9,7 @@ defmodule Stripe.Resources.UsBankAccount do
   * `last4` - The last four digits of the bank account number. Max length: 5000. Nullable.
   * `routing_number` - The routing number for the bank account. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          bank_name: String.t(),
-          last4: String.t(),
-          routing_number: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:bank_name, :last4, :routing_number]
 

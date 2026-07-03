@@ -14,14 +14,7 @@ defmodule Stripe.Resources.CashBalance do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `cash_balance`.
   * `settings` - Expandable.
   """
-  @type t :: %__MODULE__{
-          available: %{String.t() => integer()},
-          customer: String.t(),
-          customer_account: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          settings: settings()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:available, :customer, :customer_account, :livemode, :object, :settings]
 
@@ -29,16 +22,6 @@ defmodule Stripe.Resources.CashBalance do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["settings"]
-
-  @typedoc """
-  * `reconciliation_mode` - The configuration for how funds that land in the customer cash balance are reconciled. Possible values: `automatic`, `manual`.
-  * `using_merchant_default` - A flag to indicate if reconciliation mode returned is the user's default or is specific to this customer cash balance
-  """
-  @type settings :: %{
-          optional(:reconciliation_mode) => String.t() | nil,
-          optional(:using_merchant_default) => boolean() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

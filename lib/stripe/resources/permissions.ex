@@ -11,9 +11,7 @@ defmodule Stripe.Resources.Permissions do
 
   When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API. Possible values: `client_only`, `server_only`. Nullable.
   """
-  @type t :: %__MODULE__{
-          update_shipping_details: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:update_shipping_details]
 

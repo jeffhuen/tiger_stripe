@@ -9,11 +9,7 @@ defmodule Stripe.Resources.InstantPayoutsPromotionFeatures do
   * `external_account_collection` - Whether external account collection is enabled. This feature can only be `false` for accounts where you’re responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
   * `instant_payouts` - Whether to allow creation of instant payouts. The default value is `enabled` when Stripe is responsible for negative account balances, and `use_dashboard_rules` otherwise.
   """
-  @type t :: %__MODULE__{
-          disable_stripe_user_authentication: boolean(),
-          external_account_collection: boolean(),
-          instant_payouts: boolean()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:disable_stripe_user_authentication, :external_account_collection, :instant_payouts]
 

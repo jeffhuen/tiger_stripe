@@ -6,10 +6,7 @@ defmodule Stripe.Params.InvoiceFinalizeInvoiceParams do
   * `auto_advance` - Controls whether Stripe performs [automatic collection](https://docs.stripe.com/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
   * `expand` - Specifies which fields in the response should be expanded.
   """
-  @type t :: %__MODULE__{
-          auto_advance: boolean() | nil,
-          expand: [String.t()] | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:auto_advance, :expand]
 end

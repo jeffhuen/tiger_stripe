@@ -15,17 +15,7 @@ defmodule Stripe.Params.ChargeCaptureParams do
   * `transfer_data` - An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
   * `transfer_group` - A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
   """
-  @type t :: %__MODULE__{
-          amount: integer() | nil,
-          application_fee: integer() | nil,
-          application_fee_amount: integer() | nil,
-          expand: [String.t()] | nil,
-          receipt_email: String.t() | nil,
-          statement_descriptor: String.t() | nil,
-          statement_descriptor_suffix: String.t() | nil,
-          transfer_data: transfer_data() | nil,
-          transfer_group: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -38,12 +28,4 @@ defmodule Stripe.Params.ChargeCaptureParams do
     :transfer_data,
     :transfer_group
   ]
-
-  @typedoc """
-  * `amount` - The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
-  """
-  @type transfer_data :: %{
-          optional(:amount) => integer() | nil,
-          optional(String.t()) => term()
-        }
 end

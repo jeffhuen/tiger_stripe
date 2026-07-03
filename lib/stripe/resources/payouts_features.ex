@@ -11,13 +11,7 @@ defmodule Stripe.Resources.PayoutsFeatures do
   * `instant_payouts` - Whether to allow creation of instant payouts. The default value is `enabled` when Stripe is responsible for negative account balances, and `use_dashboard_rules` otherwise.
   * `standard_payouts` - Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
   """
-  @type t :: %__MODULE__{
-          disable_stripe_user_authentication: boolean(),
-          edit_payout_schedule: boolean(),
-          external_account_collection: boolean(),
-          instant_payouts: boolean(),
-          standard_payouts: boolean()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :disable_stripe_user_authentication,

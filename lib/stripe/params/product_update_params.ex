@@ -21,22 +21,7 @@ defmodule Stripe.Params.ProductUpdateParams do
   * `unit_label` - A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. May only be set if `type=service`.
   * `url` - A URL of a publicly-accessible webpage for this product.
   """
-  @type t :: %__MODULE__{
-          active: boolean() | nil,
-          default_price: String.t() | nil,
-          description: map() | nil,
-          expand: [String.t()] | nil,
-          images: map() | nil,
-          marketing_features: map() | nil,
-          metadata: map() | nil,
-          name: String.t() | nil,
-          package_dimensions: map() | nil,
-          shippable: boolean() | nil,
-          statement_descriptor: String.t() | nil,
-          tax_code: map() | nil,
-          unit_label: map() | nil,
-          url: map() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :active,

@@ -10,12 +10,7 @@ defmodule Stripe.Resources.PaynowDisplayQrCode do
   * `image_url_png` - The image_url_png string used to render QR code Max length: 5000.
   * `image_url_svg` - The image_url_svg string used to render QR code Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          data: String.t(),
-          hosted_instructions_url: String.t(),
-          image_url_png: String.t(),
-          image_url_svg: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:data, :hosted_instructions_url, :image_url_png, :image_url_svg]
 

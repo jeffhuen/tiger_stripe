@@ -7,11 +7,7 @@ defmodule Stripe.Params.TestHelpers.TestClockCreateParams do
   * `frozen_time` - The initial frozen time for this test clock. Format: Unix timestamp.
   * `name` - The name for this test clock. Max length: 300.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          frozen_time: integer(),
-          name: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :frozen_time, :name]
 end

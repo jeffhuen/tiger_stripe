@@ -27,24 +27,7 @@ defmodule Stripe.Resources.CustomerCashBalanceTransaction do
   * `type` - The type of the cash balance transaction. New types may be added in future. See [Customer Balance](https://docs.stripe.com/payments/customer-balance#types) to learn more about these types. Possible values: `adjusted_for_overdraft`, `applied_to_payment`, `funded`, `funding_reversed`, `refunded_from_payment`, `return_canceled`, `return_initiated`, `transferred_to_balance`, `unapplied_from_payment`.
   * `unapplied_from_payment` - Expandable.
   """
-  @type t :: %__MODULE__{
-          adjusted_for_overdraft: Stripe.Resources.AdjustedForOverdraft.t() | nil,
-          applied_to_payment: applied_to_payment() | nil,
-          created: integer(),
-          currency: String.t(),
-          customer: String.t() | Stripe.Resources.Customer.t(),
-          customer_account: String.t(),
-          ending_balance: integer(),
-          funded: funded() | nil,
-          id: String.t(),
-          livemode: boolean(),
-          net_amount: integer(),
-          object: String.t(),
-          refunded_from_payment: Stripe.Resources.RefundedFromPayment.t() | nil,
-          transferred_to_balance: Stripe.Resources.TransferredToBalance.t() | nil,
-          type: String.t(),
-          unapplied_from_payment: Stripe.Resources.UnappliedFromPayment.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :adjusted_for_overdraft,
@@ -78,86 +61,6 @@ defmodule Stripe.Resources.CustomerCashBalanceTransaction do
       "transferred_to_balance",
       "unapplied_from_payment"
     ]
-
-  @typedoc """
-  * `payment_intent` - The [Payment Intent](https://docs.stripe.com/api/payment_intents/object) that funds were applied to.
-  """
-  @type applied_to_payment :: %{
-          optional(:payment_intent) => String.t() | Stripe.Resources.PaymentIntent.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `bank_transfer`
-  """
-  @type funded :: %{
-          optional(:bank_transfer) => funded_bank_transfer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `eu_bank_transfer`
-  * `gb_bank_transfer`
-  * `jp_bank_transfer`
-  * `reference` - The user-supplied reference field on the bank transfer. Max length: 5000. Nullable.
-  * `type` - The funding method type used to fund the customer balance. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`. Possible values: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, `us_bank_transfer`.
-  * `us_bank_transfer`
-  """
-  @type funded_bank_transfer :: %{
-          optional(:eu_bank_transfer) => funded_bank_transfer_eu_bank_transfer() | nil,
-          optional(:gb_bank_transfer) => funded_bank_transfer_gb_bank_transfer() | nil,
-          optional(:jp_bank_transfer) => funded_bank_transfer_jp_bank_transfer() | nil,
-          optional(:reference) => String.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(:us_bank_transfer) => funded_bank_transfer_us_bank_transfer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `bic` - The BIC of the bank of the sender of the funding. Max length: 5000. Nullable.
-  * `iban_last4` - The last 4 digits of the IBAN of the sender of the funding. Max length: 5000. Nullable.
-  * `sender_name` - The full name of the sender, as supplied by the sending bank. Max length: 5000. Nullable.
-  """
-  @type funded_bank_transfer_eu_bank_transfer :: %{
-          optional(:bic) => String.t() | nil,
-          optional(:iban_last4) => String.t() | nil,
-          optional(:sender_name) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `account_number_last4` - The last 4 digits of the account number of the sender of the funding. Max length: 5000. Nullable.
-  * `sender_name` - The full name of the sender, as supplied by the sending bank. Max length: 5000. Nullable.
-  * `sort_code` - The sort code of the bank of the sender of the funding Max length: 5000. Nullable.
-  """
-  @type funded_bank_transfer_gb_bank_transfer :: %{
-          optional(:account_number_last4) => String.t() | nil,
-          optional(:sender_name) => String.t() | nil,
-          optional(:sort_code) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `sender_bank` - The name of the bank of the sender of the funding. Max length: 5000. Nullable.
-  * `sender_branch` - The name of the bank branch of the sender of the funding. Max length: 5000. Nullable.
-  * `sender_name` - The full name of the sender, as supplied by the sending bank. Max length: 5000. Nullable.
-  """
-  @type funded_bank_transfer_jp_bank_transfer :: %{
-          optional(:sender_bank) => String.t() | nil,
-          optional(:sender_branch) => String.t() | nil,
-          optional(:sender_name) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `network` - The banking network used for this funding. Possible values: `ach`, `domestic_wire_us`, `swift`.
-  * `sender_name` - The full name of the sender, as supplied by the sending bank. Max length: 5000. Nullable.
-  """
-  @type funded_bank_transfer_us_bank_transfer :: %{
-          optional(:network) => String.t() | nil,
-          optional(:sender_name) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

@@ -15,19 +15,7 @@ defmodule Stripe.Params.Identity.VerificationSessionCreateParams do
   * `type` - The type of [verification check](https://docs.stripe.com/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`. Possible values: `document`, `id_number`.
   * `verification_flow` - The ID of a verification flow from the Dashboard. See https://docs.stripe.com/identity/verification-flows. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          client_reference_id: String.t() | nil,
-          expand: [String.t()] | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          options: options() | nil,
-          provided_details: provided_details() | nil,
-          related_customer: String.t() | nil,
-          related_customer_account: String.t() | nil,
-          related_person: related_person() | nil,
-          return_url: String.t() | nil,
-          type: String.t() | nil,
-          verification_flow: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :client_reference_id,
@@ -42,32 +30,4 @@ defmodule Stripe.Params.Identity.VerificationSessionCreateParams do
     :type,
     :verification_flow
   ]
-
-  @typedoc """
-  * `document` - Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
-  """
-  @type options :: %{
-          optional(:document) => map() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `email` - Email of user being verified
-  * `phone` - Phone number of user being verified
-  """
-  @type provided_details :: %{
-          optional(:email) => String.t() | nil,
-          optional(:phone) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `account` - A token representing a connected account. If provided, the person parameter is also required and must be associated with the account. Max length: 5000.
-  * `person` - A token referencing a Person resource that this verification is being used to verify. Max length: 5000.
-  """
-  @type related_person :: %{
-          optional(:account) => String.t() | nil,
-          optional(:person) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

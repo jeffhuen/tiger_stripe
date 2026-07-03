@@ -20,16 +20,7 @@ defmodule Stripe.Resources.FeeRefund do
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `fee_refund`.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
-          created: integer(),
-          currency: String.t(),
-          fee: String.t() | Stripe.Resources.ApplicationFee.t(),
-          id: String.t(),
-          metadata: %{String.t() => String.t()},
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:amount, :balance_transaction, :created, :currency, :fee, :id, :metadata, :object]
 

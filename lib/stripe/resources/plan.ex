@@ -35,28 +35,7 @@ defmodule Stripe.Resources.Plan do
   * `trial_period_days` - Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan). Nullable.
   * `usage_type` - Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`. Possible values: `licensed`, `metered`.
   """
-  @type t :: %__MODULE__{
-          active: boolean(),
-          amount: integer(),
-          amount_decimal: String.t(),
-          billing_scheme: String.t(),
-          created: integer(),
-          currency: String.t(),
-          id: String.t(),
-          interval: String.t(),
-          interval_count: integer(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          meter: String.t(),
-          nickname: String.t(),
-          object: String.t(),
-          product: String.t() | Stripe.Resources.Product.t(),
-          tiers: [tiers()] | nil,
-          tiers_mode: String.t(),
-          transform_usage: transform_usage(),
-          trial_period_days: integer(),
-          usage_type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :active,
@@ -85,32 +64,6 @@ defmodule Stripe.Resources.Plan do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["product", "tiers", "transform_usage"]
-
-  @typedoc """
-  * `flat_amount` - Price for the entire tier. Nullable.
-  * `flat_amount_decimal` - Same as `flat_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
-  * `unit_amount` - Per unit price for units relevant to the tier. Nullable.
-  * `unit_amount_decimal` - Same as `unit_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
-  * `up_to` - Up to and including to this quantity will be contained in the tier. Nullable.
-  """
-  @type tiers :: %{
-          optional(:flat_amount) => integer() | nil,
-          optional(:flat_amount_decimal) => String.t() | nil,
-          optional(:unit_amount) => integer() | nil,
-          optional(:unit_amount_decimal) => String.t() | nil,
-          optional(:up_to) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `divide_by` - Divide usage by this number.
-  * `round` - After division, either round the result `up` or `down`. Possible values: `down`, `up`.
-  """
-  @type transform_usage :: %{
-          optional(:divide_by) => integer() | nil,
-          optional(:round) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

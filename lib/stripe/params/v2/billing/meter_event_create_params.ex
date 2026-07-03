@@ -15,12 +15,7 @@ defmodule Stripe.Params.V2.Billing.MeterEventCreateParams do
   * `timestamp` - The time of the event. Must be within the past 35 calendar days or up to
   5 minutes in the future. Defaults to current timestamp if not specified. Format: date-time.
   """
-  @type t :: %__MODULE__{
-          event_name: String.t(),
-          identifier: String.t() | nil,
-          payload: %{String.t() => String.t()},
-          timestamp: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:event_name, :identifier, :payload, :timestamp]
 end

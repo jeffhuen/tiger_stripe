@@ -12,16 +12,7 @@ defmodule Stripe.Params.Identity.VerificationReportListParams do
   * `type` - Only return VerificationReports of this type Possible values: `document`, `id_number`.
   * `verification_session` - Only return VerificationReports created by this VerificationSession ID. It is allowed to provide a VerificationIntent ID. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          client_reference_id: String.t() | nil,
-          created: map() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          type: String.t() | nil,
-          verification_session: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :client_reference_id,

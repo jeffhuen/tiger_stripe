@@ -11,13 +11,7 @@ defmodule Stripe.Resources.ReserveTransaction do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `reserve_transaction`.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          currency: String.t(),
-          description: String.t(),
-          id: String.t(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:amount, :currency, :description, :id, :object]
 

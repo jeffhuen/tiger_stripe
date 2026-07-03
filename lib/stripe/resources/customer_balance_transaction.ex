@@ -28,23 +28,7 @@ defmodule Stripe.Resources.CustomerBalanceTransaction do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `customer_balance_transaction`.
   * `type` - Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_overpaid`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, `unapplied_from_invoice`, `checkout_session_subscription_payment`, or `checkout_session_subscription_payment_canceled`. See the [Customer Balance page](https://docs.stripe.com/billing/customer/balance#types) to learn more about transaction types. Possible values: `adjustment`, `applied_to_invoice`, `checkout_session_subscription_payment`, `checkout_session_subscription_payment_canceled`, `credit_note`, `initial`, `invoice_overpaid`, `invoice_too_large`, `invoice_too_small`, `migration`, `unapplied_from_invoice`, `unspent_receiver_credit`.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          checkout_session: String.t() | Stripe.Resources.Checkout.Session.t(),
-          created: integer(),
-          credit_note: String.t() | Stripe.Resources.CreditNote.t(),
-          currency: String.t(),
-          customer: String.t() | Stripe.Resources.Customer.t(),
-          customer_account: String.t(),
-          description: String.t(),
-          ending_balance: integer(),
-          id: String.t(),
-          invoice: String.t() | Stripe.Resources.Invoice.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,

@@ -16,20 +16,7 @@ defmodule Stripe.Params.Issuing.CardListParams do
   * `status` - Only return cards that have the given status. One of `active`, `inactive`, or `canceled`. Possible values: `active`, `canceled`, `inactive`.
   * `type` - Only return cards that have the given type. One of `virtual` or `physical`. Possible values: `physical`, `virtual`.
   """
-  @type t :: %__MODULE__{
-          cardholder: String.t() | nil,
-          created: map() | nil,
-          ending_before: String.t() | nil,
-          exp_month: integer() | nil,
-          exp_year: integer() | nil,
-          expand: [String.t()] | nil,
-          last4: String.t() | nil,
-          limit: integer() | nil,
-          personalization_design: String.t() | nil,
-          starting_after: String.t() | nil,
-          status: String.t() | nil,
-          type: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :cardholder,

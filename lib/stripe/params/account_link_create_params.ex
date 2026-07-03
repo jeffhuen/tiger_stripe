@@ -13,25 +13,7 @@ defmodule Stripe.Params.AccountLinkCreateParams do
 
   You can create Account Links of type `account_update` only for connected accounts where your platform is responsible for collecting requirements, including Custom accounts. You can't create them for accounts that have access to a Stripe-hosted Dashboard. If you use [Connect embedded components](https://stripe.com/connect/get-started-connect-embedded-components), you can include components that allow your connected accounts to update their own information. For an account without Stripe-hosted Dashboard access where Stripe is liable for negative balances, you must use embedded components. Possible values: `account_onboarding`, `account_update`.
   """
-  @type t :: %__MODULE__{
-          account: String.t(),
-          collect: String.t() | nil,
-          collection_options: collection_options() | nil,
-          expand: [String.t()] | nil,
-          refresh_url: String.t() | nil,
-          return_url: String.t() | nil,
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:account, :collect, :collection_options, :expand, :refresh_url, :return_url, :type]
-
-  @typedoc """
-  * `fields` - Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify `collection_options`, the default value is `currently_due`. Possible values: `currently_due`, `eventually_due`.
-  * `future_requirements` - Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`. Possible values: `include`, `omit`.
-  """
-  @type collection_options :: %{
-          optional(:fields) => String.t() | nil,
-          optional(:future_requirements) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

@@ -10,12 +10,7 @@ defmodule Stripe.Resources.Ideal do
   * `iban_last4` - Nullable.
   * `statement_descriptor` - Nullable.
   """
-  @type t :: %__MODULE__{
-          bank: String.t() | nil,
-          bic: String.t() | nil,
-          iban_last4: String.t() | nil,
-          statement_descriptor: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:bank, :bic, :iban_last4, :statement_descriptor]
 

@@ -15,18 +15,7 @@ defmodule Stripe.Params.PaymentIntentIncrementAuthorizationParams do
   * `transfer_data` - The parameters used to automatically create a transfer after the payment is captured.
   Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          amount_details: amount_details() | nil,
-          application_fee_amount: integer() | nil,
-          description: String.t() | nil,
-          expand: [String.t()] | nil,
-          hooks: hooks() | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          payment_details: payment_details() | nil,
-          statement_descriptor: String.t() | nil,
-          transfer_data: transfer_data() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -40,74 +29,4 @@ defmodule Stripe.Params.PaymentIntentIncrementAuthorizationParams do
     :statement_descriptor,
     :transfer_data
   ]
-
-  @typedoc """
-  * `discount_amount` - The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
-
-  This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
-  * `enforce_arithmetic_validation` - Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
-
-  Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
-
-  For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
-  * `line_items` - A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
-  * `shipping` - Contains information about the shipping portion of the amount.
-  * `tax` - Contains information about the tax portion of the amount.
-  """
-  @type amount_details :: %{
-          optional(:discount_amount) => map() | nil,
-          optional(:enforce_arithmetic_validation) => boolean() | nil,
-          optional(:line_items) => map() | nil,
-          optional(:shipping) => map() | nil,
-          optional(:tax) => map() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `inputs` - Arguments passed in automations
-  """
-  @type hooks :: %{
-          optional(:inputs) => hooks_inputs() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `tax` - Tax arguments for automations
-  """
-  @type hooks_inputs :: %{
-          optional(:tax) => hooks_inputs_tax() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `calculation` - The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
-  """
-  @type hooks_inputs_tax :: %{
-          optional(:calculation) => map() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `customer_reference` - A unique value to identify the customer. This field is available only for card payments.
-
-  This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
-  * `order_reference` - A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
-
-  Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
-
-  For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
-  """
-  @type payment_details :: %{
-          optional(:customer_reference) => map() | nil,
-          optional(:order_reference) => map() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `amount` - The amount that will be transferred automatically when a charge succeeds.
-  """
-  @type transfer_data :: %{
-          optional(:amount) => integer() | nil,
-          optional(String.t()) => term()
-        }
 end

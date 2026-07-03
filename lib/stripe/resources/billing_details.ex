@@ -9,11 +9,7 @@ defmodule Stripe.Resources.BillingDetails do
   * `email` - Email address. Max length: 5000. Nullable.
   * `name` - Full name. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          address: Stripe.Resources.Address.t(),
-          email: String.t(),
-          name: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:address, :email, :name]
 

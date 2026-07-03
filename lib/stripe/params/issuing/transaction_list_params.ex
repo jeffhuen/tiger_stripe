@@ -12,16 +12,7 @@ defmodule Stripe.Params.Issuing.TransactionListParams do
   * `starting_after` - A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list. Max length: 5000.
   * `type` - Only return transactions that have the given type. One of `capture` or `refund`. Possible values: `capture`, `refund`.
   """
-  @type t :: %__MODULE__{
-          card: String.t() | nil,
-          cardholder: String.t() | nil,
-          created: map() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          type: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :card,

@@ -13,13 +13,7 @@ defmodule Stripe.Resources.Billing.CreditBalanceSummary do
   * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `billing.credit_balance_summary`.
   """
-  @type t :: %__MODULE__{
-          balances: [Stripe.Resources.Billing.CreditBalance.t()],
-          customer: String.t() | Stripe.Resources.Customer.t(),
-          customer_account: String.t(),
-          livemode: boolean(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:balances, :customer, :customer_account, :livemode, :object]
 

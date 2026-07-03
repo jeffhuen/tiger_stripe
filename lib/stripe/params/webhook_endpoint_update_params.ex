@@ -10,14 +10,7 @@ defmodule Stripe.Params.WebhookEndpointUpdateParams do
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `url` - The URL of the webhook endpoint.
   """
-  @type t :: %__MODULE__{
-          description: map() | nil,
-          disabled: boolean() | nil,
-          enabled_events: [String.t()] | nil,
-          expand: [String.t()] | nil,
-          metadata: map() | nil,
-          url: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:description, :disabled, :enabled_events, :expand, :metadata, :url]
 end

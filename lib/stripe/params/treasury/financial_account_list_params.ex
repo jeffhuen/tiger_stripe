@@ -10,14 +10,7 @@ defmodule Stripe.Params.Treasury.FinancialAccountListParams do
   * `starting_after` - An object ID cursor for use in pagination. Max length: 5000.
   * `status` - Only return FinancialAccounts that have the given status: `open` or `closed` Possible values: `closed`, `open`.
   """
-  @type t :: %__MODULE__{
-          created: map() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          status: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :ending_before, :expand, :limit, :starting_after, :status]
 end

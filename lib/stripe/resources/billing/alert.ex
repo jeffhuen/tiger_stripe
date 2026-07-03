@@ -15,15 +15,7 @@ defmodule Stripe.Resources.Billing.Alert do
   * `title` - Title of the alert. Max length: 5000.
   * `usage_threshold` - Encapsulates configuration of the alert to monitor usage on a specific [Billing Meter](https://docs.stripe.com/api/billing/meter). Nullable. Expandable.
   """
-  @type t :: %__MODULE__{
-          alert_type: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          status: String.t(),
-          title: String.t(),
-          usage_threshold: usage_threshold()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:alert_type, :id, :livemode, :object, :status, :title, :usage_threshold]
 
@@ -31,30 +23,6 @@ defmodule Stripe.Resources.Billing.Alert do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["usage_threshold"]
-
-  @typedoc """
-  * `filters` - The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time. Nullable.
-  * `gte` - The value at which this alert will trigger.
-  * `meter` - The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
-  * `recurrence` - Defines how the alert will behave. Possible values: `one_time`.
-  """
-  @type usage_threshold :: %{
-          optional(:filters) => [usage_threshold_filters()] | nil,
-          optional(:gte) => integer() | nil,
-          optional(:meter) => String.t() | Stripe.Resources.Billing.Meter.t() | nil,
-          optional(:recurrence) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `customer` - Limit the scope of the alert to this customer ID Nullable.
-  * `type` - Possible values: `customer`.
-  """
-  @type usage_threshold_filters :: %{
-          optional(:customer) => String.t() | Stripe.Resources.Customer.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

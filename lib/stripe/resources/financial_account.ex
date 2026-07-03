@@ -8,10 +8,7 @@ defmodule Stripe.Resources.FinancialAccount do
   * `id` - The FinancialAccount ID. Max length: 5000.
   * `network` - The rails the ReceivedCredit was sent over. A FinancialAccount can only send funds over `stripe`. Possible values: `stripe`.
   """
-  @type t :: %__MODULE__{
-          id: String.t(),
-          network: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:id, :network]
 

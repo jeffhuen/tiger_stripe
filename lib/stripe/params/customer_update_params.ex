@@ -29,29 +29,7 @@ defmodule Stripe.Params.CustomerUpdateParams do
   * `tax_exempt` - The customer's tax exemption. One of `none`, `exempt`, or `reverse`. Possible values: `exempt`, `none`, `reverse`.
   * `validate`
   """
-  @type t :: %__MODULE__{
-          address: map() | nil,
-          balance: integer() | nil,
-          business_name: map() | nil,
-          cash_balance: cash_balance() | nil,
-          default_source: String.t() | nil,
-          description: String.t() | nil,
-          email: String.t() | nil,
-          expand: [String.t()] | nil,
-          individual_name: map() | nil,
-          invoice_prefix: String.t() | nil,
-          invoice_settings: invoice_settings() | nil,
-          metadata: map() | nil,
-          name: String.t() | nil,
-          next_invoice_sequence: integer() | nil,
-          phone: String.t() | nil,
-          preferred_locales: [String.t()] | nil,
-          shipping: map() | nil,
-          source: String.t() | nil,
-          tax: tax() | nil,
-          tax_exempt: String.t() | nil,
-          validate: boolean() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :address,
@@ -76,45 +54,4 @@ defmodule Stripe.Params.CustomerUpdateParams do
     :tax_exempt,
     :validate
   ]
-
-  @typedoc """
-  * `settings` - Settings controlling the behavior of the customer's cash balance,
-  such as reconciliation of funds received.
-  """
-  @type cash_balance :: %{
-          optional(:settings) => cash_balance_settings() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `reconciliation_mode` - Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://docs.stripe.com/payments/customer-balance/reconciliation). Possible values: `automatic`, `manual`, `merchant_default`.
-  """
-  @type cash_balance_settings :: %{
-          optional(:reconciliation_mode) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `custom_fields` - The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
-  * `default_payment_method` - ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices. Max length: 5000.
-  * `footer` - Default footer to be displayed on invoices for this customer. Max length: 5000.
-  * `rendering_options` - Default options for invoice PDF rendering for this customer.
-  """
-  @type invoice_settings :: %{
-          optional(:custom_fields) => map() | nil,
-          optional(:default_payment_method) => String.t() | nil,
-          optional(:footer) => String.t() | nil,
-          optional(:rendering_options) => map() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `ip_address` - A recent IP address of the customer used for tax reporting and tax location inference. Stripe recommends updating the IP address when a new PaymentMethod is attached or the address field on the customer is updated. We recommend against updating this field more frequently since it could result in unexpected tax location/reporting outcomes.
-  * `validate_location` - A flag that indicates when Stripe should validate the customer tax location. Defaults to `auto`. Possible values: `auto`, `deferred`, `immediately`.
-  """
-  @type tax :: %{
-          optional(:ip_address) => map() | nil,
-          optional(:validate_location) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

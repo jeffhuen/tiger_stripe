@@ -17,13 +17,7 @@ defmodule Stripe.Resources.FundingInstructions do
   * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `funding_instructions`.
   """
-  @type t :: %__MODULE__{
-          bank_transfer: Stripe.Resources.BankTransfer.t(),
-          currency: String.t(),
-          funding_type: String.t(),
-          livemode: boolean(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:bank_transfer, :currency, :funding_type, :livemode, :object]
 

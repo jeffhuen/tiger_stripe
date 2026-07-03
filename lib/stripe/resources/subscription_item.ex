@@ -22,21 +22,7 @@ defmodule Stripe.Resources.SubscriptionItem do
   * `subscription` - The `subscription` this `subscription_item` belongs to. Max length: 5000.
   * `tax_rates` - The tax rates which apply to this `subscription_item`. When set, the `default_tax_rates` on the subscription do not apply to this `subscription_item`. Nullable. Expandable.
   """
-  @type t :: %__MODULE__{
-          billing_thresholds: billing_thresholds(),
-          created: integer(),
-          current_period_end: integer(),
-          current_period_start: integer(),
-          discounts: [String.t() | Stripe.Resources.Discount.t()],
-          id: String.t(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          plan: Stripe.Resources.Plan.t(),
-          price: Stripe.Resources.Price.t(),
-          quantity: integer() | nil,
-          subscription: String.t(),
-          tax_rates: [Stripe.Resources.TaxRate.t()]
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :billing_thresholds,
@@ -58,14 +44,6 @@ defmodule Stripe.Resources.SubscriptionItem do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["billing_thresholds", "discounts", "plan", "price", "tax_rates"]
-
-  @typedoc """
-  * `usage_gte` - Usage threshold that triggers the subscription to create an invoice Nullable.
-  """
-  @type billing_thresholds :: %{
-          optional(:usage_gte) => integer() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

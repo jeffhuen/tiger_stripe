@@ -7,11 +7,7 @@ defmodule Stripe.Params.PaymentRecordReportPaymentAttemptGuaranteedParams do
   * `guaranteed_at` - When the reported payment was guaranteed. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `metadata`
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          guaranteed_at: integer(),
-          metadata: map() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :guaranteed_at, :metadata]
 end

@@ -10,12 +10,7 @@ defmodule Stripe.Resources.DeletedBankAccount do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `bank_account`.
   """
-  @type t :: %__MODULE__{
-          currency: String.t() | nil,
-          deleted: boolean(),
-          id: String.t(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:currency, :deleted, :id, :object]
 

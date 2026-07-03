@@ -14,10 +14,7 @@ defmodule Stripe.Resources.AfterpayClearpay do
 
   When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
   """
-  @type t :: %__MODULE__{
-          capture_method: String.t() | nil,
-          setup_future_usage: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:capture_method, :setup_future_usage]
 

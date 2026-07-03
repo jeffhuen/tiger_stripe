@@ -26,20 +26,7 @@ defmodule Stripe.Resources.WebhookEndpoint do
   * `status` - The status of the webhook. It can be `enabled` or `disabled`. Max length: 5000.
   * `url` - The URL of the webhook endpoint. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          api_version: String.t(),
-          application: String.t(),
-          created: integer(),
-          description: String.t(),
-          enabled_events: [String.t()],
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          secret: String.t() | nil,
-          status: String.t(),
-          url: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :api_version,

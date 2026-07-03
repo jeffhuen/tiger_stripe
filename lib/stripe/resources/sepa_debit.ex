@@ -13,15 +13,7 @@ defmodule Stripe.Resources.SepaDebit do
   * `mandate_reference` - Nullable.
   * `mandate_url` - Nullable.
   """
-  @type t :: %__MODULE__{
-          bank_code: String.t() | nil,
-          branch_code: String.t() | nil,
-          country: String.t() | nil,
-          fingerprint: String.t() | nil,
-          last4: String.t() | nil,
-          mandate_reference: String.t() | nil,
-          mandate_url: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :bank_code,

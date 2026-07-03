@@ -8,10 +8,7 @@ defmodule Stripe.Resources.NextActionRedirectToUrl do
   * `return_url` - If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion. Max length: 5000. Nullable.
   * `url` - The URL you must redirect your customer to in order to authenticate. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          return_url: String.t(),
-          url: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:return_url, :url]
 

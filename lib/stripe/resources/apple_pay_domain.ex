@@ -11,13 +11,7 @@ defmodule Stripe.Resources.ApplePayDomain do
   * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `apple_pay_domain`.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          domain_name: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :domain_name, :id, :livemode, :object]
 

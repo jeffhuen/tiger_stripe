@@ -6,10 +6,7 @@ defmodule Stripe.Params.Issuing.TokenUpdateParams do
   * `expand` - Specifies which fields in the response should be expanded.
   * `status` - Specifies which status the token should be updated to. Possible values: `active`, `deleted`, `suspended`.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          status: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :status]
 end

@@ -7,9 +7,7 @@ defmodule Stripe.Resources.Routing do
   @typedoc """
   * `requested_priority` - Requested routing priority Possible values: `domestic`, `international`. Nullable.
   """
-  @type t :: %__MODULE__{
-          requested_priority: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:requested_priority]
 

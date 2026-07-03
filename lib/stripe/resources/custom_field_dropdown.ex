@@ -9,11 +9,7 @@ defmodule Stripe.Resources.CustomFieldDropdown do
   * `options` - The options available for the customer to select. Up to 200 options allowed. Expandable.
   * `value` - The option selected by the customer. This will be the `value` for the option. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          default_value: String.t(),
-          options: [Stripe.Resources.CustomFieldDropdownOption.t()],
-          value: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:default_value, :options, :value]
 

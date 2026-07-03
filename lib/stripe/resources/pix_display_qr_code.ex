@@ -11,13 +11,7 @@ defmodule Stripe.Resources.PixDisplayQrCode do
   * `image_url_png` - The image_url_png string used to render png QR code Max length: 5000.
   * `image_url_svg` - The image_url_svg string used to render svg QR code Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          data: String.t() | nil,
-          expires_at: integer() | nil,
-          hosted_instructions_url: String.t() | nil,
-          image_url_png: String.t() | nil,
-          image_url_svg: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:data, :expires_at, :hosted_instructions_url, :image_url_png, :image_url_svg]
 

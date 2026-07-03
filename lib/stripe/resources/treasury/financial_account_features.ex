@@ -17,16 +17,7 @@ defmodule Stripe.Resources.Treasury.FinancialAccountFeatures do
   * `outbound_payments` - Expandable.
   * `outbound_transfers` - Expandable.
   """
-  @type t :: %__MODULE__{
-          card_issuing: Stripe.Resources.ToggleSettings.t() | nil,
-          deposit_insurance: Stripe.Resources.ToggleSettings.t() | nil,
-          financial_addresses: Stripe.Resources.FinancialAddresses.t() | nil,
-          inbound_transfers: Stripe.Resources.InboundTransfers.t() | nil,
-          intra_stripe_flows: Stripe.Resources.ToggleSettings.t() | nil,
-          object: String.t(),
-          outbound_payments: Stripe.Resources.OutboundPayments.t() | nil,
-          outbound_transfers: Stripe.Resources.OutboundTransfers.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :card_issuing,

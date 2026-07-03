@@ -11,15 +11,7 @@ defmodule Stripe.Params.TopupListParams do
   * `starting_after` - A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list. Max length: 5000.
   * `status` - Only return top-ups that have the given status. One of `canceled`, `failed`, `pending` or `succeeded`. Possible values: `canceled`, `failed`, `pending`, `succeeded`. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          amount: map() | nil,
-          created: map() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          status: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:amount, :created, :ending_before, :expand, :limit, :starting_after, :status]
 end

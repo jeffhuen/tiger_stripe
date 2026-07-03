@@ -7,9 +7,7 @@ defmodule Stripe.Resources.StatusDetails do
   @typedoc """
   * `closed` - Details related to the closure of this FinancialAccount Nullable. Expandable.
   """
-  @type t :: %__MODULE__{
-          closed: Stripe.Resources.Closed.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:closed]
 

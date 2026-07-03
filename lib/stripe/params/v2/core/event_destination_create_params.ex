@@ -15,19 +15,7 @@ defmodule Stripe.Params.V2.Core.EventDestinationCreateParams do
   * `type` - Event destination type. Possible values: `amazon_eventbridge`, `webhook_endpoint`.
   * `webhook_endpoint` - Webhook endpoint configuration.
   """
-  @type t :: %__MODULE__{
-          amazon_eventbridge: amazon_eventbridge() | nil,
-          description: String.t() | nil,
-          enabled_events: [String.t()],
-          event_payload: String.t(),
-          events_from: [String.t()] | nil,
-          include: [String.t()] | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          name: String.t(),
-          snapshot_api_version: String.t() | nil,
-          type: String.t(),
-          webhook_endpoint: webhook_endpoint() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amazon_eventbridge,
@@ -42,22 +30,4 @@ defmodule Stripe.Params.V2.Core.EventDestinationCreateParams do
     :type,
     :webhook_endpoint
   ]
-
-  @typedoc """
-  * `aws_account_id` - The AWS account ID.
-  * `aws_region` - The region of the AWS event source.
-  """
-  @type amazon_eventbridge :: %{
-          optional(:aws_account_id) => String.t() | nil,
-          optional(:aws_region) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `url` - The URL of the webhook endpoint.
-  """
-  @type webhook_endpoint :: %{
-          optional(:url) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

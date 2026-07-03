@@ -8,12 +8,7 @@ defmodule Stripe.Params.TestHelpers.CustomerFundCashBalanceParams do
   * `expand` - Specifies which fields in the response should be expanded.
   * `reference` - A description of the test funding. This simulates free-text references supplied by customers when making bank transfers to their cash balance. You can use this to test how Stripe's [reconciliation algorithm](https://docs.stripe.com/payments/customer-balance/reconciliation) applies to different user inputs. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          currency: String.t(),
-          expand: [String.t()] | nil,
-          reference: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:amount, :currency, :expand, :reference]
 end

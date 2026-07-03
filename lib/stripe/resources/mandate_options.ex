@@ -16,18 +16,7 @@ defmodule Stripe.Resources.MandateOptions do
   * `start_date` - Start date of the mandate or subscription. Start date should not be lesser than yesterday. Format: Unix timestamp.
   * `supported_types` - Specifies the type of mandates supported. Possible values are `india`. Nullable.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          amount_type: String.t(),
-          currency: String.t(),
-          description: String.t(),
-          end_date: integer(),
-          interval: String.t(),
-          interval_count: integer(),
-          reference: String.t(),
-          start_date: integer(),
-          supported_types: [String.t()]
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,

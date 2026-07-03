@@ -27,20 +27,7 @@ defmodule Stripe.Resources.InvoicePayment do
   * `status` - The status of the payment, one of `open`, `paid`, or `canceled`. Max length: 5000.
   * `status_transitions` - Expandable.
   """
-  @type t :: %__MODULE__{
-          amount_paid: integer(),
-          amount_requested: integer(),
-          created: integer(),
-          currency: String.t(),
-          id: String.t(),
-          invoice: String.t() | Stripe.Resources.Invoice.t(),
-          is_default: boolean(),
-          livemode: boolean(),
-          object: String.t(),
-          payment: payment(),
-          status: String.t(),
-          status_transitions: status_transitions()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount_paid,
@@ -61,30 +48,6 @@ defmodule Stripe.Resources.InvoicePayment do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["invoice", "payment", "status_transitions"]
-
-  @typedoc """
-  * `charge` - ID of the successful charge for this payment when `type` is `charge`.Note: charge is only surfaced if the charge object is not associated with a payment intent. If the charge object does have a payment intent, the Invoice Payment surfaces the payment intent instead.
-  * `payment_intent` - ID of the PaymentIntent associated with this payment when `type` is `payment_intent`. Note: This property is only populated for invoices finalized on or after March 15th, 2019.
-  * `payment_record` - ID of the PaymentRecord associated with this payment when `type` is `payment_record`.
-  * `type` - Type of payment object associated with this invoice payment. Possible values: `charge`, `payment_intent`, `payment_record`.
-  """
-  @type payment :: %{
-          optional(:charge) => String.t() | Stripe.Resources.Charge.t() | nil,
-          optional(:payment_intent) => String.t() | Stripe.Resources.PaymentIntent.t() | nil,
-          optional(:payment_record) => String.t() | Stripe.Resources.PaymentRecord.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `canceled_at` - The time that the payment was canceled. Format: Unix timestamp. Nullable.
-  * `paid_at` - The time that the payment succeeded. Format: Unix timestamp. Nullable.
-  """
-  @type status_transitions :: %{
-          optional(:canceled_at) => integer() | nil,
-          optional(:paid_at) => integer() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

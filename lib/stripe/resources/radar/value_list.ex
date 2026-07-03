@@ -20,18 +20,7 @@ defmodule Stripe.Resources.Radar.ValueList do
   * `name` - The name of the value list. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `radar.value_list`.
   """
-  @type t :: %__MODULE__{
-          alias: String.t(),
-          created: integer(),
-          created_by: String.t(),
-          id: String.t(),
-          item_type: String.t(),
-          list_items: list_items(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          name: String.t(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :alias,
@@ -50,20 +39,6 @@ defmodule Stripe.Resources.Radar.ValueList do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["list_items"]
-
-  @typedoc """
-  * `data` - Details about each object.
-  * `has_more` - True if this list has another page of items after this one that can be fetched.
-  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-  * `url` - The URL where this list can be accessed. Max length: 5000.
-  """
-  @type list_items :: %{
-          optional(:data) => [Stripe.Resources.Radar.ValueListItem.t()] | nil,
-          optional(:has_more) => boolean() | nil,
-          optional(:object) => String.t() | nil,
-          optional(:url) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

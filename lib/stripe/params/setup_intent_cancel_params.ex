@@ -6,10 +6,7 @@ defmodule Stripe.Params.SetupIntentCancelParams do
   * `cancellation_reason` - Reason for canceling this SetupIntent. Possible values are: `abandoned`, `requested_by_customer`, or `duplicate` Possible values: `abandoned`, `duplicate`, `requested_by_customer`. Max length: 5000.
   * `expand` - Specifies which fields in the response should be expanded.
   """
-  @type t :: %__MODULE__{
-          cancellation_reason: String.t() | nil,
-          expand: [String.t()] | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:cancellation_reason, :expand]
 end

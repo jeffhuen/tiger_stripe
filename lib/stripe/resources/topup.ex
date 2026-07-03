@@ -28,24 +28,7 @@ defmodule Stripe.Resources.Topup do
   * `status` - The status of the top-up is either `canceled`, `failed`, `pending`, `reversed`, or `succeeded`. Possible values: `canceled`, `failed`, `pending`, `reversed`, `succeeded`.
   * `transfer_group` - A string that identifies this top-up as part of a group. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
-          created: integer(),
-          currency: String.t(),
-          description: String.t(),
-          expected_availability_date: integer(),
-          failure_code: String.t(),
-          failure_message: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          source: Stripe.Resources.Source.t(),
-          statement_descriptor: String.t(),
-          status: String.t(),
-          transfer_group: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,

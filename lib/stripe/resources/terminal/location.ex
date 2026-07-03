@@ -22,20 +22,7 @@ defmodule Stripe.Resources.Terminal.Location do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `terminal.location`.
   * `phone` - The phone number of the location. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          address: Stripe.Resources.Address.t(),
-          address_kana: address_kana() | nil,
-          address_kanji: address_kanji() | nil,
-          configuration_overrides: String.t() | nil,
-          display_name: String.t(),
-          display_name_kana: String.t() | nil,
-          display_name_kanji: String.t() | nil,
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          phone: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :address,
@@ -56,46 +43,6 @@ defmodule Stripe.Resources.Terminal.Location do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["address", "address_kana", "address_kanji"]
-
-  @typedoc """
-  * `city` - City/Ward. Max length: 5000. Nullable.
-  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000. Nullable.
-  * `line1` - Block/Building number. Max length: 5000. Nullable.
-  * `line2` - Building details. Max length: 5000. Nullable.
-  * `postal_code` - ZIP or postal code. Max length: 5000. Nullable.
-  * `state` - Prefecture. Max length: 5000. Nullable.
-  * `town` - Town/cho-me. Max length: 5000. Nullable.
-  """
-  @type address_kana :: %{
-          optional(:city) => String.t() | nil,
-          optional(:country) => String.t() | nil,
-          optional(:line1) => String.t() | nil,
-          optional(:line2) => String.t() | nil,
-          optional(:postal_code) => String.t() | nil,
-          optional(:state) => String.t() | nil,
-          optional(:town) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `city` - City/Ward. Max length: 5000. Nullable.
-  * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000. Nullable.
-  * `line1` - Block/Building number. Max length: 5000. Nullable.
-  * `line2` - Building details. Max length: 5000. Nullable.
-  * `postal_code` - ZIP or postal code. Max length: 5000. Nullable.
-  * `state` - Prefecture. Max length: 5000. Nullable.
-  * `town` - Town/cho-me. Max length: 5000. Nullable.
-  """
-  @type address_kanji :: %{
-          optional(:city) => String.t() | nil,
-          optional(:country) => String.t() | nil,
-          optional(:line1) => String.t() | nil,
-          optional(:line2) => String.t() | nil,
-          optional(:postal_code) => String.t() | nil,
-          optional(:state) => String.t() | nil,
-          optional(:town) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

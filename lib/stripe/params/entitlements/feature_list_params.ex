@@ -10,14 +10,7 @@ defmodule Stripe.Params.Entitlements.FeatureListParams do
   * `lookup_key` - If set, filter results to only include features with the given lookup_key. Max length: 5000.
   * `starting_after` - A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          archived: boolean() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          lookup_key: String.t() | nil,
-          starting_after: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:archived, :ending_before, :expand, :limit, :lookup_key, :starting_after]
 end

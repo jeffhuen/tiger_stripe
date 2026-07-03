@@ -13,13 +13,7 @@ defmodule Stripe.Resources.Entitlements.ActiveEntitlement do
   * `lookup_key` - A unique key you provide as your own system identifier. This may be up to 80 characters. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `entitlements.active_entitlement`.
   """
-  @type t :: %__MODULE__{
-          feature: String.t() | Stripe.Resources.Entitlements.Feature.t(),
-          id: String.t(),
-          livemode: boolean(),
-          lookup_key: String.t(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:feature, :id, :livemode, :lookup_key, :object]
 

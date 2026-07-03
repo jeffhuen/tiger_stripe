@@ -7,9 +7,7 @@ defmodule Stripe.Resources.StripeErrorResponse do
   @typedoc """
   * `error`
   """
-  @type t :: %__MODULE__{
-          error: Stripe.Resources.StripeError.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:error]
 

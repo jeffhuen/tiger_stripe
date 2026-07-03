@@ -9,11 +9,7 @@ defmodule Stripe.Resources.Wechat do
   * `qr_code_url` - Nullable.
   * `statement_descriptor`
   """
-  @type t :: %__MODULE__{
-          prepay_id: String.t() | nil,
-          qr_code_url: String.t() | nil,
-          statement_descriptor: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:prepay_id, :qr_code_url, :statement_descriptor]
 

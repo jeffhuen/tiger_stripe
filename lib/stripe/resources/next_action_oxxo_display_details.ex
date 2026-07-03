@@ -9,11 +9,7 @@ defmodule Stripe.Resources.NextActionOxxoDisplayDetails do
   * `hosted_voucher_url` - The URL for the hosted OXXO voucher page, which allows customers to view and print an OXXO voucher. Max length: 5000. Nullable.
   * `number` - OXXO reference number. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          expires_after: integer(),
-          hosted_voucher_url: String.t(),
-          number: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expires_after, :hosted_voucher_url, :number]
 

@@ -16,15 +16,7 @@ defmodule Stripe.Resources.Entitlements.Feature do
   * `name` - The feature's name, for your own purpose, not meant to be displayable to the customer. Max length: 80.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `entitlements.feature`.
   """
-  @type t :: %__MODULE__{
-          active: boolean(),
-          id: String.t(),
-          livemode: boolean(),
-          lookup_key: String.t(),
-          metadata: %{String.t() => String.t()},
-          name: String.t(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:active, :id, :livemode, :lookup_key, :metadata, :name, :object]
 

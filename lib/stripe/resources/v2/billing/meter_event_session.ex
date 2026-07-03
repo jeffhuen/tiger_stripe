@@ -13,14 +13,7 @@ defmodule Stripe.Resources.V2.Billing.MeterEventSession do
   * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value of the object field. Possible values: `v2.billing.meter_event_session`.
   """
-  @type t :: %__MODULE__{
-          authentication_token: String.t(),
-          created: String.t(),
-          expires_at: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:authentication_token, :created, :expires_at, :id, :livemode, :object]
 

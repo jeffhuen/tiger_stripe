@@ -16,18 +16,7 @@ defmodule Stripe.Resources.Multibanco do
   * `refund_account_holder_name` - Nullable.
   * `refund_iban` - Nullable.
   """
-  @type t :: %__MODULE__{
-          entity: String.t() | nil,
-          reference: String.t() | nil,
-          refund_account_holder_address_city: String.t() | nil,
-          refund_account_holder_address_country: String.t() | nil,
-          refund_account_holder_address_line1: String.t() | nil,
-          refund_account_holder_address_line2: String.t() | nil,
-          refund_account_holder_address_postal_code: String.t() | nil,
-          refund_account_holder_address_state: String.t() | nil,
-          refund_account_holder_name: String.t() | nil,
-          refund_iban: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :entity,

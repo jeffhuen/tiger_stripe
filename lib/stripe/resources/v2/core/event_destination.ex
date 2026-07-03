@@ -25,25 +25,7 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
   * `updated` - Time at which the object was last updated. Format: date-time.
   * `webhook_endpoint` - Webhook endpoint configuration.
   """
-  @type t :: %__MODULE__{
-          amazon_eventbridge: amazon_eventbridge() | nil,
-          created: String.t(),
-          description: String.t(),
-          enabled_events: [String.t()],
-          event_payload: String.t(),
-          events_from: [String.t()] | nil,
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()} | nil,
-          name: String.t(),
-          object: String.t(),
-          snapshot_api_version: String.t() | nil,
-          status: String.t(),
-          status_details: status_details() | nil,
-          type: String.t(),
-          updated: String.t(),
-          webhook_endpoint: webhook_endpoint() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amazon_eventbridge,
@@ -67,44 +49,6 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
 
   @object_name "v2.core.event_destination"
   def object_name, do: @object_name
-
-  @typedoc """
-  * `aws_account_id` - The AWS account ID.
-  * `aws_event_source_arn` - The ARN of the AWS event source.
-  * `aws_event_source_status` - The state of the AWS event source. Possible values: `active`, `deleted`, `pending`, `unknown`.
-  """
-  @type amazon_eventbridge :: %{
-          optional(:aws_account_id) => String.t() | nil,
-          optional(:aws_event_source_arn) => String.t() | nil,
-          optional(:aws_event_source_status) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `disabled` - Details about why the event destination has been disabled.
-  """
-  @type status_details :: %{
-          optional(:disabled) => status_details_disabled() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `reason` - Reason event destination has been disabled. Possible values: `no_aws_event_source_exists`, `user`.
-  """
-  @type status_details_disabled :: %{
-          optional(:reason) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `signing_secret` - The signing secret of the webhook endpoint, only includable on creation.
-  * `url` - The URL of the webhook endpoint, includable.
-  """
-  @type webhook_endpoint :: %{
-          optional(:signing_secret) => String.t() | nil,
-          optional(:url) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

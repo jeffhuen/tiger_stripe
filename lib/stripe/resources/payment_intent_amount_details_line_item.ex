@@ -20,18 +20,7 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
   * `unit_cost` - The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
   * `unit_of_measure` - A unit of measure for the line item, such as gallons, feet, meters, etc. Required for L3 rates. At most 12 alphanumeric characters long. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          discount_amount: integer(),
-          id: String.t(),
-          object: String.t(),
-          payment_method_options: payment_method_options(),
-          product_code: String.t(),
-          product_name: String.t(),
-          quantity: integer(),
-          tax: tax(),
-          unit_cost: integer(),
-          unit_of_measure: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :discount_amount,
@@ -50,72 +39,6 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["payment_method_options", "tax"]
-
-  @typedoc """
-  * `card`
-  * `card_present`
-  * `klarna`
-  * `paypal`
-  """
-  @type payment_method_options :: %{
-          optional(:card) => payment_method_options_card() | nil,
-          optional(:card_present) => payment_method_options_card_present() | nil,
-          optional(:klarna) => payment_method_options_klarna() | nil,
-          optional(:paypal) => payment_method_options_paypal() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `commodity_code` - Max length: 5000. Nullable.
-  """
-  @type payment_method_options_card :: %{
-          optional(:commodity_code) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `commodity_code` - Max length: 5000. Nullable.
-  """
-  @type payment_method_options_card_present :: %{
-          optional(:commodity_code) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `image_url` - Max length: 2048. Nullable.
-  * `product_url` - Max length: 2048. Nullable.
-  * `reference` - Max length: 255. Nullable.
-  * `subscription_reference` - Max length: 2048. Nullable.
-  """
-  @type payment_method_options_klarna :: %{
-          optional(:image_url) => String.t() | nil,
-          optional(:product_url) => String.t() | nil,
-          optional(:reference) => String.t() | nil,
-          optional(:subscription_reference) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `category` - Type of the line item. Possible values: `digital_goods`, `donation`, `physical_goods`.
-  * `description` - Description of the line item. Max length: 5000.
-  * `sold_by` - The Stripe account ID of the connected account that sells the item. This is only needed when using [Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers). Max length: 5000.
-  """
-  @type payment_method_options_paypal :: %{
-          optional(:category) => String.t() | nil,
-          optional(:description) => String.t() | nil,
-          optional(:sold_by) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `total_tax_amount` - The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
-
-  This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
-  """
-  @type tax :: %{
-          optional(:total_tax_amount) => integer() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

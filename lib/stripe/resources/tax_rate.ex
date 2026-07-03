@@ -30,26 +30,7 @@ defmodule Stripe.Resources.TaxRate do
   * `state` - [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2), without country prefix. For example, "NY" for New York, United States. Max length: 5000. Nullable.
   * `tax_type` - The high-level tax type, such as `vat` or `sales_tax`. Possible values: `amusement_tax`, `communications_tax`, `gst`, `hst`, `igst`, `jct`, `lease_tax`, `pst`, `qst`, `retail_delivery_fee`, `rst`, `sales_tax`, `service_tax`, `vat`. Nullable.
   """
-  @type t :: %__MODULE__{
-          active: boolean(),
-          country: String.t(),
-          created: integer(),
-          description: String.t(),
-          display_name: String.t(),
-          effective_percentage: float(),
-          flat_amount: Stripe.Resources.TaxRateFlatAmount.t(),
-          id: String.t(),
-          inclusive: boolean(),
-          jurisdiction: String.t(),
-          jurisdiction_level: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          percentage: float(),
-          rate_type: String.t(),
-          state: String.t(),
-          tax_type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :active,

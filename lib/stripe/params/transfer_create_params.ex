@@ -13,17 +13,7 @@ defmodule Stripe.Params.TransferCreateParams do
   * `source_type` - The source balance to use for this transfer. One of `bank_account`, `card`, or `fpx`. For most users, this will default to `card`. Possible values: `bank_account`, `card`, `fpx`. Max length: 5000.
   * `transfer_group` - A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
   """
-  @type t :: %__MODULE__{
-          amount: integer() | nil,
-          currency: String.t(),
-          description: String.t() | nil,
-          destination: String.t(),
-          expand: [String.t()] | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          source_transaction: String.t() | nil,
-          source_type: String.t() | nil,
-          transfer_group: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,

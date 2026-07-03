@@ -10,12 +10,7 @@ defmodule Stripe.Resources.NextActionMultibancoDisplayDetails do
   * `hosted_voucher_url` - The URL for the hosted Multibanco voucher page, which allows customers to view a Multibanco voucher. Max length: 5000. Nullable.
   * `reference` - Reference number associated with this Multibanco payment. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          entity: String.t(),
-          expires_at: integer(),
-          hosted_voucher_url: String.t(),
-          reference: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:entity, :expires_at, :hosted_voucher_url, :reference]
 

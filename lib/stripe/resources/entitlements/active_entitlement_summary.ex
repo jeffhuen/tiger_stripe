@@ -12,12 +12,7 @@ defmodule Stripe.Resources.Entitlements.ActiveEntitlementSummary do
   * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `entitlements.active_entitlement_summary`.
   """
-  @type t :: %__MODULE__{
-          customer: String.t(),
-          entitlements: entitlements(),
-          livemode: boolean(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:customer, :entitlements, :livemode, :object]
 
@@ -25,20 +20,6 @@ defmodule Stripe.Resources.Entitlements.ActiveEntitlementSummary do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["entitlements"]
-
-  @typedoc """
-  * `data`
-  * `has_more` - True if this list has another page of items after this one that can be fetched.
-  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-  * `url` - The URL where this list can be accessed. Max length: 5000.
-  """
-  @type entitlements :: %{
-          optional(:data) => [Stripe.Resources.Entitlements.ActiveEntitlement.t()] | nil,
-          optional(:has_more) => boolean() | nil,
-          optional(:object) => String.t() | nil,
-          optional(:url) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

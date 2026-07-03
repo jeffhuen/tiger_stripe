@@ -15,17 +15,7 @@ defmodule Stripe.Resources.Receipt do
   * `terminal_verification_results` - A 5-byte string that records the checks and validations that occur between the card and the terminal. These checks determine how the terminal processes the transaction and what risk tolerance is acceptable. Referenced from EMV Tag 95. Max length: 5000. Nullable.
   * `transaction_status_information` - An indication of which steps were completed during the card read process. Referenced from EMV Tag 9B. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          account_type: String.t() | nil,
-          application_cryptogram: String.t(),
-          application_preferred_name: String.t(),
-          authorization_code: String.t(),
-          authorization_response_code: String.t(),
-          cardholder_verification_method: String.t(),
-          dedicated_file_name: String.t(),
-          terminal_verification_results: String.t(),
-          transaction_status_information: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :account_type,

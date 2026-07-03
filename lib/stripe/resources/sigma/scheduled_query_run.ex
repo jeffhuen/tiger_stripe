@@ -22,19 +22,7 @@ defmodule Stripe.Resources.Sigma.ScheduledQueryRun do
   * `status` - The query's execution status, which will be `completed` for successful runs, and `canceled`, `failed`, or `timed_out` otherwise. Max length: 5000.
   * `title` - Title of the query. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          data_load_time: integer(),
-          error: error() | nil,
-          file: Stripe.Resources.File.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          result_available_until: integer(),
-          sql: String.t(),
-          status: String.t(),
-          title: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :created,
@@ -54,14 +42,6 @@ defmodule Stripe.Resources.Sigma.ScheduledQueryRun do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["error", "file"]
-
-  @typedoc """
-  * `message` - Information about the run failure. Max length: 5000.
-  """
-  @type error :: %{
-          optional(:message) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

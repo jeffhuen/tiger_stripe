@@ -18,20 +18,7 @@ defmodule Stripe.Params.RefundCreateParams do
 
   A transfer can be reversed only by the application that created the charge.
   """
-  @type t :: %__MODULE__{
-          amount: integer() | nil,
-          charge: String.t() | nil,
-          currency: String.t() | nil,
-          customer: String.t() | nil,
-          expand: [String.t()] | nil,
-          instructions_email: String.t() | nil,
-          metadata: map() | nil,
-          origin: String.t() | nil,
-          payment_intent: String.t() | nil,
-          reason: String.t() | nil,
-          refund_application_fee: boolean() | nil,
-          reverse_transfer: boolean() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,

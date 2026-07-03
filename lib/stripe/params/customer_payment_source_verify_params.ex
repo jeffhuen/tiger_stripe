@@ -6,10 +6,7 @@ defmodule Stripe.Params.CustomerPaymentSourceVerifyParams do
   * `amounts` - Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
   * `expand` - Specifies which fields in the response should be expanded.
   """
-  @type t :: %__MODULE__{
-          amounts: [integer()] | nil,
-          expand: [String.t()] | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:amounts, :expand]
 end

@@ -36,17 +36,7 @@ defmodule Stripe.Resources.Token do
   * `type` - Type of the token: `account`, `bank_account`, `card`, or `pii`. Max length: 5000.
   * `used` - Determines if you have already used this token (you can only use tokens once).
   """
-  @type t :: %__MODULE__{
-          bank_account: Stripe.Resources.BankAccount.t() | nil,
-          card: Stripe.Resources.Card.t() | nil,
-          client_ip: String.t(),
-          created: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          type: String.t(),
-          used: boolean()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:bank_account, :card, :client_ip, :created, :id, :livemode, :object, :type, :used]
 

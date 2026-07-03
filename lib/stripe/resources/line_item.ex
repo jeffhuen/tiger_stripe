@@ -22,22 +22,7 @@ defmodule Stripe.Resources.LineItem do
   * `quantity` - The quantity of products being purchased. Nullable.
   * `taxes` - The taxes applied to the line item. Expandable.
   """
-  @type t :: %__MODULE__{
-          adjustable_quantity: adjustable_quantity(),
-          amount_discount: integer(),
-          amount_subtotal: integer(),
-          amount_tax: integer(),
-          amount_total: integer(),
-          currency: String.t(),
-          description: String.t(),
-          discounts: [discounts()] | nil,
-          id: String.t(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          price: Stripe.Resources.Price.t(),
-          quantity: integer(),
-          taxes: [taxes()] | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :adjustable_quantity,
@@ -60,42 +45,6 @@ defmodule Stripe.Resources.LineItem do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["adjustable_quantity", "discounts", "price", "taxes"]
-
-  @typedoc """
-  * `enabled`
-  * `maximum` - Nullable.
-  * `minimum` - Nullable.
-  """
-  @type adjustable_quantity :: %{
-          optional(:enabled) => boolean() | nil,
-          optional(:maximum) => integer() | nil,
-          optional(:minimum) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `amount` - The amount discounted.
-  * `discount`
-  """
-  @type discounts :: %{
-          optional(:amount) => integer() | nil,
-          optional(:discount) => Stripe.Resources.Discount.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `amount` - Amount of tax applied for this rate.
-  * `rate`
-  * `taxability_reason` - The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported. Possible values: `customer_exempt`, `not_collecting`, `not_subject_to_tax`, `not_supported`, `portion_product_exempt`, `portion_reduced_rated`, `portion_standard_rated`, `product_exempt`, `product_exempt_holiday`, `proportionally_rated`, `reduced_rated`, `reverse_charge`, `standard_rated`, `taxable_basis_reduced`, `zero_rated`. Nullable.
-  * `taxable_amount` - The amount on which tax is calculated, in cents (or local equivalent). Nullable.
-  """
-  @type taxes :: %{
-          optional(:amount) => integer() | nil,
-          optional(:rate) => Stripe.Resources.TaxRate.t() | nil,
-          optional(:taxability_reason) => String.t() | nil,
-          optional(:taxable_amount) => integer() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

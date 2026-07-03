@@ -42,35 +42,7 @@ defmodule Stripe.Resources.Payout do
   * `trace_id` - A value that generates from the beneficiary's bank that allows users to track payouts with their bank. Banks might call this a "reference number" or something similar. Nullable. Expandable.
   * `type` - Can be `bank_account` or `card`. Possible values: `bank_account`, `card`.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          application_fee: String.t() | Stripe.Resources.ApplicationFee.t(),
-          application_fee_amount: integer(),
-          arrival_date: integer(),
-          automatic: boolean(),
-          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
-          created: integer(),
-          currency: String.t(),
-          description: String.t(),
-          destination: String.t() | Stripe.Resources.ExternalAccount.t(),
-          failure_balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
-          failure_code: String.t(),
-          failure_message: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          method: String.t(),
-          object: String.t(),
-          original_payout: String.t() | Stripe.Resources.Payout.t(),
-          payout_method: String.t(),
-          reconciliation_status: String.t(),
-          reversed_by: String.t() | Stripe.Resources.Payout.t(),
-          source_type: String.t(),
-          statement_descriptor: String.t(),
-          status: String.t(),
-          trace_id: trace_id(),
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -115,16 +87,6 @@ defmodule Stripe.Resources.Payout do
       "reversed_by",
       "trace_id"
     ]
-
-  @typedoc """
-  * `status` - Possible values are `pending`, `supported`, and `unsupported`. When `payout.status` is `pending` or `in_transit`, this will be `pending`. When the payout transitions to `paid`, `failed`, or `canceled`, this status will become `supported` or `unsupported` shortly after in most cases. In some cases, this may appear as `pending` for up to 10 days after `arrival_date` until transitioning to `supported` or `unsupported`. Max length: 5000.
-  * `value` - The trace ID value if `trace_id.status` is `supported`, otherwise `nil`. Max length: 5000. Nullable.
-  """
-  @type trace_id :: %{
-          optional(:status) => String.t() | nil,
-          optional(:value) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

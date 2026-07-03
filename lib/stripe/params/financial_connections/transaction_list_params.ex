@@ -11,15 +11,7 @@ defmodule Stripe.Params.FinancialConnections.TransactionListParams do
   * `transacted_at` - A filter on the list based on the object `transacted_at` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with the following options:
   * `transaction_refresh` - A filter on the list based on the object `transaction_refresh` field. The value can be a dictionary with the following options:
   """
-  @type t :: %__MODULE__{
-          account: String.t(),
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          transacted_at: map() | nil,
-          transaction_refresh: transaction_refresh() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :account,
@@ -30,12 +22,4 @@ defmodule Stripe.Params.FinancialConnections.TransactionListParams do
     :transacted_at,
     :transaction_refresh
   ]
-
-  @typedoc """
-  * `after` - Return results where the transactions were created or updated by a refresh that took place after this refresh (non-inclusive). Max length: 5000.
-  """
-  @type transaction_refresh :: %{
-          optional(:after) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

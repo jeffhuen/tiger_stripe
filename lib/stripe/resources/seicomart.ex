@@ -8,10 +8,7 @@ defmodule Stripe.Resources.Seicomart do
   * `confirmation_number` - The confirmation number. Max length: 5000.
   * `payment_code` - The payment code. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          confirmation_number: String.t() | nil,
-          payment_code: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:confirmation_number, :payment_code]
 

@@ -13,15 +13,7 @@ defmodule Stripe.Resources.WechatPayRedirectToAndroidApp do
   * `sign` - A signature Max length: 5000.
   * `timestamp` - Specifies the current time in epoch format Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          app_id: String.t(),
-          nonce_str: String.t(),
-          package: String.t(),
-          partner_id: String.t(),
-          prepay_id: String.t(),
-          sign: String.t(),
-          timestamp: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:app_id, :nonce_str, :package, :partner_id, :prepay_id, :sign, :timestamp]
 

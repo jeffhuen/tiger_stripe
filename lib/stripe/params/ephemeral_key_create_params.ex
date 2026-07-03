@@ -9,13 +9,7 @@ defmodule Stripe.Params.EphemeralKeyCreateParams do
   * `nonce` - A single-use token, created by Stripe.js, used for creating ephemeral keys for Issuing Cards without exchanging sensitive information. Max length: 5000.
   * `verification_session` - The ID of the Identity VerificationSession you'd like to access using the resulting ephemeral key Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          customer: String.t() | nil,
-          expand: [String.t()] | nil,
-          issuing_card: String.t() | nil,
-          nonce: String.t() | nil,
-          verification_session: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:customer, :expand, :issuing_card, :nonce, :verification_session]
 end

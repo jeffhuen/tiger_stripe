@@ -47,6 +47,11 @@ defmodule Stripe.CompactGeneratedSurfaceTest do
              1
   end
 
+  test "generated params and resources expose shallow public types" do
+    assert shallow_public_type?("lib/stripe/resources/charge.ex")
+    assert shallow_public_type?("lib/stripe/params/charge_create_params.ex")
+  end
+
   test "generated service specs expose concrete success types" do
     charge_service = File.read!("lib/stripe/services/charge_service.ex")
 
@@ -77,5 +82,15 @@ defmodule Stripe.CompactGeneratedSurfaceTest do
     |> File.read!()
     |> then(&Regex.scan(~r/^\s*defmodule\s+/m, &1))
     |> length()
+  end
+
+  defp shallow_public_type?(path) do
+    source = File.read!(path)
+
+    type_names =
+      Regex.scan(~r/^\s*@type\s+([a-zA-Z_][a-zA-Z0-9_]*)/m, source, capture: :all_but_first)
+
+    type_names == [["t"]] and
+      source =~ "@type t :: %__MODULE__{}"
   end
 end

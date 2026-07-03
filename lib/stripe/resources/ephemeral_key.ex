@@ -12,14 +12,7 @@ defmodule Stripe.Resources.EphemeralKey do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `ephemeral_key`.
   * `secret` - The key's secret. You can use this value to make authorized requests to the Stripe API. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          expires: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          secret: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :expires, :id, :livemode, :object, :secret]
 

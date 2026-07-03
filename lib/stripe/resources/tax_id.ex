@@ -22,19 +22,7 @@ defmodule Stripe.Resources.TaxId do
   * `value` - Value of the tax ID. Max length: 5000.
   * `verification` - Tax ID verification information. Nullable. Expandable.
   """
-  @type t :: %__MODULE__{
-          country: String.t(),
-          created: integer(),
-          customer: String.t() | Stripe.Resources.Customer.t(),
-          customer_account: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          owner: owner(),
-          type: String.t(),
-          value: String.t(),
-          verification: verification()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :country,
@@ -54,34 +42,6 @@ defmodule Stripe.Resources.TaxId do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["customer", "owner", "verification"]
-
-  @typedoc """
-  * `account` - The account being referenced when `type` is `account`.
-  * `application` - The Connect Application being referenced when `type` is `application`.
-  * `customer` - The customer being referenced when `type` is `customer`.
-  * `customer_account` - The Account representing the customer being referenced when `type` is `customer`. Max length: 5000. Nullable.
-  * `type` - Type of owner referenced. Possible values: `account`, `application`, `customer`, `self`.
-  """
-  @type owner :: %{
-          optional(:account) => String.t() | Stripe.Resources.Account.t() | nil,
-          optional(:application) => String.t() | Stripe.Resources.Application.t() | nil,
-          optional(:customer) => String.t() | Stripe.Resources.Customer.t() | nil,
-          optional(:customer_account) => String.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `status` - Verification status, one of `pending`, `verified`, `unverified`, or `unavailable`. Possible values: `pending`, `unavailable`, `unverified`, `verified`.
-  * `verified_address` - Verified address. Max length: 5000. Nullable.
-  * `verified_name` - Verified name. Max length: 5000. Nullable.
-  """
-  @type verification :: %{
-          optional(:status) => String.t() | nil,
-          optional(:verified_address) => String.t() | nil,
-          optional(:verified_name) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

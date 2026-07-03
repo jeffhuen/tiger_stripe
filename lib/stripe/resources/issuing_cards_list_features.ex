@@ -11,13 +11,7 @@ defmodule Stripe.Resources.IssuingCardsListFeatures do
   * `disable_stripe_user_authentication` - Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
   * `spend_control_management` - Whether to allow spend control management features.
   """
-  @type t :: %__MODULE__{
-          card_management: boolean(),
-          card_spend_dispute_management: boolean(),
-          cardholder_management: boolean(),
-          disable_stripe_user_authentication: boolean(),
-          spend_control_management: boolean()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :card_management,

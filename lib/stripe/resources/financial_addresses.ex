@@ -9,9 +9,7 @@ defmodule Stripe.Resources.FinancialAddresses do
   @typedoc """
   * `aba` - Expandable.
   """
-  @type t :: %__MODULE__{
-          aba: Stripe.Resources.AbaToggleSettings.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:aba]
 

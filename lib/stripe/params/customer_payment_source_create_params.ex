@@ -8,12 +8,7 @@ defmodule Stripe.Params.CustomerPaymentSourceCreateParams do
   * `source` - Please refer to full [documentation](https://api.stripe.com) instead. Max length: 5000.
   * `validate`
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          source: String.t(),
-          validate: boolean() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :metadata, :source, :validate]
 end

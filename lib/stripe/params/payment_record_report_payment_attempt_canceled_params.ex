@@ -7,11 +7,7 @@ defmodule Stripe.Params.PaymentRecordReportPaymentAttemptCanceledParams do
   * `expand` - Specifies which fields in the response should be expanded.
   * `metadata`
   """
-  @type t :: %__MODULE__{
-          canceled_at: integer(),
-          expand: [String.t()] | nil,
-          metadata: map() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:canceled_at, :expand, :metadata]
 end

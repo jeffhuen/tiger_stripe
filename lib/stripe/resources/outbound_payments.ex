@@ -10,10 +10,7 @@ defmodule Stripe.Resources.OutboundPayments do
   * `ach` - Expandable.
   * `us_domestic_wire` - Expandable.
   """
-  @type t :: %__MODULE__{
-          ach: Stripe.Resources.OutboundAchToggleSettings.t() | nil,
-          us_domestic_wire: Stripe.Resources.ToggleSettings.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:ach, :us_domestic_wire]
 

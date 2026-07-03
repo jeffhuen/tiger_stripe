@@ -12,14 +12,7 @@ defmodule Stripe.Resources.AchDebit do
   * `routing_number` - Nullable.
   * `type` - Nullable.
   """
-  @type t :: %__MODULE__{
-          bank_name: String.t() | nil,
-          country: String.t() | nil,
-          fingerprint: String.t() | nil,
-          last4: String.t() | nil,
-          routing_number: String.t() | nil,
-          type: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:bank_name, :country, :fingerprint, :last4, :routing_number, :type]
 

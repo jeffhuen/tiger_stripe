@@ -6,10 +6,7 @@ defmodule Stripe.Params.SubscriptionScheduleReleaseParams do
   * `expand` - Specifies which fields in the response should be expanded.
   * `preserve_cancel_date` - Keep any cancellation on the subscription that the schedule has set
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          preserve_cancel_date: boolean() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :preserve_cancel_date]
 end

@@ -14,14 +14,7 @@ defmodule Stripe.Resources.V2.Core.AccountToken do
   * `object` - String representing the object's type. Objects of the same type share the same value of the object field. Possible values: `v2.core.account_token`.
   * `used` - Determines if the token has already been used (tokens can only be used once).
   """
-  @type t :: %__MODULE__{
-          created: String.t(),
-          expires_at: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          used: boolean()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :expires_at, :id, :livemode, :object, :used]
 

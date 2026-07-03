@@ -7,11 +7,7 @@ defmodule Stripe.Params.Billing.CreditGrantUpdateParams do
   * `expires_at` - The time when the billing credits created by this credit grant expire. If set to empty, the billing credits never expire.
   * `metadata` - Set of key-value pairs you can attach to an object. You can use this to store additional information about the object (for example, cost basis) in a structured format.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          expires_at: map() | nil,
-          metadata: %{String.t() => String.t()} | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :expires_at, :metadata]
 end

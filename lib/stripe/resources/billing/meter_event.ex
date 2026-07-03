@@ -15,15 +15,7 @@ defmodule Stripe.Resources.Billing.MeterEvent do
   * `payload` - The payload of the event. This contains the fields corresponding to a meter's `customer_mapping.event_payload_key` (default is `stripe_customer_id`) and `value_settings.event_payload_key` (default is `value`). Read more about the [payload](https://docs.stripe.com/billing/subscriptions/usage-based/meters/configure#meter-configuration-attributes).
   * `timestamp` - The timestamp passed in when creating the event. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          event_name: String.t(),
-          identifier: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          payload: %{String.t() => String.t()},
-          timestamp: integer()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :event_name, :identifier, :livemode, :object, :payload, :timestamp]
 

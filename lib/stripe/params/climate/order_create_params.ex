@@ -11,23 +11,7 @@ defmodule Stripe.Params.Climate.OrderCreateParams do
   * `metric_tons` - Requested number of tons for the order. Either this or `amount` must be specified. Format: decimal string.
   * `product` - Unique identifier of the Climate product. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          amount: integer() | nil,
-          beneficiary: beneficiary() | nil,
-          currency: String.t() | nil,
-          expand: [String.t()] | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          metric_tons: String.t() | nil,
-          product: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:amount, :beneficiary, :currency, :expand, :metadata, :metric_tons, :product]
-
-  @typedoc """
-  * `public_name` - Publicly displayable name for the end beneficiary of carbon removal. Max length: 5000.
-  """
-  @type beneficiary :: %{
-          optional(:public_name) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

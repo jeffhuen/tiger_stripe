@@ -11,15 +11,7 @@ defmodule Stripe.Params.Issuing.DisputeListParams do
   * `status` - Select Issuing disputes with the given status. Possible values: `expired`, `lost`, `submitted`, `unsubmitted`, `won`.
   * `transaction` - Select the Issuing dispute for the given transaction. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          created: map() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          status: String.t() | nil,
-          transaction: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :ending_before, :expand, :limit, :starting_after, :status, :transaction]
 end

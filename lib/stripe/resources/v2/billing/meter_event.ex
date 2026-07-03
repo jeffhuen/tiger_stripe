@@ -19,15 +19,7 @@ defmodule Stripe.Resources.V2.Billing.MeterEvent do
   * `timestamp` - The time of the event. Must be within the past 35 calendar days or up to
   5 minutes in the future. Defaults to current timestamp if not specified. Format: date-time.
   """
-  @type t :: %__MODULE__{
-          created: String.t(),
-          event_name: String.t(),
-          identifier: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          payload: %{String.t() => String.t()},
-          timestamp: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :event_name, :identifier, :livemode, :object, :payload, :timestamp]
 

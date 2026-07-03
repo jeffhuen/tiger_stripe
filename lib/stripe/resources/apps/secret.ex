@@ -25,17 +25,7 @@ defmodule Stripe.Resources.Apps.Secret do
   * `payload` - The plaintext secret value to be stored. Max length: 5000. Nullable.
   * `scope` - Expandable.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          deleted: boolean() | nil,
-          expires_at: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          name: String.t(),
-          object: String.t(),
-          payload: String.t() | nil,
-          scope: scope()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :deleted, :expires_at, :id, :livemode, :name, :object, :payload, :scope]
 
@@ -43,16 +33,6 @@ defmodule Stripe.Resources.Apps.Secret do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["scope"]
-
-  @typedoc """
-  * `type` - The secret scope type. Possible values: `account`, `user`.
-  * `user` - The user ID, if type is set to "user" Max length: 5000.
-  """
-  @type scope :: %{
-          optional(:type) => String.t() | nil,
-          optional(:user) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

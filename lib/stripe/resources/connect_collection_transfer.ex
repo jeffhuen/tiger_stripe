@@ -12,14 +12,7 @@ defmodule Stripe.Resources.ConnectCollectionTransfer do
   * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `connect_collection_transfer`.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          currency: String.t(),
-          destination: String.t() | Stripe.Resources.Account.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:amount, :currency, :destination, :id, :livemode, :object]
 

@@ -10,26 +10,7 @@ defmodule Stripe.Params.FinancialConnections.AccountListParams do
   * `session` - If present, only return accounts that were collected as part of the given session. Max length: 5000.
   * `starting_after` - A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          account_holder: account_holder() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          session: String.t() | nil,
-          starting_after: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:account_holder, :ending_before, :expand, :limit, :session, :starting_after]
-
-  @typedoc """
-  * `account` - The ID of the Stripe account whose accounts you will retrieve. Max length: 5000.
-  * `customer` - The ID of the Stripe customer whose accounts you will retrieve. Max length: 5000.
-  * `customer_account` - The ID of the Account representing a customer whose accounts you will retrieve. Max length: 5000.
-  """
-  @type account_holder :: %{
-          optional(:account) => String.t() | nil,
-          optional(:customer) => String.t() | nil,
-          optional(:customer_account) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

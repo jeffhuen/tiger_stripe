@@ -12,16 +12,7 @@ defmodule Stripe.Params.EventListParams do
   * `type` - A string containing a specific event name, or group of events using * as a wildcard. The list will be filtered to include only events with a matching event property. Max length: 5000.
   * `types` - An array of up to 20 strings containing specific event names. The list will be filtered to include only events with a matching event property. You may pass either `type` or `types`, but not both.
   """
-  @type t :: %__MODULE__{
-          created: map() | nil,
-          delivery_success: boolean() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          type: String.t() | nil,
-          types: [String.t()] | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :created,

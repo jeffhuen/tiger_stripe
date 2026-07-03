@@ -38,11 +38,7 @@ defmodule Stripe.Resources.ExchangeRate do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `exchange_rate`.
   * `rates` - Hash where the keys are supported currencies and the values are the exchange rate at which the base id currency converts to the key currency.
   """
-  @type t :: %__MODULE__{
-          id: String.t(),
-          object: String.t(),
-          rates: %{String.t() => float()}
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:id, :object, :rates]
 

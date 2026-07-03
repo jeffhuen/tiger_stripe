@@ -21,23 +21,7 @@ defmodule Stripe.Resources.ApplicationFee do
   * `refunded` - Whether the fee has been fully refunded. If the fee is only partially refunded, this attribute will still be false.
   * `refunds` - A list of refunds that have been applied to the fee. Expandable.
   """
-  @type t :: %__MODULE__{
-          account: String.t() | Stripe.Resources.Account.t(),
-          amount: integer(),
-          amount_refunded: integer(),
-          application: String.t() | Stripe.Resources.Application.t(),
-          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
-          charge: String.t() | Stripe.Resources.Charge.t(),
-          created: integer(),
-          currency: String.t(),
-          fee_source: fee_source(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          originating_transaction: String.t() | Stripe.Resources.Charge.t(),
-          refunded: boolean(),
-          refunds: refunds()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :account,
@@ -70,32 +54,6 @@ defmodule Stripe.Resources.ApplicationFee do
       "originating_transaction",
       "refunds"
     ]
-
-  @typedoc """
-  * `charge` - Charge ID that created this application fee. Max length: 5000.
-  * `payout` - Payout ID that created this application fee. Max length: 5000.
-  * `type` - Type of object that created the application fee. Possible values: `charge`, `payout`.
-  """
-  @type fee_source :: %{
-          optional(:charge) => String.t() | nil,
-          optional(:payout) => String.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `data` - Details about each object.
-  * `has_more` - True if this list has another page of items after this one that can be fetched.
-  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-  * `url` - The URL where this list can be accessed. Max length: 5000.
-  """
-  @type refunds :: %{
-          optional(:data) => [Stripe.Resources.FeeRefund.t()] | nil,
-          optional(:has_more) => boolean() | nil,
-          optional(:object) => String.t() | nil,
-          optional(:url) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

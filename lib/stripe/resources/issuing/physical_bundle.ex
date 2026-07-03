@@ -15,15 +15,7 @@ defmodule Stripe.Resources.Issuing.PhysicalBundle do
   * `status` - Whether this physical bundle can be used to create cards. Possible values: `active`, `inactive`, `review`.
   * `type` - Whether this physical bundle is a standard Stripe offering or custom-made for you. Possible values: `custom`, `standard`.
   """
-  @type t :: %__MODULE__{
-          features: features(),
-          id: String.t(),
-          livemode: boolean(),
-          name: String.t(),
-          object: String.t(),
-          status: String.t(),
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:features, :id, :livemode, :name, :object, :status, :type]
 
@@ -31,18 +23,6 @@ defmodule Stripe.Resources.Issuing.PhysicalBundle do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["features"]
-
-  @typedoc """
-  * `card_logo` - The policy for how to use card logo images in a card design with this physical bundle. Possible values: `optional`, `required`, `unsupported`.
-  * `carrier_text` - The policy for how to use carrier letter text in a card design with this physical bundle. Possible values: `optional`, `required`, `unsupported`.
-  * `second_line` - The policy for how to use a second line on a card with this physical bundle. Possible values: `optional`, `required`, `unsupported`.
-  """
-  @type features :: %{
-          optional(:card_logo) => String.t() | nil,
-          optional(:carrier_text) => String.t() | nil,
-          optional(:second_line) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

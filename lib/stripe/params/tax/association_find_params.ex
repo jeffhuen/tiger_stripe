@@ -6,10 +6,7 @@ defmodule Stripe.Params.Tax.AssociationFindParams do
   * `expand` - Specifies which fields in the response should be expanded.
   * `payment_intent` - Valid [PaymentIntent](https://docs.stripe.com/api/payment_intents/object) id Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          payment_intent: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :payment_intent]
 end

@@ -17,21 +17,7 @@ defmodule Stripe.Params.CouponCreateParams do
   * `percent_off` - A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
   * `redeem_by` - Unix timestamp specifying the last time at which the coupon can be redeemed (cannot be set to more than 5 years in the future). After the redeem_by date, the coupon can no longer be applied to new customers. Format: Unix timestamp.
   """
-  @type t :: %__MODULE__{
-          amount_off: integer() | nil,
-          applies_to: applies_to() | nil,
-          currency: String.t() | nil,
-          currency_options: %{String.t() => currency_options()} | nil,
-          duration: String.t() | nil,
-          duration_in_months: integer() | nil,
-          expand: [String.t()] | nil,
-          id: String.t() | nil,
-          max_redemptions: integer() | nil,
-          metadata: map() | nil,
-          name: String.t() | nil,
-          percent_off: float() | nil,
-          redeem_by: integer() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount_off,
@@ -48,20 +34,4 @@ defmodule Stripe.Params.CouponCreateParams do
     :percent_off,
     :redeem_by
   ]
-
-  @typedoc """
-  * `products` - An array of Product IDs that this Coupon will apply to.
-  """
-  @type applies_to :: %{
-          optional(:products) => [String.t()] | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `amount_off` - A positive integer representing the amount to subtract from an invoice total.
-  """
-  @type currency_options :: %{
-          optional(:amount_off) => integer() | nil,
-          optional(String.t()) => term()
-        }
 end

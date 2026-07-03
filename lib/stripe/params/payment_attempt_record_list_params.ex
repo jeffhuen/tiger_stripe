@@ -8,12 +8,7 @@ defmodule Stripe.Params.PaymentAttemptRecordListParams do
   * `payment_record` - The ID of the Payment Record. Max length: 5000.
   * `starting_after` - A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          payment_record: String.t(),
-          starting_after: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :limit, :payment_record, :starting_after]
 end

@@ -12,11 +12,7 @@ defmodule Stripe.Resources.LoginLink do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `login_link`.
   * `url` - The URL for the login link. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          object: String.t(),
-          url: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :object, :url]
 

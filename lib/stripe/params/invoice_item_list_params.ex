@@ -13,17 +13,7 @@ defmodule Stripe.Params.InvoiceItemListParams do
   * `pending` - Set to `true` to only show pending invoice items, which are not yet attached to any invoices. Set to `false` to only show invoice items already attached to invoices. If unspecified, no filter is applied.
   * `starting_after` - A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          created: map() | nil,
-          customer: String.t() | nil,
-          customer_account: String.t() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          invoice: String.t() | nil,
-          limit: integer() | nil,
-          pending: boolean() | nil,
-          starting_after: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :created,

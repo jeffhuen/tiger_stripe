@@ -15,12 +15,7 @@ defmodule Stripe.Resources.AccountLink do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `account_link`.
   * `url` - The URL for the account link. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          expires_at: integer(),
-          object: String.t(),
-          url: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :expires_at, :object, :url]
 

@@ -12,16 +12,7 @@ defmodule Stripe.Params.Tax.TransactionCreateReversalParams do
   * `reference` - A custom identifier for this reversal, such as `myOrder_123-refund_1`, which must be unique across all transactions. The reference helps identify this reversal transaction in exported [tax reports](https://docs.stripe.com/tax/reports). Max length: 500.
   * `shipping_cost` - The shipping cost to reverse.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          flat_amount: integer() | nil,
-          line_items: [line_items()] | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          mode: String.t(),
-          original_transaction: String.t(),
-          reference: String.t(),
-          shipping_cost: shipping_cost() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :expand,
@@ -33,32 +24,4 @@ defmodule Stripe.Params.Tax.TransactionCreateReversalParams do
     :reference,
     :shipping_cost
   ]
-
-  @typedoc """
-  * `amount` - The amount to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative.
-  * `amount_tax` - The amount of tax to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative.
-  * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-  * `original_line_item` - The `id` of the line item to reverse in the original transaction. Max length: 5000.
-  * `quantity` - The quantity reversed. Appears in [tax exports](https://docs.stripe.com/tax/reports), but does not affect the amount of tax reversed.
-  * `reference` - A custom identifier for this line item in the reversal transaction, such as 'L1-refund'. Max length: 500.
-  """
-  @type line_items :: %{
-          optional(:amount) => integer() | nil,
-          optional(:amount_tax) => integer() | nil,
-          optional(:metadata) => %{String.t() => String.t()} | nil,
-          optional(:original_line_item) => String.t() | nil,
-          optional(:quantity) => integer() | nil,
-          optional(:reference) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `amount` - The amount to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative.
-  * `amount_tax` - The amount of tax to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative.
-  """
-  @type shipping_cost :: %{
-          optional(:amount) => integer() | nil,
-          optional(:amount_tax) => integer() | nil,
-          optional(String.t()) => term()
-        }
 end

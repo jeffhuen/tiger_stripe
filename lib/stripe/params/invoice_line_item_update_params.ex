@@ -16,20 +16,7 @@ defmodule Stripe.Params.InvoiceLineItemUpdateParams do
   * `tax_amounts` - A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
   * `tax_rates` - The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
   """
-  @type t :: %__MODULE__{
-          amount: integer() | nil,
-          description: String.t() | nil,
-          discountable: boolean() | nil,
-          discounts: map() | nil,
-          expand: [String.t()] | nil,
-          metadata: map() | nil,
-          period: period() | nil,
-          price_data: price_data() | nil,
-          pricing: pricing() | nil,
-          quantity: integer() | nil,
-          tax_amounts: map() | nil,
-          tax_rates: map() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -45,58 +32,4 @@ defmodule Stripe.Params.InvoiceLineItemUpdateParams do
     :tax_amounts,
     :tax_rates
   ]
-
-  @typedoc """
-  * `end` - The end of the period, which must be greater than or equal to the start. This value is inclusive. Format: Unix timestamp.
-  * `start` - The start of the period. This value is inclusive. Format: Unix timestamp.
-  """
-  @type period :: %{
-          optional(:end) => integer() | nil,
-          optional(:start) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-  * `product` - The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required. Max length: 5000.
-  * `product_data` - Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
-  * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
-  * `unit_amount` - A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
-  * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
-  """
-  @type price_data :: %{
-          optional(:currency) => String.t() | nil,
-          optional(:product) => String.t() | nil,
-          optional(:product_data) => price_data_product_data() | nil,
-          optional(:tax_behavior) => String.t() | nil,
-          optional(:unit_amount) => integer() | nil,
-          optional(:unit_amount_decimal) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `description` - The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes. Max length: 40000.
-  * `images` - A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
-  * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-  * `name` - The product's name, meant to be displayable to the customer. Max length: 5000.
-  * `tax_code` - A [tax code](https://docs.stripe.com/tax/tax-categories) ID. Max length: 5000.
-  * `unit_label` - A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. Max length: 12.
-  """
-  @type price_data_product_data :: %{
-          optional(:description) => String.t() | nil,
-          optional(:images) => [String.t()] | nil,
-          optional(:metadata) => %{String.t() => String.t()} | nil,
-          optional(:name) => String.t() | nil,
-          optional(:tax_code) => String.t() | nil,
-          optional(:unit_label) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `price` - The ID of the price object. Max length: 5000.
-  """
-  @type pricing :: %{
-          optional(:price) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

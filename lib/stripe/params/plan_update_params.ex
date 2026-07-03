@@ -10,14 +10,7 @@ defmodule Stripe.Params.PlanUpdateParams do
   * `product` - The product the plan belongs to. This cannot be changed once it has been used in a subscription or subscription schedule. Max length: 5000.
   * `trial_period_days` - Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan).
   """
-  @type t :: %__MODULE__{
-          active: boolean() | nil,
-          expand: [String.t()] | nil,
-          metadata: map() | nil,
-          nickname: String.t() | nil,
-          product: String.t() | nil,
-          trial_period_days: integer() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:active, :expand, :metadata, :nickname, :product, :trial_period_days]
 end

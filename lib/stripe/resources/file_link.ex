@@ -19,17 +19,7 @@ defmodule Stripe.Resources.FileLink do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `file_link`.
   * `url` - The publicly accessible URL to download the file. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          expired: boolean(),
-          expires_at: integer(),
-          file: String.t() | Stripe.Resources.File.t(),
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          url: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :expired, :expires_at, :file, :id, :livemode, :metadata, :object, :url]
 

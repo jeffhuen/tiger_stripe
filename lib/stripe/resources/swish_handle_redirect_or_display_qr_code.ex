@@ -9,11 +9,7 @@ defmodule Stripe.Resources.SwishHandleRedirectOrDisplayQrCode do
   * `mobile_auth_url` - The url for mobile redirect based auth (for internal use only and not typically available in standard API requests). Max length: 5000.
   * `qr_code` - Expandable.
   """
-  @type t :: %__MODULE__{
-          hosted_instructions_url: String.t(),
-          mobile_auth_url: String.t(),
-          qr_code: Stripe.Resources.SwishQrCode.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:hosted_instructions_url, :mobile_auth_url, :qr_code]
 

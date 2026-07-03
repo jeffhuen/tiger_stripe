@@ -9,11 +9,7 @@ defmodule Stripe.Resources.Radar.Rule do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `predicate` - The predicate to evaluate the payment against. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          action: String.t(),
-          id: String.t(),
-          predicate: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:action, :id, :predicate]
 

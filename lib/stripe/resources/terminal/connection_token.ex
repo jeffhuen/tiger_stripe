@@ -13,11 +13,7 @@ defmodule Stripe.Resources.Terminal.ConnectionToken do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `terminal.connection_token`.
   * `secret` - Your application should pass this token to the Stripe Terminal SDK. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          location: String.t() | nil,
-          object: String.t(),
-          secret: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:location, :object, :secret]
 

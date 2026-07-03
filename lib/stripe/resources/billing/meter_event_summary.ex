@@ -18,15 +18,7 @@ defmodule Stripe.Resources.Billing.MeterEventSummary do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `billing.meter_event_summary`.
   * `start_time` - Start timestamp for this event summary (inclusive). Must be aligned with minute boundaries. Format: Unix timestamp.
   """
-  @type t :: %__MODULE__{
-          aggregated_value: float(),
-          end_time: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          meter: String.t(),
-          object: String.t(),
-          start_time: integer()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:aggregated_value, :end_time, :id, :livemode, :meter, :object, :start_time]
 

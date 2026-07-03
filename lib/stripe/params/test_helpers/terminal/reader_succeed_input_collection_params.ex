@@ -6,10 +6,7 @@ defmodule Stripe.Params.TestHelpers.Terminal.ReaderSucceedInputCollectionParams 
   * `expand` - Specifies which fields in the response should be expanded.
   * `skip_non_required_inputs` - This parameter defines the skip behavior for input collection. Possible values: `all`, `none`.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          skip_non_required_inputs: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :skip_non_required_inputs]
 end

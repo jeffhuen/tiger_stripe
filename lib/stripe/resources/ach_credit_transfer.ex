@@ -14,16 +14,7 @@ defmodule Stripe.Resources.AchCreditTransfer do
   * `routing_number` - Nullable.
   * `swift_code` - Nullable.
   """
-  @type t :: %__MODULE__{
-          account_number: String.t() | nil,
-          bank_name: String.t() | nil,
-          fingerprint: String.t() | nil,
-          refund_account_holder_name: String.t() | nil,
-          refund_account_holder_type: String.t() | nil,
-          refund_routing_number: String.t() | nil,
-          routing_number: String.t() | nil,
-          swift_code: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :account_number,

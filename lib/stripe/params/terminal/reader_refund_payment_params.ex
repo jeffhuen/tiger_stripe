@@ -12,16 +12,7 @@ defmodule Stripe.Params.Terminal.ReaderRefundPaymentParams do
   * `refund_payment_config` - Configuration overrides for this refund, such as customer cancellation settings.
   * `reverse_transfer` - Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
   """
-  @type t :: %__MODULE__{
-          amount: integer() | nil,
-          charge: String.t() | nil,
-          expand: [String.t()] | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          payment_intent: String.t() | nil,
-          refund_application_fee: boolean() | nil,
-          refund_payment_config: refund_payment_config() | nil,
-          reverse_transfer: boolean() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -33,12 +24,4 @@ defmodule Stripe.Params.Terminal.ReaderRefundPaymentParams do
     :refund_payment_config,
     :reverse_transfer
   ]
-
-  @typedoc """
-  * `enable_customer_cancellation` - Enables cancel button on transaction screens.
-  """
-  @type refund_payment_config :: %{
-          optional(:enable_customer_cancellation) => boolean() | nil,
-          optional(String.t()) => term()
-        }
 end

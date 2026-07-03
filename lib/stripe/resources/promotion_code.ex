@@ -26,22 +26,7 @@ defmodule Stripe.Resources.PromotionCode do
   * `restrictions` - Expandable.
   * `times_redeemed` - Number of times this promotion code has been used.
   """
-  @type t :: %__MODULE__{
-          active: boolean(),
-          code: String.t(),
-          created: integer(),
-          customer: String.t() | Stripe.Resources.Customer.t(),
-          customer_account: String.t(),
-          expires_at: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          max_redemptions: integer(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          promotion: promotion(),
-          restrictions: restrictions(),
-          times_redeemed: integer()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :active,
@@ -64,38 +49,6 @@ defmodule Stripe.Resources.PromotionCode do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["customer", "promotion", "restrictions"]
-
-  @typedoc """
-  * `coupon` - If promotion `type` is `coupon`, the coupon for this promotion. Nullable.
-  * `type` - The type of promotion. Possible values: `coupon`.
-  """
-  @type promotion :: %{
-          optional(:coupon) => String.t() | Stripe.Resources.Coupon.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `currency_options` - Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-  * `first_time_transaction` - A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
-  * `minimum_amount` - Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work). Nullable.
-  * `minimum_amount_currency` - Three-letter [ISO code](https://stripe.com/docs/currencies) for minimum_amount Max length: 5000. Nullable.
-  """
-  @type restrictions :: %{
-          optional(:currency_options) => %{String.t() => restrictions_currency_options()} | nil,
-          optional(:first_time_transaction) => boolean() | nil,
-          optional(:minimum_amount) => integer() | nil,
-          optional(:minimum_amount_currency) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `minimum_amount` - Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
-  """
-  @type restrictions_currency_options :: %{
-          optional(:minimum_amount) => integer() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

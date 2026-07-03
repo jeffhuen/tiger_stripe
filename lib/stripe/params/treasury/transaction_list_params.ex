@@ -13,17 +13,7 @@ defmodule Stripe.Params.Treasury.TransactionListParams do
   * `status` - Only return Transactions that have the given status: `open`, `posted`, or `void`. Possible values: `open`, `posted`, `void`.
   * `status_transitions` - A filter for the `status_transitions.posted_at` timestamp. When using this filter, `status=posted` and `order_by=posted_at` must also be specified.
   """
-  @type t :: %__MODULE__{
-          created: map() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          financial_account: String.t(),
-          limit: integer() | nil,
-          order_by: String.t() | nil,
-          starting_after: String.t() | nil,
-          status: String.t() | nil,
-          status_transitions: status_transitions() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :created,
@@ -36,12 +26,4 @@ defmodule Stripe.Params.Treasury.TransactionListParams do
     :status,
     :status_transitions
   ]
-
-  @typedoc """
-  * `posted_at` - Returns Transactions with `posted_at` within the specified range.
-  """
-  @type status_transitions :: %{
-          optional(:posted_at) => map() | nil,
-          optional(String.t()) => term()
-        }
 end

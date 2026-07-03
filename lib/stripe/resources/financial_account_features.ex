@@ -10,12 +10,7 @@ defmodule Stripe.Resources.FinancialAccountFeatures do
   * `send_money` - Whether to allow sending money.
   * `transfer_balance` - Whether to allow transferring balance.
   """
-  @type t :: %__MODULE__{
-          disable_stripe_user_authentication: boolean(),
-          external_account_collection: boolean(),
-          send_money: boolean(),
-          transfer_balance: boolean()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :disable_stripe_user_authentication,

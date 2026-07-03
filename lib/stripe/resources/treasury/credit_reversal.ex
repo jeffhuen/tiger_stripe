@@ -22,22 +22,7 @@ defmodule Stripe.Resources.Treasury.CreditReversal do
   * `status_transitions` - Expandable.
   * `transaction` - The Transaction associated with this object. Nullable. Expandable.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          created: integer(),
-          currency: String.t(),
-          financial_account: String.t(),
-          hosted_regulatory_receipt_url: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          network: String.t(),
-          object: String.t(),
-          received_credit: String.t(),
-          status: String.t(),
-          status_transitions: status_transitions(),
-          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -60,14 +45,6 @@ defmodule Stripe.Resources.Treasury.CreditReversal do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["status_transitions", "transaction"]
-
-  @typedoc """
-  * `posted_at` - Timestamp describing when the CreditReversal changed status to `posted` Format: Unix timestamp. Nullable.
-  """
-  @type status_transitions :: %{
-          optional(:posted_at) => integer() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

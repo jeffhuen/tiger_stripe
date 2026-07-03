@@ -10,10 +10,7 @@ defmodule Stripe.Resources.PlatformRestriction do
   * `inbound_flows` - Restricts all inbound money movement. Possible values: `restricted`, `unrestricted`. Nullable.
   * `outbound_flows` - Restricts all outbound money movement. Possible values: `restricted`, `unrestricted`. Nullable.
   """
-  @type t :: %__MODULE__{
-          inbound_flows: String.t(),
-          outbound_flows: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:inbound_flows, :outbound_flows]
 

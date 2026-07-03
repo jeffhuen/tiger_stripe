@@ -8,10 +8,7 @@ defmodule Stripe.Resources.CustomFieldDropdownOption do
   * `label` - The label for the option, displayed to the customer. Up to 100 characters. Max length: 5000.
   * `value` - The value for this option, not displayed to the customer, used by your integration to reconcile the option selected by the customer. Must be unique to this option, alphanumeric, and up to 100 characters. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          label: String.t(),
-          value: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:label, :value]
 

@@ -15,19 +15,7 @@ defmodule Stripe.Params.InvoiceListParams do
   * `status` - The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://docs.stripe.com/billing/invoices/workflow#workflow-overview) Possible values: `draft`, `open`, `paid`, `uncollectible`, `void`.
   * `subscription` - Only return invoices for the subscription specified by this subscription ID. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          collection_method: String.t() | nil,
-          created: map() | nil,
-          customer: String.t() | nil,
-          customer_account: String.t() | nil,
-          due_date: map() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          status: String.t() | nil,
-          subscription: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :collection_method,

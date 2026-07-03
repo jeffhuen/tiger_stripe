@@ -22,26 +22,7 @@ defmodule Stripe.Params.PlanCreateParams do
   * `trial_period_days` - Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan).
   * `usage_type` - Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`. Possible values: `licensed`, `metered`.
   """
-  @type t :: %__MODULE__{
-          active: boolean() | nil,
-          amount: integer() | nil,
-          amount_decimal: String.t() | nil,
-          billing_scheme: String.t() | nil,
-          currency: String.t(),
-          expand: [String.t()] | nil,
-          id: String.t() | nil,
-          interval: String.t(),
-          interval_count: integer() | nil,
-          metadata: map() | nil,
-          meter: String.t() | nil,
-          nickname: String.t() | nil,
-          product: map() | nil,
-          tiers: [tiers()] | nil,
-          tiers_mode: String.t() | nil,
-          transform_usage: transform_usage() | nil,
-          trial_period_days: integer() | nil,
-          usage_type: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :active,
@@ -63,30 +44,4 @@ defmodule Stripe.Params.PlanCreateParams do
     :trial_period_days,
     :usage_type
   ]
-
-  @typedoc """
-  * `flat_amount` - The flat billing amount for an entire tier, regardless of the number of units in the tier.
-  * `flat_amount_decimal` - Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set. Format: decimal string.
-  * `unit_amount` - The per unit billing amount for each individual unit for which this tier applies.
-  * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
-  * `up_to` - Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
-  """
-  @type tiers :: %{
-          optional(:flat_amount) => integer() | nil,
-          optional(:flat_amount_decimal) => String.t() | nil,
-          optional(:unit_amount) => integer() | nil,
-          optional(:unit_amount_decimal) => String.t() | nil,
-          optional(:up_to) => map() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `divide_by` - Divide usage by this number.
-  * `round` - After division, either round the result `up` or `down`. Possible values: `down`, `up`.
-  """
-  @type transform_usage :: %{
-          optional(:divide_by) => integer() | nil,
-          optional(:round) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

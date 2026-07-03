@@ -10,12 +10,7 @@ defmodule Stripe.Resources.NextActionDisplayBoletoDetails do
   * `number` - The boleto number. Max length: 5000. Nullable.
   * `pdf` - The URL to the downloadable boleto voucher PDF. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          expires_at: integer(),
-          hosted_voucher_url: String.t(),
-          number: String.t(),
-          pdf: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expires_at, :hosted_voucher_url, :number, :pdf]
 

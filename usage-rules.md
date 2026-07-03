@@ -24,8 +24,8 @@ Clients are plain structs — no global state, safe for concurrent use.
 ## Module layout
 
 - `Stripe.Services.*Service` — one module per API resource, methods map 1:1 to endpoints
-- `Stripe.Resources.*` — typed response structs with `@type t`
-- `Stripe.Params.*Params` — typed request parameter structs
+- `Stripe.Resources.*` — typed response structs with shallow `@type t`
+- `Stripe.Params.*Params` — documented request parameter structs with shallow `@type t`
 - `Stripe.Events.*Event` — per-event typed modules (V2 and thin V1)
 
 Service modules live under `Stripe.Services`. Nested resources use packages:

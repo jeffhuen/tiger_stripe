@@ -14,18 +14,7 @@ defmodule Stripe.Params.Terminal.ConfigurationUpdateParams do
   * `verifone_p400` - An object containing device type specific settings for Verifone P400 readers.
   * `wifi` - Configurations for connecting to a WiFi network.
   """
-  @type t :: %__MODULE__{
-          bbpos_wisepad3: map() | nil,
-          bbpos_wisepos_e: map() | nil,
-          expand: [String.t()] | nil,
-          name: String.t() | nil,
-          offline: map() | nil,
-          reboot_window: map() | nil,
-          stripe_s700: map() | nil,
-          tipping: map() | nil,
-          verifone_p400: map() | nil,
-          wifi: map() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :bbpos_wisepad3,

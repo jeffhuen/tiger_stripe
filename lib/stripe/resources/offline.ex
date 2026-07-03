@@ -8,10 +8,7 @@ defmodule Stripe.Resources.Offline do
   * `stored_at` - Time at which the payment was collected while offline Format: Unix timestamp. Nullable.
   * `type` - The method used to process this payment method offline. Only deferred is allowed. Possible values: `deferred`. Nullable.
   """
-  @type t :: %__MODULE__{
-          stored_at: integer(),
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:stored_at, :type]
 

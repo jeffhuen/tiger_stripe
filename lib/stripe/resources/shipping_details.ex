@@ -11,13 +11,7 @@ defmodule Stripe.Resources.ShippingDetails do
   * `phone` - Recipient phone (including extension). Max length: 5000. Nullable.
   * `tracking_number` - The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          address: Stripe.Resources.Address.t() | nil,
-          carrier: String.t() | nil,
-          name: String.t() | nil,
-          phone: String.t() | nil,
-          tracking_number: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:address, :carrier, :name, :phone, :tracking_number]
 

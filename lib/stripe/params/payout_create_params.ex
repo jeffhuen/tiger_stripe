@@ -14,18 +14,7 @@ defmodule Stripe.Params.PayoutCreateParams do
   * `source_type` - The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the Balances API. One of `bank_account`, `card`, or `fpx`. Possible values: `bank_account`, `card`, `fpx`. Max length: 5000.
   * `statement_descriptor` - A string that displays on the recipient's bank or card statement (up to 22 characters). A `statement_descriptor` that's longer than 22 characters return an error. Most banks truncate this information and display it inconsistently. Some banks might not display it at all. Max length: 22.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          currency: String.t(),
-          description: String.t() | nil,
-          destination: String.t() | nil,
-          expand: [String.t()] | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          method: String.t() | nil,
-          payout_method: String.t() | nil,
-          source_type: String.t() | nil,
-          statement_descriptor: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,

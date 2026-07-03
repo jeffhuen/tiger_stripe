@@ -9,11 +9,7 @@ defmodule Stripe.Resources.Terminal.DeletedReader do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `terminal.reader`.
   """
-  @type t :: %__MODULE__{
-          deleted: boolean(),
-          id: String.t(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:deleted, :id, :object]
 

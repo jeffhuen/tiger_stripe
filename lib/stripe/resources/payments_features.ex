@@ -10,12 +10,7 @@ defmodule Stripe.Resources.PaymentsFeatures do
   * `dispute_management` - Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
   * `refund_management` - Whether sending refunds is enabled. This is `true` by default.
   """
-  @type t :: %__MODULE__{
-          capture_payments: boolean(),
-          destination_on_behalf_of_charge_management: boolean(),
-          dispute_management: boolean(),
-          refund_management: boolean()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :capture_payments,

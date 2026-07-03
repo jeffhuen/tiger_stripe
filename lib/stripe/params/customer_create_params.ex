@@ -27,31 +27,7 @@ defmodule Stripe.Params.CustomerCreateParams do
   * `test_clock` - ID of the test clock to attach to the customer. Max length: 5000.
   * `validate`
   """
-  @type t :: %__MODULE__{
-          address: map() | nil,
-          balance: integer() | nil,
-          business_name: map() | nil,
-          cash_balance: cash_balance() | nil,
-          description: String.t() | nil,
-          email: String.t() | nil,
-          expand: [String.t()] | nil,
-          individual_name: map() | nil,
-          invoice_prefix: String.t() | nil,
-          invoice_settings: invoice_settings() | nil,
-          metadata: map() | nil,
-          name: String.t() | nil,
-          next_invoice_sequence: integer() | nil,
-          payment_method: String.t() | nil,
-          phone: String.t() | nil,
-          preferred_locales: [String.t()] | nil,
-          shipping: map() | nil,
-          source: String.t() | nil,
-          tax: tax() | nil,
-          tax_exempt: String.t() | nil,
-          tax_id_data: [tax_id_data()] | nil,
-          test_clock: String.t() | nil,
-          validate: boolean() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :address,
@@ -78,55 +54,4 @@ defmodule Stripe.Params.CustomerCreateParams do
     :test_clock,
     :validate
   ]
-
-  @typedoc """
-  * `settings` - Settings controlling the behavior of the customer's cash balance,
-  such as reconciliation of funds received.
-  """
-  @type cash_balance :: %{
-          optional(:settings) => cash_balance_settings() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `reconciliation_mode` - Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://docs.stripe.com/payments/customer-balance/reconciliation). Possible values: `automatic`, `manual`, `merchant_default`.
-  """
-  @type cash_balance_settings :: %{
-          optional(:reconciliation_mode) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `custom_fields` - The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
-  * `default_payment_method` - ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices. Max length: 5000.
-  * `footer` - Default footer to be displayed on invoices for this customer. Max length: 5000.
-  * `rendering_options` - Default options for invoice PDF rendering for this customer.
-  """
-  @type invoice_settings :: %{
-          optional(:custom_fields) => map() | nil,
-          optional(:default_payment_method) => String.t() | nil,
-          optional(:footer) => String.t() | nil,
-          optional(:rendering_options) => map() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `ip_address` - A recent IP address of the customer used for tax reporting and tax location inference. Stripe recommends updating the IP address when a new PaymentMethod is attached or the address field on the customer is updated. We recommend against updating this field more frequently since it could result in unexpected tax location/reporting outcomes.
-  * `validate_location` - A flag that indicates when Stripe should validate the customer tax location. Defaults to `deferred`. Possible values: `deferred`, `immediately`.
-  """
-  @type tax :: %{
-          optional(:ip_address) => map() | nil,
-          optional(:validate_location) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `type` - Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin` Possible values: `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, `zw_tin`. Max length: 5000.
-  * `value` - Value of the tax ID.
-  """
-  @type tax_id_data :: %{
-          optional(:type) => String.t() | nil,
-          optional(:value) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

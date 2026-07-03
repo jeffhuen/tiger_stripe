@@ -24,14 +24,7 @@ defmodule Stripe.Resources.AccountSession do
   * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `account_session`.
   """
-  @type t :: %__MODULE__{
-          account: String.t(),
-          client_secret: String.t(),
-          components: Stripe.Resources.Components.t(),
-          expires_at: integer(),
-          livemode: boolean(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:account, :client_secret, :components, :expires_at, :livemode, :object]
 

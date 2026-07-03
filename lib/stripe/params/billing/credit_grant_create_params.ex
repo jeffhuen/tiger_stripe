@@ -15,19 +15,7 @@ defmodule Stripe.Params.Billing.CreditGrantCreateParams do
   * `name` - A descriptive name shown in the Dashboard. Max length: 100.
   * `priority` - The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
   """
-  @type t :: %__MODULE__{
-          amount: amount(),
-          applicability_config: applicability_config(),
-          category: String.t() | nil,
-          customer: String.t() | nil,
-          customer_account: String.t() | nil,
-          effective_at: integer() | nil,
-          expand: [String.t()] | nil,
-          expires_at: integer() | nil,
-          metadata: %{String.t() => String.t()} | nil,
-          name: String.t() | nil,
-          priority: integer() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -42,50 +30,4 @@ defmodule Stripe.Params.Billing.CreditGrantCreateParams do
     :name,
     :priority
   ]
-
-  @typedoc """
-  * `monetary` - The monetary amount.
-  * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
-  """
-  @type amount :: %{
-          optional(:monetary) => amount_monetary() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `currency` - Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter. Format: ISO 4217 currency code.
-  * `value` - A positive integer representing the amount of the credit grant.
-  """
-  @type amount_monetary :: %{
-          optional(:currency) => String.t() | nil,
-          optional(:value) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `scope` - Specify the scope of this applicability config.
-  """
-  @type applicability_config :: %{
-          optional(:scope) => applicability_config_scope() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `price_type` - The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`. Possible values: `metered`.
-  * `prices` - A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
-  """
-  @type applicability_config_scope :: %{
-          optional(:price_type) => String.t() | nil,
-          optional(:prices) => [applicability_config_scope_prices()] | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `id` - The price ID this credit grant should apply to. Max length: 5000.
-  """
-  @type applicability_config_scope_prices :: %{
-          optional(:id) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

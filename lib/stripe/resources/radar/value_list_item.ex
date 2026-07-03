@@ -17,15 +17,7 @@ defmodule Stripe.Resources.Radar.ValueListItem do
   * `value` - The value of the item. Max length: 5000.
   * `value_list` - The identifier of the value list this item belongs to. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          created_by: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          value: String.t(),
-          value_list: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :created_by, :id, :livemode, :object, :value, :value_list]
 

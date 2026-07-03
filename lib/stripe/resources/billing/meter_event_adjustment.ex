@@ -14,14 +14,7 @@ defmodule Stripe.Resources.Billing.MeterEventAdjustment do
   * `status` - The meter event adjustment's status. Possible values: `complete`, `pending`.
   * `type` - Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet. Possible values: `cancel`.
   """
-  @type t :: %__MODULE__{
-          cancel: cancel(),
-          event_name: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          status: String.t(),
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:cancel, :event_name, :livemode, :object, :status, :type]
 
@@ -29,14 +22,6 @@ defmodule Stripe.Resources.Billing.MeterEventAdjustment do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["cancel"]
-
-  @typedoc """
-  * `identifier` - Unique identifier for the event. Max length: 100. Nullable.
-  """
-  @type cancel :: %{
-          optional(:identifier) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

@@ -19,17 +19,7 @@ defmodule Stripe.Resources.TestHelpers.TestClock do
   * `status` - The status of the Test Clock. Possible values: `advancing`, `internal_failure`, `ready`.
   * `status_details` - Expandable.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          deletes_after: integer(),
-          frozen_time: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          name: String.t(),
-          object: String.t(),
-          status: String.t(),
-          status_details: status_details()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :created,
@@ -47,22 +37,6 @@ defmodule Stripe.Resources.TestHelpers.TestClock do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["status_details"]
-
-  @typedoc """
-  * `advancing`
-  """
-  @type status_details :: %{
-          optional(:advancing) => status_details_advancing() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `target_frozen_time` - The `frozen_time` that the Test Clock is advancing towards. Format: Unix timestamp.
-  """
-  @type status_details_advancing :: %{
-          optional(:target_frozen_time) => integer() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

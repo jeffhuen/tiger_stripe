@@ -8,10 +8,7 @@ defmodule Stripe.Resources.AdjustedForOverdraft do
   * `balance_transaction` - The [Balance Transaction](https://docs.stripe.com/api/balance_transactions/object) that corresponds to funds taken out of your Stripe balance. Expandable.
   * `linked_transaction` - The [Cash Balance Transaction](https://docs.stripe.com/api/cash_balance_transactions/object) that brought the customer balance negative, triggering the clawback of funds. Expandable.
   """
-  @type t :: %__MODULE__{
-          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
-          linked_transaction: String.t() | Stripe.Resources.CustomerCashBalanceTransaction.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:balance_transaction, :linked_transaction]
 

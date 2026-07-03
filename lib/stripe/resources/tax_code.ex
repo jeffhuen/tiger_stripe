@@ -12,12 +12,7 @@ defmodule Stripe.Resources.TaxCode do
   * `name` - A short name for the tax code. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `tax_code`.
   """
-  @type t :: %__MODULE__{
-          description: String.t(),
-          id: String.t(),
-          name: String.t(),
-          object: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:description, :id, :name, :object]
 

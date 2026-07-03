@@ -8,12 +8,7 @@ defmodule Stripe.Params.Entitlements.FeatureCreateParams do
   * `metadata` - Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `name` - The feature's name, for your own purpose, not meant to be displayable to the customer. Max length: 80.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          lookup_key: String.t(),
-          metadata: %{String.t() => String.t()} | nil,
-          name: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :lookup_key, :metadata, :name]
 end

@@ -8,10 +8,7 @@ defmodule Stripe.Resources.IssuingCardsListConfig do
   * `enabled` - Whether the embedded component is enabled.
   * `features` - Expandable.
   """
-  @type t :: %__MODULE__{
-          enabled: boolean(),
-          features: Stripe.Resources.IssuingCardsListFeatures.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:enabled, :features]
 

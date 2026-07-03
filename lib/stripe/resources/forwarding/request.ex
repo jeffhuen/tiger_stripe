@@ -34,19 +34,7 @@ defmodule Stripe.Resources.Forwarding.Request do
   * `response_details` - The response that the destination endpoint returned to us. We redact any sensitive fields. Nullable. Expandable.
   * `url` - The destination URL for the forwarded request. Must be supported by the config. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()} | nil,
-          object: String.t(),
-          payment_method: String.t(),
-          replacements: [String.t()],
-          request_context: request_context(),
-          request_details: request_details(),
-          response_details: response_details(),
-          url: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :created,
@@ -66,60 +54,6 @@ defmodule Stripe.Resources.Forwarding.Request do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["request_context", "request_details", "response_details"]
-
-  @typedoc """
-  * `destination_duration` - The time it took in milliseconds for the destination endpoint to respond.
-  * `destination_ip_address` - The IP address of the destination. Max length: 5000.
-  """
-  @type request_context :: %{
-          optional(:destination_duration) => integer() | nil,
-          optional(:destination_ip_address) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `body` - The body payload to send to the destination endpoint. Max length: 5000.
-  * `headers` - The headers to include in the forwarded request. Can be omitted if no additional headers (excluding Stripe-generated ones such as the Content-Type header) should be included.
-  * `http_method` - The HTTP method used to call the destination endpoint. Possible values: `POST`.
-  """
-  @type request_details :: %{
-          optional(:body) => String.t() | nil,
-          optional(:headers) => [request_details_headers()] | nil,
-          optional(:http_method) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `name` - The header name. Max length: 5000.
-  * `value` - The header value. Max length: 5000.
-  """
-  @type request_details_headers :: %{
-          optional(:name) => String.t() | nil,
-          optional(:value) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `body` - The response body from the destination endpoint to Stripe. Max length: 5000.
-  * `headers` - HTTP headers that the destination endpoint returned.
-  * `status` - The HTTP status code that the destination endpoint returned.
-  """
-  @type response_details :: %{
-          optional(:body) => String.t() | nil,
-          optional(:headers) => [response_details_headers()] | nil,
-          optional(:status) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `name` - The header name. Max length: 5000.
-  * `value` - The header value. Max length: 5000.
-  """
-  @type response_details_headers :: %{
-          optional(:name) => String.t() | nil,
-          optional(:value) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

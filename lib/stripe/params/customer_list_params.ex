@@ -11,15 +11,7 @@ defmodule Stripe.Params.CustomerListParams do
   * `starting_after` - A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list. Max length: 5000.
   * `test_clock` - Provides a list of customers that are associated with the specified test clock. The response will not include customers with test clocks if this parameter is not set. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          created: map() | nil,
-          email: String.t() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          test_clock: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:created, :email, :ending_before, :expand, :limit, :starting_after, :test_clock]
 end

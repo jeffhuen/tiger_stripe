@@ -11,11 +11,7 @@ defmodule Stripe.Resources.ToggleSettings do
   * `status` - Whether the Feature is operational. Possible values: `active`, `pending`, `restricted`.
   * `status_details` - Additional details; includes at least one entry when the status is not `active`. Expandable.
   """
-  @type t :: %__MODULE__{
-          requested: boolean(),
-          status: String.t(),
-          status_details: [Stripe.Resources.StatusDetails.t()]
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:requested, :status, :status_details]
 

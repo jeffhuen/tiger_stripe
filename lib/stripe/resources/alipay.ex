@@ -9,11 +9,7 @@ defmodule Stripe.Resources.Alipay do
   * `native_url` - Nullable.
   * `statement_descriptor` - Nullable.
   """
-  @type t :: %__MODULE__{
-          data_string: String.t() | nil,
-          native_url: String.t() | nil,
-          statement_descriptor: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:data_string, :native_url, :statement_descriptor]
 

@@ -6,10 +6,7 @@ defmodule Stripe.Params.InvoiceRenderingTemplateRetrieveParams do
   * `expand` - Specifies which fields in the response should be expanded.
   * `version`
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          version: integer() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :version]
 end

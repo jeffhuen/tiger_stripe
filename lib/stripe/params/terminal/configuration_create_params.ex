@@ -14,18 +14,7 @@ defmodule Stripe.Params.Terminal.ConfigurationCreateParams do
   * `verifone_p400` - An object containing device type specific settings for Verifone P400 readers.
   * `wifi` - Configurations for connecting to a WiFi network.
   """
-  @type t :: %__MODULE__{
-          bbpos_wisepad3: bbpos_wisepad3() | nil,
-          bbpos_wisepos_e: bbpos_wisepos_e() | nil,
-          expand: [String.t()] | nil,
-          name: String.t() | nil,
-          offline: map() | nil,
-          reboot_window: reboot_window() | nil,
-          stripe_s700: stripe_s700() | nil,
-          tipping: map() | nil,
-          verifone_p400: verifone_p400() | nil,
-          wifi: map() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :bbpos_wisepad3,
@@ -39,46 +28,4 @@ defmodule Stripe.Params.Terminal.ConfigurationCreateParams do
     :verifone_p400,
     :wifi
   ]
-
-  @typedoc """
-  * `splashscreen` - A File ID representing an image you want to display on the reader.
-  """
-  @type bbpos_wisepad3 :: %{
-          optional(:splashscreen) => map() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `splashscreen` - A File ID representing an image to display on the reader
-  """
-  @type bbpos_wisepos_e :: %{
-          optional(:splashscreen) => map() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `end_hour` - Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
-  * `start_hour` - Integer between 0 to 23 that represents the start hour of the reboot time window.
-  """
-  @type reboot_window :: %{
-          optional(:end_hour) => integer() | nil,
-          optional(:start_hour) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `splashscreen` - A File ID representing an image you want to display on the reader.
-  """
-  @type stripe_s700 :: %{
-          optional(:splashscreen) => map() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `splashscreen` - A File ID representing an image you want to display on the reader.
-  """
-  @type verifone_p400 :: %{
-          optional(:splashscreen) => map() | nil,
-          optional(String.t()) => term()
-        }
 end

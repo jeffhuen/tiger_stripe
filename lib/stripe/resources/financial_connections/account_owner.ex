@@ -16,16 +16,7 @@ defmodule Stripe.Resources.FinancialConnections.AccountOwner do
   * `raw_address` - The raw physical address of the owner. Max length: 5000. Nullable.
   * `refreshed_at` - The timestamp of the refresh that updated this owner. Format: Unix timestamp. Nullable.
   """
-  @type t :: %__MODULE__{
-          email: String.t(),
-          id: String.t(),
-          name: String.t(),
-          object: String.t(),
-          ownership: String.t(),
-          phone: String.t(),
-          raw_address: String.t(),
-          refreshed_at: integer()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:email, :id, :name, :object, :ownership, :phone, :raw_address, :refreshed_at]
 

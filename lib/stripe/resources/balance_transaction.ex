@@ -27,24 +27,7 @@ defmodule Stripe.Resources.BalanceTransaction do
   * `status` - The transaction's net funds status in the Stripe balance, which are either `available` or `pending`. Max length: 5000.
   * `type` - Transaction type: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `climate_order_purchase`, `climate_order_refund`, `connect_collection_transfer`, `contribution`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `obligation_outbound`, `obligation_reversal_inbound`, `payment`, `payment_failure_refund`, `payment_network_reserve_hold`, `payment_network_reserve_release`, `payment_refund`, `payment_reversal`, `payment_unreconciled`, `payout`, `payout_cancel`, `payout_failure`, `payout_minimum_balance_hold`, `payout_minimum_balance_release`, `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`, `reserve_hold`, `reserve_release`, `stripe_fee`, `stripe_fx_fee`, `stripe_balance_payment_debit`, `stripe_balance_payment_debit_reversal`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, or `transfer_refund`. Learn more about [balance transaction types and what they represent](https://stripe.com/docs/reports/balance-transaction-types). To classify transactions for accounting purposes, consider `reporting_category` instead. Possible values: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `climate_order_purchase`, `climate_order_refund`, `connect_collection_transfer`, `contribution`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `obligation_outbound`, `obligation_reversal_inbound`, `payment`, `payment_failure_refund`, `payment_network_reserve_hold`, `payment_network_reserve_release`, `payment_refund`, `payment_reversal`, `payment_unreconciled`, `payout`, `payout_cancel`, `payout_failure`, `payout_minimum_balance_hold`, `payout_minimum_balance_release`, `refund`, `refund_failure`, `reserve_hold`, `reserve_release`, `reserve_transaction`, `reserved_funds`, `stripe_balance_payment_debit`, `stripe_balance_payment_debit_reversal`, `stripe_fee`, `stripe_fx_fee`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, `transfer_refund`.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          available_on: integer(),
-          balance_type: String.t(),
-          created: integer(),
-          currency: String.t(),
-          description: String.t(),
-          exchange_rate: float(),
-          fee: integer(),
-          fee_details: [fee_details()],
-          id: String.t(),
-          net: integer(),
-          object: String.t(),
-          reporting_category: String.t(),
-          source: String.t() | Stripe.Resources.BalanceTransactionSource.t(),
-          status: String.t(),
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -69,22 +52,6 @@ defmodule Stripe.Resources.BalanceTransaction do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["fee_details", "source"]
-
-  @typedoc """
-  * `amount` - Amount of the fee, in cents.
-  * `application` - ID of the Connect application that earned the fee. Max length: 5000. Nullable.
-  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-  * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 5000. Nullable.
-  * `type` - Type of the fee, one of: `application_fee`, `payment_method_passthrough_fee`, `stripe_fee` or `tax`. Max length: 5000.
-  """
-  @type fee_details :: %{
-          optional(:amount) => integer() | nil,
-          optional(:application) => String.t() | nil,
-          optional(:currency) => String.t() | nil,
-          optional(:description) => String.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

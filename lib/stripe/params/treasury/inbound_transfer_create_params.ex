@@ -12,16 +12,7 @@ defmodule Stripe.Params.Treasury.InboundTransferCreateParams do
   * `origin_payment_method` - The origin payment method to be debited for the InboundTransfer. Max length: 5000.
   * `statement_descriptor` - The complete description that appears on your customers' statements. Maximum 10 characters. Can only include -#.$&*, spaces, and alphanumeric characters. Max length: 10.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          currency: String.t(),
-          description: String.t() | nil,
-          expand: [String.t()] | nil,
-          financial_account: String.t(),
-          metadata: %{String.t() => String.t()} | nil,
-          origin_payment_method: String.t(),
-          statement_descriptor: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,

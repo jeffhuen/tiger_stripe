@@ -6,18 +6,7 @@ defmodule Stripe.Params.TestHelpers.Treasury.OutboundPaymentReturnOutboundPaymen
   * `expand` - Specifies which fields in the response should be expanded.
   * `returned_details` - Optional hash to set the return code.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          returned_details: returned_details() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :returned_details]
-
-  @typedoc """
-  * `code` - The return code to be set on the OutboundPayment object. Possible values: `account_closed`, `account_frozen`, `bank_account_restricted`, `bank_ownership_changed`, `declined`, `incorrect_account_holder_name`, `invalid_account_number`, `invalid_currency`, `no_account`, `other`.
-  """
-  @type returned_details :: %{
-          optional(:code) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 end

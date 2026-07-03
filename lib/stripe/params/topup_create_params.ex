@@ -12,16 +12,7 @@ defmodule Stripe.Params.TopupCreateParams do
   * `statement_descriptor` - Extra information about a top-up for the source's bank statement. Limited to 15 ASCII characters. Max length: 15.
   * `transfer_group` - A string that identifies this top-up as part of a group.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          currency: String.t(),
-          description: String.t() | nil,
-          expand: [String.t()] | nil,
-          metadata: map() | nil,
-          source: String.t() | nil,
-          statement_descriptor: String.t() | nil,
-          transfer_group: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,

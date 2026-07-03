@@ -7,9 +7,7 @@ defmodule Stripe.Resources.FinancialAccountTransactionsFeatures do
   @typedoc """
   * `card_spend_dispute_management` - Whether to allow card spend dispute management features.
   """
-  @type t :: %__MODULE__{
-          card_spend_dispute_management: boolean()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:card_spend_dispute_management]
 

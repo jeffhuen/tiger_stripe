@@ -25,22 +25,7 @@ defmodule Stripe.Resources.SourceTransaction do
   * `status` - The status of the transaction, one of `succeeded`, `pending`, or `failed`. Max length: 5000.
   * `type` - The type of source this transaction is attached to. Possible values: `ach_credit_transfer`, `ach_debit`, `alipay`, `bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `klarna`, `multibanco`, `p24`, `sepa_debit`, `sofort`, `three_d_secure`, `wechat`.
   """
-  @type t :: %__MODULE__{
-          ach_credit_transfer: ach_credit_transfer() | nil,
-          amount: integer(),
-          chf_credit_transfer: chf_credit_transfer() | nil,
-          created: integer(),
-          currency: String.t(),
-          gbp_credit_transfer: gbp_credit_transfer() | nil,
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          paper_check: paper_check() | nil,
-          sepa_credit_transfer: sepa_credit_transfer() | nil,
-          source: String.t(),
-          status: String.t(),
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :ach_credit_transfer,
@@ -70,78 +55,6 @@ defmodule Stripe.Resources.SourceTransaction do
       "paper_check",
       "sepa_credit_transfer"
     ]
-
-  @typedoc """
-  * `customer_data` - Customer data associated with the transfer. Max length: 5000.
-  * `fingerprint` - Bank account fingerprint associated with the transfer. Max length: 5000.
-  * `last4` - Last 4 digits of the account number associated with the transfer. Max length: 5000.
-  * `routing_number` - Routing number associated with the transfer. Max length: 5000.
-  """
-  @type ach_credit_transfer :: %{
-          optional(:customer_data) => String.t() | nil,
-          optional(:fingerprint) => String.t() | nil,
-          optional(:last4) => String.t() | nil,
-          optional(:routing_number) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `reference` - Reference associated with the transfer. Max length: 5000.
-  * `sender_address_country` - Sender's country address. Max length: 5000.
-  * `sender_address_line1` - Sender's line 1 address. Max length: 5000.
-  * `sender_iban` - Sender's bank account IBAN. Max length: 5000.
-  * `sender_name` - Sender's name. Max length: 5000.
-  """
-  @type chf_credit_transfer :: %{
-          optional(:reference) => String.t() | nil,
-          optional(:sender_address_country) => String.t() | nil,
-          optional(:sender_address_line1) => String.t() | nil,
-          optional(:sender_iban) => String.t() | nil,
-          optional(:sender_name) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `fingerprint` - Bank account fingerprint associated with the Stripe owned bank account receiving the transfer. Max length: 5000.
-  * `funding_method` - The credit transfer rails the sender used to push this transfer. The possible rails are: Faster Payments, BACS, CHAPS, and wire transfers. Currently only Faster Payments is supported. Max length: 5000.
-  * `last4` - Last 4 digits of sender account number associated with the transfer. Max length: 5000.
-  * `reference` - Sender entered arbitrary information about the transfer. Max length: 5000.
-  * `sender_account_number` - Sender account number associated with the transfer. Max length: 5000.
-  * `sender_name` - Sender name associated with the transfer. Max length: 5000.
-  * `sender_sort_code` - Sender sort code associated with the transfer. Max length: 5000.
-  """
-  @type gbp_credit_transfer :: %{
-          optional(:fingerprint) => String.t() | nil,
-          optional(:funding_method) => String.t() | nil,
-          optional(:last4) => String.t() | nil,
-          optional(:reference) => String.t() | nil,
-          optional(:sender_account_number) => String.t() | nil,
-          optional(:sender_name) => String.t() | nil,
-          optional(:sender_sort_code) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `available_at` - Time at which the deposited funds will be available for use. Measured in seconds since the Unix epoch. Max length: 5000.
-  * `invoices` - Comma-separated list of invoice IDs associated with the paper check. Max length: 5000.
-  """
-  @type paper_check :: %{
-          optional(:available_at) => String.t() | nil,
-          optional(:invoices) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `reference` - Reference associated with the transfer. Max length: 5000.
-  * `sender_iban` - Sender's bank account IBAN. Max length: 5000.
-  * `sender_name` - Sender's name. Max length: 5000.
-  """
-  @type sepa_credit_transfer :: %{
-          optional(:reference) => String.t() | nil,
-          optional(:sender_iban) => String.t() | nil,
-          optional(:sender_name) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

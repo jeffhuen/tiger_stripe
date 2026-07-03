@@ -10,12 +10,7 @@ defmodule Stripe.Resources.Giropay do
   * `bic` - Nullable.
   * `statement_descriptor` - Nullable.
   """
-  @type t :: %__MODULE__{
-          bank_code: String.t() | nil,
-          bank_name: String.t() | nil,
-          bic: String.t() | nil,
-          statement_descriptor: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:bank_code, :bank_name, :bic, :statement_descriptor]
 

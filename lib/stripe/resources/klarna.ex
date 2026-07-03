@@ -32,34 +32,7 @@ defmodule Stripe.Resources.Klarna do
   * `shipping_first_name`
   * `shipping_last_name`
   """
-  @type t :: %__MODULE__{
-          background_image_url: String.t() | nil,
-          client_token: String.t() | nil,
-          first_name: String.t() | nil,
-          last_name: String.t() | nil,
-          locale: String.t() | nil,
-          logo_url: String.t() | nil,
-          page_title: String.t() | nil,
-          pay_later_asset_urls_descriptive: String.t() | nil,
-          pay_later_asset_urls_standard: String.t() | nil,
-          pay_later_name: String.t() | nil,
-          pay_later_redirect_url: String.t() | nil,
-          pay_now_asset_urls_descriptive: String.t() | nil,
-          pay_now_asset_urls_standard: String.t() | nil,
-          pay_now_name: String.t() | nil,
-          pay_now_redirect_url: String.t() | nil,
-          pay_over_time_asset_urls_descriptive: String.t() | nil,
-          pay_over_time_asset_urls_standard: String.t() | nil,
-          pay_over_time_name: String.t() | nil,
-          pay_over_time_redirect_url: String.t() | nil,
-          payment_method_categories: String.t() | nil,
-          purchase_country: String.t() | nil,
-          purchase_type: String.t() | nil,
-          redirect_url: String.t() | nil,
-          shipping_delay: integer() | nil,
-          shipping_first_name: String.t() | nil,
-          shipping_last_name: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :background_image_url,

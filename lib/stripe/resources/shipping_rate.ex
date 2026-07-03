@@ -21,20 +21,7 @@ defmodule Stripe.Resources.ShippingRate do
   * `tax_code` - A [tax code](https://docs.stripe.com/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`. Nullable. Expandable.
   * `type` - The type of calculation to use on the shipping rate. Possible values: `fixed_amount`.
   """
-  @type t :: %__MODULE__{
-          active: boolean(),
-          created: integer(),
-          delivery_estimate: delivery_estimate(),
-          display_name: String.t(),
-          fixed_amount: fixed_amount() | nil,
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          tax_behavior: String.t(),
-          tax_code: String.t() | Stripe.Resources.TaxCode.t(),
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :active,
@@ -55,58 +42,6 @@ defmodule Stripe.Resources.ShippingRate do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["delivery_estimate", "fixed_amount", "tax_code"]
-
-  @typedoc """
-  * `maximum` - The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite. Nullable.
-  * `minimum` - The lower bound of the estimated range. If empty, represents no lower bound. Nullable.
-  """
-  @type delivery_estimate :: %{
-          optional(:maximum) => delivery_estimate_maximum() | nil,
-          optional(:minimum) => delivery_estimate_minimum() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
-  * `value` - Must be greater than 0.
-  """
-  @type delivery_estimate_maximum :: %{
-          optional(:unit) => String.t() | nil,
-          optional(:value) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
-  * `value` - Must be greater than 0.
-  """
-  @type delivery_estimate_minimum :: %{
-          optional(:unit) => String.t() | nil,
-          optional(:value) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `amount` - A non-negative integer in cents representing how much to charge.
-  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-  * `currency_options` - Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-  """
-  @type fixed_amount :: %{
-          optional(:amount) => integer() | nil,
-          optional(:currency) => String.t() | nil,
-          optional(:currency_options) => %{String.t() => fixed_amount_currency_options()} | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `amount` - A non-negative integer in cents representing how much to charge.
-  * `tax_behavior` - Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Possible values: `exclusive`, `inclusive`, `unspecified`.
-  """
-  @type fixed_amount_currency_options :: %{
-          optional(:amount) => integer() | nil,
-          optional(:tax_behavior) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

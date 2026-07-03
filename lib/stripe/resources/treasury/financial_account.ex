@@ -27,26 +27,7 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
   * `status_details` - Expandable.
   * `supported_currencies` - The currencies the FinancialAccount can hold a balance in. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
   """
-  @type t :: %__MODULE__{
-          active_features: [String.t()] | nil,
-          balance: Stripe.Resources.Balance.t(),
-          country: String.t(),
-          created: integer(),
-          features: Stripe.Resources.Treasury.FinancialAccountFeatures.t() | nil,
-          financial_addresses: [financial_addresses()],
-          id: String.t(),
-          is_default: boolean() | nil,
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          nickname: String.t() | nil,
-          object: String.t(),
-          pending_features: [String.t()] | nil,
-          platform_restrictions: Stripe.Resources.PlatformRestriction.t() | nil,
-          restricted_features: [String.t()] | nil,
-          status: String.t(),
-          status_details: Stripe.Resources.StatusDetails.t(),
-          supported_currencies: [String.t()]
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :active_features,
@@ -74,18 +55,6 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
 
   def expandable_fields,
     do: ["balance", "features", "financial_addresses", "platform_restrictions", "status_details"]
-
-  @typedoc """
-  * `aba`
-  * `supported_networks` - The list of networks that the address supports
-  * `type` - The type of financial address Possible values: `aba`.
-  """
-  @type financial_addresses :: %{
-          optional(:aba) => Stripe.Resources.Aba.t() | nil,
-          optional(:supported_networks) => [String.t()] | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

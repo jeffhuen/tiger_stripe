@@ -5,9 +5,7 @@ defmodule Stripe.Params.V2.Core.EventDestinationRetrieveParams do
   @typedoc """
   * `include` - Additional fields to include in the response.
   """
-  @type t :: %__MODULE__{
-          include: [String.t()] | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:include]
 end

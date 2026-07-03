@@ -13,15 +13,7 @@ defmodule Stripe.Resources.Payto do
   * `purpose` - The purpose for which payments are made. Has a default value based on your merchant category code. Possible values: `dependant_support`, `government`, `loan`, `mortgage`, `other`, `pension`, `personal`, `retail`, `salary`, `tax`, `utility`. Nullable.
   * `start_date` - Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time. Max length: 5000. Nullable.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          amount_type: String.t(),
-          end_date: String.t(),
-          payment_schedule: String.t(),
-          payments_per_period: integer(),
-          purpose: String.t(),
-          start_date: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,

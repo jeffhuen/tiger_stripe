@@ -30,28 +30,7 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
   * `status_transitions` - Expandable.
   * `transaction` - The Transaction associated with this object. Nullable. Expandable.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          cancelable: boolean(),
-          created: integer(),
-          currency: String.t(),
-          description: String.t(),
-          failure_details: failure_details(),
-          financial_account: String.t(),
-          hosted_regulatory_receipt_url: String.t(),
-          id: String.t(),
-          linked_flows: linked_flows(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          origin_payment_method: String.t(),
-          origin_payment_method_details: origin_payment_method_details(),
-          returned: boolean(),
-          statement_descriptor: String.t(),
-          status: String.t(),
-          status_transitions: Stripe.Resources.StatusTransitions.t(),
-          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -87,34 +66,6 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
       "status_transitions",
       "transaction"
     ]
-
-  @typedoc """
-  * `code` - Reason for the failure. Possible values: `account_closed`, `account_frozen`, `bank_account_restricted`, `bank_ownership_changed`, `debit_not_authorized`, `incorrect_account_holder_address`, `incorrect_account_holder_name`, `incorrect_account_holder_tax_id`, `insufficient_funds`, `invalid_account_number`, `invalid_currency`, `no_account`, `other`.
-  """
-  @type failure_details :: %{
-          optional(:code) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `received_debit` - If funds for this flow were returned after the flow went to the `succeeded` state, this field contains a reference to the ReceivedDebit return. Max length: 5000. Nullable.
-  """
-  @type linked_flows :: %{
-          optional(:received_debit) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `billing_details`
-  * `type` - The type of the payment method used in the InboundTransfer. Possible values: `us_bank_account`.
-  * `us_bank_account`
-  """
-  @type origin_payment_method_details :: %{
-          optional(:billing_details) => Stripe.Resources.BillingDetails.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(:us_bank_account) => Stripe.Resources.UsBankAccount.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

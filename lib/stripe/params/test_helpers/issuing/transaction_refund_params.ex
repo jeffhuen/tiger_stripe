@@ -6,10 +6,7 @@ defmodule Stripe.Params.TestHelpers.Issuing.TransactionRefundParams do
   * `expand` - Specifies which fields in the response should be expanded.
   * `refund_amount` - The total amount to attempt to refund. This amount is in the provided currency, or defaults to the cards currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          refund_amount: integer() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :refund_amount]
 end

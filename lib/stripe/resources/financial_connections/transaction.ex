@@ -20,20 +20,7 @@ defmodule Stripe.Resources.FinancialConnections.Transaction do
   * `transaction_refresh` - The token of the transaction refresh that last updated or created this transaction. Max length: 5000.
   * `updated` - Time at which the object was last updated. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   """
-  @type t :: %__MODULE__{
-          account: String.t(),
-          amount: integer(),
-          currency: String.t(),
-          description: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          status: String.t(),
-          status_transitions: status_transitions(),
-          transacted_at: integer(),
-          transaction_refresh: String.t(),
-          updated: integer()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :account,
@@ -54,16 +41,6 @@ defmodule Stripe.Resources.FinancialConnections.Transaction do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["status_transitions"]
-
-  @typedoc """
-  * `posted_at` - Time at which this transaction posted. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
-  * `void_at` - Time at which this transaction was voided. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
-  """
-  @type status_transitions :: %{
-          optional(:posted_at) => integer() | nil,
-          optional(:void_at) => integer() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

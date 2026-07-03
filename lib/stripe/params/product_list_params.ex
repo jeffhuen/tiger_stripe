@@ -14,18 +14,7 @@ defmodule Stripe.Params.ProductListParams do
   * `type` - Only return products of this type. Possible values: `good`, `service`.
   * `url` - Only return products with the given url. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          active: boolean() | nil,
-          created: map() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          ids: [String.t()] | nil,
-          limit: integer() | nil,
-          shippable: boolean() | nil,
-          starting_after: String.t() | nil,
-          type: String.t() | nil,
-          url: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :active,

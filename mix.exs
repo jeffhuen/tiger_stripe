@@ -2,7 +2,7 @@ defmodule Stripe.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/jeffhuen/tiger_stripe"
-  @version "0.3.0"
+  @version "0.4.0"
 
   def project do
     [
@@ -26,7 +26,7 @@ defmodule Stripe.MixProject do
       dialyzer: [
         plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
         flags: [:unmatched_returns, :error_handling, :extra_return, :missing_return],
-        plt_add_apps: [:mix, :ex_unit]
+        plt_add_apps: [:mix, :ex_unit, :rustyjson]
       ]
     ]
   end
@@ -69,9 +69,9 @@ defmodule Stripe.MixProject do
       name: "tiger_stripe",
       description:
         "Complete Stripe SDK for Elixir with parity to the official " <>
-          "Ruby SDK. V1+V2 coverage (190 services, 307 resources, 523 typed params). " <>
-          "Fully typed per-event modules. Modern stack: Finch HTTP/2, RustyJSON, " <>
-          "automatic retries, OAuth, webhooks, telemetry, explicit per-client config, streaming pagination.",
+          "Ruby SDK. V1+V2 coverage (190 services, 307 resource structs, 523 documented params). " <>
+          "Per-event modules, Finch HTTP/2, RustyJSON, automatic retries, OAuth, webhooks, " <>
+          "telemetry, per-client config, streaming pagination.",
       maintainers: ["Jeff Huen"],
       licenses: ["MIT"],
       links: %{
@@ -94,6 +94,7 @@ defmodule Stripe.MixProject do
         "guides/igniter-installer.md",
         "guides/webhooks.md",
         "guides/connect-and-oauth.md",
+        "guides/migrating-0.3-to-0.4.md",
         "guides/migrating-0.2-to-0.3.md",
         "guides/migrating-0.1-to-0.2.md",
         "guides/testing.md",
@@ -106,6 +107,7 @@ defmodule Stripe.MixProject do
           "guides/igniter-installer.md",
           "guides/webhooks.md",
           "guides/connect-and-oauth.md",
+          "guides/migrating-0.3-to-0.4.md",
           "guides/migrating-0.2-to-0.3.md",
           "guides/migrating-0.1-to-0.2.md",
           "guides/testing.md",

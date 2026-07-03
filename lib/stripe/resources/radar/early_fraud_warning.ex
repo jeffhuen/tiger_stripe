@@ -19,16 +19,7 @@ defmodule Stripe.Resources.Radar.EarlyFraudWarning do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `radar.early_fraud_warning`.
   * `payment_intent` - ID of the Payment Intent this early fraud warning is for, optionally expanded. Expandable.
   """
-  @type t :: %__MODULE__{
-          actionable: boolean(),
-          charge: String.t() | Stripe.Resources.Charge.t(),
-          created: integer(),
-          fraud_type: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          payment_intent: String.t() | Stripe.Resources.PaymentIntent.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :actionable,

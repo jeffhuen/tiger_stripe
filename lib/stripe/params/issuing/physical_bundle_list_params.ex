@@ -10,14 +10,7 @@ defmodule Stripe.Params.Issuing.PhysicalBundleListParams do
   * `status` - Only return physical bundles with the given status. Possible values: `active`, `inactive`, `review`.
   * `type` - Only return physical bundles with the given type. Possible values: `custom`, `standard`.
   """
-  @type t :: %__MODULE__{
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          starting_after: String.t() | nil,
-          status: String.t() | nil,
-          type: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:ending_before, :expand, :limit, :starting_after, :status, :type]
 end

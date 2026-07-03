@@ -23,23 +23,7 @@ defmodule Stripe.Resources.Treasury.Transaction do
   * `status` - Status of the Transaction. Possible values: `open`, `posted`, `void`.
   * `status_transitions` - Expandable.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          balance_impact: balance_impact(),
-          created: integer(),
-          currency: String.t(),
-          description: String.t(),
-          entries: entries() | nil,
-          financial_account: String.t(),
-          flow: String.t(),
-          flow_details: flow_details() | nil,
-          flow_type: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          status: String.t(),
-          status_transitions: status_transitions()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,
@@ -63,66 +47,6 @@ defmodule Stripe.Resources.Treasury.Transaction do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["balance_impact", "entries", "flow_details", "status_transitions"]
-
-  @typedoc """
-  * `cash` - The change made to funds the user can spend right now.
-  * `inbound_pending` - The change made to funds that are not spendable yet, but will become available at a later time.
-  * `outbound_pending` - The change made to funds in the account, but not spendable because they are being held for pending outbound flows.
-  """
-  @type balance_impact :: %{
-          optional(:cash) => integer() | nil,
-          optional(:inbound_pending) => integer() | nil,
-          optional(:outbound_pending) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `data` - Details about each object.
-  * `has_more` - True if this list has another page of items after this one that can be fetched.
-  * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
-  * `url` - The URL where this list can be accessed. Max length: 5000.
-  """
-  @type entries :: %{
-          optional(:data) => [Stripe.Resources.Treasury.TransactionEntry.t()] | nil,
-          optional(:has_more) => boolean() | nil,
-          optional(:object) => String.t() | nil,
-          optional(:url) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `credit_reversal`
-  * `debit_reversal`
-  * `inbound_transfer`
-  * `issuing_authorization`
-  * `outbound_payment`
-  * `outbound_transfer`
-  * `received_credit`
-  * `received_debit`
-  * `type` - Type of the flow that created the Transaction. Set to the same value as `flow_type`. Possible values: `credit_reversal`, `debit_reversal`, `inbound_transfer`, `issuing_authorization`, `other`, `outbound_payment`, `outbound_transfer`, `received_credit`, `received_debit`.
-  """
-  @type flow_details :: %{
-          optional(:credit_reversal) => Stripe.Resources.Treasury.CreditReversal.t() | nil,
-          optional(:debit_reversal) => Stripe.Resources.Treasury.DebitReversal.t() | nil,
-          optional(:inbound_transfer) => Stripe.Resources.Treasury.InboundTransfer.t() | nil,
-          optional(:issuing_authorization) => Stripe.Resources.Issuing.Authorization.t() | nil,
-          optional(:outbound_payment) => Stripe.Resources.Treasury.OutboundPayment.t() | nil,
-          optional(:outbound_transfer) => Stripe.Resources.Treasury.OutboundTransfer.t() | nil,
-          optional(:received_credit) => Stripe.Resources.Treasury.ReceivedCredit.t() | nil,
-          optional(:received_debit) => Stripe.Resources.Treasury.ReceivedDebit.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `posted_at` - Timestamp describing when the Transaction changed status to `posted`. Format: Unix timestamp. Nullable.
-  * `void_at` - Timestamp describing when the Transaction changed status to `void`. Format: Unix timestamp. Nullable.
-  """
-  @type status_transitions :: %{
-          optional(:posted_at) => integer() | nil,
-          optional(:void_at) => integer() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

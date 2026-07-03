@@ -34,29 +34,7 @@ defmodule Stripe.Resources.Price do
   * `unit_amount` - The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`. Nullable.
   * `unit_amount_decimal` - The unit amount in cents (or local equivalent) to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`. Format: decimal string. Nullable.
   """
-  @type t :: %__MODULE__{
-          active: boolean(),
-          billing_scheme: String.t(),
-          created: integer(),
-          currency: String.t(),
-          currency_options: %{String.t() => currency_options()} | nil,
-          custom_unit_amount: custom_unit_amount(),
-          id: String.t(),
-          livemode: boolean(),
-          lookup_key: String.t(),
-          metadata: %{String.t() => String.t()},
-          nickname: String.t(),
-          object: String.t(),
-          product: String.t() | Stripe.Resources.Product.t(),
-          recurring: recurring(),
-          tax_behavior: String.t(),
-          tiers: [tiers()] | nil,
-          tiers_mode: String.t(),
-          transform_quantity: transform_quantity(),
-          type: String.t(),
-          unit_amount: integer(),
-          unit_amount_decimal: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :active,
@@ -94,104 +72,6 @@ defmodule Stripe.Resources.Price do
       "tiers",
       "transform_quantity"
     ]
-
-  @typedoc """
-  * `custom_unit_amount` - When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links. Nullable.
-  * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`. Nullable.
-  * `tiers` - Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
-  * `unit_amount` - The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`. Nullable.
-  * `unit_amount_decimal` - The unit amount in cents (or local equivalent) to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`. Format: decimal string. Nullable.
-  """
-  @type currency_options :: %{
-          optional(:custom_unit_amount) => currency_options_custom_unit_amount() | nil,
-          optional(:tax_behavior) => String.t() | nil,
-          optional(:tiers) => [currency_options_tiers()] | nil,
-          optional(:unit_amount) => integer() | nil,
-          optional(:unit_amount_decimal) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `maximum` - The maximum unit amount the customer can specify for this item. Nullable.
-  * `minimum` - The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount. Nullable.
-  * `preset` - The starting unit amount which can be updated by the customer. Nullable.
-  """
-  @type currency_options_custom_unit_amount :: %{
-          optional(:maximum) => integer() | nil,
-          optional(:minimum) => integer() | nil,
-          optional(:preset) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `flat_amount` - Price for the entire tier. Nullable.
-  * `flat_amount_decimal` - Same as `flat_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
-  * `unit_amount` - Per unit price for units relevant to the tier. Nullable.
-  * `unit_amount_decimal` - Same as `unit_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
-  * `up_to` - Up to and including to this quantity will be contained in the tier. Nullable.
-  """
-  @type currency_options_tiers :: %{
-          optional(:flat_amount) => integer() | nil,
-          optional(:flat_amount_decimal) => String.t() | nil,
-          optional(:unit_amount) => integer() | nil,
-          optional(:unit_amount_decimal) => String.t() | nil,
-          optional(:up_to) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `maximum` - The maximum unit amount the customer can specify for this item. Nullable.
-  * `minimum` - The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount. Nullable.
-  * `preset` - The starting unit amount which can be updated by the customer. Nullable.
-  """
-  @type custom_unit_amount :: %{
-          optional(:maximum) => integer() | nil,
-          optional(:minimum) => integer() | nil,
-          optional(:preset) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `interval` - The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
-  * `interval_count` - The number of intervals (specified in the `interval` attribute) between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months.
-  * `meter` - The meter tracking the usage of a metered price Max length: 5000. Nullable.
-  * `trial_period_days` - Default number of trial days when subscribing a customer to this price using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan). Nullable.
-  * `usage_type` - Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`. Possible values: `licensed`, `metered`.
-  """
-  @type recurring :: %{
-          optional(:interval) => String.t() | nil,
-          optional(:interval_count) => integer() | nil,
-          optional(:meter) => String.t() | nil,
-          optional(:trial_period_days) => integer() | nil,
-          optional(:usage_type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `flat_amount` - Price for the entire tier. Nullable.
-  * `flat_amount_decimal` - Same as `flat_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
-  * `unit_amount` - Per unit price for units relevant to the tier. Nullable.
-  * `unit_amount_decimal` - Same as `unit_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
-  * `up_to` - Up to and including to this quantity will be contained in the tier. Nullable.
-  """
-  @type tiers :: %{
-          optional(:flat_amount) => integer() | nil,
-          optional(:flat_amount_decimal) => String.t() | nil,
-          optional(:unit_amount) => integer() | nil,
-          optional(:unit_amount_decimal) => String.t() | nil,
-          optional(:up_to) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `divide_by` - Divide usage by this number.
-  * `round` - After division, either round the result `up` or `down`. Possible values: `down`, `up`.
-  """
-  @type transform_quantity :: %{
-          optional(:divide_by) => integer() | nil,
-          optional(:round) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

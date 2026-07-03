@@ -7,11 +7,7 @@ defmodule Stripe.Params.PaymentIntentVerifyMicrodepositsParams do
   * `descriptor_code` - A six-character code starting with SM present in the microdeposit sent to the bank account. Max length: 5000.
   * `expand` - Specifies which fields in the response should be expanded.
   """
-  @type t :: %__MODULE__{
-          amounts: [integer()] | nil,
-          descriptor_code: String.t() | nil,
-          expand: [String.t()] | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:amounts, :descriptor_code, :expand]
 end

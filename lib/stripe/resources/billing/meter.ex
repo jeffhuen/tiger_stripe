@@ -23,21 +23,7 @@ defmodule Stripe.Resources.Billing.Meter do
   * `updated` - Time at which the object was last updated. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `value_settings` - Expandable.
   """
-  @type t :: %__MODULE__{
-          created: integer(),
-          customer_mapping: customer_mapping(),
-          default_aggregation: default_aggregation(),
-          display_name: String.t(),
-          event_name: String.t(),
-          event_time_window: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          status: String.t(),
-          status_transitions: status_transitions(),
-          updated: integer(),
-          value_settings: value_settings()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :created,
@@ -60,40 +46,6 @@ defmodule Stripe.Resources.Billing.Meter do
 
   def expandable_fields,
     do: ["customer_mapping", "default_aggregation", "status_transitions", "value_settings"]
-
-  @typedoc """
-  * `event_payload_key` - The key in the meter event payload to use for mapping the event to a customer. Max length: 5000.
-  * `type` - The method for mapping a meter event to a customer. Possible values: `by_id`.
-  """
-  @type customer_mapping :: %{
-          optional(:event_payload_key) => String.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `formula` - Specifies how events are aggregated. Possible values: `count`, `last`, `sum`.
-  """
-  @type default_aggregation :: %{
-          optional(:formula) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `deactivated_at` - The time the meter was deactivated, if any. Measured in seconds since Unix epoch. Format: Unix timestamp. Nullable.
-  """
-  @type status_transitions :: %{
-          optional(:deactivated_at) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `event_payload_key` - The key in the meter event payload to use as the value for this meter. Max length: 5000.
-  """
-  @type value_settings :: %{
-          optional(:event_payload_key) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

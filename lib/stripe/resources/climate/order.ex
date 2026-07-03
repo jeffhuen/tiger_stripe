@@ -31,30 +31,7 @@ defmodule Stripe.Resources.Climate.Order do
   * `product_substituted_at` - Time at which the order's product was substituted for a different product. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
   * `status` - The current status of this order. Possible values: `awaiting_funds`, `canceled`, `confirmed`, `delivered`, `open`.
   """
-  @type t :: %__MODULE__{
-          amount_fees: integer(),
-          amount_subtotal: integer(),
-          amount_total: integer(),
-          beneficiary: beneficiary() | nil,
-          canceled_at: integer(),
-          cancellation_reason: String.t(),
-          certificate: String.t(),
-          confirmed_at: integer(),
-          created: integer(),
-          currency: String.t(),
-          delayed_at: integer(),
-          delivered_at: integer(),
-          delivery_details: [delivery_details()],
-          expected_delivery_year: integer(),
-          id: String.t(),
-          livemode: boolean(),
-          metadata: %{String.t() => String.t()},
-          metric_tons: String.t(),
-          object: String.t(),
-          product: String.t() | Stripe.Resources.Climate.Product.t(),
-          product_substituted_at: integer(),
-          status: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount_fees,
@@ -85,46 +62,6 @@ defmodule Stripe.Resources.Climate.Order do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["beneficiary", "delivery_details", "product"]
-
-  @typedoc """
-  * `public_name` - Publicly displayable name for the end beneficiary of carbon removal. Max length: 5000.
-  """
-  @type beneficiary :: %{
-          optional(:public_name) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `delivered_at` - Time at which the delivery occurred. Measured in seconds since the Unix epoch. Format: Unix timestamp.
-  * `location` - Specific location of this delivery. Nullable.
-  * `metric_tons` - Quantity of carbon removal supplied by this delivery. Max length: 5000.
-  * `registry_url` - Once retired, a URL to the registry entry for the tons from this delivery. Max length: 5000. Nullable.
-  * `supplier`
-  """
-  @type delivery_details :: %{
-          optional(:delivered_at) => integer() | nil,
-          optional(:location) => delivery_details_location() | nil,
-          optional(:metric_tons) => String.t() | nil,
-          optional(:registry_url) => String.t() | nil,
-          optional(:supplier) => Stripe.Resources.Climate.Supplier.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `city` - The city where the supplier is located. Max length: 5000. Nullable.
-  * `country` - Two-letter ISO code representing the country where the supplier is located. Max length: 5000.
-  * `latitude` - The geographic latitude where the supplier is located. Nullable.
-  * `longitude` - The geographic longitude where the supplier is located. Nullable.
-  * `region` - The state/county/province/region where the supplier is located. Max length: 5000. Nullable.
-  """
-  @type delivery_details_location :: %{
-          optional(:city) => String.t() | nil,
-          optional(:country) => String.t() | nil,
-          optional(:latitude) => float() | nil,
-          optional(:longitude) => float() | nil,
-          optional(:region) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

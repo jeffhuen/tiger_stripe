@@ -7,9 +7,7 @@ defmodule Stripe.Resources.CheckoutCardRestrictions do
   @typedoc """
   * `brands_blocked` - Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
   """
-  @type t :: %__MODULE__{
-          brands_blocked: [String.t()] | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:brands_blocked]
 

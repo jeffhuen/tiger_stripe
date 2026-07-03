@@ -21,16 +21,7 @@ defmodule Stripe.Resources.CountrySpec do
   * `supported_transfer_countries` - Countries that can accept transfers from the specified country.
   * `verification_fields` - Expandable.
   """
-  @type t :: %__MODULE__{
-          default_currency: String.t(),
-          id: String.t(),
-          object: String.t(),
-          supported_bank_account_currencies: %{String.t() => [String.t()]},
-          supported_payment_currencies: [String.t()],
-          supported_payment_methods: [String.t()],
-          supported_transfer_countries: [String.t()],
-          verification_fields: verification_fields()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :default_currency,
@@ -47,36 +38,6 @@ defmodule Stripe.Resources.CountrySpec do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["verification_fields"]
-
-  @typedoc """
-  * `company`
-  * `individual`
-  """
-  @type verification_fields :: %{
-          optional(:company) => verification_fields_company() | nil,
-          optional(:individual) => verification_fields_individual() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `additional` - Additional fields which are only required for some users.
-  * `minimum` - Fields which every account must eventually provide.
-  """
-  @type verification_fields_company :: %{
-          optional(:additional) => [String.t()] | nil,
-          optional(:minimum) => [String.t()] | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `additional` - Additional fields which are only required for some users.
-  * `minimum` - Fields which every account must eventually provide.
-  """
-  @type verification_fields_individual :: %{
-          optional(:additional) => [String.t()] | nil,
-          optional(:minimum) => [String.t()] | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

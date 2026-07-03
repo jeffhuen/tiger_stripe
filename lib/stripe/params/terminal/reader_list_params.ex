@@ -12,16 +12,7 @@ defmodule Stripe.Params.Terminal.ReaderListParams do
   * `starting_after` - A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list. Max length: 5000.
   * `status` - A status filter to filter readers to only offline or online readers Possible values: `offline`, `online`.
   """
-  @type t :: %__MODULE__{
-          device_type: String.t() | nil,
-          ending_before: String.t() | nil,
-          expand: [String.t()] | nil,
-          limit: integer() | nil,
-          location: String.t() | nil,
-          serial_number: String.t() | nil,
-          starting_after: String.t() | nil,
-          status: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :device_type,

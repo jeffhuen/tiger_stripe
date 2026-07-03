@@ -30,18 +30,7 @@ defmodule Stripe.Resources.TransferReversal do
   * `source_refund` - ID of the refund responsible for the transfer reversal. Nullable. Expandable.
   * `transfer` - ID of the transfer that was reversed. Expandable.
   """
-  @type t :: %__MODULE__{
-          amount: integer(),
-          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
-          created: integer(),
-          currency: String.t(),
-          destination_payment_refund: String.t() | Stripe.Resources.Refund.t(),
-          id: String.t(),
-          metadata: %{String.t() => String.t()},
-          object: String.t(),
-          source_refund: String.t() | Stripe.Resources.Refund.t(),
-          transfer: String.t() | Stripe.Resources.Transfer.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :amount,

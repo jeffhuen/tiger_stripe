@@ -21,21 +21,7 @@ defmodule Stripe.Resources.Treasury.TransactionEntry do
   * `transaction` - The Transaction associated with this object. Expandable.
   * `type` - The specific money movement that generated the TransactionEntry. Possible values: `credit_reversal`, `credit_reversal_posting`, `debit_reversal`, `inbound_transfer`, `inbound_transfer_return`, `issuing_authorization_hold`, `issuing_authorization_release`, `other`, `outbound_payment`, `outbound_payment_cancellation`, `outbound_payment_failure`, `outbound_payment_posting`, `outbound_payment_return`, `outbound_transfer`, `outbound_transfer_cancellation`, `outbound_transfer_failure`, `outbound_transfer_posting`, `outbound_transfer_return`, `received_credit`, `received_debit`.
   """
-  @type t :: %__MODULE__{
-          balance_impact: balance_impact(),
-          created: integer(),
-          currency: String.t(),
-          effective_at: integer(),
-          financial_account: String.t(),
-          flow: String.t(),
-          flow_details: flow_details() | nil,
-          flow_type: String.t(),
-          id: String.t(),
-          livemode: boolean(),
-          object: String.t(),
-          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t(),
-          type: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :balance_impact,
@@ -57,42 +43,6 @@ defmodule Stripe.Resources.Treasury.TransactionEntry do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["balance_impact", "flow_details", "transaction"]
-
-  @typedoc """
-  * `cash` - The change made to funds the user can spend right now.
-  * `inbound_pending` - The change made to funds that are not spendable yet, but will become available at a later time.
-  * `outbound_pending` - The change made to funds in the account, but not spendable because they are being held for pending outbound flows.
-  """
-  @type balance_impact :: %{
-          optional(:cash) => integer() | nil,
-          optional(:inbound_pending) => integer() | nil,
-          optional(:outbound_pending) => integer() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `credit_reversal`
-  * `debit_reversal`
-  * `inbound_transfer`
-  * `issuing_authorization`
-  * `outbound_payment`
-  * `outbound_transfer`
-  * `received_credit`
-  * `received_debit`
-  * `type` - Type of the flow that created the Transaction. Set to the same value as `flow_type`. Possible values: `credit_reversal`, `debit_reversal`, `inbound_transfer`, `issuing_authorization`, `other`, `outbound_payment`, `outbound_transfer`, `received_credit`, `received_debit`.
-  """
-  @type flow_details :: %{
-          optional(:credit_reversal) => Stripe.Resources.Treasury.CreditReversal.t() | nil,
-          optional(:debit_reversal) => Stripe.Resources.Treasury.DebitReversal.t() | nil,
-          optional(:inbound_transfer) => Stripe.Resources.Treasury.InboundTransfer.t() | nil,
-          optional(:issuing_authorization) => Stripe.Resources.Issuing.Authorization.t() | nil,
-          optional(:outbound_payment) => Stripe.Resources.Treasury.OutboundPayment.t() | nil,
-          optional(:outbound_transfer) => Stripe.Resources.Treasury.OutboundTransfer.t() | nil,
-          optional(:received_credit) => Stripe.Resources.Treasury.ReceivedCredit.t() | nil,
-          optional(:received_debit) => Stripe.Resources.Treasury.ReceivedDebit.t() | nil,
-          optional(:type) => String.t() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

@@ -7,9 +7,7 @@ defmodule Stripe.Resources.P24 do
   @typedoc """
   * `reference` - Nullable.
   """
-  @type t :: %__MODULE__{
-          reference: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:reference]
 

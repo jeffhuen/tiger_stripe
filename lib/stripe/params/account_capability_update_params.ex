@@ -8,10 +8,7 @@ defmodule Stripe.Params.AccountCapabilityUpdateParams do
 
   If a capability isn't permanent, you can remove it from the account by passing false. Some capabilities are permanent after they've been requested. Attempting to remove a permanent capability returns an error.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          requested: boolean() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:expand, :requested]
 end

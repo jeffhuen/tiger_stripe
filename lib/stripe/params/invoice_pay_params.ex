@@ -13,15 +13,7 @@ defmodule Stripe.Params.InvoicePayParams do
   * `payment_method` - A PaymentMethod to be charged. The PaymentMethod must be the ID of a PaymentMethod belonging to the customer associated with the invoice being paid. Max length: 5000.
   * `source` - A payment source to be charged. The source must be the ID of a source belonging to the customer associated with the invoice being paid. Max length: 5000.
   """
-  @type t :: %__MODULE__{
-          expand: [String.t()] | nil,
-          forgive: boolean() | nil,
-          mandate: map() | nil,
-          off_session: boolean() | nil,
-          paid_out_of_band: boolean() | nil,
-          payment_method: String.t() | nil,
-          source: String.t() | nil
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :expand,

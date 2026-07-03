@@ -34,27 +34,7 @@ defmodule Stripe.Resources.Product do
   * `updated` - Time at which the object was last updated. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `url` - A URL of a publicly-accessible webpage for this product. Max length: 2048. Nullable.
   """
-  @type t :: %__MODULE__{
-          active: boolean(),
-          created: integer(),
-          default_price: String.t() | Stripe.Resources.Price.t() | nil,
-          description: String.t(),
-          id: String.t(),
-          images: [String.t()],
-          livemode: boolean(),
-          marketing_features: [marketing_features()],
-          metadata: %{String.t() => String.t()},
-          name: String.t(),
-          object: String.t(),
-          package_dimensions: package_dimensions(),
-          shippable: boolean(),
-          statement_descriptor: String.t() | nil,
-          tax_code: String.t() | Stripe.Resources.TaxCode.t() | nil,
-          type: String.t(),
-          unit_label: String.t() | nil,
-          updated: integer(),
-          url: String.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [
     :active,
@@ -83,28 +63,6 @@ defmodule Stripe.Resources.Product do
 
   def expandable_fields,
     do: ["default_price", "marketing_features", "package_dimensions", "tax_code"]
-
-  @typedoc """
-  * `name` - The marketing feature name. Up to 80 characters long. Max length: 5000.
-  """
-  @type marketing_features :: %{
-          optional(:name) => String.t() | nil,
-          optional(String.t()) => term()
-        }
-
-  @typedoc """
-  * `height` - Height, in inches.
-  * `length` - Length, in inches.
-  * `weight` - Weight, in ounces.
-  * `width` - Width, in inches.
-  """
-  @type package_dimensions :: %{
-          optional(:height) => float() | nil,
-          optional(:length) => float() | nil,
-          optional(:weight) => float() | nil,
-          optional(:width) => float() | nil,
-          optional(String.t()) => term()
-        }
 
   def __nested_fields__ do
     %{

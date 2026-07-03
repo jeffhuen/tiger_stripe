@@ -9,11 +9,7 @@ defmodule Stripe.Resources.CashappHandleRedirectOrDisplayQrCode do
   * `mobile_auth_url` - The url for mobile redirect based auth Max length: 5000.
   * `qr_code` - Expandable.
   """
-  @type t :: %__MODULE__{
-          hosted_instructions_url: String.t(),
-          mobile_auth_url: String.t(),
-          qr_code: Stripe.Resources.CashappQrCode.t()
-        }
+  @type t :: %__MODULE__{}
 
   defstruct [:hosted_instructions_url, :mobile_auth_url, :qr_code]
 
