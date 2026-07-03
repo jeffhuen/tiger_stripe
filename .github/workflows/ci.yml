@@ -140,6 +140,8 @@ jobs:
     env:
       MIX_ENV: test
       STRIPE_SPEC_CHANNEL: latest
+      STRIPE_OPENAPI_TAG: latest
+      STRIPE_RUBY_REF: master
 
     strategy:
       matrix:
