@@ -7,6 +7,7 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
   * `application_fee_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
   * `automatic_tax` - Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
   * `billing_cycle_anchor` - Either `now` or `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle). Possible values: `now`, `unchanged`. Max length: 5000.
+  * `billing_schedules` - Sets the billing schedules for the subscription.
   * `billing_thresholds` - Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
   * `cancel_at` - A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
   * `cancel_at_period_end` - Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
@@ -17,7 +18,7 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
   * `default_source` - ID of the default payment source for the subscription. It must belong to the customer associated with the subscription and be in a chargeable state. If `default_payment_method` is also set, `default_payment_method` will take precedence. If neither are set, invoices will use the customer's [invoice_settings.default_payment_method](https://docs.stripe.com/api/customers/object#customer_object-invoice_settings-default_payment_method) or [default_source](https://docs.stripe.com/api/customers/object#customer_object-default_source).
   * `default_tax_rates` - The tax rates that will apply to any subscription item that does not have `tax_rates` set. Invoices created will have their `default_tax_rates` populated from the subscription. Pass an empty string to remove previously-defined tax rates.
   * `description` - The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
-  * `discounts` - The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
+  * `discounts` - The coupons to redeem into discounts for the subscription. A populated array overwrites the existing discounts on the subscription. If not specified or empty array, it leaves the subscription's discounts unchanged. If empty string, it clears the subscription's discounts.
   * `expand` - Specifies which fields in the response should be expanded.
   * `invoice_settings` - All invoices will be billed using the specified settings.
   * `items` - A list of up to 20 subscription items, each with an attached price.
@@ -25,15 +26,9 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
   * `off_session` - Indicates if a customer is on or off-session while an invoice payment is attempted. Defaults to `false` (on-session).
   * `on_behalf_of` - The account on behalf of which to charge, for each of the subscription's invoices.
   * `pause_collection` - If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
-  * `payment_behavior` - Use `allow_incomplete` to transition the subscription to `status=past_due` if a payment is required but cannot be paid. This allows you to manage scenarios where additional user actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
-
-  Use `default_incomplete` to transition the subscription to `status=past_due` when payment is required and await explicit confirmation of the invoice's payment intent. This allows simpler management of scenarios where additional user actions are needed to pay a subscription’s invoice. Such as failed payments, [SCA regulation](https://docs.stripe.com/billing/migration/strong-customer-authentication), or collecting a mandate for a bank debit payment method.
-
-  Use `pending_if_incomplete` to update the subscription using [pending updates](https://docs.stripe.com/billing/subscriptions/pending-updates). When you use `pending_if_incomplete` you can only pass the parameters [supported by pending updates](https://docs.stripe.com/billing/pending-updates-reference#supported-attributes).
-
-  Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not update the subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://docs.stripe.com/changelog/2019-03-14) to learn more. Possible values: `allow_incomplete`, `default_incomplete`, `error_if_incomplete`, `pending_if_incomplete`.
+  * `payment_behavior` - Controls how Stripe handles payment when a subscription update requires payment and `collection_method=charge_automatically`. Possible values: `allow_incomplete`, `default_incomplete`, `error_if_incomplete`, `pending_if_incomplete`.
   * `payment_settings` - Payment settings to pass to invoices created by the subscription.
-  * `pending_invoice_item_interval` - Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+  * `pending_invoice_item_interval` - Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
   * `proration_behavior` - Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`. Possible values: `always_invoice`, `create_prorations`, `none`.
   * `proration_date` - If set, prorations will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint. `proration_date` can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations. Format: Unix timestamp.
   * `transfer_data` - If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges. This will be unset if you POST an empty value.
@@ -48,6 +43,7 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
     :application_fee_percent,
     :automatic_tax,
     :billing_cycle_anchor,
+    :billing_schedules,
     :billing_thresholds,
     :cancel_at,
     :cancel_at_period_end,

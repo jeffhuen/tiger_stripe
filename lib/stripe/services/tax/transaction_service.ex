@@ -10,7 +10,7 @@ defmodule Stripe.Services.Tax.TransactionService do
   alias Stripe.Client
 
   @doc """
-  Create a transaction from a calculation
+  Create a Transaction from a Calculation
 
   Creates a Tax Transaction from a calculation, if that calculation hasn’t expired. Calculations expire after 90 days.
   """
@@ -26,7 +26,7 @@ defmodule Stripe.Services.Tax.TransactionService do
   end
 
   @doc """
-  Create a reversal transaction
+  Create a reversal Transaction
 
   Partially or fully reverses a previously created `Transaction`.
   """
@@ -42,7 +42,7 @@ defmodule Stripe.Services.Tax.TransactionService do
   end
 
   @doc """
-  Retrieve a transaction
+  Retrieve a Transaction
 
   Retrieves a Tax `Transaction` object.
   """

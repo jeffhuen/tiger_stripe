@@ -15,6 +15,7 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
   * `bancontact` - If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
   * `billie` - If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
   * `billing_details` - Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
+  * `bizum` - If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
   * `blik` - If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
   * `boleto` - If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
   * `card` - If this is a `card` PaymentMethod, this hash contains the user's card details. For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format `card: {token: "tok_visa"}`. When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance). We strongly recommend using Stripe.js instead of interacting with this API directly.
@@ -34,7 +35,7 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
   * `klarna` - If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
   * `konbini` - If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
   * `kr_card` - If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
-  * `link` - If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+  * `link` - If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
   * `mb_way` - If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `mobilepay` - If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -55,11 +56,14 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
   * `revolut_pay` - If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
   * `samsung_pay` - If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
   * `satispay` - If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
+  * `scalapay` - If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
   * `sepa_debit` - If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
   * `sofort` - If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
+  * `sunbit` - If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
   * `swish` - If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
   * `twint` - If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
-  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `card`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `bizum`, `blik`, `boleto`, `card`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `scalapay`, `sepa_debit`, `sofort`, `sunbit`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `upi` - If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
   * `us_bank_account` - If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
   * `wechat_pay` - If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
   * `zip` - If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -79,6 +83,7 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
     :bancontact,
     :billie,
     :billing_details,
+    :bizum,
     :blik,
     :boleto,
     :card,
@@ -119,11 +124,14 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
     :revolut_pay,
     :samsung_pay,
     :satispay,
+    :scalapay,
     :sepa_debit,
     :sofort,
+    :sunbit,
     :swish,
     :twint,
     :type,
+    :upi,
     :us_bank_account,
     :wechat_pay,
     :zip

@@ -8,7 +8,7 @@ defmodule Stripe.Resources.Issuing.Card do
 
   @typedoc """
   * `brand` - The brand of the card. Max length: 5000.
-  * `cancellation_reason` - The reason why the card was canceled. Possible values: `design_rejected`, `lost`, `stolen`. Nullable.
+  * `cancellation_reason` - The reason why the card was canceled. Possible values: `design_rejected`, `fulfillment_error`, `lost`, `stolen`. Nullable.
   * `cardholder` - Expandable.
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Supported currencies are `usd` in the US, `eur` in the EU, and `gbp` in the UK. Format: ISO 4217 currency code.
@@ -19,14 +19,15 @@ defmodule Stripe.Resources.Issuing.Card do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `last4` - The last 4 digits of the card number. Max length: 5000.
   * `latest_fraud_warning` - Stripe’s assessment of whether this card’s details have been compromised. If this property isn't null, cancel and reissue the card to prevent fraudulent activity risk. Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `lifecycle_controls` - Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://stripe.com/issuing/controls/lifecycle-controls) for more details. Nullable. Expandable.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `number` - The full unredacted card number. For security reasons, this is only available for virtual cards, and will be omitted unless you explicitly request it with [the `expand` parameter](https://docs.stripe.com/api/expanding_objects). Additionally, it's only available via the ["Retrieve a card" endpoint](https://docs.stripe.com/api/issuing/cards/retrieve), not via "List all cards" or any other endpoint. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `issuing.card`.
   * `personalization_design` - The personalization design object belonging to this card. Nullable. Expandable.
   * `replaced_by` - The latest card that replaces this card, if any. Nullable. Expandable.
   * `replacement_for` - The card this card replaces, if any. Nullable. Expandable.
-  * `replacement_reason` - The reason why the previous card needed to be replaced. Possible values: `damaged`, `expired`, `lost`, `stolen`. Nullable.
+  * `replacement_reason` - The reason why the previous card needed to be replaced. Possible values: `damaged`, `expired`, `fulfillment_error`, `lost`, `stolen`. Nullable.
   * `second_line` - Text separate from cardholder name, printed on the card. Max length: 5000. Nullable.
   * `shipping` - Where and how the card will be shipped. Nullable. Expandable.
   * `spending_controls` - Expandable.
@@ -49,6 +50,7 @@ defmodule Stripe.Resources.Issuing.Card do
     :id,
     :last4,
     :latest_fraud_warning,
+    :lifecycle_controls,
     :livemode,
     :metadata,
     :number,
@@ -72,6 +74,7 @@ defmodule Stripe.Resources.Issuing.Card do
     do: [
       "cardholder",
       "latest_fraud_warning",
+      "lifecycle_controls",
       "personalization_design",
       "replaced_by",
       "replacement_for",
@@ -86,6 +89,15 @@ defmodule Stripe.Resources.Issuing.Card do
         fields: %{
           "started_at" => :scalar,
           "type" => :scalar
+        }
+      },
+      "lifecycle_controls" => %{
+        fields: %{
+          "cancel_after" => %{
+            fields: %{
+              "payment_count" => :scalar
+            }
+          }
         }
       },
       "shipping" => %{
@@ -117,8 +129,10 @@ defmodule Stripe.Resources.Issuing.Card do
       },
       "spending_controls" => %{
         fields: %{
+          "allowed_card_presences" => {:list, :scalar},
           "allowed_categories" => {:list, :scalar},
           "allowed_merchant_countries" => {:list, :scalar},
+          "blocked_card_presences" => {:list, :scalar},
           "blocked_categories" => {:list, :scalar},
           "blocked_merchant_countries" => {:list, :scalar},
           "spending_limits" =>

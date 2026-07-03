@@ -18,6 +18,7 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
   * `inactive_message` - The custom message to be displayed to a customer when a payment link is no longer active. Max length: 500.
   * `invoice_creation` - Generate a post-purchase Invoice for one-time payments.
   * `line_items` - The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
+  * `managed_payments` - Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
   * `name_collection` - Controls settings applied for collecting the customer's name.
   * `on_behalf_of` - The account on behalf of which to charge.
@@ -30,6 +31,7 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
   Can only be set in `subscription` mode. Defaults to `always`.
 
   If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://docs.stripe.com/payments/checkout/free-trials). Possible values: `always`, `if_required`.
+  * `payment_method_options` - Payment-method-specific configuration.
   * `payment_method_types` - The list of payment method types that customers can use. If no value is passed, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods) (20+ payment methods [supported](https://docs.stripe.com/payments/payment-methods/integration-options#payment-method-product-support)).
   * `phone_number_collection` - Controls phone number collection settings during checkout.
 
@@ -60,12 +62,14 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
     :inactive_message,
     :invoice_creation,
     :line_items,
+    :managed_payments,
     :metadata,
     :name_collection,
     :on_behalf_of,
     :optional_items,
     :payment_intent_data,
     :payment_method_collection,
+    :payment_method_options,
     :payment_method_types,
     :phone_number_collection,
     :restrictions,

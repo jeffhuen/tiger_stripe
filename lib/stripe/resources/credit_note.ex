@@ -22,7 +22,7 @@ defmodule Stripe.Resources.CreditNote do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `invoice` - ID of the invoice. Expandable.
   * `lines` - Line items that make up the credit note Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `memo` - Customer-facing text that appears on the credit note PDF. Max length: 5000. Nullable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `number` - A unique number that identifies this particular credit note and appears on the PDF of the credit note and its associated invoice. Max length: 5000.
@@ -161,7 +161,7 @@ defmodule Stripe.Resources.CreditNote do
           "tax_behavior" => :scalar,
           "tax_rate_details" => %{
             fields: %{
-              "tax_rate" => :scalar
+              "tax_rate" => {:resource, Stripe.Resources.TaxRate}
             }
           },
           "taxability_reason" => :scalar,

@@ -10,6 +10,7 @@ defmodule Stripe.Params.SubscriptionCreateParams do
   * `billing_cycle_anchor` - A future timestamp in UTC format to anchor the subscription's [billing cycle](https://docs.stripe.com/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals. Format: Unix timestamp.
   * `billing_cycle_anchor_config` - Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurrence of the day_of_month at the hour, minute, and second UTC.
   * `billing_mode` - Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+  * `billing_schedules` - Sets the billing schedules for the subscription.
   * `billing_thresholds` - Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
   * `cancel_at` - A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
   * `cancel_at_period_end` - Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
@@ -29,19 +30,9 @@ defmodule Stripe.Params.SubscriptionCreateParams do
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `off_session` - Indicates if a customer is on or off-session while an invoice payment is attempted. Defaults to `false` (on-session).
   * `on_behalf_of` - The account on behalf of which to charge, for each of the subscription's invoices.
-  * `payment_behavior` - Only applies to subscriptions with `collection_method=charge_automatically`.
-
-  Use `allow_incomplete` to create Subscriptions with `status=incomplete` if the first invoice can't be paid. Creating Subscriptions with this status allows you to manage scenarios where additional customer actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
-
-  Use `default_incomplete` to create Subscriptions with `status=incomplete` when the first invoice requires payment, otherwise start as active. Subscriptions transition to `status=active` when successfully confirming the PaymentIntent on the first invoice. This allows simpler management of scenarios where additional customer actions are needed to pay a subscription’s invoice, such as failed payments, [SCA regulation](https://docs.stripe.com/billing/migration/strong-customer-authentication), or collecting a mandate for a bank debit payment method. If the PaymentIntent is not confirmed within 23 hours Subscriptions transition to `status=incomplete_expired`, which is a terminal state.
-
-  Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's first invoice can't be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further customer action is needed, this parameter doesn't create a Subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://docs.stripe.com/upgrades#2019-03-14) to learn more.
-
-  `pending_if_incomplete` is only used with updates and cannot be passed when creating a Subscription.
-
-  Subscriptions with `collection_method=send_invoice` are automatically activated regardless of the first Invoice status. Possible values: `allow_incomplete`, `default_incomplete`, `error_if_incomplete`, `pending_if_incomplete`.
+  * `payment_behavior` - Controls how Stripe handles the first invoice when payment is required and `collection_method=charge_automatically`. Subscriptions with `collection_method=send_invoice` are automatically activated regardless of the first Invoice status. Possible values: `allow_incomplete`, `default_incomplete`, `error_if_incomplete`, `pending_if_incomplete`.
   * `payment_settings` - Payment settings to pass to invoices created by the subscription.
-  * `pending_invoice_item_interval` - Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+  * `pending_invoice_item_interval` - Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
   * `proration_behavior` - Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`. Possible values: `always_invoice`, `create_prorations`, `none`.
   * `transfer_data` - If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
   * `trial_end` - Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
@@ -59,6 +50,7 @@ defmodule Stripe.Params.SubscriptionCreateParams do
     :billing_cycle_anchor,
     :billing_cycle_anchor_config,
     :billing_mode,
+    :billing_schedules,
     :billing_thresholds,
     :cancel_at,
     :cancel_at_period_end,

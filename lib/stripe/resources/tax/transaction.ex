@@ -15,7 +15,7 @@ defmodule Stripe.Resources.Tax.Transaction do
   * `customer_details` - Expandable.
   * `id` - Unique identifier for the transaction. Max length: 5000.
   * `line_items` - The tax collected or refunded, by line item. Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `tax.transaction`.
   * `posted_at` - The Unix timestamp representing when the tax liability is assumed or reduced. Format: Unix timestamp.
@@ -23,7 +23,7 @@ defmodule Stripe.Resources.Tax.Transaction do
   * `reversal` - If `type=reversal`, contains information about what was reversed. Nullable. Expandable.
   * `ship_from_details` - The details of the ship from location, such as the address. Nullable. Expandable.
   * `shipping_cost` - The shipping cost details for the transaction. Nullable. Expandable.
-  * `tax_date` - Timestamp of date at which the tax rules and rates in effect applies for the calculation. Format: Unix timestamp.
+  * `tax_date` - The calculation uses the tax rules and rates that are in effect at this timestamp. You can use a date up to 31 days in the past or up to 31 days in the future. If you use a future date, Stripe doesn't guarantee that the expected tax rules and rate being used match the actual rules and rate that will be in effect on that date. We deploy tax changes before their effective date, but not within a fixed window. Format: Unix timestamp.
   * `type` - If `reversal`, this transaction reverses an earlier transaction. Possible values: `reversal`, `transaction`.
   """
   @type t :: %__MODULE__{}

@@ -15,6 +15,7 @@ defmodule Stripe.Resources.Subscription do
   * `billing_cycle_anchor` - The reference point that aligns future [billing cycle](https://docs.stripe.com/subscriptions/billing-cycle) dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals. The timestamp is in UTC format. Format: Unix timestamp.
   * `billing_cycle_anchor_config` - The fixed values used to calculate the `billing_cycle_anchor`. Nullable. Expandable.
   * `billing_mode` - Expandable.
+  * `billing_schedules` - Billing schedules for this subscription. Expandable.
   * `billing_thresholds` - Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period Nullable. Expandable.
   * `cancel_at` - A date in the future at which the subscription will automatically get canceled Format: Unix timestamp. Nullable.
   * `cancel_at_period_end` - Whether this subscription will (if `status=active`) or did (if `status=canceled`) cancel at the end of the current billing period.
@@ -36,16 +37,18 @@ defmodule Stripe.Resources.Subscription do
   * `invoice_settings` - Expandable.
   * `items` - List of subscription items, each with an attached price. Expandable.
   * `latest_invoice` - The most recent invoice this subscription has generated over its lifecycle (for example, when it cycles or is updated). Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `managed_payments` - Settings for Managed Payments for this Subscription and resulting [Invoices](https://docs.stripe.com/api/invoices/object) and [PaymentIntents](https://docs.stripe.com/api/payment_intents/object). Nullable. Expandable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `next_pending_invoice_item_invoice` - Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at `pending_invoice_item_interval`. Format: Unix timestamp. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `subscription`.
   * `on_behalf_of` - The account (if any) the charge was made on behalf of for charges associated with this subscription. See the [Connect documentation](https://docs.stripe.com/connect/subscriptions#on-behalf-of) for details. Nullable. Expandable.
   * `pause_collection` - If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment). Nullable. Expandable.
   * `payment_settings` - Payment settings passed on to invoices created by the subscription. Nullable. Expandable.
-  * `pending_invoice_item_interval` - Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval. Nullable. Expandable.
+  * `pending_invoice_item_interval` - Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval. Nullable. Expandable.
   * `pending_setup_intent` - You can use this [SetupIntent](https://docs.stripe.com/api/setup_intents) to collect user authentication when creating a subscription without immediate payment or updating a subscription's payment method, allowing you to optimize for off-session payments. Learn more in the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication#scenario-2). Nullable. Expandable.
   * `pending_update` - If specified, [pending updates](https://docs.stripe.com/billing/subscriptions/pending-updates) that will be applied to the subscription once the `latest_invoice` has been paid. Nullable. Expandable.
+  * `presentment_details` - Expandable.
   * `schedule` - The schedule attached to the subscription Nullable. Expandable.
   * `start_date` - Date when the subscription was first created. The date might differ from the `created` date due to backdating. Format: Unix timestamp.
   * `status` - Possible values are `incomplete`, `incomplete_expired`, `trialing`, `active`, `past_due`, `canceled`, `unpaid`, or `paused`. 
@@ -74,6 +77,7 @@ defmodule Stripe.Resources.Subscription do
     :billing_cycle_anchor,
     :billing_cycle_anchor_config,
     :billing_mode,
+    :billing_schedules,
     :billing_thresholds,
     :cancel_at,
     :cancel_at_period_end,
@@ -96,6 +100,7 @@ defmodule Stripe.Resources.Subscription do
     :items,
     :latest_invoice,
     :livemode,
+    :managed_payments,
     :metadata,
     :next_pending_invoice_item_invoice,
     :object,
@@ -105,6 +110,7 @@ defmodule Stripe.Resources.Subscription do
     :pending_invoice_item_interval,
     :pending_setup_intent,
     :pending_update,
+    :presentment_details,
     :schedule,
     :start_date,
     :status,
@@ -124,6 +130,7 @@ defmodule Stripe.Resources.Subscription do
       "automatic_tax",
       "billing_cycle_anchor_config",
       "billing_mode",
+      "billing_schedules",
       "billing_thresholds",
       "cancellation_details",
       "customer",
@@ -134,12 +141,14 @@ defmodule Stripe.Resources.Subscription do
       "invoice_settings",
       "items",
       "latest_invoice",
+      "managed_payments",
       "on_behalf_of",
       "pause_collection",
       "payment_settings",
       "pending_invoice_item_interval",
       "pending_setup_intent",
       "pending_update",
+      "presentment_details",
       "schedule",
       "test_clock",
       "transfer_data",
@@ -180,6 +189,32 @@ defmodule Stripe.Resources.Subscription do
           "updated_at" => :scalar
         }
       },
+      "billing_schedules" => %{
+        fields: %{
+          "applies_to" =>
+            {:list,
+             %{
+               fields: %{
+                 "price" => {:resource, Stripe.Resources.Price},
+                 "type" => :scalar
+               }
+             }},
+          "bill_until" => %{
+            fields: %{
+              "computed_timestamp" => :scalar,
+              "duration" => %{
+                fields: %{
+                  "interval" => :scalar,
+                  "interval_count" => :scalar
+                }
+              },
+              "timestamp" => :scalar,
+              "type" => :scalar
+            }
+          },
+          "key" => :scalar
+        }
+      },
       "billing_thresholds" => %{
         fields: %{
           "amount_gte" => :scalar,
@@ -196,6 +231,16 @@ defmodule Stripe.Resources.Subscription do
       "invoice_settings" => %{
         fields: %{
           "account_tax_ids" => {:list, {:resource, Stripe.Resources.TaxId}},
+          "custom_fields" =>
+            {:list,
+             %{
+               fields: %{
+                 "name" => :scalar,
+                 "value" => :scalar
+               }
+             }},
+          "description" => :scalar,
+          "footer" => :scalar,
           "issuer" => %{
             fields: %{
               "account" => {:resource, Stripe.Resources.Account},
@@ -210,6 +255,11 @@ defmodule Stripe.Resources.Subscription do
           "has_more" => :scalar,
           "object" => :scalar,
           "url" => :scalar
+        }
+      },
+      "managed_payments" => %{
+        fields: %{
+          "enabled" => :scalar
         }
       },
       "pause_collection" => %{
@@ -277,7 +327,32 @@ defmodule Stripe.Resources.Subscription do
                   }
                 }
               },
+              "pix" => %{
+                fields: %{
+                  "expires_after_seconds" => :scalar,
+                  "mandate_options" => %{
+                    fields: %{
+                      "amount" => :scalar,
+                      "amount_includes_iof" => :scalar,
+                      "end_date" => :scalar,
+                      "payment_schedule" => :scalar
+                    }
+                  }
+                }
+              },
               "sepa_debit" => :scalar,
+              "upi" => %{
+                fields: %{
+                  "mandate_options" => %{
+                    fields: %{
+                      "amount" => :scalar,
+                      "amount_type" => :scalar,
+                      "description" => :scalar,
+                      "end_date" => :scalar
+                    }
+                  }
+                }
+              },
               "us_bank_account" => %{
                 fields: %{
                   "financial_connections" => %{
@@ -309,10 +384,18 @@ defmodule Stripe.Resources.Subscription do
       "pending_update" => %{
         fields: %{
           "billing_cycle_anchor" => :scalar,
+          "discount" => {:resource, Stripe.Resources.Discount},
+          "discounts" => {:list, {:resource, Stripe.Resources.Discount}},
           "expires_at" => :scalar,
+          "metadata" => {:map, :scalar},
           "subscription_items" => {:list, {:resource, Stripe.Resources.SubscriptionItem}},
           "trial_end" => :scalar,
           "trial_from_plan" => :scalar
+        }
+      },
+      "presentment_details" => %{
+        fields: %{
+          "presentment_currency" => :scalar
         }
       },
       "transfer_data" => %{

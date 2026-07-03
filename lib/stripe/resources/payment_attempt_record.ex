@@ -23,7 +23,7 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
   * `customer_presence` - Indicates whether the customer was present in your checkout flow during this payment. Possible values: `off_session`, `on_session`. Nullable.
   * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `payment_attempt_record`.
   * `payment_method_details` - Information about the Payment Method debited for this payment. Nullable. Expandable.
@@ -261,6 +261,12 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
               "phone" => :scalar
             }
           },
+          "bizum" => %{
+            fields: %{
+              "buyer_id" => :scalar,
+              "transaction_id" => :scalar
+            }
+          },
           "blik" => %{
             fields: %{
               "buyer_id" => :scalar
@@ -313,10 +319,13 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
                 }
               },
               "network_transaction_id" => :scalar,
-              "stored_credential_usage" => :scalar,
               "three_d_secure" => %{
                 fields: %{
                   "authentication_flow" => :scalar,
+                  "cryptogram" => :scalar,
+                  "electronic_commerce_indicator" => :scalar,
+                  "exemption_indicator" => :scalar,
+                  "exemption_indicator_applied" => :scalar,
                   "result" => :scalar,
                   "result_reason" => :scalar,
                   "version" => :scalar
@@ -355,12 +364,14 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
               "incremental_authorization_supported" => :scalar,
               "issuer" => :scalar,
               "last4" => :scalar,
+              "location" => :scalar,
               "network" => :scalar,
               "network_transaction_id" => :scalar,
               "offline" => {:resource, Stripe.Resources.Offline},
               "overcapture_supported" => :scalar,
               "preferred_locales" => {:list, :scalar},
               "read_method" => :scalar,
+              "reader" => :scalar,
               "receipt" => %{
                 fields: %{
                   "account_type" => :scalar,
@@ -448,16 +459,19 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
               "iin" => :scalar,
               "issuer" => :scalar,
               "last4" => :scalar,
+              "location" => :scalar,
               "network" => :scalar,
               "network_transaction_id" => :scalar,
               "preferred_locales" => {:list, :scalar},
               "read_method" => :scalar,
+              "reader" => :scalar,
               "receipt" => {:resource, Stripe.Resources.Receipt}
             }
           },
           "kakao_pay" => {:resource, Stripe.Resources.KakaoPay},
           "klarna" => %{
             fields: %{
+              "location" => :scalar,
               "payer_details" => %{
                 fields: %{
                   "address" => %{
@@ -468,7 +482,8 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
                 }
               },
               "payment_method_category" => :scalar,
-              "preferred_locale" => :scalar
+              "preferred_locale" => :scalar,
+              "reader" => :scalar
             }
           },
           "konbini" => %{
@@ -506,7 +521,12 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
               "reference" => :scalar
             }
           },
-          "naver_pay" => {:resource, Stripe.Resources.NaverPay},
+          "naver_pay" => %{
+            fields: %{
+              "buyer_id" => :scalar,
+              "transaction_id" => :scalar
+            }
+          },
           "nz_bank_account" => %{
             fields: %{
               "account_holder_name" => :scalar,
@@ -565,7 +585,8 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
           },
           "pix" => %{
             fields: %{
-              "bank_transaction_id" => :scalar
+              "bank_transaction_id" => :scalar,
+              "mandate" => :scalar
             }
           },
           "promptpay" => %{
@@ -599,6 +620,7 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
               "transaction_id" => :scalar
             }
           },
+          "scalapay" => {:resource, Stripe.Resources.Scalapay},
           "sepa_credit_transfer" => %{
             fields: %{
               "bank_name" => :scalar,
@@ -631,6 +653,7 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
             }
           },
           "stripe_account" => :scalar,
+          "sunbit" => {:resource, Stripe.Resources.Sunbit},
           "swish" => %{
             fields: %{
               "fingerprint" => :scalar,
@@ -638,8 +661,17 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
               "verified_phone_last4" => :scalar
             }
           },
-          "twint" => :scalar,
+          "twint" => %{
+            fields: %{
+              "mandate" => :scalar
+            }
+          },
           "type" => :scalar,
+          "upi" => %{
+            fields: %{
+              "vpa" => :scalar
+            }
+          },
           "us_bank_account" => %{
             fields: %{
               "account_holder_type" => :scalar,

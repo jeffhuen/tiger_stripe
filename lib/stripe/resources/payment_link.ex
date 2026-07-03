@@ -28,7 +28,8 @@ defmodule Stripe.Resources.PaymentLink do
   * `inactive_message` - The custom message to be displayed to a customer when a payment link is no longer active. Max length: 5000. Nullable.
   * `invoice_creation` - Configuration for creating invoice for payment mode payment links. Nullable. Expandable.
   * `line_items` - The line items representing what is being sold. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `managed_payments` - Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object). Nullable. Expandable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `name_collection` - Expandable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `payment_link`.
@@ -36,6 +37,7 @@ defmodule Stripe.Resources.PaymentLink do
   * `optional_items` - The optional items presented to the customer at checkout. Nullable. Expandable.
   * `payment_intent_data` - Indicates the parameters to be passed to PaymentIntent creation during checkout. Nullable. Expandable.
   * `payment_method_collection` - Configuration for collecting a payment method during checkout. Defaults to `always`. Possible values: `always`, `if_required`.
+  * `payment_method_options` - Payment-method-specific configuration. Nullable. Expandable.
   * `payment_method_types` - The list of payment method types that customers can use. When `null`, Stripe will dynamically show relevant payment methods you've enabled in your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). Nullable.
   * `phone_number_collection` - Expandable.
   * `restrictions` - Settings that restrict the usage of a payment link. Nullable. Expandable.
@@ -68,6 +70,7 @@ defmodule Stripe.Resources.PaymentLink do
     :invoice_creation,
     :line_items,
     :livemode,
+    :managed_payments,
     :metadata,
     :name_collection,
     :object,
@@ -75,6 +78,7 @@ defmodule Stripe.Resources.PaymentLink do
     :optional_items,
     :payment_intent_data,
     :payment_method_collection,
+    :payment_method_options,
     :payment_method_types,
     :phone_number_collection,
     :restrictions,
@@ -100,10 +104,12 @@ defmodule Stripe.Resources.PaymentLink do
       "custom_text",
       "invoice_creation",
       "line_items",
+      "managed_payments",
       "name_collection",
       "on_behalf_of",
       "optional_items",
       "payment_intent_data",
+      "payment_method_options",
       "phone_number_collection",
       "restrictions",
       "shipping_address_collection",
@@ -250,6 +256,11 @@ defmodule Stripe.Resources.PaymentLink do
           "url" => :scalar
         }
       },
+      "managed_payments" => %{
+        fields: %{
+          "enabled" => :scalar
+        }
+      },
       "name_collection" => %{
         fields: %{
           "business" => %{
@@ -288,6 +299,19 @@ defmodule Stripe.Resources.PaymentLink do
           "statement_descriptor" => :scalar,
           "statement_descriptor_suffix" => :scalar,
           "transfer_group" => :scalar
+        }
+      },
+      "payment_method_options" => %{
+        fields: %{
+          "card" => %{
+            fields: %{
+              "restrictions" => %{
+                fields: %{
+                  "brands_blocked" => {:list, :scalar}
+                }
+              }
+            }
+          }
         }
       },
       "phone_number_collection" => %{

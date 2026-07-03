@@ -15,7 +15,7 @@ defmodule Stripe.Resources.ApplicationFee do
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
   * `fee_source` - Polymorphic source of the application fee. Includes the ID of the object the application fee was created from. Nullable. Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `application_fee`.
   * `originating_transaction` - ID of the corresponding charge on the platform account, if this fee was the result of a charge using the `destination` parameter. Nullable. Expandable.
   * `refunded` - Whether the fee has been fully refunded. If the fee is only partially refunded, this attribute will still be false.

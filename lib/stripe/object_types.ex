@@ -158,8 +158,10 @@ defmodule Stripe.ObjectTypes do
       "mandate_cashapp" => Stripe.Resources.Cashapp,
       "mandate_kr_card" => Stripe.Resources.KrCard,
       "mandate_nz_bank_account" => Stripe.Resources.NzBankAccount,
+      "mandate_options_upi" => Stripe.Resources.UPI,
       "mandate_payto" => Stripe.Resources.Payto,
       "mandate_revolut_pay" => Stripe.Resources.RevolutPay,
+      "mandate_twint" => Stripe.Resources.Twint,
       "notification_event_data" => Stripe.Resources.EventData,
       "outbound_transfers_payment_method_details" =>
         Stripe.Resources.DestinationPaymentMethodDetails,
@@ -170,6 +172,7 @@ defmodule Stripe.ObjectTypes do
         Stripe.Resources.PaymentIntentAmountDetailsLineItem,
       "payment_intent_next_action_alipay_handle_redirect" =>
         Stripe.Resources.NextActionAlipayHandleRedirect,
+      "payment_intent_next_action_blik_authorize" => Stripe.Resources.BlikAuthorize,
       "payment_intent_next_action_boleto" => Stripe.Resources.NextActionDisplayBoletoDetails,
       "payment_intent_next_action_card_await_notification" =>
         Stripe.Resources.NextActionCardAwaitNotification,
@@ -182,6 +185,7 @@ defmodule Stripe.ObjectTypes do
         Stripe.Resources.NextActionMultibancoDisplayDetails,
       "payment_intent_next_action_display_oxxo_details" =>
         Stripe.Resources.NextActionOxxoDisplayDetails,
+      "payment_intent_next_action_klarna_display_qr_code" => Stripe.Resources.KlarnaDisplayQrCode,
       "payment_intent_next_action_konbini" => Stripe.Resources.NextActionKonbiniDisplayDetails,
       "payment_intent_next_action_konbini_familymart" => Stripe.Resources.Familymart,
       "payment_intent_next_action_konbini_lawson" => Stripe.Resources.Lawson,
@@ -195,6 +199,9 @@ defmodule Stripe.ObjectTypes do
       "payment_intent_next_action_swish_handle_redirect_or_display_qr_code" =>
         Stripe.Resources.SwishHandleRedirectOrDisplayQrCode,
       "payment_intent_next_action_swish_qr_code" => Stripe.Resources.SwishQrCode,
+      "payment_intent_next_action_upi_handle_redirect_or_display_qr_code" =>
+        Stripe.Resources.UPIHandleRedirectOrDisplayQrCode,
+      "payment_intent_next_action_upiqr_code" => Stripe.Resources.UPIQRCode,
       "payment_intent_next_action_wechat_pay_display_qr_code" =>
         Stripe.Resources.WechatPayDisplayQrCode,
       "payment_intent_next_action_wechat_pay_redirect_to_android_app" =>
@@ -213,9 +220,11 @@ defmodule Stripe.ObjectTypes do
       "payment_method_custom" => Stripe.Resources.Custom,
       "payment_method_details_card_present_offline" => Stripe.Resources.Offline,
       "payment_method_details_interac_present_receipt" => Stripe.Resources.Receipt,
-      "payment_method_details_kakao_pay" => Stripe.Resources.KakaoPay,
       "payment_method_details_mb_way" => Stripe.Resources.MbWay,
       "payment_method_details_payco" => Stripe.Resources.Payco,
+      "payment_method_details_payment_record_kakao_pay" => Stripe.Resources.KakaoPay,
+      "payment_method_details_payment_record_sunbit" => Stripe.Resources.Sunbit,
+      "payment_method_details_scalapay" => Stripe.Resources.Scalapay,
       "payment_method_domain" => Stripe.Resources.PaymentMethodDomain,
       "payment_method_naver_pay" => Stripe.Resources.NaverPay,
       "payment_method_options_card_present_routing" => Stripe.Resources.Routing,
@@ -247,6 +256,9 @@ defmodule Stripe.ObjectTypes do
       "refund" => Stripe.Resources.Refund,
       "reporting.report_run" => Stripe.Resources.Reporting.ReportRun,
       "reporting.report_type" => Stripe.Resources.Reporting.ReportType,
+      "reserve.hold" => Stripe.Resources.Reserve.Hold,
+      "reserve.plan" => Stripe.Resources.Reserve.Plan,
+      "reserve.release" => Stripe.Resources.Reserve.Release,
       "reserve_transaction" => Stripe.Resources.ReserveTransaction,
       "review" => Stripe.Resources.Review,
       "rule" => Stripe.Resources.Radar.Rule,
@@ -255,6 +267,8 @@ defmodule Stripe.ObjectTypes do
       "setup_attempt_payment_method_details_au_becs_debit" => Stripe.Resources.AuBecsDebit,
       "setup_attempt_payment_method_details_card_present" => Stripe.Resources.CardPresent,
       "setup_intent" => Stripe.Resources.SetupIntent,
+      "setup_intent_next_action_pix_display_qr_code" =>
+        Stripe.Resources.SetupIntentPixDisplayQrCode,
       "setup_intent_next_action_redirect_to_url" => Stripe.Resources.NextActionRedirectToUrl,
       "setup_intent_payment_method_options_card_mandate_options" =>
         Stripe.Resources.MandateOptions,
@@ -352,6 +366,7 @@ defmodule Stripe.ObjectTypes do
       "v2.billing.meter_event" => Stripe.Resources.V2.Billing.MeterEvent,
       "v2.billing.meter_event_adjustment" => Stripe.Resources.V2.Billing.MeterEventAdjustment,
       "v2.billing.meter_event_session" => Stripe.Resources.V2.Billing.MeterEventSession,
+      "v2.commerce.product_catalog_import" => Stripe.Resources.V2.Commerce.ProductCatalogImport,
       "v2.core.account" => Stripe.Resources.V2.Core.Account,
       "v2.core.account_link" => Stripe.Resources.V2.Core.AccountLink,
       "v2.core.account_person" => Stripe.Resources.V2.Core.AccountPerson,

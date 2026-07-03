@@ -213,12 +213,12 @@ defmodule Stripe.ClientTest do
     test "sends stripe-version header when set" do
       Stripe.Test.stub(fn %{headers: headers} ->
         assert List.keyfind(headers, "stripe-version", 0) ==
-                 {"stripe-version", "2026-01-28.clover"}
+                 {"stripe-version", "2026-06-24.dahlia"}
 
         {200, [], ~s({"ok": true})}
       end)
 
-      client = Stripe.Test.client("sk_test_123", api_version: "2026-01-28.clover")
+      client = Stripe.Test.client("sk_test_123", api_version: "2026-06-24.dahlia")
       assert {:ok, _} = Client.request(client, :get, "/v1/balance")
     end
 
@@ -240,7 +240,7 @@ defmodule Stripe.ClientTest do
         {200, [], ~s({"ok": true})}
       end)
 
-      client = Stripe.Test.client("sk_test_123", api_version: "2026-01-28.clover")
+      client = Stripe.Test.client("sk_test_123", api_version: "2026-06-24.dahlia")
 
       assert {:ok, _} =
                Client.request(client, :get, "/v1/balance", api_version: "2025-12-18.acacia")

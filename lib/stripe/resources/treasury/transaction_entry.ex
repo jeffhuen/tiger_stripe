@@ -16,7 +16,7 @@ defmodule Stripe.Resources.Treasury.TransactionEntry do
   * `flow_details` - Details of the flow associated with the TransactionEntry. Nullable. Expandable.
   * `flow_type` - Type of the flow associated with the TransactionEntry. Possible values: `credit_reversal`, `debit_reversal`, `inbound_transfer`, `issuing_authorization`, `other`, `outbound_payment`, `outbound_transfer`, `received_credit`, `received_debit`.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `treasury.transaction_entry`.
   * `transaction` - The Transaction associated with this object. Expandable.
   * `type` - The specific money movement that generated the TransactionEntry. Possible values: `credit_reversal`, `credit_reversal_posting`, `debit_reversal`, `inbound_transfer`, `inbound_transfer_return`, `issuing_authorization_hold`, `issuing_authorization_release`, `other`, `outbound_payment`, `outbound_payment_cancellation`, `outbound_payment_failure`, `outbound_payment_posting`, `outbound_payment_return`, `outbound_transfer`, `outbound_transfer_cancellation`, `outbound_transfer_failure`, `outbound_transfer_posting`, `outbound_transfer_return`, `received_credit`, `received_debit`.

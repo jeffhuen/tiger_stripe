@@ -5,6 +5,7 @@ defmodule Stripe.Generator.ServiceGenerator do
   alias Stripe.Generator.Naming
 
   @file_header "# File generated from our OpenAPI spec"
+  @deep_v2_namespace_packages ["V2.Commerce.ProductCatalog"]
 
   @doc """
   Generate service modules from parsed spec.
@@ -255,6 +256,7 @@ defmodule Stripe.Generator.ServiceGenerator do
       services
       |> Enum.map(& &1.package)
       |> Enum.reject(&(&1 == ""))
+      |> Enum.flat_map(&namespace_packages_for_service_package/1)
       |> Enum.filter(&generate_namespace_for_package?/1)
       |> Enum.uniq()
       |> Enum.sort()
@@ -297,7 +299,7 @@ defmodule Stripe.Generator.ServiceGenerator do
       package_label =
         package
         |> String.split(".")
-        |> Enum.map_join(" ", &String.capitalize/1)
+        |> Enum.map_join(" ", &humanize_package_part/1)
 
       content = """
       #{@file_header}
@@ -315,12 +317,32 @@ defmodule Stripe.Generator.ServiceGenerator do
     parts = String.split(package, ".")
 
     case parts do
+      ["V2" | _] -> length(parts) <= 2 or package in @deep_v2_namespace_packages
+      _ -> true
+    end
+  end
+
+  defp namespace_packages_for_service_package(package) do
+    parts = String.split(package, ".")
+
+    case parts do
       ["V2" | _] ->
-        length(parts) <= 2
+        parts
+        |> Enum.reduce({[], []}, fn part, {acc, packages} ->
+          package = [part | acc] |> Enum.reverse() |> Enum.join(".")
+          {[part | acc], [package | packages]}
+        end)
+        |> elem(1)
+        |> Enum.reject(&(&1 == "V2"))
+        |> Enum.reverse()
 
       _ ->
-        true
+        [package]
     end
+  end
+
+  defp humanize_package_part(part) do
+    String.replace(part, ~r/(?<!^)([A-Z])/, " \\1")
   end
 
   # -- Aggregate modules (V1, V2) ---------------------------------------------
@@ -419,6 +441,7 @@ defmodule Stripe.Generator.ServiceGenerator do
     services
     |> Enum.map(& &1.package)
     |> Enum.reject(&(&1 == ""))
+    |> Enum.flat_map(&namespace_packages_for_service_package/1)
     |> Enum.filter(fn package ->
       parts = String.split(package, ".")
       length(parts) == 2 && hd(parts) == "V2"

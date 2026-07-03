@@ -8,6 +8,9 @@ The format is based on [Common Changelog](https://common-changelog.org/).
 
 ### Changed
 
+- Sync OpenAPI spec to v2341 (API version `2026-06-24.dahlia`) and stripe-ruby parity fixture to v19.3.0.
+- Refresh generated V1 + V2 coverage to 193 service modules, 320 resource structs, 525 params modules, and 26 event files.
+- Add Dahlia v2 commerce product catalog import services and events, matching the stripe-ruby `v2/commerce/product_catalog` namespace layout.
 - **Breaking:** flatten generated resource and params public types. `Stripe.Resources.*.t()` and `Stripe.Params.*Params.t()` remain, but now expand to `%__MODULE__{}` instead of recursive field maps.
 - **Breaking:** remove generated nested helper type aliases from resource and params modules, such as `Stripe.Resources.Invoice.lines()` and `Stripe.Params.PaymentIntentCreateParams.payment_method_data()`.
 - Preserve generated `@moduledoc`, top-level `@typedoc`, `defstruct`, service `@spec`s, `object_name/0`, `expandable_fields/0`, and resource `__nested_fields__/0` deserialization metadata.
@@ -20,6 +23,7 @@ The format is based on [Common Changelog](https://common-changelog.org/).
 ### Fixed
 
 - Include the generator's `:rustyjson` dependency in the Dialyzer PLT config so `mix dialyzer` can analyze the local generator modules.
+- Pin the stripe-mock integration service in CI to `stripe/stripe-mock:v0.201.0`, matching the Dahlia-era generated API surface.
 
 ## [0.3.0] - 2026-05-22
 

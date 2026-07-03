@@ -212,6 +212,13 @@ defmodule Stripe.EventTypes do
       "reporting.report_run.failed" => "#/components/schemas/reporting.report_run",
       "reporting.report_run.succeeded" => "#/components/schemas/reporting.report_run",
       "reporting.report_type.updated" => "#/components/schemas/reporting.report_type",
+      "reserve.hold.created" => "#/components/schemas/reserve.hold",
+      "reserve.hold.updated" => "#/components/schemas/reserve.hold",
+      "reserve.plan.created" => "#/components/schemas/reserve.plan",
+      "reserve.plan.disabled" => "#/components/schemas/reserve.plan",
+      "reserve.plan.expired" => "#/components/schemas/reserve.plan",
+      "reserve.plan.updated" => "#/components/schemas/reserve.plan",
+      "reserve.release.created" => "#/components/schemas/reserve.release",
       "review.closed" => "#/components/schemas/review",
       "review.opened" => "#/components/schemas/review",
       "setup_intent.canceled" => "#/components/schemas/setup_intent",
@@ -292,6 +299,10 @@ defmodule Stripe.EventTypes do
       "treasury.received_debit.created" => "#/components/schemas/treasury.received_debit",
       "v1.billing.meter.error_report_triggered" => nil,
       "v1.billing.meter.no_meter_found" => nil,
+      "v2.commerce.product_catalog.imports.failed" => nil,
+      "v2.commerce.product_catalog.imports.processing" => nil,
+      "v2.commerce.product_catalog.imports.succeeded" => nil,
+      "v2.commerce.product_catalog.imports.succeeded_with_errors" => nil,
       "v2.core.account.closed" => nil,
       "v2.core.account.created" => nil,
       "v2.core.account.updated" => nil,
@@ -319,6 +330,14 @@ defmodule Stripe.EventTypes do
       "v1.billing.meter.error_report_triggered" =>
         Stripe.Events.V1BillingMeterErrorReportTriggeredEvent,
       "v1.billing.meter.no_meter_found" => Stripe.Events.V1BillingMeterNoMeterFoundEvent,
+      "v2.commerce.product_catalog.imports.failed" =>
+        Stripe.Events.V2CommerceProductCatalogImportsFailedEvent,
+      "v2.commerce.product_catalog.imports.processing" =>
+        Stripe.Events.V2CommerceProductCatalogImportsProcessingEvent,
+      "v2.commerce.product_catalog.imports.succeeded" =>
+        Stripe.Events.V2CommerceProductCatalogImportsSucceededEvent,
+      "v2.commerce.product_catalog.imports.succeeded_with_errors" =>
+        Stripe.Events.V2CommerceProductCatalogImportsSucceededWithErrorsEvent,
       "v2.core.account.closed" => Stripe.Events.V2CoreAccountClosedEvent,
       "v2.core.account.created" => Stripe.Events.V2CoreAccountCreatedEvent,
       "v2.core.account.updated" => Stripe.Events.V2CoreAccountUpdatedEvent,

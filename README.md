@@ -19,8 +19,8 @@ documentation. The **client layer** handles HTTP execution via Finch with
 connection pooling, automatic retries, request encoding, response
 deserialization, and telemetry.
 
-Together, the full V1 + V2 API surface is covered: 190 service modules,
-307 typed resource structs, 523 documented params modules, webhook signature
+Together, the full V1 + V2 API surface is covered: 193 service modules,
+320 typed resource structs, 525 documented params modules, webhook signature
 verification, OAuth, file uploads, streaming responses, and per-event typed
 modules.
 
@@ -139,7 +139,7 @@ Client options can be passed when constructing the client:
 
 ```elixir
 Stripe.client("sk_test_...",
-  api_version: "2026-01-28.clover",  # pin API version
+  api_version: "2026-06-24.dahlia",  # pin API version
   client_id: "ca_...",               # OAuth client ID (Connect platforms)
   max_retries: 3,                    # default: 2
   open_timeout: 30_000,              # connection timeout in ms
@@ -233,6 +233,9 @@ client = Stripe.client("sk_test_other_key", max_retries: 5)
 # Sync the OpenAPI spec
 bash scripts/sync_openapi.sh
 
+# Sync stripe-ruby for parity
+bash scripts/sync_ruby.sh
+
 # Generate the SDK
 mix stripe.generate --clean --stats
 
@@ -246,13 +249,13 @@ bash scripts/diff_ruby.sh
 ### Code Generation
 
 The SDK is auto-generated from Stripe's unified OpenAPI spec (`spec3.sdk.json`)
-via `mix stripe.generate`. The generator produces 1,044 files:
+via `mix stripe.generate`. The generator produces 1,066 files:
 
-- **190 service modules** (189 generated + 1 hand-written `OAuthService`)
-- **307 resource structs** with shallow `@type t`, expandable fields, and nested cast metadata
-- **523 params modules** with shallow `@type t` and `@typedoc` field annotations
+- **193 service modules** (192 generated + 1 hand-written `OAuthService`)
+- **320 resource structs** with shallow `@type t`, expandable fields, and nested cast metadata
+- **525 params modules** with shallow `@type t` and `@typedoc` field annotations
 - **2 registries** (object types and event types)
-- **22 event modules** (20 per-event typed + 1 constants + 1 unknown fallback)
+- **26 event files** (per-event typed modules, constants, and unknown fallback)
 
 A small set of [overrides](lib/stripe/generator/overrides.ex) handle
 cases where the spec's metadata doesn't match the Ruby SDK's service layout.

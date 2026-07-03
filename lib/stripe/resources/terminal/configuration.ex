@@ -10,16 +10,22 @@ defmodule Stripe.Resources.Terminal.Configuration do
   @typedoc """
   * `bbpos_wisepad3` - Expandable.
   * `bbpos_wisepos_e` - Expandable.
+  * `cellular` - Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `is_account_default` - Whether this Configuration is the default for your account Nullable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `name` - String indicating the name of the Configuration object, set by the user Max length: 5000. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `terminal.configuration`.
   * `offline` - Expandable.
   * `reboot_window` - Expandable.
   * `stripe_s700` - Expandable.
+  * `stripe_s710` - Expandable.
   * `tipping` - Expandable.
+  * `verifone_m425` - Expandable.
   * `verifone_p400` - Expandable.
+  * `verifone_p630` - Expandable.
+  * `verifone_ux700` - Expandable.
+  * `verifone_v660p` - Expandable.
   * `wifi` - Expandable.
   """
   @type t :: %__MODULE__{}
@@ -27,6 +33,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
   defstruct [
     :bbpos_wisepad3,
     :bbpos_wisepos_e,
+    :cellular,
     :id,
     :is_account_default,
     :livemode,
@@ -35,8 +42,13 @@ defmodule Stripe.Resources.Terminal.Configuration do
     :offline,
     :reboot_window,
     :stripe_s700,
+    :stripe_s710,
     :tipping,
+    :verifone_m425,
     :verifone_p400,
+    :verifone_p630,
+    :verifone_ux700,
+    :verifone_v660p,
     :wifi
   ]
 
@@ -47,11 +59,17 @@ defmodule Stripe.Resources.Terminal.Configuration do
     do: [
       "bbpos_wisepad3",
       "bbpos_wisepos_e",
+      "cellular",
       "offline",
       "reboot_window",
       "stripe_s700",
+      "stripe_s710",
       "tipping",
+      "verifone_m425",
       "verifone_p400",
+      "verifone_p630",
+      "verifone_ux700",
+      "verifone_v660p",
       "wifi"
     ]
 
@@ -67,6 +85,11 @@ defmodule Stripe.Resources.Terminal.Configuration do
           "splashscreen" => {:resource, Stripe.Resources.File}
         }
       },
+      "cellular" => %{
+        fields: %{
+          "enabled" => :scalar
+        }
+      },
       "offline" => %{
         fields: %{
           "enabled" => :scalar
@@ -79,6 +102,11 @@ defmodule Stripe.Resources.Terminal.Configuration do
         }
       },
       "stripe_s700" => %{
+        fields: %{
+          "splashscreen" => {:resource, Stripe.Resources.File}
+        }
+      },
+      "stripe_s710" => %{
         fields: %{
           "splashscreen" => {:resource, Stripe.Resources.File}
         }
@@ -234,7 +262,27 @@ defmodule Stripe.Resources.Terminal.Configuration do
           }
         }
       },
+      "verifone_m425" => %{
+        fields: %{
+          "splashscreen" => {:resource, Stripe.Resources.File}
+        }
+      },
       "verifone_p400" => %{
+        fields: %{
+          "splashscreen" => {:resource, Stripe.Resources.File}
+        }
+      },
+      "verifone_p630" => %{
+        fields: %{
+          "splashscreen" => {:resource, Stripe.Resources.File}
+        }
+      },
+      "verifone_ux700" => %{
+        fields: %{
+          "splashscreen" => {:resource, Stripe.Resources.File}
+        }
+      },
+      "verifone_v660p" => %{
         fields: %{
           "splashscreen" => {:resource, Stripe.Resources.File}
         }

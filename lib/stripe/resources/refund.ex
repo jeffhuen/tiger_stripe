@@ -170,6 +170,7 @@ defmodule Stripe.Resources.Refund do
           },
           "pix" => :scalar,
           "revolut" => :scalar,
+          "scalapay" => :scalar,
           "sofort" => :scalar,
           "swish" => %{
             fields: %{

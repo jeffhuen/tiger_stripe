@@ -127,6 +127,24 @@ defmodule Stripe.Generator.Overrides do
       reason: "Ruby has dedicated meter event stream service",
       ruby: "v2/billing/meter_event_stream_service.rb"
     },
+    {"post", "/v2/commerce/product_catalog/imports"} => %{
+      service_class: "Import",
+      service_package: "V2.Commerce.ProductCatalog",
+      reason: "Ruby nests product catalog imports under v2/commerce/product_catalog/ package",
+      ruby: "v2/commerce/product_catalog/import_service.rb"
+    },
+    {"get", "/v2/commerce/product_catalog/imports"} => %{
+      service_class: "Import",
+      service_package: "V2.Commerce.ProductCatalog",
+      reason: "Ruby nests product catalog imports under v2/commerce/product_catalog/ package",
+      ruby: "v2/commerce/product_catalog/import_service.rb"
+    },
+    {"get", "/v2/commerce/product_catalog/imports/{id}"} => %{
+      service_class: "Import",
+      service_package: "V2.Commerce.ProductCatalog",
+      reason: "Ruby nests product catalog imports under v2/commerce/product_catalog/ package",
+      ruby: "v2/commerce/product_catalog/import_service.rb"
+    },
     {"post", "/v2/core/accounts/{account_id}/persons"} => %{
       service_class: "Person",
       service_package: "V2.Core.Accounts",

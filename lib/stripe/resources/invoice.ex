@@ -44,6 +44,7 @@ defmodule Stripe.Resources.Invoice do
   * `amount_due` - Final amount due at this time for this invoice. If the invoice's total is smaller than the minimum charge amount, for example, or if there is account credit that can be applied to the invoice, the `amount_due` may be 0. If there is a positive `starting_balance` for the invoice (the customer owes money), the `amount_due` will also take that into account. The charge that gets generated for the invoice will be for the amount specified in `amount_due`.
   * `amount_overpaid` - Amount that was overpaid on the invoice. The amount overpaid is credited to the customer's credit balance.
   * `amount_paid` - The amount, in cents (or local equivalent), that was paid.
+  * `amount_paid_off_stripe` - Amount, in cents (or local equivalent), that was paid on the invoice outside of Stripe.
   * `amount_remaining` - The difference between amount_due and amount_paid, in cents (or local equivalent).
   * `amount_shipping` - This is the sum of all the shipping amounts.
   * `application` - ID of the Connect Application that created the invoice. Nullable. Expandable.
@@ -92,7 +93,7 @@ defmodule Stripe.Resources.Invoice do
   * `last_finalization_error` - The error encountered during the previous attempt to finalize the invoice. This field is cleared when the invoice is successfully finalized. Nullable. Expandable.
   * `latest_revision` - The ID of the most recent non-draft revision of this invoice Nullable. Expandable.
   * `lines` - The individual line items that make up the invoice. `lines` is sorted as follows: (1) pending invoice items (including prorations) in reverse chronological order, (2) subscription items in reverse chronological order, and (3) invoice items added after invoice creation in chronological order. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `next_payment_attempt` - The time at which payment will next be attempted. This value will be `null` for invoices where `collection_method=send_invoice`. Format: Unix timestamp. Nullable.
   * `number` - A unique, identifying string that appears on emails sent to the customer for this invoice. This starts with the customer's unique invoice_prefix if it is specified. Max length: 5000. Nullable.
@@ -100,9 +101,9 @@ defmodule Stripe.Resources.Invoice do
   * `on_behalf_of` - The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://docs.stripe.com/billing/invoices/connect) documentation for details. Nullable. Expandable.
   * `parent` - The parent that generated this invoice Nullable. Expandable.
   * `payment_settings` - Expandable.
-  * `payments` - Payments for this invoice Expandable.
-  * `period_end` - End of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price. Format: Unix timestamp.
-  * `period_start` - Start of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price. Format: Unix timestamp.
+  * `payments` - Payments for this invoice. Use [invoice payment](https://docs.stripe.com/api/invoice-payment) to get more details. Expandable.
+  * `period_end` - The latest timestamp at which invoice items can be associated with this invoice. Use the [line item period](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price. Format: Unix timestamp.
+  * `period_start` - The earliest timestamp at which invoice items can be associated with this invoice. Use the [line item period](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price. Format: Unix timestamp.
   * `post_payment_credit_notes_amount` - Total amount of all post-payment credit notes issued for this invoice.
   * `pre_payment_credit_notes_amount` - Total amount of all pre-payment credit notes issued for this invoice.
   * `receipt_number` - This is the transaction number that appears on email receipts sent for this invoice. Max length: 5000. Nullable.
@@ -134,6 +135,7 @@ defmodule Stripe.Resources.Invoice do
     :amount_due,
     :amount_overpaid,
     :amount_paid,
+    :amount_paid_off_stripe,
     :amount_remaining,
     :amount_shipping,
     :application,
@@ -375,7 +377,25 @@ defmodule Stripe.Resources.Invoice do
                   }
                 }
               },
+              "pix" => %{
+                fields: %{
+                  "amount_includes_iof" => :scalar,
+                  "expires_after_seconds" => :scalar
+                }
+              },
               "sepa_debit" => :scalar,
+              "upi" => %{
+                fields: %{
+                  "mandate_options" => %{
+                    fields: %{
+                      "amount" => :scalar,
+                      "amount_type" => :scalar,
+                      "description" => :scalar,
+                      "end_date" => :scalar
+                    }
+                  }
+                }
+              },
               "us_bank_account" => %{
                 fields: %{
                   "financial_connections" => %{
@@ -477,7 +497,7 @@ defmodule Stripe.Resources.Invoice do
           "tax_behavior" => :scalar,
           "tax_rate_details" => %{
             fields: %{
-              "tax_rate" => :scalar
+              "tax_rate" => {:resource, Stripe.Resources.TaxRate}
             }
           },
           "taxability_reason" => :scalar,

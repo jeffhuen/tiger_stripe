@@ -3,6 +3,8 @@ defmodule Stripe.Resources.Account do
   @moduledoc """
   Account
 
+  For new integrations, we recommend using the [Accounts v2 API](https://docs.stripe.com/api/v2/core/accounts), in place of /v1/accounts and /v1/customers to represent a user.
+
   This is an object representing a Stripe account. You can retrieve it to see
   properties on the account like its current requirements or if the account is
   enabled to make live charges or receive payouts.
@@ -124,11 +126,13 @@ defmodule Stripe.Resources.Account do
           "afterpay_clearpay_payments" => :scalar,
           "alma_payments" => :scalar,
           "amazon_pay_payments" => :scalar,
+          "app_distribution" => :scalar,
           "au_becs_debit_payments" => :scalar,
           "bacs_debit_payments" => :scalar,
           "bancontact_payments" => :scalar,
           "bank_transfer_payments" => :scalar,
           "billie_payments" => :scalar,
+          "bizum_payments" => :scalar,
           "blik_payments" => :scalar,
           "boleto_payments" => :scalar,
           "card_issuing" => :scalar,
@@ -168,15 +172,18 @@ defmodule Stripe.Resources.Account do
           "revolut_pay_payments" => :scalar,
           "samsung_pay_payments" => :scalar,
           "satispay_payments" => :scalar,
+          "scalapay_payments" => :scalar,
           "sepa_bank_transfer_payments" => :scalar,
           "sepa_debit_payments" => :scalar,
           "sofort_payments" => :scalar,
+          "sunbit_payments" => :scalar,
           "swish_payments" => :scalar,
           "tax_reporting_us_1099_k" => :scalar,
           "tax_reporting_us_1099_misc" => :scalar,
           "transfers" => :scalar,
           "treasury" => :scalar,
           "twint_payments" => :scalar,
+          "upi_payments" => :scalar,
           "us_bank_account_ach_payments" => :scalar,
           "us_bank_transfer_payments" => :scalar,
           "zip_payments" => :scalar

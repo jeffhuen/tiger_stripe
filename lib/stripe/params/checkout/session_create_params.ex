@@ -4,12 +4,12 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
 
   @typedoc """
   * `adaptive_pricing` - Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
-  * `after_expiration` - Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `custom`.
+  * `after_expiration` - Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `elements`.
   * `allow_promotion_codes` - Enables user redeemable promotion codes.
   * `automatic_tax` - Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
   * `billing_address_collection` - Specify whether Checkout should collect the customer's billing address. Defaults to `auto`. Possible values: `auto`, `required`.
-  * `branding_settings` - The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
-  * `cancel_url` - If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
+  * `branding_settings` - The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `elements`.
+  * `cancel_url` - If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded_page` or `elements`.
   * `client_reference_id` - A unique string to reference the Checkout Session. This can be a
   customer ID, a cart ID, or similar, and can be used to reconcile the
   session with your internal systems. Max length: 200.
@@ -48,6 +48,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
   * `excluded_payment_method_types` - A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
   * `expand` - Specifies which fields in the response should be expanded.
   * `expires_at` - The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation. Format: Unix timestamp.
+  * `integration_identifier` - The integration identifier for this Checkout Session. Multiple Checkout Sessions can have the same integration identifier. Max length: 200.
   * `invoice_creation` - Generate a post-purchase Invoice for one-time payments.
   * `line_items` - A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
 
@@ -55,6 +56,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
 
   For `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices will be on the initial invoice only.
   * `locale` - The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used. Possible values: `auto`, `bg`, `cs`, `da`, `de`, `el`, `en`, `en-GB`, `es`, `es-419`, `et`, `fi`, `fil`, `fr`, `fr-CA`, `hr`, `hu`, `id`, `it`, `ja`, `ko`, `lt`, `lv`, `ms`, `mt`, `nb`, `nl`, `pl`, `pt`, `pt-BR`, `ro`, `ru`, `sk`, `sl`, `sv`, `th`, `tr`, `vi`, `zh`, `zh-HK`, `zh-TW`.
+  * `managed_payments` - Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `mode` - The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item. Possible values: `payment`, `setup`, `subscription`.
   * `name_collection` - Controls name collection settings for the session.
@@ -62,8 +64,6 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
   You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
 
   If a [Customer](https://docs.stripe.com/api/customers) is created or provided, the names can be saved to the Customer object as well.
-
-  You can't set this parameter if `ui_mode` is `custom`.
   * `optional_items` - A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
 
   There is a maximum of 10 optional items allowed on a Checkout Session, and the existing limits on the number of line items allowed on a Checkout Session apply to the combined number of line items and optional items.
@@ -73,7 +73,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
   For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 
   You can't set this parameter if `ui_mode` is `custom`.
-  * `origin_context` - Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `custom`. Possible values: `mobile_app`, `web`.
+  * `origin_context` - Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `elements`. Possible values: `mobile_app`, `web`.
   * `payment_intent_data` - A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
   * `payment_method_collection` - Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.
   This may occur if the Checkout Session includes a free trial or a discount.
@@ -102,9 +102,9 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
 
   We recommend that you review your privacy policy and check with your legal contacts
   before using this feature. Learn more about [collecting phone numbers with Checkout](https://docs.stripe.com/payments/checkout/phone-numbers).
-  * `redirect_on_completion` - This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`. Possible values: `always`, `if_required`, `never`.
+  * `redirect_on_completion` - This parameter applies to `ui_mode: embedded_page`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`. Possible values: `always`, `if_required`, `never`.
   * `return_url` - The URL to redirect your customer back to after they authenticate or cancel their payment on the
-  payment method's app or site. This parameter is required if `ui_mode` is `embedded` or `custom`
+  payment method's app or site. This parameter is required if `ui_mode` is `embedded_page` or `elements`
   and redirect-based payment methods are enabled on the session.
   * `saved_payment_method_options` - Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
   * `setup_intent_data` - A subset of parameters to be passed to SetupIntent creation for Checkout Sessions in `setup` mode.
@@ -114,15 +114,15 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
   to customize relevant text on the page, such as the submit button.
   `submit_type` can only be specified on Checkout Sessions in
   `payment` or `subscription` mode. If blank or `auto`, `pay` is used.
-  You can't set this parameter if `ui_mode` is `custom`. Possible values: `auto`, `book`, `donate`, `pay`, `subscribe`.
+  You can't set this parameter if `ui_mode` is `elements`. Possible values: `auto`, `book`, `donate`, `pay`, `subscribe`.
   * `subscription_data` - A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
   * `success_url` - The URL to which Stripe should send customers when payment or setup
   is complete.
-  This parameter is not allowed if ui_mode is `embedded` or `custom`. If you'd like to use
+  This parameter is not allowed if ui_mode is `embedded_page` or `elements`. If you'd like to use
   information from the successful Checkout Session on your page, read the
   guide on [customizing your success page](https://docs.stripe.com/payments/checkout/custom-success-page).
   * `tax_id_collection` - Controls tax ID collection during checkout.
-  * `ui_mode` - The UI mode of the Session. Defaults to `hosted`. Possible values: `custom`, `embedded`, `hosted`.
+  * `ui_mode` - The UI mode of the Session. Defaults to `hosted_page`. Possible values: `elements`, `embedded_page`, `form`, `hosted_page`.
   * `wallet_options` - Wallet-specific configuration.
   """
   @type t :: %__MODULE__{}
@@ -149,9 +149,11 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     :excluded_payment_method_types,
     :expand,
     :expires_at,
+    :integration_identifier,
     :invoice_creation,
     :line_items,
     :locale,
+    :managed_payments,
     :metadata,
     :mode,
     :name_collection,

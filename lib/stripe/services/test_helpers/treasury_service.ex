@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.TestHelpers.TreasuryService do
-  @moduledoc "Testhelpers Treasury services."
+  @moduledoc "Test Helpers Treasury services."
   defstruct [
     :inbound_transfer,
     :outbound_payment,

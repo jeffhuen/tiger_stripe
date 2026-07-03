@@ -51,7 +51,8 @@ defmodule Stripe.Resources.PaymentIntent do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `last_payment_error` - The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason. Nullable. Expandable.
   * `latest_charge` - ID of the latest [Charge object](https://docs.stripe.com/api/charges) created by this PaymentIntent. This property is `null` until PaymentIntent confirmation is attempted. Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+  * `managed_payments` - Settings for Managed Payments. Nullable. Expandable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Learn more about [storing information in metadata](https://docs.stripe.com/payments/payment-intents/creating-payment-intents#storing-information-in-metadata).
   * `next_action` - If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source. Nullable. Expandable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `payment_intent`.
@@ -109,6 +110,7 @@ defmodule Stripe.Resources.PaymentIntent do
     :last_payment_error,
     :latest_charge,
     :livemode,
+    :managed_payments,
     :metadata,
     :next_action,
     :object,
@@ -144,6 +146,7 @@ defmodule Stripe.Resources.PaymentIntent do
       "hooks",
       "last_payment_error",
       "latest_charge",
+      "managed_payments",
       "next_action",
       "on_behalf_of",
       "payment_details",
@@ -215,10 +218,16 @@ defmodule Stripe.Resources.PaymentIntent do
           }
         }
       },
+      "managed_payments" => %{
+        fields: %{
+          "enabled" => :scalar
+        }
+      },
       "next_action" => %{
         fields: %{
           "alipay_handle_redirect" =>
             {:resource, Stripe.Resources.NextActionAlipayHandleRedirect},
+          "blik_authorize" => {:resource, Stripe.Resources.BlikAuthorize},
           "boleto_display_details" =>
             {:resource, Stripe.Resources.NextActionDisplayBoletoDetails},
           "card_await_notification" =>
@@ -227,6 +236,7 @@ defmodule Stripe.Resources.PaymentIntent do
             {:resource, Stripe.Resources.CashappHandleRedirectOrDisplayQrCode},
           "display_bank_transfer_instructions" =>
             {:resource, Stripe.Resources.NextActionDisplayBankTransferInstructions},
+          "klarna_display_qr_code" => {:resource, Stripe.Resources.KlarnaDisplayQrCode},
           "konbini_display_details" =>
             {:resource, Stripe.Resources.NextActionKonbiniDisplayDetails},
           "multibanco_display_details" =>
@@ -239,6 +249,8 @@ defmodule Stripe.Resources.PaymentIntent do
           "swish_handle_redirect_or_display_qr_code" =>
             {:resource, Stripe.Resources.SwishHandleRedirectOrDisplayQrCode},
           "type" => :scalar,
+          "upi_handle_redirect_or_display_qr_code" =>
+            {:resource, Stripe.Resources.UPIHandleRedirectOrDisplayQrCode},
           "use_stripe_sdk" => :scalar,
           "verify_with_microdeposits" => %{
             fields: %{
@@ -337,6 +349,7 @@ defmodule Stripe.Resources.PaymentIntent do
               "capture_method" => :scalar
             }
           },
+          "bizum" => :scalar,
           "blik" => %{
             fields: %{
               "setup_future_usage" => :scalar
@@ -560,6 +573,18 @@ defmodule Stripe.Resources.PaymentIntent do
               "amount_includes_iof" => :scalar,
               "expires_after_seconds" => :scalar,
               "expires_at" => :scalar,
+              "mandate_options" => %{
+                fields: %{
+                  "amount" => :scalar,
+                  "amount_includes_iof" => :scalar,
+                  "amount_type" => :scalar,
+                  "currency" => :scalar,
+                  "end_date" => :scalar,
+                  "payment_schedule" => :scalar,
+                  "reference" => :scalar,
+                  "start_date" => :scalar
+                }
+              },
               "setup_future_usage" => :scalar
             }
           },
@@ -581,6 +606,12 @@ defmodule Stripe.Resources.PaymentIntent do
           },
           "satispay" => %{
             fields: %{
+              "capture_method" => :scalar,
+              "setup_future_usage" => :scalar
+            }
+          },
+          "scalapay" => %{
+            fields: %{
               "capture_method" => :scalar
             }
           },
@@ -597,6 +628,12 @@ defmodule Stripe.Resources.PaymentIntent do
               "setup_future_usage" => :scalar
             }
           },
+          "sunbit" => %{
+            fields: %{
+              "capture_method" => :scalar,
+              "setup_future_usage" => :scalar
+            }
+          },
           "swish" => %{
             fields: %{
               "reference" => :scalar,
@@ -604,6 +641,11 @@ defmodule Stripe.Resources.PaymentIntent do
             }
           },
           "twint" => %{
+            fields: %{
+              "setup_future_usage" => :scalar
+            }
+          },
+          "upi" => %{
             fields: %{
               "setup_future_usage" => :scalar
             }
@@ -629,6 +671,7 @@ defmodule Stripe.Resources.PaymentIntent do
               },
               "setup_future_usage" => :scalar,
               "target_date" => :scalar,
+              "transaction_purpose" => :scalar,
               "verification_method" => :scalar
             }
           },
@@ -661,7 +704,15 @@ defmodule Stripe.Resources.PaymentIntent do
       "transfer_data" => %{
         fields: %{
           "amount" => :scalar,
-          "destination" => {:resource, Stripe.Resources.Account}
+          "description" => :scalar,
+          "destination" => {:resource, Stripe.Resources.Account},
+          "metadata" => {:map, :scalar},
+          "payment_data" => %{
+            fields: %{
+              "description" => :scalar,
+              "metadata" => {:map, :scalar}
+            }
+          }
         }
       },
       "last_payment_error" => {:resource, Stripe.Resources.StripeError},

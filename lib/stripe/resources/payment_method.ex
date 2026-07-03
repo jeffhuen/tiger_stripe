@@ -23,6 +23,7 @@ defmodule Stripe.Resources.PaymentMethod do
   * `bancontact` - Expandable.
   * `billie` - Expandable.
   * `billing_details` - Expandable.
+  * `bizum` - Expandable.
   * `blik` - Expandable.
   * `boleto` - Expandable.
   * `card` - Expandable.
@@ -46,7 +47,7 @@ defmodule Stripe.Resources.PaymentMethod do
   * `konbini` - Expandable.
   * `kr_card` - Expandable.
   * `link` - Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `mb_way` - Expandable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `mobilepay` - Expandable.
@@ -67,11 +68,14 @@ defmodule Stripe.Resources.PaymentMethod do
   * `revolut_pay` - Expandable.
   * `samsung_pay` - Expandable.
   * `satispay` - Expandable.
+  * `scalapay` - Expandable.
   * `sepa_debit` - Expandable.
   * `sofort` - Expandable.
+  * `sunbit` - Expandable.
   * `swish` - Expandable.
   * `twint` - Expandable.
-  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `blik`, `boleto`, `card`, `card_present`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `interac_present`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `sepa_debit`, `sofort`, `swish`, `twint`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `bizum`, `blik`, `boleto`, `card`, `card_present`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `interac_present`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `scalapay`, `sepa_debit`, `sofort`, `sunbit`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `upi` - Expandable.
   * `us_bank_account` - Expandable.
   * `wechat_pay` - Expandable.
   * `zip` - Expandable.
@@ -91,6 +95,7 @@ defmodule Stripe.Resources.PaymentMethod do
     :bancontact,
     :billie,
     :billing_details,
+    :bizum,
     :blik,
     :boleto,
     :card,
@@ -135,11 +140,14 @@ defmodule Stripe.Resources.PaymentMethod do
     :revolut_pay,
     :samsung_pay,
     :satispay,
+    :scalapay,
     :sepa_debit,
     :sofort,
+    :sunbit,
     :swish,
     :twint,
     :type,
+    :upi,
     :us_bank_account,
     :wechat_pay,
     :zip
@@ -161,6 +169,7 @@ defmodule Stripe.Resources.PaymentMethod do
       "bancontact",
       "billie",
       "billing_details",
+      "bizum",
       "blik",
       "boleto",
       "card",
@@ -199,10 +208,13 @@ defmodule Stripe.Resources.PaymentMethod do
       "revolut_pay",
       "samsung_pay",
       "satispay",
+      "scalapay",
       "sepa_debit",
       "sofort",
+      "sunbit",
       "swish",
       "twint",
+      "upi",
       "us_bank_account",
       "wechat_pay",
       "zip"
@@ -240,6 +252,16 @@ defmodule Stripe.Resources.PaymentMethod do
           "name" => :scalar,
           "phone" => :scalar,
           "tax_id" => :scalar
+        }
+      },
+      "bizum" => %{
+        fields: %{
+          "buyer_id" => :scalar
+        }
+      },
+      "blik" => %{
+        fields: %{
+          "buyer_id" => :scalar
         }
       },
       "boleto" => %{
@@ -288,12 +310,14 @@ defmodule Stripe.Resources.PaymentMethod do
                       "incremental_authorization_supported" => :scalar,
                       "issuer" => :scalar,
                       "last4" => :scalar,
+                      "location" => :scalar,
                       "network" => :scalar,
                       "network_transaction_id" => :scalar,
                       "offline" => {:resource, Stripe.Resources.Offline},
                       "overcapture_supported" => :scalar,
                       "preferred_locales" => {:list, :scalar},
                       "read_method" => :scalar,
+                      "reader" => :scalar,
                       "receipt" => %{
                         fields: %{
                           "account_type" => :scalar,
@@ -486,6 +510,11 @@ defmodule Stripe.Resources.PaymentMethod do
           "pay_id" => :scalar
         }
       },
+      "pix" => %{
+        fields: %{
+          "fingerprint" => :scalar
+        }
+      },
       "radar_options" => %{
         fields: %{
           "session" => :scalar
@@ -509,6 +538,11 @@ defmodule Stripe.Resources.PaymentMethod do
       "sofort" => %{
         fields: %{
           "country" => :scalar
+        }
+      },
+      "upi" => %{
+        fields: %{
+          "vpa" => :scalar
         }
       },
       "us_bank_account" => %{
@@ -545,7 +579,8 @@ defmodule Stripe.Resources.PaymentMethod do
       "mb_way" => {:resource, Stripe.Resources.MbWay},
       "naver_pay" => {:resource, Stripe.Resources.NaverPay},
       "payco" => {:resource, Stripe.Resources.Payco},
-      "samsung_pay" => {:resource, Stripe.Resources.SamsungPay}
+      "samsung_pay" => {:resource, Stripe.Resources.SamsungPay},
+      "scalapay" => {:resource, Stripe.Resources.Scalapay}
     }
   end
 end

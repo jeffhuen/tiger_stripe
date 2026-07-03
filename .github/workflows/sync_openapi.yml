@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MIX_ENV: test
+      STRIPE_OPENAPI_TAG: latest
+      STRIPE_RUBY_REF: latest
 
     steps:
       - uses: actions/checkout@v4
@@ -57,9 +59,11 @@ jobs:
       - name: Parity check
         run: bash scripts/diff_ruby.sh
 
-      - name: Read spec version
+      - name: Read synced versions
         id: version
-        run: echo "tag=$(cat OPENAPI_VERSION)" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "tag=$(cat OPENAPI_VERSION)" >> "$GITHUB_OUTPUT"
+          echo "ruby_ref=$(cat STRIPE_RUBY_VERSION)" >> "$GITHUB_OUTPUT"
 
       - name: Create PR if artifacts changed
         uses: peter-evans/create-pull-request@v6
@@ -68,8 +72,9 @@ jobs:
           title: "chore: sync OpenAPI spec ${{ steps.version.outputs.tag }}"
           body: |
             Automated spec sync from `stripe/openapi` tag `${{ steps.version.outputs.tag }}`.
+            Ruby parity fixture: `stripe-ruby` `${{ steps.version.outputs.ruby_ref }}`.
 
-            Generated via `sync_openapi.sh` → `mix stripe.generate --clean --stats`.
+            Generated via `sync_openapi.sh` → `sync_ruby.sh` → `mix stripe.generate --clean --stats`.
             All gates passed: compile, test, parity.
           branch: openapi-sync/${{ steps.version.outputs.tag }}
           base: main

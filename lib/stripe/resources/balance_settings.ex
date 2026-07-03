@@ -26,6 +26,16 @@ defmodule Stripe.Resources.BalanceSettings do
           "debit_negative_balances" => :scalar,
           "payouts" => %{
             fields: %{
+              "automatic_transfer_rules_by_currency" =>
+                {:map,
+                 {:list,
+                  %{
+                    fields: %{
+                      "payout_method" => :scalar,
+                      "transfer_up_to_amount" => :scalar,
+                      "type" => :scalar
+                    }
+                  }}},
               "minimum_balance_by_currency" => {:map, :scalar},
               "schedule" => %{
                 fields: %{
@@ -41,7 +51,14 @@ defmodule Stripe.Resources.BalanceSettings do
           "settlement_timing" => %{
             fields: %{
               "delay_days" => :scalar,
-              "delay_days_override" => :scalar
+              "delay_days_override" => :scalar,
+              "start_of_day" => %{
+                fields: %{
+                  "hour" => :scalar,
+                  "minutes" => :scalar,
+                  "timezone" => :scalar
+                }
+              }
             }
           }
         }

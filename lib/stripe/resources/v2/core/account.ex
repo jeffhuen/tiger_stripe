@@ -3,14 +3,15 @@ defmodule Stripe.Resources.V2.Core.Account do
   @moduledoc """
   Account
 
-  A V2 Account is a representation of a company or individual that a Stripe user does business with. Accounts contain the contact details, Legal Entity information, and configuration required to enable the Account for use across Stripe products.
+  An Account v2 object represents a company, individual, or other entity that your Stripe integration interacts with. It contains both identifying information and properties that control its behavior and functionality. An Account can have one or more configurations that enable sets of related features, such as allowing it to act as a merchant or customer.
+  The Accounts v2 API is broadly available to Connect platforms, and to other users in preview. The Accounts v2 API also supports the Global Payouts preview feature.
   """
 
   @typedoc """
   * `applied_configurations` - The configurations that have been applied to this account.
   * `closed` - Indicates whether the account has been closed.
   * `configuration` - An Account represents a company, individual, or other entity that a user interacts with. Accounts store identity information and one or more configurations that enable product-specific capabilities. You can assign configurations at creation or add them later.
-  * `contact_email` - The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
+  * `contact_email` - The primary contact email address for the Account.
   * `contact_phone` - The default contact phone for the Account.
   * `created` - Time at which the object was created. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z. Format: date-time.
   * `dashboard` - A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account. Possible values: `express`, `full`, `none`.
@@ -686,6 +687,19 @@ defmodule Stripe.Resources.V2.Core.Account do
                       }
                     }
                   },
+                  "sunbit_payments" => %{
+                    fields: %{
+                      "status" => :scalar,
+                      "status_details" =>
+                        {:list,
+                         %{
+                           fields: %{
+                             "code" => :scalar,
+                             "resolution" => :scalar
+                           }
+                         }}
+                    }
+                  },
                   "swish_payments" => %{
                     fields: %{
                       "status" => :scalar,
@@ -1070,12 +1084,22 @@ defmodule Stripe.Resources.V2.Core.Account do
                   "proof_of_registration" => %{
                     fields: %{
                       "files" => {:list, :scalar},
+                      "signer" => %{
+                        fields: %{
+                          "person" => :scalar
+                        }
+                      },
                       "type" => :scalar
                     }
                   },
                   "proof_of_ultimate_beneficial_ownership" => %{
                     fields: %{
                       "files" => {:list, :scalar},
+                      "signer" => %{
+                        fields: %{
+                          "person" => :scalar
+                        }
+                      },
                       "type" => :scalar
                     }
                   }

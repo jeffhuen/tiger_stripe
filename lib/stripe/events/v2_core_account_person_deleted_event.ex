@@ -12,7 +12,18 @@ defmodule Stripe.Events.V2CoreAccountPersonDeletedEvent do
           optional(String.t()) => term()
         }
 
-  defstruct [:context, :created, :data, :id, :livemode, :object, :related_object, :type]
+  defstruct [
+    :changes,
+    :context,
+    :created,
+    :data,
+    :id,
+    :livemode,
+    :object,
+    :reason,
+    :related_object,
+    :type
+  ]
 
   def lookup_type, do: "v2.core.account_person.deleted"
 

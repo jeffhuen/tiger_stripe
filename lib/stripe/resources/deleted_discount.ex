@@ -5,11 +5,11 @@ defmodule Stripe.Resources.DeletedDiscount do
   """
 
   @typedoc """
-  * `checkout_session` - The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode. Will not be present for subscription mode. Max length: 5000. Nullable.
+  * `checkout_session` - The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode. Not present for subscription mode. Max length: 5000. Nullable.
   * `customer` - The ID of the customer associated with this discount. Nullable. Expandable.
   * `customer_account` - The ID of the account representing the customer associated with this discount. Max length: 5000. Nullable.
   * `deleted` - Always true for a deleted object Possible values: `true`.
-  * `id` - The ID of the discount object. Discounts cannot be fetched by ID. Use `expand[]=discounts` in API calls to expand discount IDs in an array. Max length: 5000.
+  * `id` - The ID of the discount object. Discounts can't be fetched by ID. Use `expand[]=discounts` in API calls to expand discount IDs in an array. Max length: 5000.
   * `invoice` - The invoice that the discount's coupon was applied to, if it was applied directly to a particular invoice. Max length: 5000. Nullable.
   * `invoice_item` - The invoice item `id` (or invoice line item `id` for invoice line items of type='subscription') that the discount's coupon was applied to, if it was applied directly to a particular invoice item or invoice line item. Max length: 5000. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `discount`.

@@ -9,7 +9,7 @@ defmodule Stripe.Resources.Mandate do
   @typedoc """
   * `customer_acceptance` - Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `multi_use` - Expandable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `mandate`.
   * `on_behalf_of` - The account (if any) that the mandate is intended for. Max length: 5000.
@@ -62,6 +62,12 @@ defmodule Stripe.Resources.Mandate do
           "type" => :scalar
         }
       },
+      "multi_use" => %{
+        fields: %{
+          "amount" => :scalar,
+          "currency" => :scalar
+        }
+      },
       "payment_method_details" => %{
         fields: %{
           "acss_debit" => {:resource, Stripe.Resources.AcssDebit},
@@ -73,9 +79,11 @@ defmodule Stripe.Resources.Mandate do
           },
           "bacs_debit" => %{
             fields: %{
+              "display_name" => :scalar,
               "network_status" => :scalar,
               "reference" => :scalar,
               "revocation_reason" => :scalar,
+              "service_user_number" => :scalar,
               "url" => :scalar
             }
           },
@@ -94,9 +102,21 @@ defmodule Stripe.Resources.Mandate do
             }
           },
           "payto" => {:resource, Stripe.Resources.Payto},
+          "pix" => %{
+            fields: %{
+              "amount_includes_iof" => :scalar,
+              "amount_type" => :scalar,
+              "end_date" => :scalar,
+              "payment_schedule" => :scalar,
+              "reference" => :scalar,
+              "start_date" => :scalar
+            }
+          },
           "revolut_pay" => {:resource, Stripe.Resources.RevolutPay},
           "sepa_debit" => {:resource, Stripe.Resources.SepaDebit},
+          "twint" => {:resource, Stripe.Resources.Twint},
           "type" => :scalar,
+          "upi" => {:resource, Stripe.Resources.UPI},
           "us_bank_account" => {:resource, Stripe.Resources.UsBankAccount}
         }
       },

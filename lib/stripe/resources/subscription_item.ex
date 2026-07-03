@@ -8,6 +8,7 @@ defmodule Stripe.Resources.SubscriptionItem do
   """
 
   @typedoc """
+  * `billed_until` - The time period the subscription item has been billed for. Format: Unix timestamp.
   * `billing_thresholds` - Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period Nullable. Expandable.
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch.
   * `current_period_end` - The end time of this subscription item's current billing period. Format: Unix timestamp.
@@ -25,6 +26,7 @@ defmodule Stripe.Resources.SubscriptionItem do
   @type t :: %__MODULE__{}
 
   defstruct [
+    :billed_until,
     :billing_thresholds,
     :created,
     :current_period_end,

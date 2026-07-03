@@ -9,6 +9,7 @@ defmodule Stripe.Params.Issuing.CardCreateParams do
   * `exp_year` - The desired 4-digit expiration year for this card if [specifying a custom expiration date](https://stripe.com/issuing/cards/virtual/issue-cards?testing-method=with-code#exp-dates).
   * `expand` - Specifies which fields in the response should be expanded.
   * `financial_account` - The new financial account ID the card will be associated with. This field allows a card to be reassigned to a different financial account.
+  * `lifecycle_controls` - Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://stripe.com/issuing/controls/lifecycle-controls) for more details.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `personalization_design` - The personalization design object belonging to this card. Max length: 5000.
   * `pin` - The desired PIN for this card.
@@ -29,6 +30,7 @@ defmodule Stripe.Params.Issuing.CardCreateParams do
     :exp_year,
     :expand,
     :financial_account,
+    :lifecycle_controls,
     :metadata,
     :personalization_design,
     :pin,

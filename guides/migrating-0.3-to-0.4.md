@@ -1,7 +1,9 @@
 # Migrating from 0.3.x to 0.4.0
 
-TigerStripe 0.4.0 removes deep generated resource and params typespec graphs.
-Runtime behavior is unchanged.
+TigerStripe 0.4.0 removes deep generated resource and params typespec graphs
+and refreshes the generated Stripe API surface to `2026-06-24.dahlia`.
+Request execution, response deserialization, and webhook runtime behavior are
+unchanged.
 
 ## What Changed
 
@@ -15,6 +17,8 @@ Runtime behavior is unchanged.
 - `@moduledoc`, top-level `@typedoc`, `defstruct`, service `@spec`s,
   `object_name/0`, `expandable_fields/0`, and resource `__nested_fields__/0`
   remain.
+- Generated Stripe coverage is refreshed from Clover to Dahlia: 193 service
+  modules, 320 resource structs, 525 params modules, and 26 event files.
 
 ## Why
 

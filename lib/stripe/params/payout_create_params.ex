@@ -12,7 +12,7 @@ defmodule Stripe.Params.PayoutCreateParams do
   * `method` - The method used to send this payout, which is `standard` or `instant`. We support `instant` for payouts to debit cards and bank accounts in certain countries. Learn more about [bank support for Instant Payouts](https://stripe.com/docs/payouts/instant-payouts-banks). Possible values: `instant`, `standard`. Max length: 5000.
   * `payout_method` - The ID of a v2 FinancialAccount to send funds to.
   * `source_type` - The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the Balances API. One of `bank_account`, `card`, or `fpx`. Possible values: `bank_account`, `card`, `fpx`. Max length: 5000.
-  * `statement_descriptor` - A string that displays on the recipient's bank or card statement (up to 22 characters). A `statement_descriptor` that's longer than 22 characters return an error. Most banks truncate this information and display it inconsistently. Some banks might not display it at all. Max length: 22.
+  * `statement_descriptor` - A string that displays on the recipient's bank or card statement (up to 22 characters). A `statement_descriptor` that's longer than 22 characters return an error. Most banks truncate this information and display it inconsistently. Some banks might not display it at all. For US ACH payouts, this maps to the ACH Company Entry Description field, which the NACHA standard limits to 10 characters. Stripe truncates descriptors longer than 10 characters for US ACH payouts. Max length: 22.
   """
   @type t :: %__MODULE__{}
 

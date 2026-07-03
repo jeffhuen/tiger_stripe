@@ -17,12 +17,13 @@ defmodule Stripe.Resources.FinancialConnections.Account do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `institution_name` - The name of the institution that holds this account. Max length: 5000.
   * `last4` - The last 4 digits of the account number. If present, this will be 4 numeric characters. Max length: 5000. Nullable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `financial_connections.account`.
   * `ownership` - The most recent information about the account's owners. Nullable. Expandable.
   * `ownership_refresh` - The state of the most recent attempt to refresh the account owners. Nullable. Expandable.
   * `permissions` - The list of permissions granted by this account. Nullable.
   * `status` - The status of the link to the account. Possible values: `active`, `disconnected`, `inactive`.
+  * `status_details` - Expandable.
   * `subcategory` - If `category` is `cash`, one of:
 
   - `checking`
@@ -60,6 +61,7 @@ defmodule Stripe.Resources.FinancialConnections.Account do
     :ownership_refresh,
     :permissions,
     :status,
+    :status_details,
     :subcategory,
     :subscriptions,
     :supported_payment_method_types,
@@ -77,6 +79,7 @@ defmodule Stripe.Resources.FinancialConnections.Account do
       "balance_refresh",
       "ownership",
       "ownership_refresh",
+      "status_details",
       "transaction_refresh"
     ]
 
@@ -127,6 +130,17 @@ defmodule Stripe.Resources.FinancialConnections.Account do
           "last_attempted_at" => :scalar,
           "next_refresh_available_at" => :scalar,
           "status" => :scalar
+        }
+      },
+      "status_details" => %{
+        fields: %{
+          "active" => %{
+            fields: %{
+              "action" => :scalar,
+              "cause" => :scalar,
+              "expected_deactivation_date" => :scalar
+            }
+          }
         }
       },
       "transaction_refresh" => %{

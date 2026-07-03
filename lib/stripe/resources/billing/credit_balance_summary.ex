@@ -10,7 +10,7 @@ defmodule Stripe.Resources.Billing.CreditBalanceSummary do
   * `balances` - The billing credit balances. One entry per credit grant currency. If a customer only has credit grants in a single currency, then this will have a single balance entry. Expandable.
   * `customer` - The customer the balance is for. Expandable.
   * `customer_account` - The account the balance is for. Max length: 5000. Nullable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `billing.credit_balance_summary`.
   """
   @type t :: %__MODULE__{}

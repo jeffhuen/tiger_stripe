@@ -32,8 +32,8 @@ defmodule Stripe.Resources.Checkout.Session do
   * `client_reference_id` - A unique string to reference the Checkout Session. This can be a
   customer ID, a cart ID, or similar, and can be used to reconcile the
   Session with your internal systems. Max length: 5000. Nullable.
-  * `client_secret` - The client secret of your Checkout Session. Applies to Checkout Sessions with `ui_mode: embedded` or `ui_mode: custom`. For `ui_mode: embedded`, the client secret is to be used when initializing Stripe.js embedded checkout.
-  For `ui_mode: custom`, use the client secret with [initCheckout](https://docs.stripe.com/js/custom_checkout/init) on your front end. Max length: 5000. Nullable.
+  * `client_secret` - The client secret of your Checkout Session. Applies to Checkout Sessions with `ui_mode: embedded_page` or `ui_mode: elements`. For `ui_mode: embedded_page`, the client secret is to be used when initializing Stripe.js embedded checkout.
+  For `ui_mode: elements`, use the client secret with [initCheckout](https://docs.stripe.com/js/custom_checkout/init) on your front end. Max length: 5000. Nullable.
   * `collected_information` - Information about the customer collected within the Checkout Session. Nullable. Expandable.
   * `consent` - Results of `consent_collection` for this session. Nullable. Expandable.
   * `consent_collection` - When set, provides configuration for the Checkout Session to gather active consent from customers. Nullable. Expandable.
@@ -59,11 +59,13 @@ defmodule Stripe.Resources.Checkout.Session do
   * `excluded_payment_method_types` - A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
   * `expires_at` - The timestamp at which the Checkout Session will expire. Format: Unix timestamp.
   * `id` - Unique identifier for the object. Max length: 5000.
+  * `integration_identifier` - The integration identifier for this Checkout Session. Multiple Checkout Sessions can have the same integration identifier. Max length: 5000. Nullable.
   * `invoice` - ID of the invoice created by the Checkout Session, if it exists. Nullable. Expandable.
   * `invoice_creation` - Details on the state of invoice creation for the Checkout Session. Nullable. Expandable.
   * `line_items` - The line items purchased by the customer. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `locale` - The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used. Possible values: `auto`, `bg`, `cs`, `da`, `de`, `el`, `en`, `en-GB`, `es`, `es-419`, `et`, `fi`, `fil`, `fr`, `fr-CA`, `hr`, `hu`, `id`, `it`, `ja`, `ko`, `lt`, `lv`, `ms`, `mt`, `nb`, `nl`, `pl`, `pt`, `pt-BR`, `ro`, `ru`, `sk`, `sl`, `sv`, `th`, `tr`, `vi`, `zh`, `zh-HK`, `zh-TW`. Nullable.
+  * `managed_payments` - Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object). Nullable. Expandable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `mode` - The mode of the Checkout Session. Possible values: `payment`, `setup`, `subscription`.
   * `name_collection` - Expandable.
@@ -85,8 +87,8 @@ defmodule Stripe.Resources.Checkout.Session do
   * `phone_number_collection` - Expandable.
   * `presentment_details` - Expandable.
   * `recovered_from` - The ID of the original expired Checkout Session that triggered the recovery flow. Max length: 5000. Nullable.
-  * `redirect_on_completion` - This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`. Possible values: `always`, `if_required`, `never`.
-  * `return_url` - Applies to Checkout Sessions with `ui_mode: embedded` or `ui_mode: custom`. The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. Max length: 5000.
+  * `redirect_on_completion` - This parameter applies to `ui_mode: embedded_page`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`. Possible values: `always`, `if_required`, `never`.
+  * `return_url` - Applies to Checkout Sessions with `ui_mode: embedded_page` or `ui_mode: elements`. The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. Max length: 5000.
   * `saved_payment_method_options` - Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode. Nullable. Expandable.
   * `setup_intent` - The ID of the SetupIntent for Checkout Sessions in `setup` mode. You can't confirm or cancel the SetupIntent for a Checkout Session. To cancel, [expire the Checkout Session](https://docs.stripe.com/api/checkout/sessions/expire) instead. Nullable. Expandable.
   * `shipping_address_collection` - When set, provides configuration for Checkout to collect a shipping address from a customer. Nullable. Expandable.
@@ -101,8 +103,8 @@ defmodule Stripe.Resources.Checkout.Session do
   subscription creation is successful. Max length: 5000. Nullable.
   * `tax_id_collection` - Expandable.
   * `total_details` - Tax and discount details for the computed total amount. Nullable. Expandable.
-  * `ui_mode` - The UI mode of the Session. Defaults to `hosted`. Possible values: `custom`, `embedded`, `hosted`. Nullable.
-  * `url` - The URL to the Checkout Session. Applies to Checkout Sessions with `ui_mode: hosted`. Redirect customers to this URL to take them to Checkout. If you’re using [Custom Domains](https://docs.stripe.com/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it’ll use `checkout.stripe.com.`
+  * `ui_mode` - The UI mode of the Session. Defaults to `hosted_page`. Possible values: `elements`, `embedded_page`, `form`, `hosted_page`. Nullable.
+  * `url` - The URL to the Checkout Session. Applies to Checkout Sessions with `ui_mode: hosted_page`. Redirect customers to this URL to take them to Checkout. If you’re using [Custom Domains](https://docs.stripe.com/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it’ll use `checkout.stripe.com.`
   This value is only present when the session is active. Max length: 5000. Nullable.
   * `wallet_options` - Wallet-specific configuration for this Checkout Session. Nullable. Expandable.
   """
@@ -137,11 +139,13 @@ defmodule Stripe.Resources.Checkout.Session do
     :excluded_payment_method_types,
     :expires_at,
     :id,
+    :integration_identifier,
     :invoice,
     :invoice_creation,
     :line_items,
     :livemode,
     :locale,
+    :managed_payments,
     :metadata,
     :mode,
     :name_collection,
@@ -198,6 +202,7 @@ defmodule Stripe.Resources.Checkout.Session do
       "invoice",
       "invoice_creation",
       "line_items",
+      "managed_payments",
       "name_collection",
       "optional_items",
       "payment_intent",
@@ -421,6 +426,11 @@ defmodule Stripe.Resources.Checkout.Session do
           "has_more" => :scalar,
           "object" => :scalar,
           "url" => :scalar
+        }
+      },
+      "managed_payments" => %{
+        fields: %{
+          "enabled" => :scalar
         }
       },
       "name_collection" => %{
@@ -682,6 +692,18 @@ defmodule Stripe.Resources.Checkout.Session do
             fields: %{
               "amount_includes_iof" => :scalar,
               "expires_after_seconds" => :scalar,
+              "mandate_options" => %{
+                fields: %{
+                  "amount" => :scalar,
+                  "amount_includes_iof" => :scalar,
+                  "amount_type" => :scalar,
+                  "currency" => :scalar,
+                  "end_date" => :scalar,
+                  "payment_schedule" => :scalar,
+                  "reference" => :scalar,
+                  "start_date" => :scalar
+                }
+              },
               "setup_future_usage" => :scalar
             }
           },
@@ -701,6 +723,11 @@ defmodule Stripe.Resources.Checkout.Session do
               "capture_method" => :scalar
             }
           },
+          "scalapay" => %{
+            fields: %{
+              "capture_method" => :scalar
+            }
+          },
           "sepa_debit" => %{
             fields: %{
               "mandate_options" => {:resource, Stripe.Resources.SepaDebitMandateOptions},
@@ -713,6 +740,12 @@ defmodule Stripe.Resources.Checkout.Session do
               "setup_future_usage" => :scalar
             }
           },
+          "sunbit" => %{
+            fields: %{
+              "capture_method" => :scalar,
+              "setup_future_usage" => :scalar
+            }
+          },
           "swish" => %{
             fields: %{
               "reference" => :scalar
@@ -720,6 +753,12 @@ defmodule Stripe.Resources.Checkout.Session do
           },
           "twint" => %{
             fields: %{
+              "setup_future_usage" => :scalar
+            }
+          },
+          "upi" => %{
+            fields: %{
+              "mandate_options" => {:resource, Stripe.Resources.UPI},
               "setup_future_usage" => :scalar
             }
           },
@@ -740,6 +779,13 @@ defmodule Stripe.Resources.Checkout.Session do
               "setup_future_usage" => :scalar,
               "target_date" => :scalar,
               "verification_method" => :scalar
+            }
+          },
+          "wechat_pay" => %{
+            fields: %{
+              "app_id" => :scalar,
+              "client" => :scalar,
+              "setup_future_usage" => :scalar
             }
           }
         }

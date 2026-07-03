@@ -16,7 +16,8 @@ defmodule Stripe.Params.InvoiceItemCreateParams do
   * `period` - The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://docs.stripe.com/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://docs.stripe.com/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
   * `price_data` - Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
   * `pricing` - The pricing information for the invoice item.
-  * `quantity` - Non-negative integer. The quantity of units for the invoice item.
+  * `quantity` - Non-negative integer. The quantity of units for the invoice item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
+  * `quantity_decimal` - Non-negative decimal with at most 12 decimal places. The quantity of units for the invoice item. Format: decimal string.
   * `subscription` - The ID of a subscription to add this invoice item to. When left blank, the invoice item is added to the next upcoming scheduled invoice. When set, scheduled invoices for subscriptions other than the specified subscription will ignore the invoice item. Use this when you want to express that an invoice item has been accrued within the context of a particular subscription. Max length: 5000.
   * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
   * `tax_code` - A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
@@ -40,6 +41,7 @@ defmodule Stripe.Params.InvoiceItemCreateParams do
     :price_data,
     :pricing,
     :quantity,
+    :quantity_decimal,
     :subscription,
     :tax_behavior,
     :tax_code,

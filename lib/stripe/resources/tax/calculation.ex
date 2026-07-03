@@ -9,21 +9,21 @@ defmodule Stripe.Resources.Tax.Calculation do
   """
 
   @typedoc """
-  * `amount_total` - Total amount after taxes in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+  * `amount_total` - Total amount after taxes in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
   * `customer` - The ID of an existing [Customer](https://docs.stripe.com/api/customers/object) used for the resource. Max length: 5000. Nullable.
   * `customer_details` - Expandable.
   * `expires_at` - Timestamp of date at which the tax calculation will expire. Format: Unix timestamp. Nullable.
   * `id` - Unique identifier for the calculation. Max length: 5000. Nullable.
   * `line_items` - The list of items the customer is purchasing. Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `tax.calculation`.
   * `ship_from_details` - The details of the ship from location, such as the address. Nullable. Expandable.
   * `shipping_cost` - The shipping cost details for the calculation. Nullable. Expandable.
   * `tax_amount_exclusive` - The amount of tax to be collected on top of the line item prices.
   * `tax_amount_inclusive` - The amount of tax already included in the line item prices.
   * `tax_breakdown` - Breakdown of individual tax amounts that add up to the total. Expandable.
-  * `tax_date` - Timestamp of date at which the tax rules and rates in effect applies for the calculation. Format: Unix timestamp.
+  * `tax_date` - The calculation uses the tax rules and rates that are in effect at this timestamp. You can use a date up to 31 days in the past or up to 31 days in the future. If you use a future date, Stripe doesn't guarantee that the expected tax rules and rate being used match the actual rules and rate that will be in effect on that date. We deploy tax changes before their effective date, but not within a fixed window. Format: Unix timestamp.
   """
   @type t :: %__MODULE__{}
 

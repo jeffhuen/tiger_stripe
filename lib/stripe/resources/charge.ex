@@ -32,7 +32,7 @@ defmodule Stripe.Resources.Charge do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `invoice` - ID of the invoice this charge is for if one exists. Nullable.
   * `level3` - Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `charge`.
   * `on_behalf_of` - The account (if any) the charge was made on behalf of without triggering an automatic transfer. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers) for details. Nullable. Expandable.
@@ -311,6 +311,12 @@ defmodule Stripe.Resources.Charge do
               "transaction_id" => :scalar
             }
           },
+          "bizum" => %{
+            fields: %{
+              "buyer_id" => :scalar,
+              "transaction_id" => :scalar
+            }
+          },
           "blik" => %{
             fields: %{
               "buyer_id" => :scalar
@@ -397,6 +403,7 @@ defmodule Stripe.Resources.Charge do
                   "version" => :scalar
                 }
               },
+              "transaction_link_id" => :scalar,
               "wallet" => %{
                 fields: %{
                   "amex_express_checkout" => :scalar,
@@ -445,12 +452,14 @@ defmodule Stripe.Resources.Charge do
               "incremental_authorization_supported" => :scalar,
               "issuer" => :scalar,
               "last4" => :scalar,
+              "location" => :scalar,
               "network" => :scalar,
               "network_transaction_id" => :scalar,
               "offline" => {:resource, Stripe.Resources.Offline},
               "overcapture_supported" => :scalar,
               "preferred_locales" => {:list, :scalar},
               "read_method" => :scalar,
+              "reader" => :scalar,
               "receipt" => %{
                 fields: %{
                   "account_type" => :scalar,
@@ -532,16 +541,19 @@ defmodule Stripe.Resources.Charge do
               "iin" => :scalar,
               "issuer" => :scalar,
               "last4" => :scalar,
+              "location" => :scalar,
               "network" => :scalar,
               "network_transaction_id" => :scalar,
               "preferred_locales" => {:list, :scalar},
               "read_method" => :scalar,
+              "reader" => :scalar,
               "receipt" => {:resource, Stripe.Resources.Receipt}
             }
           },
           "kakao_pay" => {:resource, Stripe.Resources.KakaoPay},
           "klarna" => %{
             fields: %{
+              "location" => :scalar,
               "payer_details" => %{
                 fields: %{
                   "address" => %{
@@ -552,7 +564,8 @@ defmodule Stripe.Resources.Charge do
                 }
               },
               "payment_method_category" => :scalar,
-              "preferred_locale" => :scalar
+              "preferred_locale" => :scalar,
+              "reader" => :scalar
             }
           },
           "konbini" => %{
@@ -648,7 +661,9 @@ defmodule Stripe.Resources.Charge do
           },
           "pix" => %{
             fields: %{
-              "bank_transaction_id" => :scalar
+              "bank_transaction_id" => :scalar,
+              "fingerprint" => :scalar,
+              "mandate" => :scalar
             }
           },
           "promptpay" => %{
@@ -682,6 +697,7 @@ defmodule Stripe.Resources.Charge do
               "transaction_id" => :scalar
             }
           },
+          "scalapay" => {:resource, Stripe.Resources.Scalapay},
           "sepa_credit_transfer" => %{
             fields: %{
               "bank_name" => :scalar,
@@ -714,6 +730,11 @@ defmodule Stripe.Resources.Charge do
             }
           },
           "stripe_account" => :scalar,
+          "sunbit" => %{
+            fields: %{
+              "transaction_id" => :scalar
+            }
+          },
           "swish" => %{
             fields: %{
               "fingerprint" => :scalar,
@@ -721,8 +742,17 @@ defmodule Stripe.Resources.Charge do
               "verified_phone_last4" => :scalar
             }
           },
-          "twint" => :scalar,
+          "twint" => %{
+            fields: %{
+              "mandate" => :scalar
+            }
+          },
           "type" => :scalar,
+          "upi" => %{
+            fields: %{
+              "vpa" => :scalar
+            }
+          },
           "us_bank_account" => %{
             fields: %{
               "account_holder_type" => :scalar,

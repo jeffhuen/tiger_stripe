@@ -13,7 +13,7 @@ defmodule Stripe.Resources.Climate.Supplier do
   * `locations` - The locations in which this supplier operates. Expandable.
   * `name` - Name of this carbon removal supplier. Max length: 5000.
   * `object` - String representing the object’s type. Objects of the same type share the same value. Possible values: `climate.supplier`.
-  * `removal_pathway` - The scientific pathway used for carbon removal. Possible values: `biomass_carbon_removal_and_storage`, `direct_air_capture`, `enhanced_weathering`.
+  * `removal_pathway` - The scientific pathway used for carbon removal. Possible values: `biomass_carbon_removal_and_storage`, `direct_air_capture`, `enhanced_weathering`, `marine_carbon_removal`.
   """
   @type t :: %__MODULE__{}
 

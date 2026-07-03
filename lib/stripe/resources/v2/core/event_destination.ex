@@ -8,11 +8,16 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
 
   @typedoc """
   * `amazon_eventbridge` - Amazon EventBridge configuration.
+  * `azure_event_grid` - Azure Event Grid configuration.
   * `created` - Time at which the object was created. Format: date-time.
   * `description` - An optional description of what the event destination is used for.
   * `enabled_events` - The list of events to enable for this endpoint.
   * `event_payload` - Payload type of events being subscribed to. Possible values: `snapshot`, `thin`.
-  * `events_from` - Where events should be routed from.
+  * `events_from` - Specifies which accounts' events route to this destination.
+  `@self`: Receive events from the account that owns the event destination.
+  `@accounts`: Receive events emitted from other accounts you manage which includes your v1 and v2 accounts.
+  `@organization_members`: Receive events from accounts directly linked to the organization.
+  `@organization_members/@accounts`: Receive events from all accounts connected to any platform accounts in the organization.
   * `id` - Unique identifier for the object.
   * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Metadata.
@@ -21,7 +26,7 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
   * `snapshot_api_version` - If using the snapshot event payload, the API version events are rendered as.
   * `status` - Status. It can be set to either enabled or disabled. Possible values: `disabled`, `enabled`.
   * `status_details` - Additional information about event destination status.
-  * `type` - Event destination type. Possible values: `amazon_eventbridge`, `webhook_endpoint`.
+  * `type` - Event destination type. Possible values: `amazon_eventbridge`, `azure_event_grid`, `webhook_endpoint`.
   * `updated` - Time at which the object was last updated. Format: date-time.
   * `webhook_endpoint` - Webhook endpoint configuration.
   """
@@ -29,6 +34,7 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
 
   defstruct [
     :amazon_eventbridge,
+    :azure_event_grid,
     :created,
     :description,
     :enabled_events,
@@ -57,6 +63,15 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
           "aws_account_id" => :scalar,
           "aws_event_source_arn" => :scalar,
           "aws_event_source_status" => :scalar
+        }
+      },
+      "azure_event_grid" => %{
+        fields: %{
+          "azure_partner_topic_name" => :scalar,
+          "azure_partner_topic_status" => :scalar,
+          "azure_region" => :scalar,
+          "azure_resource_group_name" => :scalar,
+          "azure_subscription_id" => :scalar
         }
       },
       "status_details" => %{

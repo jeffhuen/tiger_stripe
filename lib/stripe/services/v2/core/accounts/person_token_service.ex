@@ -6,9 +6,10 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonTokenService do
   alias Stripe.Client
 
   @doc """
-  Create a Person Token
+  Create a person token
 
-  Creates a Person Token associated with an Account.
+  Creates a single-use token that represents the details for a person. Use this when you create or update persons associated with an Account v2. Learn more about [account tokens](https://docs.stripe.com/connect/account-tokens).
+  You can only create person tokens with your application's publishable key and in live mode. You can use your application's secret key to create person tokens only in test mode.
   """
   @spec create(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.V2.Core.AccountPersonToken.t()} | {:error, Stripe.Error.t()}
@@ -22,7 +23,7 @@ defmodule Stripe.Services.V2.Core.Accounts.PersonTokenService do
   end
 
   @doc """
-  Retrieve a Person Token
+  Retrieve a person token
 
   Retrieves a Person Token associated with an Account.
   """

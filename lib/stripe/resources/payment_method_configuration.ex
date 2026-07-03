@@ -33,6 +33,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   * `bacs_debit` - Expandable.
   * `bancontact` - Expandable.
   * `billie` - Expandable.
+  * `bizum` - Expandable.
   * `blik` - Expandable.
   * `boleto` - Expandable.
   * `card` - Expandable.
@@ -54,7 +55,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   * `konbini` - Expandable.
   * `kr_card` - Expandable.
   * `link` - Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `mb_way` - Expandable.
   * `mobilepay` - Expandable.
   * `multibanco` - Expandable.
@@ -75,10 +76,13 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   * `revolut_pay` - Expandable.
   * `samsung_pay` - Expandable.
   * `satispay` - Expandable.
+  * `scalapay` - Expandable.
   * `sepa_debit` - Expandable.
   * `sofort` - Expandable.
+  * `sunbit` - Expandable.
   * `swish` - Expandable.
   * `twint` - Expandable.
+  * `upi` - Expandable.
   * `us_bank_account` - Expandable.
   * `wechat_pay` - Expandable.
   * `zip` - Expandable.
@@ -99,6 +103,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     :bacs_debit,
     :bancontact,
     :billie,
+    :bizum,
     :blik,
     :boleto,
     :card,
@@ -141,10 +146,13 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     :revolut_pay,
     :samsung_pay,
     :satispay,
+    :scalapay,
     :sepa_debit,
     :sofort,
+    :sunbit,
     :swish,
     :twint,
+    :upi,
     :us_bank_account,
     :wechat_pay,
     :zip
@@ -166,6 +174,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
       "bacs_debit",
       "bancontact",
       "billie",
+      "bizum",
       "blik",
       "boleto",
       "card",
@@ -202,10 +211,13 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
       "revolut_pay",
       "samsung_pay",
       "satispay",
+      "scalapay",
       "sepa_debit",
       "sofort",
+      "sunbit",
       "swish",
       "twint",
+      "upi",
       "us_bank_account",
       "wechat_pay",
       "zip"
@@ -334,6 +346,18 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
         }
       },
       "billie" => %{
+        fields: %{
+          "available" => :scalar,
+          "display_preference" => %{
+            fields: %{
+              "overridable" => :scalar,
+              "preference" => :scalar,
+              "value" => :scalar
+            }
+          }
+        }
+      },
+      "bizum" => %{
         fields: %{
           "available" => :scalar,
           "display_preference" => %{
@@ -777,6 +801,18 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
           }
         }
       },
+      "scalapay" => %{
+        fields: %{
+          "available" => :scalar,
+          "display_preference" => %{
+            fields: %{
+              "overridable" => :scalar,
+              "preference" => :scalar,
+              "value" => :scalar
+            }
+          }
+        }
+      },
       "sepa_debit" => %{
         fields: %{
           "available" => :scalar,
@@ -801,6 +837,18 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
           }
         }
       },
+      "sunbit" => %{
+        fields: %{
+          "available" => :scalar,
+          "display_preference" => %{
+            fields: %{
+              "overridable" => :scalar,
+              "preference" => :scalar,
+              "value" => :scalar
+            }
+          }
+        }
+      },
       "swish" => %{
         fields: %{
           "available" => :scalar,
@@ -814,6 +862,18 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
         }
       },
       "twint" => %{
+        fields: %{
+          "available" => :scalar,
+          "display_preference" => %{
+            fields: %{
+              "overridable" => :scalar,
+              "preference" => :scalar,
+              "value" => :scalar
+            }
+          }
+        }
+      },
+      "upi" => %{
         fields: %{
           "available" => :scalar,
           "display_preference" => %{

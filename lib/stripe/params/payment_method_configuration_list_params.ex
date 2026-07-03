@@ -3,6 +3,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationListParams do
   @moduledoc "Parameters for payment method configuration list."
 
   @typedoc """
+  * `active` - Whether the configuration is active.
   * `application` - The Connect application to filter by.
   * `ending_before` - A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with `obj_bar`, your subsequent call can include `ending_before=obj_bar` in order to fetch the previous page of the list. Max length: 5000.
   * `expand` - Specifies which fields in the response should be expanded.
@@ -11,5 +12,5 @@ defmodule Stripe.Params.PaymentMethodConfigurationListParams do
   """
   @type t :: %__MODULE__{}
 
-  defstruct [:application, :ending_before, :expand, :limit, :starting_after]
+  defstruct [:active, :application, :ending_before, :expand, :limit, :starting_after]
 end

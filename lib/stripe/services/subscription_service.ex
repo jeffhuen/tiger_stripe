@@ -12,9 +12,9 @@ defmodule Stripe.Services.SubscriptionService do
   @doc """
   Cancel a subscription
 
-  Cancels a customer’s subscription immediately. The customer won’t be charged again for the subscription. After it’s canceled, you can no longer update the subscription or its [metadata](https://stripe.com/metadata).
+  Cancels a customer’s subscription immediately. The customer won’t be charged again for the subscription. After it’s canceled, the subscription is largely immutable. You can still update its [metadata](https://stripe.com/metadata) and `cancellation_details`.
 
-  Any pending invoice items that you’ve created are still charged at the end of the period, unless manually [deleted](#delete_invoiceitem). If you’ve set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if `invoice_now` and `prorate` are both set to true.
+  Any pending invoice items that you’ve created are still charged at the end of the period, unless manually [deleted](https://docs.stripe.com/api/invoiceitems/delete). If you’ve set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if `invoice_now` and `prorate` are both set to false.
 
   By default, upon subscription cancellation, Stripe stops automatic collection of all finalized invoices for the customer. This is intended to prevent unexpected payment attempts after the customer has canceled a subscription. However, you can resume automatic collection of the invoices manually after subscription cancellation to have us proceed. Or, you could check for unpaid invoices before allowing the customer to cancel the subscription at all.
   """
@@ -92,7 +92,7 @@ defmodule Stripe.Services.SubscriptionService do
   @doc """
   Resume a subscription
 
-  Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become `active`, and if payment fails the subscription will be `past_due`. The resumption invoice will void automatically if not paid by the expiration date.
+  Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. Resume is only available for subscriptions that use `charge_automatically` collection. If Stripe doesn’t generate a resumption invoice, the subscription becomes `active` immediately. When a resumption invoice is generated, Stripe finalizes it immediately. If the invoice is paid or marked uncollectible, the subscription becomes `active`. If the invoice is manually voided, the subscription stays `paused`. If there is no payment attempt within 23 hours, Stripe voids the invoice and the subscription stays `paused`. Learn more about [resuming subscriptions](https://docs.stripe.com/docs/billing/subscriptions/pause#resume-subscriptions).
   """
   @spec resume(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Subscription.t()} | {:error, Stripe.Error.t()}

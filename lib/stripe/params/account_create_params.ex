@@ -29,7 +29,7 @@ defmodule Stripe.Params.AccountCreateParams do
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `settings` - Options for customizing how the account functions within Stripe.
   * `tos_acceptance` - Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
-  * `type` - The type of Stripe account to create. May be one of `custom`, `express` or `standard`. Possible values: `custom`, `express`, `standard`.
+  * `type` - The `type` parameter is deprecated. Use [`controller`](https://docs.stripe.com/api/accounts/create#create_account-controller) instead to configure dashboard access, fee payer, loss liability, and requirement collection. Possible values: `custom`, `express`, `standard`.
   """
   @type t :: %__MODULE__{}
 

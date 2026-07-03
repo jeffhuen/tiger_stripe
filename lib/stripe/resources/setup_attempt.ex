@@ -21,7 +21,7 @@ defmodule Stripe.Resources.SetupAttempt do
 
   Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `setup_attempt`.
   * `on_behalf_of` - The value of [on_behalf_of](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-on_behalf_of) on the SetupIntent at the time of this confirmation. Nullable. Expandable.
   * `payment_method` - ID of the payment method used with this SetupAttempt. Expandable.
@@ -95,6 +95,7 @@ defmodule Stripe.Resources.SetupAttempt do
               "iin" => :scalar,
               "issuer" => :scalar,
               "last4" => :scalar,
+              "moto" => :scalar,
               "network" => :scalar,
               "three_d_secure" => %{
                 fields: %{
@@ -139,7 +140,13 @@ defmodule Stripe.Resources.SetupAttempt do
           "nz_bank_account" => {:resource, Stripe.Resources.NzBankAccount},
           "paypal" => :scalar,
           "payto" => :scalar,
+          "pix" => %{
+            fields: %{
+              "fingerprint" => :scalar
+            }
+          },
           "revolut_pay" => {:resource, Stripe.Resources.RevolutPay},
+          "satispay" => :scalar,
           "sepa_debit" => :scalar,
           "sofort" => %{
             fields: %{
@@ -153,7 +160,9 @@ defmodule Stripe.Resources.SetupAttempt do
               "verified_name" => :scalar
             }
           },
+          "twint" => :scalar,
           "type" => :scalar,
+          "upi" => :scalar,
           "us_bank_account" => {:resource, Stripe.Resources.UsBankAccount}
         }
       },

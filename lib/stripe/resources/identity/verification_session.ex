@@ -23,7 +23,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
   * `id` - Unique identifier for the object. Max length: 5000.
   * `last_error` - If present, this property tells you the last error encountered when processing the verification. Nullable. Expandable.
   * `last_verification_report` - ID of the most recent VerificationReport. [Learn more about accessing detailed verification results.](https://docs.stripe.com/identity/verification-sessions#results) Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `identity.verification_session`.
   * `options` - A set of options for the session’s verification checks. Nullable. Expandable.

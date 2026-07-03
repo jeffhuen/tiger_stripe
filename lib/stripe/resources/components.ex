@@ -7,6 +7,7 @@ defmodule Stripe.Resources.Components do
   @typedoc """
   * `account_management` - Expandable.
   * `account_onboarding` - Expandable.
+  * `balance_report` - Expandable.
   * `balances` - Expandable.
   * `disputes_list` - Expandable.
   * `documents` - Expandable.
@@ -20,6 +21,7 @@ defmodule Stripe.Resources.Components do
   * `payment_disputes` - Expandable.
   * `payments` - Expandable.
   * `payout_details` - Expandable.
+  * `payout_reconciliation_report` - Expandable.
   * `payouts` - Expandable.
   * `payouts_list` - Expandable.
   * `tax_registrations` - Expandable.
@@ -30,6 +32,7 @@ defmodule Stripe.Resources.Components do
   defstruct [
     :account_management,
     :account_onboarding,
+    :balance_report,
     :balances,
     :disputes_list,
     :documents,
@@ -43,6 +46,7 @@ defmodule Stripe.Resources.Components do
     :payment_disputes,
     :payments,
     :payout_details,
+    :payout_reconciliation_report,
     :payouts,
     :payouts_list,
     :tax_registrations,
@@ -56,6 +60,7 @@ defmodule Stripe.Resources.Components do
     do: [
       "account_management",
       "account_onboarding",
+      "balance_report",
       "balances",
       "disputes_list",
       "documents",
@@ -69,6 +74,7 @@ defmodule Stripe.Resources.Components do
       "payment_disputes",
       "payments",
       "payout_details",
+      "payout_reconciliation_report",
       "payouts",
       "payouts_list",
       "tax_registrations",
@@ -79,6 +85,7 @@ defmodule Stripe.Resources.Components do
     %{
       "account_management" => {:resource, Stripe.Resources.AccountConfig},
       "account_onboarding" => {:resource, Stripe.Resources.AccountConfig},
+      "balance_report" => {:resource, Stripe.Resources.BaseConfig},
       "balances" => {:resource, Stripe.Resources.PayoutsConfig},
       "disputes_list" => {:resource, Stripe.Resources.DisputesListConfig},
       "documents" => {:resource, Stripe.Resources.BaseConfig},
@@ -93,6 +100,7 @@ defmodule Stripe.Resources.Components do
       "payment_disputes" => {:resource, Stripe.Resources.PaymentDisputesConfig},
       "payments" => {:resource, Stripe.Resources.PaymentsConfig},
       "payout_details" => {:resource, Stripe.Resources.BaseConfig},
+      "payout_reconciliation_report" => {:resource, Stripe.Resources.BaseConfig},
       "payouts" => {:resource, Stripe.Resources.PayoutsConfig},
       "payouts_list" => {:resource, Stripe.Resources.BaseConfig},
       "tax_registrations" => {:resource, Stripe.Resources.BaseConfig},

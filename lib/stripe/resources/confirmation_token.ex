@@ -16,7 +16,7 @@ defmodule Stripe.Resources.ConfirmationToken do
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `expires_at` - Time at which this ConfirmationToken expires and can no longer be used to confirm a PaymentIntent or SetupIntent. Format: Unix timestamp. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `mandate_data` - Data used for generating a Mandate. Nullable. Expandable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `confirmation_token`.
   * `payment_intent` - ID of the PaymentIntent that this ConfirmationToken was used to confirm, or null if this ConfirmationToken has not yet been used. Max length: 5000. Nullable.
@@ -134,7 +134,16 @@ defmodule Stripe.Resources.ConfirmationToken do
               "tax_id" => :scalar
             }
           },
-          "blik" => :scalar,
+          "bizum" => %{
+            fields: %{
+              "buyer_id" => :scalar
+            }
+          },
+          "blik" => %{
+            fields: %{
+              "buyer_id" => :scalar
+            }
+          },
           "boleto" => %{
             fields: %{
               "tax_id" => :scalar
@@ -181,12 +190,14 @@ defmodule Stripe.Resources.ConfirmationToken do
                           "incremental_authorization_supported" => :scalar,
                           "issuer" => :scalar,
                           "last4" => :scalar,
+                          "location" => :scalar,
                           "network" => :scalar,
                           "network_transaction_id" => :scalar,
                           "offline" => {:resource, Stripe.Resources.Offline},
                           "overcapture_supported" => :scalar,
                           "preferred_locales" => {:list, :scalar},
                           "read_method" => :scalar,
+                          "reader" => :scalar,
                           "receipt" => %{
                             fields: %{
                               "account_type" => :scalar,
@@ -396,11 +407,16 @@ defmodule Stripe.Resources.ConfirmationToken do
               "pay_id" => :scalar
             }
           },
-          "pix" => :scalar,
+          "pix" => %{
+            fields: %{
+              "fingerprint" => :scalar
+            }
+          },
           "promptpay" => :scalar,
           "revolut_pay" => :scalar,
           "samsung_pay" => {:resource, Stripe.Resources.SamsungPay},
           "satispay" => :scalar,
+          "scalapay" => {:resource, Stripe.Resources.Scalapay},
           "sepa_debit" => %{
             fields: %{
               "bank_code" => :scalar,
@@ -421,9 +437,15 @@ defmodule Stripe.Resources.ConfirmationToken do
               "country" => :scalar
             }
           },
+          "sunbit" => :scalar,
           "swish" => :scalar,
           "twint" => :scalar,
           "type" => :scalar,
+          "upi" => %{
+            fields: %{
+              "vpa" => :scalar
+            }
+          },
           "us_bank_account" => %{
             fields: %{
               "account_holder_type" => :scalar,

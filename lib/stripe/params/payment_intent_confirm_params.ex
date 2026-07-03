@@ -4,6 +4,7 @@ defmodule Stripe.Params.PaymentIntentConfirmParams do
 
   @typedoc """
   * `amount_details` - Provides industry-specific information about the amount.
+  * `amount_to_confirm` - Amount to confirm on the PaymentIntent. Defaults to `amount` if not provided.
   * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `automatic`, `automatic_async`, `manual`.
   * `confirmation_token` - ID of the ConfirmationToken used to confirm this PaymentIntent.
 
@@ -14,7 +15,7 @@ defmodule Stripe.Params.PaymentIntentConfirmParams do
   * `hooks` - Automations to be run during the PaymentIntent lifecycle
   * `mandate` - ID of the mandate that's used for this payment. Max length: 5000.
   * `mandate_data`
-  * `off_session` - Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and [charge them later](https://docs.stripe.com/payments/cards/charging-saved-cards).
+  * `off_session` - Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect payment method details and [charge them later](https://docs.stripe.com/payments/save-during-payment).
   * `payment_details` - Provides industry-specific information about the charge.
   * `payment_method` - ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
   If the payment method is attached to a Customer, it must match the [customer](https://api.stripe.com#create_payment_intent-customer) that is set on this PaymentIntent. Max length: 5000.
@@ -44,6 +45,7 @@ defmodule Stripe.Params.PaymentIntentConfirmParams do
 
   defstruct [
     :amount_details,
+    :amount_to_confirm,
     :capture_method,
     :confirmation_token,
     :error_on_requires_action,

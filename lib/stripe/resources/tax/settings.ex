@@ -11,7 +11,7 @@ defmodule Stripe.Resources.Tax.Settings do
   @typedoc """
   * `defaults` - Expandable.
   * `head_office` - The place where your business is located. Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `tax.settings`.
   * `status` - The status of the Tax `Settings`. Possible values: `active`, `pending`.
   * `status_details` - Expandable.

@@ -6,7 +6,7 @@ defmodule Stripe.Services.Tax.CalculationLineItemService do
   alias Stripe.Client
 
   @doc """
-  Retrieve a calculation's line items
+  Retrieve a Calculation's line items
 
   Retrieves the line items of a tax calculation as a collection, if the calculation hasn’t expired.
   """

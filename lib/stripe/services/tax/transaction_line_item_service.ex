@@ -6,7 +6,7 @@ defmodule Stripe.Services.Tax.TransactionLineItemService do
   alias Stripe.Client
 
   @doc """
-  Retrieve a transaction's line items
+  Retrieve a Transaction's line items
 
   Retrieves the line items of a committed standalone transaction as a collection.
   """

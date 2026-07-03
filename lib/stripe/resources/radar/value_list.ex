@@ -13,9 +13,9 @@ defmodule Stripe.Resources.Radar.ValueList do
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `created_by` - The name or email address of the user who created this value list. Max length: 5000.
   * `id` - Unique identifier for the object. Max length: 5000.
-  * `item_type` - The type of items in the value list. One of `card_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Possible values: `card_bin`, `card_fingerprint`, `case_sensitive_string`, `country`, `customer_id`, `email`, `ip_address`, `sepa_debit_fingerprint`, `string`, `us_bank_account_fingerprint`.
+  * `item_type` - The type of items in the value list. One of `card_fingerprint`, `card_bin`, `crypto_fingerprint`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `account`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Possible values: `account`, `card_bin`, `card_fingerprint`, `case_sensitive_string`, `country`, `crypto_fingerprint`, `customer_id`, `email`, `ip_address`, `sepa_debit_fingerprint`, `string`, `us_bank_account_fingerprint`.
   * `list_items` - List of items contained within this value list. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `name` - The name of the value list. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `radar.value_list`.

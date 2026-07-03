@@ -6,7 +6,18 @@ set -euo pipefail
 
 RUBY_DIR="priv/stripe-ruby-master"
 REPO="stripe/stripe-ruby"
-REF="${STRIPE_RUBY_REF:-$(cat STRIPE_RUBY_VERSION 2>/dev/null || echo master)}"
+VERSION_FILE="STRIPE_RUBY_VERSION"
+REF="${STRIPE_RUBY_REF:-$(cat "$VERSION_FILE" 2>/dev/null || echo master)}"
+
+if [ "$REF" = "latest" ]; then
+  echo "Fetching latest release tag from $REPO..."
+  REF=$(curl -sL "https://api.github.com/repos/$REPO/releases/latest" | grep '"tag_name"' | head -1 | cut -d'"' -f4)
+fi
+
+if [ -z "$REF" ] || ! echo "$REF" | grep -qE '^(v[0-9]+(\.[0-9]+)*|master)$'; then
+  echo "ERROR: Failed to fetch valid stripe-ruby ref (got: '$REF')" >&2
+  exit 1
+fi
 
 echo "Fetching stripe-ruby $REF..."
 
@@ -25,5 +36,7 @@ if [ "$SERVICE_COUNT" -eq 0 ]; then
   rm -rf "$RUBY_DIR"
   exit 1
 fi
+
+echo "$REF" > "$VERSION_FILE"
 
 echo "Downloaded stripe-ruby $REF to $RUBY_DIR ($SERVICE_COUNT service files)"

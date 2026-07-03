@@ -15,12 +15,12 @@ defmodule Stripe.Resources.Issuing.Cardholder do
   * `email` - The cardholder's email address. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `individual` - Additional information about an `individual` cardholder. Nullable. Expandable.
-  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `name` - The cardholder's name. This will be printed on cards issued to them. Max length: 5000.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `issuing.cardholder`.
   * `phone_number` - The cardholder's phone number. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://docs.stripe.com/issuing/3d-secure#when-is-3d-secure-applied) for more details. Max length: 5000. Nullable.
-  * `preferred_locales` - The cardholder’s preferred locales (languages), ordered by preference. Locales can be `de`, `en`, `es`, `fr`, or `it`.
+  * `preferred_locales` - The cardholder’s preferred locales (languages), ordered by preference. Locales can be `da`, `de`, `en`, `es`, `fr`, `it`, `pl`, or `sv`.
   This changes the language of the [3D Secure flow](https://docs.stripe.com/issuing/3d-secure) and one-time password messages sent to the cardholder. Nullable.
   * `requirements` - Expandable.
   * `spending_controls` - Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details. Nullable. Expandable.
@@ -108,8 +108,10 @@ defmodule Stripe.Resources.Issuing.Cardholder do
       },
       "spending_controls" => %{
         fields: %{
+          "allowed_card_presences" => {:list, :scalar},
           "allowed_categories" => {:list, :scalar},
           "allowed_merchant_countries" => {:list, :scalar},
+          "blocked_card_presences" => {:list, :scalar},
           "blocked_categories" => {:list, :scalar},
           "blocked_merchant_countries" => {:list, :scalar},
           "spending_limits" =>

@@ -10,7 +10,7 @@ defmodule Stripe.Services.Tax.CalculationService do
   alias Stripe.Client
 
   @doc """
-  Create a Tax Calculation
+  Create a Calculation
 
   Calculates tax based on the input and returns a Tax `Calculation` object.
   """
@@ -21,7 +21,7 @@ defmodule Stripe.Services.Tax.CalculationService do
   end
 
   @doc """
-  Retrieve a Tax Calculation
+  Retrieve a Calculation
 
   Retrieves a Tax `Calculation` object, if the calculation hasn’t expired.
   """

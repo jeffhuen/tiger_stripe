@@ -12,12 +12,12 @@ defmodule StripeTest do
   test "client/2 accepts options" do
     client =
       Stripe.client("sk_test_123",
-        api_version: "2026-01-28.clover",
+        api_version: "2026-06-24.dahlia",
         stripe_account: "acct_abc",
         max_retries: 5
       )
 
-    assert client.api_version == "2026-01-28.clover"
+    assert client.api_version == "2026-06-24.dahlia"
     assert client.stripe_account == "acct_abc"
     assert client.max_retries == 5
   end
