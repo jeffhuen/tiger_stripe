@@ -3,6 +3,7 @@ defmodule Stripe.Params.SetupIntentCreateParams do
   @moduledoc "Parameters for setup intent create."
 
   @typedoc """
+  * `allowed_payment_method_types` - The list of payment method types to allow for this SetupIntent. Stripe will only use methods in this list when determining the payment methods to offer. A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
   * `attach_to_self` - If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
 
   It can only be used for this Stripe Account’s own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
@@ -42,6 +43,7 @@ defmodule Stripe.Params.SetupIntentCreateParams do
   @type t :: %__MODULE__{}
 
   defstruct [
+    :allowed_payment_method_types,
     :attach_to_self,
     :automatic_payment_methods,
     :confirm,

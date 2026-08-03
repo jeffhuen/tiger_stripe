@@ -117,7 +117,17 @@ defmodule Stripe.Resources.SubscriptionSchedule do
           "invoice_settings" => %{
             fields: %{
               "account_tax_ids" => {:list, {:resource, Stripe.Resources.TaxId}},
+              "custom_fields" =>
+                {:list,
+                 %{
+                   fields: %{
+                     "name" => :scalar,
+                     "value" => :scalar
+                   }
+                 }},
               "days_until_due" => :scalar,
+              "description" => :scalar,
+              "footer" => :scalar,
               "issuer" => %{
                 fields: %{
                   "account" => {:resource, Stripe.Resources.Account},
@@ -211,7 +221,17 @@ defmodule Stripe.Resources.SubscriptionSchedule do
           "invoice_settings" => %{
             fields: %{
               "account_tax_ids" => {:list, {:resource, Stripe.Resources.TaxId}},
+              "custom_fields" =>
+                {:list,
+                 %{
+                   fields: %{
+                     "name" => :scalar,
+                     "value" => :scalar
+                   }
+                 }},
               "days_until_due" => :scalar,
+              "description" => :scalar,
+              "footer" => :scalar,
               "issuer" => %{
                 fields: %{
                   "account" => {:resource, Stripe.Resources.Account},
@@ -255,6 +275,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
               "destination" => {:resource, Stripe.Resources.Account}
             }
           },
+          "trial" => :scalar,
           "trial_end" => :scalar
         }
       }
