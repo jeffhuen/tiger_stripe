@@ -110,6 +110,7 @@ defmodule Stripe.Resources.Issuing.Card do
               "result" => :scalar
             }
           },
+          "business_name" => :scalar,
           "carrier" => :scalar,
           "customs" => %{
             fields: %{

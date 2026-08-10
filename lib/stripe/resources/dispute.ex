@@ -200,6 +200,7 @@ defmodule Stripe.Resources.Dispute do
             fields: %{
               "brand" => :scalar,
               "case_type" => :scalar,
+              "network" => :scalar,
               "network_reason_code" => :scalar
             }
           },

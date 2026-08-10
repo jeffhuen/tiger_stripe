@@ -40,7 +40,7 @@ defmodule Stripe.Services.PaymentMethodService do
   end
 
   @doc """
-  Shares a PaymentMethod
+  Create a PaymentMethod
 
   Creates a PaymentMethod object. Read the [Stripe.js reference](https://docs.stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
 
@@ -55,7 +55,7 @@ defmodule Stripe.Services.PaymentMethodService do
   @doc """
   Detach a PaymentMethod from a Customer
 
-  Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
+  Detaches a PaymentMethod object from a Customer. Detachment is permanent and irreversible — once detached, a PaymentMethod can no longer be used for payments or re-attached to a Customer.
   """
   @spec detach(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.PaymentMethod.t()} | {:error, Stripe.Error.t()}
