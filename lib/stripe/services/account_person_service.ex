@@ -24,7 +24,7 @@ defmodule Stripe.Services.AccountPersonService do
   @doc """
   Delete a person
 
-  Deletes an existing person’s relationship to the account’s legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the `account_opener`. If your integration is using the `executive` parameter, you cannot delete the only verified `executive` on file.
+  Deletes an existing person’s relationship to the account’s legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the `representative`. If your integration is using the `executive` parameter, you cannot delete the only verified `executive` on file.
   """
   @spec delete(Client.t(), String.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Person.t()} | {:error, Stripe.Error.t()}

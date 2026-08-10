@@ -666,7 +666,8 @@ defmodule Stripe.Resources.Checkout.Session do
           },
           "payco" => %{
             fields: %{
-              "capture_method" => :scalar
+              "capture_method" => :scalar,
+              "setup_future_usage" => :scalar
             }
           },
           "paynow" => %{
@@ -715,7 +716,8 @@ defmodule Stripe.Resources.Checkout.Session do
           },
           "samsung_pay" => %{
             fields: %{
-              "capture_method" => :scalar
+              "capture_method" => :scalar,
+              "setup_future_usage" => :scalar
             }
           },
           "satispay" => %{
