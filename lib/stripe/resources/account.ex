@@ -214,6 +214,7 @@ defmodule Stripe.Resources.Account do
               "town" => :scalar
             }
           },
+          "administrative_address" => {:resource, Stripe.Resources.Address},
           "directors_provided" => :scalar,
           "directorship_declaration" => %{
             fields: %{
@@ -238,6 +239,7 @@ defmodule Stripe.Resources.Account do
           },
           "ownership_exemption_reason" => :scalar,
           "phone" => :scalar,
+          "principal_place_of_business" => {:resource, Stripe.Resources.Address},
           "registration_date" => %{
             fields: %{
               "day" => :scalar,

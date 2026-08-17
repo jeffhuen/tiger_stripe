@@ -17,7 +17,7 @@ defmodule Stripe.Services.SourceService do
   alias Stripe.Client
 
   @doc """
-  Shares a source
+  Create a source
 
   Creates a new source object.
   """

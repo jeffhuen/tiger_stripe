@@ -706,6 +706,16 @@ defmodule Stripe.Resources.Tax.Registration do
                   "jurisdiction" => :scalar
                 }
               },
+              "mass_transit_parking_tax" => %{
+                fields: %{
+                  "jurisdiction" => :scalar
+                }
+              },
+              "parking_tax" => %{
+                fields: %{
+                  "jurisdiction" => :scalar
+                }
+              },
               "state" => :scalar,
               "state_sales_tax" => %{
                 fields: %{

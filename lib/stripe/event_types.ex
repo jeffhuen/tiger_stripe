@@ -96,6 +96,8 @@ defmodule Stripe.EventTypes do
         "#/components/schemas/financial_connections.account",
       "financial_connections.account.disconnected" =>
         "#/components/schemas/financial_connections.account",
+      "financial_connections.account.expected_deactivation_date_updated" =>
+        "#/components/schemas/financial_connections.account",
       "financial_connections.account.reactivated" =>
         "#/components/schemas/financial_connections.account",
       "financial_connections.account.refreshed_balance" =>
@@ -104,8 +106,16 @@ defmodule Stripe.EventTypes do
         "#/components/schemas/financial_connections.account",
       "financial_connections.account.refreshed_transactions" =>
         "#/components/schemas/financial_connections.account",
+      "financial_connections.account.supported_payment_method_types_updated" =>
+        "#/components/schemas/financial_connections.account",
       "financial_connections.account.upcoming_account_number_expiry" =>
         "#/components/schemas/financial_connections.account",
+      "financial_connections.account.upcoming_deactivation" =>
+        "#/components/schemas/financial_connections.account",
+      "financial_connections.authorization.expected_deactivation_date_updated" =>
+        "#/components/schemas/financial_connections.authorization",
+      "financial_connections.authorization.upcoming_deactivation" =>
+        "#/components/schemas/financial_connections.authorization",
       "identity.verification_session.canceled" =>
         "#/components/schemas/identity.verification_session",
       "identity.verification_session.created" =>

@@ -130,6 +130,8 @@ defmodule Stripe.ObjectTypes do
       "financial_connections.account_owner" => Stripe.Resources.FinancialConnections.AccountOwner,
       "financial_connections.account_ownership" =>
         Stripe.Resources.FinancialConnections.AccountOwnership,
+      "financial_connections.authorization" =>
+        Stripe.Resources.FinancialConnections.Authorization,
       "financial_connections.session" => Stripe.Resources.FinancialConnections.Session,
       "financial_connections.transaction" => Stripe.Resources.FinancialConnections.Transaction,
       "forwarding.request" => Stripe.Resources.Forwarding.Request,
