@@ -70,6 +70,8 @@ defmodule Stripe.Services.CustomerPaymentSourceService do
   end
 
   @doc """
+  Update a card
+
   Update a specified source for a given customer.
   """
   @spec update(Client.t(), String.t(), String.t(), map(), keyword()) ::

@@ -3,6 +3,7 @@ defmodule Stripe.Params.SetupIntentConfirmParams do
   @moduledoc "Parameters for setup intent confirm."
 
   @typedoc """
+  * `allowed_payment_method_types` - The list of payment method types to allow for this SetupIntent. Stripe will only use methods in this list when determining the payment methods to offer. A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
   * `confirmation_token` - ID of the ConfirmationToken used to confirm this SetupIntent.
 
   If the provided ConfirmationToken contains properties that are also being provided in this request, such as `payment_method`, then the values in this request will take precedence. Max length: 5000.
@@ -20,6 +21,7 @@ defmodule Stripe.Params.SetupIntentConfirmParams do
   @type t :: %__MODULE__{}
 
   defstruct [
+    :allowed_payment_method_types,
     :confirmation_token,
     :expand,
     :mandate_data,
