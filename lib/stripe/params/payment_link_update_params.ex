@@ -8,6 +8,7 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
   * `allow_promotion_codes` - Enables user redeemable promotion codes.
   * `automatic_tax` - Configuration for automatic tax collection.
   * `billing_address_collection` - Configuration for collecting the customer's billing address. Defaults to `auto`. Possible values: `auto`, `required`.
+  * `consent_collection` - Configure fields to gather active consent from customers.
   * `custom_fields` - Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
   * `custom_text` - Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
   * `customer_creation` - Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers). Possible values: `always`, `if_required`.
@@ -33,6 +34,7 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
   We recommend that you review your privacy policy and check with your legal contacts.
   * `restrictions` - Settings that restrict the usage of a payment link.
   * `shipping_address_collection` - Configuration for collecting the customer's shipping address.
+  * `shipping_options` - The shipping rate options to apply to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
   * `submit_type` - Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https://docs.stripe.com/api/payment_links/payment_links/object#url) property (example: `donate.stripe.com`). Possible values: `auto`, `book`, `donate`, `pay`, `subscribe`.
   * `subscription_data` - When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
   * `tax_id_collection` - Controls tax ID collection during checkout.
@@ -45,6 +47,7 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
     :allow_promotion_codes,
     :automatic_tax,
     :billing_address_collection,
+    :consent_collection,
     :custom_fields,
     :custom_text,
     :customer_creation,
@@ -62,6 +65,7 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
     :phone_number_collection,
     :restrictions,
     :shipping_address_collection,
+    :shipping_options,
     :submit_type,
     :subscription_data,
     :tax_id_collection
