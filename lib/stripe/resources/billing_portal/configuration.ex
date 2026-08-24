@@ -11,7 +11,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
   * `application` - ID of the Connect Application that created the configuration. Nullable. Expandable.
   * `business_profile` - Expandable.
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
-  * `default_return_url` - The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session. Max length: 5000. Nullable.
+  * `default_return_url` - The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overridden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session. Max length: 5000. Nullable.
   * `features` - Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `is_default` - Whether the configuration is the default. If `true`, this configuration can be managed in the Dashboard and portal sessions will use this configuration unless it is overriden when creating the session.

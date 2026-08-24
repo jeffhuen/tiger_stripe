@@ -17,6 +17,7 @@ defmodule Stripe.Resources.PaymentIntent do
   """
 
   @typedoc """
+  * `allowed_payment_method_types` - The list of payment method types allowed for use with this payment. Stripe automatically returns compatible payment methods from this list in the `payment_method_types` field of the response, based on the other PaymentIntent parameters, such as `currency`, `amount`, and `customer`. Nullable.
   * `amount` - Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
   * `amount_capturable` - Amount that can be captured from this PaymentIntent.
   * `amount_details` - Expandable.
@@ -87,6 +88,7 @@ defmodule Stripe.Resources.PaymentIntent do
   @type t :: %__MODULE__{}
 
   defstruct [
+    :allowed_payment_method_types,
     :amount,
     :amount_capturable,
     :amount_details,
@@ -251,7 +253,7 @@ defmodule Stripe.Resources.PaymentIntent do
           "type" => :scalar,
           "upi_handle_redirect_or_display_qr_code" =>
             {:resource, Stripe.Resources.UPIHandleRedirectOrDisplayQrCode},
-          "use_stripe_sdk" => :scalar,
+          "use_stripe_sdk" => {:map, :scalar},
           "verify_with_microdeposits" => %{
             fields: %{
               "arrival_date" => :scalar,
@@ -537,7 +539,8 @@ defmodule Stripe.Resources.PaymentIntent do
           "pay_by_bank" => :scalar,
           "payco" => %{
             fields: %{
-              "capture_method" => :scalar
+              "capture_method" => :scalar,
+              "setup_future_usage" => :scalar
             }
           },
           "paynow" => %{
@@ -601,7 +604,8 @@ defmodule Stripe.Resources.PaymentIntent do
           },
           "samsung_pay" => %{
             fields: %{
-              "capture_method" => :scalar
+              "capture_method" => :scalar,
+              "setup_future_usage" => :scalar
             }
           },
           "satispay" => %{

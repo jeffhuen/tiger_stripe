@@ -30,7 +30,7 @@ defmodule Stripe.Services.RefundService do
   end
 
   @doc """
-  Create customer balance refund
+  Create a refund
 
   When you create a new refund, you must specify a Charge or a PaymentIntent object on which to create it.
 

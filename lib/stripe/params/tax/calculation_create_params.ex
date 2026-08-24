@@ -10,7 +10,7 @@ defmodule Stripe.Params.Tax.CalculationCreateParams do
   * `line_items` - A list of items the customer is purchasing.
   * `ship_from_details` - Details about the address from which the goods are being shipped.
   * `shipping_cost` - Shipping cost details to be used for the calculation.
-  * `tax_date` - Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
+  * `tax_date` - The calculation uses the tax rules and rates that are in effect at this timestamp. You can use a date up to 31 days in the past or up to 31 days in the future. If you use a future date, Stripe doesn't guarantee that the expected tax rules and rate being used match the actual rules and rate that will be in effect on that date. We deploy tax changes before their effective date, but not within a fixed window.
   """
   @type t :: %__MODULE__{}
 

@@ -27,6 +27,7 @@ defmodule Stripe.Resources.SetupIntent do
   """
 
   @typedoc """
+  * `allowed_payment_method_types` - The list of payment method types to allow for this SetupIntent. Stripe will only use methods in this list when determining the payment methods to offer. Nullable.
   * `application` - ID of the Connect application that created the SetupIntent. Nullable. Expandable.
   * `attach_to_self` - If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
 
@@ -71,6 +72,7 @@ defmodule Stripe.Resources.SetupIntent do
   @type t :: %__MODULE__{}
 
   defstruct [
+    :allowed_payment_method_types,
     :application,
     :attach_to_self,
     :automatic_payment_methods,
@@ -144,7 +146,7 @@ defmodule Stripe.Resources.SetupIntent do
           "type" => :scalar,
           "upi_handle_redirect_or_display_qr_code" =>
             {:resource, Stripe.Resources.UPIHandleRedirectOrDisplayQrCode},
-          "use_stripe_sdk" => :scalar,
+          "use_stripe_sdk" => {:map, :scalar},
           "verify_with_microdeposits" => %{
             fields: %{
               "arrival_date" => :scalar,
