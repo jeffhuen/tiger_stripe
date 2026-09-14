@@ -6,8 +6,11 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
   * `active` - Whether the payment link's `url` is active. If `false`, customers visiting the URL will be shown a page saying that the link has been deactivated.
   * `after_completion` - Behavior after the purchase is complete.
   * `allow_promotion_codes` - Enables user redeemable promotion codes.
+  * `application_fee_amount` - The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. Can only be applied when there are no line items with recurring prices.
+  * `application_fee_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
   * `automatic_tax` - Configuration for automatic tax collection.
   * `billing_address_collection` - Configuration for collecting the customer's billing address. Defaults to `auto`. Possible values: `auto`, `required`.
+  * `consent_collection` - Configure fields to gather active consent from customers.
   * `custom_fields` - Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
   * `custom_text` - Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
   * `customer_creation` - Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers). Possible values: `always`, `if_required`.
@@ -17,6 +20,7 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
   * `line_items` - The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
   * `name_collection` - Controls settings applied for collecting the customer's name.
+  * `on_behalf_of` - The account on behalf of which to charge.
   * `optional_items` - A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
   There is a maximum of 10 optional items allowed on a payment link, and the existing limits on the number of line items allowed on a payment link apply to the combined number of line items and optional items.
   There is a maximum of 20 combined line items and optional items.
@@ -33,9 +37,11 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
   We recommend that you review your privacy policy and check with your legal contacts.
   * `restrictions` - Settings that restrict the usage of a payment link.
   * `shipping_address_collection` - Configuration for collecting the customer's shipping address.
+  * `shipping_options` - The shipping rate options to apply to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
   * `submit_type` - Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https://docs.stripe.com/api/payment_links/payment_links/object#url) property (example: `donate.stripe.com`). Possible values: `auto`, `book`, `donate`, `pay`, `subscribe`.
   * `subscription_data` - When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
   * `tax_id_collection` - Controls tax ID collection during checkout.
+  * `transfer_data` - The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
   """
   @type t :: %__MODULE__{}
 
@@ -43,8 +49,11 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
     :active,
     :after_completion,
     :allow_promotion_codes,
+    :application_fee_amount,
+    :application_fee_percent,
     :automatic_tax,
     :billing_address_collection,
+    :consent_collection,
     :custom_fields,
     :custom_text,
     :customer_creation,
@@ -54,6 +63,7 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
     :line_items,
     :metadata,
     :name_collection,
+    :on_behalf_of,
     :optional_items,
     :payment_intent_data,
     :payment_method_collection,
@@ -62,8 +72,10 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
     :phone_number_collection,
     :restrictions,
     :shipping_address_collection,
+    :shipping_options,
     :submit_type,
     :subscription_data,
-    :tax_id_collection
+    :tax_id_collection,
+    :transfer_data
   ]
 end

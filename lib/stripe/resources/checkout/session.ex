@@ -74,7 +74,7 @@ defmodule Stripe.Resources.Checkout.Session do
   * `origin_context` - Where the user is coming from. This informs the optimizations that are applied to the session. Possible values: `mobile_app`, `web`. Nullable.
   * `payment_intent` - The ID of the PaymentIntent for Checkout Sessions in `payment` mode. You can't confirm or cancel the PaymentIntent for a Checkout Session. To cancel, [expire the Checkout Session](https://docs.stripe.com/api/checkout/sessions/expire) instead. Nullable. Expandable.
   * `payment_link` - The ID of the Payment Link that created this Session. Nullable. Expandable.
-  * `payment_method_collection` - Configure whether a Checkout Session should collect a payment method. Defaults to `always`. Possible values: `always`, `if_required`. Nullable.
+  * `payment_method_collection` - Configure whether a Checkout Session should collect a payment method for sessions with mode `payment`. Defaults to `always`. Possible values: `always`, `if_required`. Nullable.
   * `payment_method_configuration_details` - Information about the payment method configuration used for this Checkout session if using dynamic payment methods. Nullable. Expandable.
   * `payment_method_options` - Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession. Nullable. Expandable.
   * `payment_method_types` - A list of the types of payment methods (e.g. card) this Checkout
@@ -666,7 +666,8 @@ defmodule Stripe.Resources.Checkout.Session do
           },
           "payco" => %{
             fields: %{
-              "capture_method" => :scalar
+              "capture_method" => :scalar,
+              "setup_future_usage" => :scalar
             }
           },
           "paynow" => %{
@@ -715,7 +716,8 @@ defmodule Stripe.Resources.Checkout.Session do
           },
           "samsung_pay" => %{
             fields: %{
-              "capture_method" => :scalar
+              "capture_method" => :scalar,
+              "setup_future_usage" => :scalar
             }
           },
           "satispay" => %{
@@ -733,6 +735,11 @@ defmodule Stripe.Resources.Checkout.Session do
               "mandate_options" => {:resource, Stripe.Resources.SepaDebitMandateOptions},
               "setup_future_usage" => :scalar,
               "target_date" => :scalar
+            }
+          },
+          "sequra" => %{
+            fields: %{
+              "capture_method" => :scalar
             }
           },
           "sofort" => %{

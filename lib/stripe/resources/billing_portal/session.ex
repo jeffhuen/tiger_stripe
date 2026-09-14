@@ -74,6 +74,7 @@ defmodule Stripe.Resources.BillingPortal.Session do
               "type" => :scalar
             }
           },
+          "customer_update" => :scalar,
           "subscription_cancel" => %{
             fields: %{
               "retention" => %{

@@ -10,7 +10,7 @@ defmodule Stripe.Resources.Climate.Product do
   @typedoc """
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `current_prices_per_metric_ton` - Current prices for a metric ton of carbon removal in a currency's smallest unit. Expandable.
-  * `delivery_year` - The year in which the carbon removal is expected to be delivered. Nullable.
+  * `delivery_year` - The year in which the carbon removal is expected to be delivered. If the year is in the past, this represents spot inventory with guaranteed delivery. Nullable.
   * `id` - Unique identifier for the object. For convenience, Climate product IDs are human-readable strings
   that start with `climsku_`. See [carbon removal inventory](https://stripe.com/docs/climate/orders/carbon-removal-inventory)
   for a list of available carbon removal products. Max length: 5000.

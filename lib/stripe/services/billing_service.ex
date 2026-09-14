@@ -6,6 +6,7 @@ defmodule Stripe.Services.BillingService do
     :credit_balance_summary,
     :credit_balance_transaction,
     :credit_grant,
+    :feedback_option,
     :meter,
     :meter_event,
     :meter_event_adjustment,

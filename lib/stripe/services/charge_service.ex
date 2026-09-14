@@ -10,7 +10,7 @@ defmodule Stripe.Services.ChargeService do
   alias Stripe.Client
 
   @doc """
-  Capture a payment
+  Capture a charge
 
   Capture the payment of an existing, uncaptured charge that was created with the `capture` option set to false.
 
@@ -30,6 +30,8 @@ defmodule Stripe.Services.ChargeService do
   end
 
   @doc """
+  Create a charge
+
   This method is no longer recommended—use the [Payment Intents API](https://docs.stripe.com/docs/api/payment_intents)
   to initiate a new payment instead. Confirmation of the PaymentIntent creates the `Charge`
   object used to request payment.

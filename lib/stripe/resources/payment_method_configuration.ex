@@ -78,6 +78,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   * `satispay` - Expandable.
   * `scalapay` - Expandable.
   * `sepa_debit` - Expandable.
+  * `sequra` - Expandable.
   * `sofort` - Expandable.
   * `sunbit` - Expandable.
   * `swish` - Expandable.
@@ -148,6 +149,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     :satispay,
     :scalapay,
     :sepa_debit,
+    :sequra,
     :sofort,
     :sunbit,
     :swish,
@@ -213,6 +215,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
       "satispay",
       "scalapay",
       "sepa_debit",
+      "sequra",
       "sofort",
       "sunbit",
       "swish",
@@ -814,6 +817,18 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
         }
       },
       "sepa_debit" => %{
+        fields: %{
+          "available" => :scalar,
+          "display_preference" => %{
+            fields: %{
+              "overridable" => :scalar,
+              "preference" => :scalar,
+              "value" => :scalar
+            }
+          }
+        }
+      },
+      "sequra" => %{
         fields: %{
           "available" => :scalar,
           "display_preference" => %{

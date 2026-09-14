@@ -45,7 +45,17 @@ defmodule Stripe.Resources.CustomerSession do
     %{
       "components" => %{
         fields: %{
+          "active_entitlements" => %{
+            fields: %{
+              "enabled" => :scalar
+            }
+          },
           "buy_button" => %{
+            fields: %{
+              "enabled" => :scalar
+            }
+          },
+          "customer_portal" => %{
             fields: %{
               "enabled" => :scalar
             }

@@ -23,6 +23,7 @@ defmodule Stripe.ObjectTypes do
       "billing.credit_balance_summary" => Stripe.Resources.Billing.CreditBalanceSummary,
       "billing.credit_balance_transaction" => Stripe.Resources.Billing.CreditBalanceTransaction,
       "billing.credit_grant" => Stripe.Resources.Billing.CreditGrant,
+      "billing.feedback_option" => Stripe.Resources.Billing.FeedbackOption,
       "billing.meter" => Stripe.Resources.Billing.Meter,
       "billing.meter_event" => Stripe.Resources.Billing.MeterEvent,
       "billing.meter_event_adjustment" => Stripe.Resources.Billing.MeterEventAdjustment,
@@ -130,6 +131,8 @@ defmodule Stripe.ObjectTypes do
       "financial_connections.account_owner" => Stripe.Resources.FinancialConnections.AccountOwner,
       "financial_connections.account_ownership" =>
         Stripe.Resources.FinancialConnections.AccountOwnership,
+      "financial_connections.authorization" =>
+        Stripe.Resources.FinancialConnections.Authorization,
       "financial_connections.session" => Stripe.Resources.FinancialConnections.Session,
       "financial_connections.transaction" => Stripe.Resources.FinancialConnections.Transaction,
       "forwarding.request" => Stripe.Resources.Forwarding.Request,
@@ -223,10 +226,12 @@ defmodule Stripe.ObjectTypes do
       "payment_method_details_mb_way" => Stripe.Resources.MbWay,
       "payment_method_details_payco" => Stripe.Resources.Payco,
       "payment_method_details_payment_record_kakao_pay" => Stripe.Resources.KakaoPay,
+      "payment_method_details_payment_record_sequra" => Stripe.Resources.Sequra,
       "payment_method_details_payment_record_sunbit" => Stripe.Resources.Sunbit,
       "payment_method_details_scalapay" => Stripe.Resources.Scalapay,
       "payment_method_domain" => Stripe.Resources.PaymentMethodDomain,
       "payment_method_naver_pay" => Stripe.Resources.NaverPay,
+      "payment_method_options_card_present_aade_data" => Stripe.Resources.AadeData,
       "payment_method_options_card_present_routing" => Stripe.Resources.Routing,
       "payment_method_samsung_pay" => Stripe.Resources.SamsungPay,
       "payment_pages_checkout_session_custom_fields_dropdown" =>

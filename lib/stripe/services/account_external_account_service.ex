@@ -70,6 +70,8 @@ defmodule Stripe.Services.AccountExternalAccountService do
   end
 
   @doc """
+  Update a bank account
+
   Updates the metadata, account holder name, account holder type of a bank account belonging to
   a connected account and optionally sets it as the default for its currency. Other bank account
   details are not editable by design.

@@ -58,11 +58,12 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
   * `satispay` - If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
   * `scalapay` - If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
   * `sepa_debit` - If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
+  * `sequra` - If this is a SeQura PaymentMethod, this hash contains details about the SeQura payment method.
   * `sofort` - If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
   * `sunbit` - If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
   * `swish` - If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
   * `twint` - If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
-  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `bizum`, `blik`, `boleto`, `card`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `scalapay`, `sepa_debit`, `sofort`, `sunbit`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `bizum`, `blik`, `boleto`, `card`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `scalapay`, `sepa_debit`, `sequra`, `sofort`, `sunbit`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
   * `upi` - If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
   * `us_bank_account` - If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
   * `wechat_pay` - If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -126,6 +127,7 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
     :satispay,
     :scalapay,
     :sepa_debit,
+    :sequra,
     :sofort,
     :sunbit,
     :swish,

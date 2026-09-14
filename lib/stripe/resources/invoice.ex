@@ -340,6 +340,7 @@ defmodule Stripe.Resources.Invoice do
                   "preferred_language" => :scalar
                 }
               },
+              "billie" => :scalar,
               "card" => %{
                 fields: %{
                   "installments" => %{
