@@ -322,7 +322,6 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
               "three_d_secure" => %{
                 fields: %{
                   "authentication_flow" => :scalar,
-                  "cryptogram" => :scalar,
                   "electronic_commerce_indicator" => :scalar,
                   "exemption_indicator" => :scalar,
                   "exemption_indicator_applied" => :scalar,
@@ -385,6 +384,7 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
                   "transaction_status_information" => :scalar
                 }
               },
+              "retrieval_reference_number" => :scalar,
               "wallet" => %{
                 fields: %{
                   "type" => :scalar
@@ -639,6 +639,7 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
               "mandate" => :scalar
             }
           },
+          "sequra" => {:resource, Stripe.Resources.Sequra},
           "sofort" => %{
             fields: %{
               "bank_code" => :scalar,

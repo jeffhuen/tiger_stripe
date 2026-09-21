@@ -11,6 +11,17 @@ defmodule Stripe.Services.PaymentRecordService do
   alias Stripe.Client
 
   @doc """
+  List Payment Records
+
+  List all the Payment Records for a given merchant.
+  """
+  @spec list(Client.t(), map(), keyword()) ::
+          {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
+  def list(client, params \\ %{}, opts \\ []) do
+    Client.request(client, :get, "/v1/payment_records", Keyword.merge(opts, params: params))
+  end
+
+  @doc """
   Report a payment
 
   Report a new Payment Record. You may report a Payment Record as it is

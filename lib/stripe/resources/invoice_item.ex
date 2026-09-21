@@ -22,6 +22,7 @@ defmodule Stripe.Resources.InvoiceItem do
   * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 5000. Nullable.
   * `discountable` - If true, discounts will apply to this invoice item. Always false for prorations.
   * `discounts` - The discounts which apply to the invoice item. Item discounts are applied before invoice discounts. Use `expand[]=discounts` to expand each discount. Nullable. Expandable.
+  * `frozen_fields` - Array of field names that can't be modified. Attempting to update a frozen field returns an error.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `invoice` - The ID of the invoice this invoice item belongs to. Nullable. Expandable.
   * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
@@ -49,6 +50,7 @@ defmodule Stripe.Resources.InvoiceItem do
     :description,
     :discountable,
     :discounts,
+    :frozen_fields,
     :id,
     :invoice,
     :livemode,

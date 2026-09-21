@@ -27,7 +27,7 @@ defmodule Stripe.Services.TokenService do
   alias Stripe.Client
 
   @doc """
-  Create a CVC update token
+  Create a bank account token
 
   Creates a single-use token that represents a bank account’s details.
   You can use this token with any v1 API method in place of a bank account dictionary. You can only use this token once. To do so, attach it to a [connected account](#accounts) where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.

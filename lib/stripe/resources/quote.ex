@@ -218,7 +218,17 @@ defmodule Stripe.Resources.Quote do
       },
       "invoice_settings" => %{
         fields: %{
+          "custom_fields" =>
+            {:list,
+             %{
+               fields: %{
+                 "name" => :scalar,
+                 "value" => :scalar
+               }
+             }},
           "days_until_due" => :scalar,
+          "description" => :scalar,
+          "footer" => :scalar,
           "issuer" => %{
             fields: %{
               "account" => {:resource, Stripe.Resources.Account},

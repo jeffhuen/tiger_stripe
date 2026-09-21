@@ -3,6 +3,7 @@ defmodule Stripe.Params.PaymentIntentConfirmParams do
   @moduledoc "Parameters for payment intent confirm."
 
   @typedoc """
+  * `allowed_payment_method_types` - The list of payment method types allowed for use with this payment. Stripe automatically returns compatible payment methods from this list in the `payment_method_types` field of the response, based on the other PaymentIntent parameters, such as `currency`, `amount`, and `customer`.
   * `amount_details` - Provides industry-specific information about the amount.
   * `amount_to_confirm` - Amount to confirm on the PaymentIntent. Defaults to `amount` if not provided.
   * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `automatic`, `automatic_async`, `manual`.
@@ -23,7 +24,7 @@ defmodule Stripe.Params.PaymentIntentConfirmParams do
   in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method)
   property on the PaymentIntent.
   * `payment_method_options` - Payment method-specific configuration for this PaymentIntent.
-  * `payment_method_types` - The list of payment method types (for example, a card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
+  * `payment_method_types` - The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
   * `radar_options` - Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
   * `receipt_email` - Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
   * `return_url` - The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site.
@@ -44,6 +45,7 @@ defmodule Stripe.Params.PaymentIntentConfirmParams do
   @type t :: %__MODULE__{}
 
   defstruct [
+    :allowed_payment_method_types,
     :amount_details,
     :amount_to_confirm,
     :capture_method,

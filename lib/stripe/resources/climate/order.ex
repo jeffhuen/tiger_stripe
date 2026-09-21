@@ -21,7 +21,7 @@ defmodule Stripe.Resources.Climate.Order do
   * `delayed_at` - Time at which the order's expected_delivery_year was delayed. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
   * `delivered_at` - Time at which the order was delivered. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
   * `delivery_details` - Details about the delivery of carbon removal for this order. Expandable.
-  * `expected_delivery_year` - The year this order is expected to be delivered.
+  * `expected_delivery_year` - The year this order is expected to be delivered. If the year is in the past, the order is a spot purchase and will be delivered within 30 days of purchase.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

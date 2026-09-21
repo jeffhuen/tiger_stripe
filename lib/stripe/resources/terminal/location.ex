@@ -46,6 +46,16 @@ defmodule Stripe.Resources.Terminal.Location do
 
   def __nested_fields__ do
     %{
+      "address" => %{
+        fields: %{
+          "city" => :scalar,
+          "country" => :scalar,
+          "line1" => :scalar,
+          "line2" => :scalar,
+          "postal_code" => :scalar,
+          "state" => :scalar
+        }
+      },
       "address_kana" => %{
         fields: %{
           "city" => :scalar,
@@ -67,8 +77,7 @@ defmodule Stripe.Resources.Terminal.Location do
           "state" => :scalar,
           "town" => :scalar
         }
-      },
-      "address" => {:resource, Stripe.Resources.Address}
+      }
     }
   end
 end

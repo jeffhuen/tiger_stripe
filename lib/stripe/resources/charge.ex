@@ -473,6 +473,7 @@ defmodule Stripe.Resources.Charge do
                   "transaction_status_information" => :scalar
                 }
               },
+              "retrieval_reference_number" => :scalar,
               "wallet" => %{
                 fields: %{
                   "type" => :scalar
@@ -580,7 +581,8 @@ defmodule Stripe.Resources.Charge do
           "kr_card" => {:resource, Stripe.Resources.KrCard},
           "link" => %{
             fields: %{
-              "country" => :scalar
+              "country" => :scalar,
+              "funding_source_group" => :scalar
             }
           },
           "mb_way" => {:resource, Stripe.Resources.MbWay},
@@ -716,6 +718,7 @@ defmodule Stripe.Resources.Charge do
               "mandate" => :scalar
             }
           },
+          "sequra" => {:resource, Stripe.Resources.Sequra},
           "sofort" => %{
             fields: %{
               "bank_code" => :scalar,

@@ -1004,6 +1004,20 @@ defmodule Stripe.Resources.V2.Core.Account do
           },
           "business_details" => %{
             fields: %{
+              "additional_addresses" =>
+                {:list,
+                 %{
+                   fields: %{
+                     "city" => :scalar,
+                     "country" => :scalar,
+                     "line1" => :scalar,
+                     "line2" => :scalar,
+                     "postal_code" => :scalar,
+                     "purpose" => :scalar,
+                     "state" => :scalar,
+                     "town" => :scalar
+                   }
+                 }},
               "address" => %{
                 fields: %{
                   "city" => :scalar,

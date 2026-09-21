@@ -14,7 +14,7 @@ defmodule Stripe.Services.DisputeService do
   @doc """
   Close a dispute
 
-  Closing the dispute for a charge indicates that you do not have any evidence to submit and are essentially dismissing the dispute, acknowledging it as lost.
+  Closing the dispute for a charge indicates that you do not have any evidence to submit and are essentially dismissing the dispute (accepting it), acknowledging it as lost.
 
   The status of the dispute will change from `needs_response` to `lost`. *Closing a dispute is irreversible*.
   """

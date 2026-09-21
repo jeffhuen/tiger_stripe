@@ -6,7 +6,7 @@ defmodule Stripe.Params.SubscriptionScheduleListParams do
   * `canceled_at` - Only return subscription schedules that were created canceled the given date interval.
   * `completed_at` - Only return subscription schedules that completed during the given date interval.
   * `created` - Only return subscription schedules that were created during the given date interval.
-  * `customer` - Only return subscription schedules for the given customer. Max length: 5000.
+  * `customer` - Only return subscription schedules for the given customer. The response will not include subscription schedules for customers with a test clock attached if this parameter is not set. Max length: 5000.
   * `customer_account` - Only return subscription schedules for the given account. Max length: 5000.
   * `ending_before` - A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with `obj_bar`, your subsequent call can include `ending_before=obj_bar` in order to fetch the previous page of the list. Max length: 5000.
   * `expand` - Specifies which fields in the response should be expanded.

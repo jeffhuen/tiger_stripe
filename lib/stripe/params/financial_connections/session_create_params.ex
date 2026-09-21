@@ -6,6 +6,8 @@ defmodule Stripe.Params.FinancialConnections.SessionCreateParams do
   * `account_holder` - The account holder to link accounts for.
   * `expand` - Specifies which fields in the response should be expanded.
   * `filters` - Filters to restrict the kinds of accounts to collect.
+  * `limits` - Settings for configuring Session-specific limits.
+  * `manual_entry` - Customize manual entry behavior
   * `permissions` - List of data features that you would like to request access to.
 
   Possible values are `balances`, `transactions`, `ownership`, and `payment_method`.
@@ -14,5 +16,14 @@ defmodule Stripe.Params.FinancialConnections.SessionCreateParams do
   """
   @type t :: %__MODULE__{}
 
-  defstruct [:account_holder, :expand, :filters, :permissions, :prefetch, :return_url]
+  defstruct [
+    :account_holder,
+    :expand,
+    :filters,
+    :limits,
+    :manual_entry,
+    :permissions,
+    :prefetch,
+    :return_url
+  ]
 end

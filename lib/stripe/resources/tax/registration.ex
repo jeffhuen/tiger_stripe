@@ -71,6 +71,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "at" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -116,6 +121,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "be" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -131,6 +141,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "bg" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -211,6 +226,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "cy" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -221,6 +241,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "cz" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -231,6 +256,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "de" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -241,6 +271,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "dk" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -256,6 +291,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "ee" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -271,6 +311,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "es" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -286,6 +331,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "fi" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -296,6 +346,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "fr" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -326,6 +381,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "gr" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -336,6 +396,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "hr" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -346,6 +411,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "hu" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -361,6 +431,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "ie" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -381,6 +456,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "it" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -436,6 +516,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "lt" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -446,6 +531,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "lu" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -456,6 +546,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "lv" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -491,6 +586,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "mt" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -516,6 +616,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "nl" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -566,6 +671,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "pl" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -576,6 +686,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "pt" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -586,6 +701,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "ro" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -611,6 +731,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "se" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -631,6 +756,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "si" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -641,6 +771,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "sk" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar
@@ -702,6 +837,16 @@ defmodule Stripe.Resources.Tax.Registration do
                 }
               },
               "local_lease_tax" => %{
+                fields: %{
+                  "jurisdiction" => :scalar
+                }
+              },
+              "mass_transit_parking_tax" => %{
+                fields: %{
+                  "jurisdiction" => :scalar
+                }
+              },
+              "parking_tax" => %{
                 fields: %{
                   "jurisdiction" => :scalar
                 }

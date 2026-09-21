@@ -4,7 +4,7 @@ defmodule Stripe.Params.BillingPortal.ConfigurationCreateParams do
 
   @typedoc """
   * `business_profile` - The business information shown to customers in the portal.
-  * `default_return_url` - The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+  * `default_return_url` - The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overridden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
   * `expand` - Specifies which fields in the response should be expanded.
   * `features` - Information about the features available in the portal.
   * `login_page` - The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).

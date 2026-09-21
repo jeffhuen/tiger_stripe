@@ -225,6 +225,7 @@ defmodule Stripe.Resources.Subscription do
         fields: %{
           "comment" => :scalar,
           "feedback" => :scalar,
+          "feedback_option" => {:resource, Stripe.Resources.Billing.FeedbackOption},
           "reason" => :scalar
         }
       },
@@ -287,6 +288,7 @@ defmodule Stripe.Resources.Subscription do
                   "preferred_language" => :scalar
                 }
               },
+              "billie" => :scalar,
               "card" => %{
                 fields: %{
                   "mandate_options" => %{
@@ -384,6 +386,7 @@ defmodule Stripe.Resources.Subscription do
       "pending_update" => %{
         fields: %{
           "billing_cycle_anchor" => :scalar,
+          "cancel_at_period_end" => :scalar,
           "discount" => {:resource, Stripe.Resources.Discount},
           "discounts" => {:list, {:resource, Stripe.Resources.Discount}},
           "expires_at" => :scalar,
