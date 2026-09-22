@@ -1,12 +1,13 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.MandateOptions do
   @moduledoc """
-  payment_method_options_card_mandate_options
+  setup_intent_payment_method_options_card_mandate_options
   """
 
   @typedoc """
   * `amount` - Amount to be charged for future payments, specified in the presentment currency.
   * `amount_type` - One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param. Possible values: `fixed`, `maximum`.
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
   * `description` - A description of the mandate or subscription that is meant to be displayed to the customer. Max length: 200. Nullable.
   * `end_date` - End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date. Format: Unix timestamp. Nullable.
   * `interval` - Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`. Possible values: `day`, `month`, `sporadic`, `week`, `year`.
@@ -20,6 +21,7 @@ defmodule Stripe.Resources.MandateOptions do
   defstruct [
     :amount,
     :amount_type,
+    :currency,
     :description,
     :end_date,
     :interval,
@@ -29,6 +31,6 @@ defmodule Stripe.Resources.MandateOptions do
     :supported_types
   ]
 
-  @object_name "payment_method_options_card_mandate_options"
+  @object_name "setup_intent_payment_method_options_card_mandate_options"
   def object_name, do: @object_name
 end

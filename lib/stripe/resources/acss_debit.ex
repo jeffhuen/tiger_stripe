@@ -1,19 +1,36 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.AcssDebit do
   @moduledoc """
-  mandate_acss_debit
+  AcssDebit resource.
   """
 
   @typedoc """
-  * `default_for` - List of Stripe products where this mandate can be selected automatically.
-  * `interval_description` - Description of the interval. Only required if the 'payment_schedule' parameter is 'interval' or 'combined'. Max length: 5000. Nullable.
-  * `payment_schedule` - Payment schedule for the mandate. Possible values: `combined`, `interval`, `sporadic`.
-  * `transaction_type` - Transaction type of the mandate. Possible values: `business`, `personal`.
+  * `bank_address_city` - Nullable.
+  * `bank_address_line_1` - Nullable.
+  * `bank_address_line_2` - Nullable.
+  * `bank_address_postal_code` - Nullable.
+  * `bank_name` - Nullable.
+  * `category` - Nullable.
+  * `country` - Nullable.
+  * `fingerprint` - Nullable.
+  * `last4` - Nullable.
+  * `routing_number` - Nullable.
   """
   @type t :: %__MODULE__{}
 
-  defstruct [:default_for, :interval_description, :payment_schedule, :transaction_type]
+  defstruct [
+    :bank_address_city,
+    :bank_address_line_1,
+    :bank_address_line_2,
+    :bank_address_postal_code,
+    :bank_name,
+    :category,
+    :country,
+    :fingerprint,
+    :last4,
+    :routing_number
+  ]
 
-  @object_name "mandate_acss_debit"
+  @object_name "source_type_acss_debit"
   def object_name, do: @object_name
 end

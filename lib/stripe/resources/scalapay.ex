@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Scalapay do
   @moduledoc """
-  payment_method_details_payment_record_scalapay
+  payment_method_details_scalapay
   """
 
   @typedoc """
@@ -11,6 +11,6 @@ defmodule Stripe.Resources.Scalapay do
 
   defstruct [:transaction_id]
 
-  @object_name "payment_method_details_payment_record_scalapay"
+  @object_name "payment_method_details_scalapay"
   def object_name, do: @object_name
 end

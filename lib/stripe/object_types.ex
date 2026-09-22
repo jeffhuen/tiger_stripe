@@ -157,20 +157,17 @@ defmodule Stripe.ObjectTypes do
       "line_item" => Stripe.Resources.InvoiceLineItem,
       "login_link" => Stripe.Resources.LoginLink,
       "mandate" => Stripe.Resources.Mandate,
-      "mandate_acss_debit" => Stripe.Resources.AcssDebit,
       "mandate_amazon_pay" => Stripe.Resources.AmazonPay,
       "mandate_cashapp" => Stripe.Resources.Cashapp,
-      "mandate_kakao_pay" => Stripe.Resources.KakaoPay,
+      "mandate_kr_card" => Stripe.Resources.KrCard,
+      "mandate_nz_bank_account" => Stripe.Resources.NzBankAccount,
       "mandate_options_upi" => Stripe.Resources.UPI,
       "mandate_payto" => Stripe.Resources.Payto,
+      "mandate_revolut_pay" => Stripe.Resources.RevolutPay,
       "mandate_twint" => Stripe.Resources.Twint,
       "notification_event_data" => Stripe.Resources.EventData,
-      "outbound_payments_payment_method_details_financial_account" =>
-        Stripe.Resources.FinancialAccount,
       "outbound_transfers_payment_method_details" =>
         Stripe.Resources.DestinationPaymentMethodDetails,
-      "outbound_transfers_payment_method_details_us_bank_account" =>
-        Stripe.Resources.UsBankAccount,
       "payment_attempt_record" => Stripe.Resources.PaymentAttemptRecord,
       "payment_flows_installment_options" => Stripe.Resources.Installments,
       "payment_intent" => Stripe.Resources.PaymentIntent,
@@ -202,7 +199,6 @@ defmodule Stripe.ObjectTypes do
       "payment_intent_next_action_pix_display_qr_code" => Stripe.Resources.PixDisplayQrCode,
       "payment_intent_next_action_promptpay_display_qr_code" =>
         Stripe.Resources.PromptpayDisplayQrCode,
-      "payment_intent_next_action_redirect_to_url" => Stripe.Resources.NextActionRedirectToUrl,
       "payment_intent_next_action_swish_handle_redirect_or_display_qr_code" =>
         Stripe.Resources.SwishHandleRedirectOrDisplayQrCode,
       "payment_intent_next_action_swish_qr_code" => Stripe.Resources.SwishQrCode,
@@ -215,8 +211,8 @@ defmodule Stripe.ObjectTypes do
         Stripe.Resources.WechatPayRedirectToAndroidApp,
       "payment_intent_next_action_wechat_pay_redirect_to_ios_app" =>
         Stripe.Resources.WechatPayRedirectToIosApp,
-      "payment_intent_payment_method_options_mandate_options_bacs_debit" =>
-        Stripe.Resources.BacsDebitMandateOptions,
+      "payment_intent_payment_method_options_mandate_options_sepa_debit" =>
+        Stripe.Resources.SepaDebitMandateOptions,
       "payment_intent_processing_customer_notification" => Stripe.Resources.CustomerNotification,
       "payment_link" => Stripe.Resources.PaymentLink,
       "payment_links_resource_custom_fields_dropdown_option" =>
@@ -228,14 +224,13 @@ defmodule Stripe.ObjectTypes do
       "payment_method_details_card_present_offline" => Stripe.Resources.Offline,
       "payment_method_details_interac_present_receipt" => Stripe.Resources.Receipt,
       "payment_method_details_mb_way" => Stripe.Resources.MbWay,
-      "payment_method_details_naver_pay" => Stripe.Resources.NaverPay,
       "payment_method_details_payco" => Stripe.Resources.Payco,
-      "payment_method_details_payment_record_scalapay" => Stripe.Resources.Scalapay,
+      "payment_method_details_payment_record_kakao_pay" => Stripe.Resources.KakaoPay,
       "payment_method_details_payment_record_sequra" => Stripe.Resources.Sequra,
       "payment_method_details_payment_record_sunbit" => Stripe.Resources.Sunbit,
+      "payment_method_details_scalapay" => Stripe.Resources.Scalapay,
       "payment_method_domain" => Stripe.Resources.PaymentMethodDomain,
-      "payment_method_kr_card" => Stripe.Resources.KrCard,
-      "payment_method_options_card_mandate_options" => Stripe.Resources.MandateOptions,
+      "payment_method_naver_pay" => Stripe.Resources.NaverPay,
       "payment_method_options_card_present_aade_data" => Stripe.Resources.AadeData,
       "payment_method_options_card_present_routing" => Stripe.Resources.Routing,
       "payment_method_samsung_pay" => Stripe.Resources.SamsungPay,
@@ -262,6 +257,7 @@ defmodule Stripe.ObjectTypes do
       "radar.payment_evaluation" => Stripe.Resources.Radar.PaymentEvaluation,
       "radar.value_list" => Stripe.Resources.Radar.ValueList,
       "radar.value_list_item" => Stripe.Resources.Radar.ValueListItem,
+      "received_payment_method_details_financial_account" => Stripe.Resources.FinancialAccount,
       "refund" => Stripe.Resources.Refund,
       "reporting.report_run" => Stripe.Resources.Reporting.ReportRun,
       "reporting.report_type" => Stripe.Resources.Reporting.ReportType,
@@ -273,15 +269,16 @@ defmodule Stripe.ObjectTypes do
       "rule" => Stripe.Resources.Radar.Rule,
       "scheduled_query_run" => Stripe.Resources.Sigma.ScheduledQueryRun,
       "setup_attempt" => Stripe.Resources.SetupAttempt,
-      "setup_attempt_payment_method_details_bancontact" => Stripe.Resources.Bancontact,
+      "setup_attempt_payment_method_details_au_becs_debit" => Stripe.Resources.AuBecsDebit,
       "setup_attempt_payment_method_details_card_present" => Stripe.Resources.CardPresent,
-      "setup_attempt_payment_method_details_nz_bank_account" => Stripe.Resources.NzBankAccount,
-      "setup_attempt_payment_method_details_revolut_pay" => Stripe.Resources.RevolutPay,
       "setup_intent" => Stripe.Resources.SetupIntent,
       "setup_intent_next_action_pix_display_qr_code" =>
         Stripe.Resources.SetupIntentPixDisplayQrCode,
-      "setup_intent_payment_method_options_mandate_options_sepa_debit" =>
-        Stripe.Resources.SepaDebitMandateOptions,
+      "setup_intent_next_action_redirect_to_url" => Stripe.Resources.NextActionRedirectToUrl,
+      "setup_intent_payment_method_options_card_mandate_options" =>
+        Stripe.Resources.MandateOptions,
+      "setup_intent_payment_method_options_mandate_options_bacs_debit" =>
+        Stripe.Resources.BacsDebitMandateOptions,
       "shipping" => Stripe.Resources.ShippingDetails,
       "shipping_rate" => Stripe.Resources.ShippingRate,
       "source" => Stripe.Resources.Source,
@@ -289,8 +286,9 @@ defmodule Stripe.ObjectTypes do
       "source_transaction" => Stripe.Resources.SourceTransaction,
       "source_type_ach_credit_transfer" => Stripe.Resources.AchCreditTransfer,
       "source_type_ach_debit" => Stripe.Resources.AchDebit,
+      "source_type_acss_debit" => Stripe.Resources.AcssDebit,
       "source_type_alipay" => Stripe.Resources.Alipay,
-      "source_type_au_becs_debit" => Stripe.Resources.AuBecsDebit,
+      "source_type_bancontact" => Stripe.Resources.Bancontact,
       "source_type_eps" => Stripe.Resources.Eps,
       "source_type_giropay" => Stripe.Resources.Giropay,
       "source_type_ideal" => Stripe.Resources.Ideal,
@@ -356,13 +354,14 @@ defmodule Stripe.ObjectTypes do
         Stripe.Resources.OutboundTransfers,
       "treasury_financial_accounts_resource_platform_restrictions" =>
         Stripe.Resources.PlatformRestriction,
+      "treasury_financial_accounts_resource_status_details" => Stripe.Resources.StatusDetails,
       "treasury_financial_accounts_resource_toggle_settings" => Stripe.Resources.ToggleSettings,
-      "treasury_financial_accounts_resource_toggles_setting_status_details" =>
-        Stripe.Resources.StatusDetails,
       "treasury_inbound_transfers_resource_inbound_transfer_resource_status_transitions" =>
         Stripe.Resources.StatusTransitions,
       "treasury_outbound_transfers_resource_returned_details" => Stripe.Resources.ReturnedDetails,
       "treasury_shared_resource_billing_details" => Stripe.Resources.BillingDetails,
+      "treasury_shared_resource_initiating_payment_method_details_us_bank_account" =>
+        Stripe.Resources.UsBankAccount,
       "webhook_endpoint" => Stripe.Resources.WebhookEndpoint
     }
   end
