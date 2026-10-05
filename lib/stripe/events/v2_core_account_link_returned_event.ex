@@ -16,7 +16,18 @@ defmodule Stripe.Events.V2CoreAccountLinkReturnedEvent do
           optional(String.t()) => term()
         }
 
-  defstruct [:changes, :context, :created, :data, :id, :livemode, :object, :reason, :type]
+  defstruct [
+    :changes,
+    :context,
+    :created,
+    :data,
+    :id,
+    :livemode,
+    :object,
+    :reason,
+    :snapshot_event,
+    :type
+  ]
 
   def lookup_type, do: "v2.core.account_link.returned"
 

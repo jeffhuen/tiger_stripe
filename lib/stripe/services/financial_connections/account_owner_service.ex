@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.FinancialConnections.AccountOwnerService do
   @moduledoc """
-  BankConnectionsResourceOwner
+  Account Owner
 
   Describes an owner of an account.
   """

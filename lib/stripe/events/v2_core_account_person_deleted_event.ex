@@ -22,6 +22,7 @@ defmodule Stripe.Events.V2CoreAccountPersonDeletedEvent do
     :object,
     :reason,
     :related_object,
+    :snapshot_event,
     :type
   ]
 

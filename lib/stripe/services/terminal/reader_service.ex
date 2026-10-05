@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Terminal.ReaderService do
   @moduledoc """
-  TerminalReaderReader
+  Reader
 
   A Reader represents a physical device for accepting payment details.
 

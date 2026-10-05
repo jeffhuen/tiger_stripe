@@ -3,7 +3,7 @@ defmodule Stripe.Params.AccountCreateParams do
   @moduledoc "Parameters for account create."
 
   @typedoc """
-  * `account_token` - An [account token](https://api.stripe.com#create_account_token), used to securely provide details to the account. Max length: 5000.
+  * `account_token` - An [account token](https://docs.stripe.com/api#create_account_token), used to securely provide details to the account. Max length: 5000.
   * `business_profile` - Business information about the account.
   * `business_type` - The business type. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. Possible values: `company`, `government_entity`, `individual`, `non_profit`.
   * `capabilities` - Each key of the dictionary represents a capability, and each capability

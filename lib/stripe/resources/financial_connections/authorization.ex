@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.FinancialConnections.Authorization do
   @moduledoc """
-  BankConnectionsResourceAuthorization
+  Authorization
 
   An Authorization represents the set of credentials used to connect a group of Financial Connections Accounts.
   """

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.FinancialConnections.SessionService do
   @moduledoc """
-  BankConnectionsResourceLinkAccountSession
+  Session
 
   A Financial Connections Session is the secure way to programmatically launch the client-side Stripe.js modal that lets your users link their accounts.
   """

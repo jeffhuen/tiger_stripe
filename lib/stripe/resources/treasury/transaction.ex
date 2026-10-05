@@ -1,9 +1,9 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Treasury.Transaction do
   @moduledoc """
-  TreasuryTransactionsResourceTransaction
+  Transaction
 
-  Transactions represent changes to a [FinancialAccount's](https://api.stripe.com#financial_accounts) balance.
+  Transactions represent changes to a [FinancialAccount's](https://docs.stripe.com/api#financial_accounts) balance.
   """
 
   @typedoc """

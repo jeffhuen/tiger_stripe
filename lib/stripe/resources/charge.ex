@@ -5,7 +5,7 @@ defmodule Stripe.Resources.Charge do
 
   The `Charge` object represents a single attempt to move money into your Stripe account.
   PaymentIntent confirmation is the most common way to create Charges, but [Account Debits](https://docs.stripe.com/connect/account-debits) may also create Charges.
-  Some legacy payment flows create Charges directly, which is not recommended for new integrations.
+  The create and capture methods are deprecated and will be deleted soon. If your integration uses either of them, you need to update it to use a different payment flow, such as [the Payment Intents API](https://docs.stripe.com/payments/payment-intents).
   """
 
   @typedoc """
@@ -342,6 +342,7 @@ defmodule Stripe.Resources.Charge do
               },
               "country" => :scalar,
               "description" => :scalar,
+              "electronic_commerce_indicator" => :scalar,
               "exp_month" => :scalar,
               "exp_year" => :scalar,
               "extended_authorization" => %{
@@ -370,7 +371,7 @@ defmodule Stripe.Resources.Charge do
               },
               "issuer" => :scalar,
               "last4" => :scalar,
-              "mandate" => :scalar,
+              "mandate" => {:resource, Stripe.Resources.Mandate},
               "moto" => :scalar,
               "multicapture" => %{
                 fields: %{
@@ -410,7 +411,11 @@ defmodule Stripe.Resources.Charge do
                   "apple_pay" => :scalar,
                   "dynamic_last4" => :scalar,
                   "google_pay" => :scalar,
-                  "link" => :scalar,
+                  "link" => %{
+                    fields: %{
+                      "funding_source_group" => :scalar
+                    }
+                  },
                   "masterpass" => %{
                     fields: %{
                       "billing_address" => {:resource, Stripe.Resources.Address},
@@ -473,7 +478,6 @@ defmodule Stripe.Resources.Charge do
                   "transaction_status_information" => :scalar
                 }
               },
-              "retrieval_reference_number" => :scalar,
               "wallet" => %{
                 fields: %{
                   "type" => :scalar
@@ -653,6 +657,7 @@ defmodule Stripe.Resources.Charge do
               "transaction_id" => :scalar
             }
           },
+          "paypay" => :scalar,
           "payto" => %{
             fields: %{
               "bsb_number" => :scalar,

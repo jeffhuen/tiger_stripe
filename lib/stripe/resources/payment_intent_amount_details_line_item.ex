@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
   @moduledoc """
-  PaymentFlowsAmountDetailsResourceLineItemsListResourceLineItem
+  PaymentIntent LineItem
   """
 
   @typedoc """

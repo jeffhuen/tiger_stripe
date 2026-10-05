@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.BillingPortal.ConfigurationService do
   @moduledoc """
-  PortalConfiguration
+  Customer portal configuration
 
   A portal configuration describes the functionality and behavior you embed in a portal session. Related guide: [Configure the customer portal](https://stripe.com/customer-management/configure-portal).
   """

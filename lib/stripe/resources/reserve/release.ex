@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Reserve.Release do
   @moduledoc """
-  ReservesReserveReleasesResourcesReserveRelease
+  ReserveRelease
 
   ReserveReleases represent the release of funds from a ReserveHold.
   """
@@ -11,11 +11,12 @@ defmodule Stripe.Resources.Reserve.Release do
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `created_by` - Indicates which party created this ReserveRelease. Possible values: `application`, `stripe`.
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `destination` - The balance destination to which the released funds are sent. Possible values: `other`, `payments`.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `reserve.release`.
-  * `reason` - The reason for the ReserveRelease, indicating why the funds were released. Possible values: `bulk_hold_expiry`, `hold_released_early`, `hold_reversed`, `plan_disabled`.
+  * `reason` - The reason for the ReserveRelease, indicating why the funds were released. Possible values: `hold_expired`, `hold_released_early`, `hold_reversed`, `plan_disabled`.
   * `released_at` - The release timestamp of the funds. Format: Unix timestamp.
   * `reserve_hold` - The ReserveHold this ReserveRelease is associated with. Nullable. Expandable.
   * `reserve_plan` - The ReservePlan ID this ReserveRelease is associated with. This field is only populated if a ReserveRelease is created by a ReservePlan disable operation, or from a scheduled ReservedHold expiry. Nullable. Expandable.
@@ -28,6 +29,7 @@ defmodule Stripe.Resources.Reserve.Release do
     :created,
     :created_by,
     :currency,
+    :destination,
     :id,
     :livemode,
     :metadata,

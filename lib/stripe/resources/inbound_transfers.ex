@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.InboundTransfers do
   @moduledoc """
-  TreasuryFinancialAccountsResourceInboundTransfers
+  InboundTransfer
 
   InboundTransfers contains inbound transfers features for a FinancialAccount.
   """

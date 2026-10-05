@@ -1,9 +1,13 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Billing.FeedbackOptionService do
   @moduledoc """
-  FeedbackOptionsFeedbackOptions
+  Feedback Option
 
-  A resource for the feedback options model (for custom cancellation reasons)
+  A feedback option is a reason you can present to customers when they cancel a
+  subscription through the customer portal. Configure the set of options a customer
+  can choose from on a [portal configuration](https://docs.stripe.com/api/customer_portal/configuration).
+
+  Related guide: [Customer management](https://stripe.com/customer-management)
   """
   alias Stripe.Client
 
@@ -40,9 +44,9 @@ defmodule Stripe.Services.Billing.FeedbackOptionService do
   end
 
   @doc """
-  Feedback Options List API Method
+  List all feedback options
 
-  An API method for listing the feedback options model
+  Returns a list of your feedback options.
   """
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}
@@ -58,7 +62,7 @@ defmodule Stripe.Services.Billing.FeedbackOptionService do
   @doc """
   Retrieve a feedback option
 
-  Retrieves a feedback options object given an ID.
+  Retrieves a feedback option object given an ID.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Billing.FeedbackOption.t()} | {:error, Stripe.Error.t()}

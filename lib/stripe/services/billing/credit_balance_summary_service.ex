@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Billing.CreditBalanceSummaryService do
   @moduledoc """
-  CreditBalanceSummary
+  Credit Balance Summary
 
   Indicates the billing credit balance for billing credits granted to a customer.
   """

@@ -6,7 +6,7 @@ defmodule Stripe.Services.InvoiceService do
   Invoices are statements of amounts owed by a customer, and are either
   generated one-off, or generated periodically from a subscription.
 
-  They contain [invoice items](https://api.stripe.com#invoiceitems), and proration adjustments
+  They contain [invoice items](https://docs.stripe.com/api#invoiceitems), and proration adjustments
   that may be caused by subscription upgrades/downgrades (if necessary).
 
   If your invoice is configured to be billed through automatic charges,
@@ -252,7 +252,8 @@ defmodule Stripe.Services.InvoiceService do
   Update an invoice
 
   Draft invoices are fully editable. Once an invoice is [finalized](https://docs.stripe.com/docs/billing/invoices/workflow#finalized),
-  monetary values, as well as `collection_method`, become uneditable.
+  you can no longer change most of its details, including monetary values and `collection_method`. For most invoices,
+  this also includes `description`.
 
   If you would like to stop the Stripe Billing engine from automatically finalizing, reattempting payments on,
   sending reminders for, or [automatically reconciling](https://docs.stripe.com/docs/billing/invoices/reconciliation) invoices, pass

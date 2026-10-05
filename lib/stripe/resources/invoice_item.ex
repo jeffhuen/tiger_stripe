@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.InvoiceItem do
   @moduledoc """
-  InvoiceItem
+  Invoice Item
 
   Invoice Items represent the component lines of an [invoice](https://docs.stripe.com/api/invoices). When you create an invoice item with an `invoice` field, it is attached to the specified invoice and included as [an invoice line item](https://docs.stripe.com/api/invoices/line_item) within [invoice.lines](https://docs.stripe.com/api/invoices/object#invoice_object-lines).
 
@@ -25,6 +25,7 @@ defmodule Stripe.Resources.InvoiceItem do
   * `frozen_fields` - Array of field names that can't be modified. Attempting to update a frozen field returns an error.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `invoice` - The ID of the invoice this invoice item belongs to. Nullable. Expandable.
+  * `invoicing_rules` - The rules that control when this invoice item is eligible for invoicing. All rules must be satisfied for the item to be invoiced. Expandable.
   * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `net_amount` - The amount after discounts, but before credits and taxes. This field is `null` for `discountable=true` items.
@@ -53,6 +54,7 @@ defmodule Stripe.Resources.InvoiceItem do
     :frozen_fields,
     :id,
     :invoice,
+    :invoicing_rules,
     :livemode,
     :metadata,
     :net_amount,
@@ -76,6 +78,7 @@ defmodule Stripe.Resources.InvoiceItem do
       "customer",
       "discounts",
       "invoice",
+      "invoicing_rules",
       "parent",
       "period",
       "pricing",
@@ -86,6 +89,11 @@ defmodule Stripe.Resources.InvoiceItem do
 
   def __nested_fields__ do
     %{
+      "invoicing_rules" => %{
+        fields: %{
+          "type" => :scalar
+        }
+      },
       "parent" => %{
         fields: %{
           "subscription_details" => %{

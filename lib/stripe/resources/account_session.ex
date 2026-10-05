@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.AccountSession do
   @moduledoc """
-  ConnectEmbeddedMethodAccountSessionCreateMethodAccountSession
+  Account Session
 
   An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.
 

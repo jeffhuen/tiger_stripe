@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.CustomerBalanceTransactionService do
   @moduledoc """
-  CustomerBalanceTransaction
+  Customer Balance Transaction
 
   Each customer has a [Balance](https://docs.stripe.com/api/customers/object#customer_object-balance) value,
   which denotes a debit or credit that's automatically applied to their next invoice upon finalization.

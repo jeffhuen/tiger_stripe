@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.TaxId do
   @moduledoc """
-  tax_id
+  Tax ID
 
   You can add one or multiple tax IDs to a [customer](https://docs.stripe.com/api/customers) or account.
   Customer and account tax IDs get displayed on related invoices and credit notes.

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.CountrySpecService do
   @moduledoc """
-  CountrySpec
+  Country Spec
 
   Stripe needs to collect certain pieces of information about each account
   created. These requirements can differ depending on the account's country. The

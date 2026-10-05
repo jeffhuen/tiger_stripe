@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.SubscriptionItem do
   @moduledoc """
-  SubscriptionItem
+  Subscription Item
 
   Subscription items allow you to create customer subscriptions with more than
   one plan, making it easy to represent complex billing relationships.
@@ -13,6 +13,7 @@ defmodule Stripe.Resources.SubscriptionItem do
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch.
   * `current_period_end` - The end time of this subscription item's current billing period. Format: Unix timestamp.
   * `current_period_start` - The start time of this subscription item's current billing period. Format: Unix timestamp.
+  * `current_trial` - The current trial that is applied to this subscription item. Nullable. Expandable.
   * `discounts` - The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount. Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -31,6 +32,7 @@ defmodule Stripe.Resources.SubscriptionItem do
     :created,
     :current_period_end,
     :current_period_start,
+    :current_trial,
     :discounts,
     :id,
     :metadata,
@@ -45,13 +47,21 @@ defmodule Stripe.Resources.SubscriptionItem do
   @object_name "subscription_item"
   def object_name, do: @object_name
 
-  def expandable_fields, do: ["billing_thresholds", "discounts", "plan", "price", "tax_rates"]
+  def expandable_fields,
+    do: ["billing_thresholds", "current_trial", "discounts", "plan", "price", "tax_rates"]
 
   def __nested_fields__ do
     %{
       "billing_thresholds" => %{
         fields: %{
           "usage_gte" => :scalar
+        }
+      },
+      "current_trial" => %{
+        fields: %{
+          "end_date" => :scalar,
+          "start_date" => :scalar,
+          "trial_offer" => :scalar
         }
       },
       "plan" => {:resource, Stripe.Resources.Plan},

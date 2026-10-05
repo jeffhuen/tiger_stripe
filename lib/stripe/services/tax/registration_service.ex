@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Tax.RegistrationService do
   @moduledoc """
-  TaxProductRegistrationsResourceTaxRegistration
+  Tax Registration
 
   A Tax `Registration` lets us know that your business is registered to collect tax on payments within a region, enabling you to [automatically collect tax](https://docs.stripe.com/tax).
 

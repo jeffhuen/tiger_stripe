@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Radar.ValueList do
   @moduledoc """
-  RadarListList
+  Value List
 
   Value lists allow you to group values together which can then be referenced in rules.
 

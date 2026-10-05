@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.FundingInstructions do
   @moduledoc """
-  CustomerBalanceFundingInstructionsCustomerBalanceFundingInstructions
+  Funding Instruction
 
   Each customer has a [`balance`](https://docs.stripe.com/api/customers/object#customer_object-balance) that is
   automatically applied to future invoices and payments using the `customer_balance` payment method.

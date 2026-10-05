@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.BalanceSettingsService do
   @moduledoc """
-  BalanceSettingsResourceBalanceSettings
+  Balance Setting
 
   Options for customizing account balances and payout settings for a Stripe platform’s connected accounts.
   """

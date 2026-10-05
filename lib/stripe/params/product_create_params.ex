@@ -19,6 +19,7 @@ defmodule Stripe.Params.ProductCreateParams do
   This may be up to 22 characters. The statement description may not include `, `\\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
   It must contain at least one letter. Only used for subscription payments. Max length: 22.
   * `tax_code` - A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+  * `tax_details` - Tax details for this product, including the [tax code](https://stripe.com/tax/tax-codes) and an optional performance location.
   * `type` - The type of the product. Defaults to `service` if not explicitly specified, enabling use of this product with Subscriptions and Plans. Set this parameter to `good` to use this product with Orders and SKUs. On API versions before `2018-02-05`, this field defaults to `good` for compatibility reasons. Possible values: `good`, `service`.
   * `unit_label` - A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. Max length: 12.
   * `url` - A URL of a publicly-accessible webpage for this product. Max length: 5000.
@@ -39,6 +40,7 @@ defmodule Stripe.Params.ProductCreateParams do
     :shippable,
     :statement_descriptor,
     :tax_code,
+    :tax_details,
     :type,
     :unit_label,
     :url

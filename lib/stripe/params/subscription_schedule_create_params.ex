@@ -11,6 +11,7 @@ defmodule Stripe.Params.SubscriptionScheduleCreateParams do
   * `expand` - Specifies which fields in the response should be expanded.
   * `from_subscription` - Migrate an existing subscription to be managed by a subscription schedule. If this parameter is set, a subscription schedule will be created using the subscription's item(s), set to auto-renew using the subscription's interval. When using this parameter, other parameters (such as phase values) cannot be set. To create a subscription schedule with other modifications, we recommend making two separate API calls. Max length: 5000.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+  * `pause_schedules` - Configures the subscription's pause behavior and, optionally, its resume behavior. Only one entry is supported.
   * `phases` - List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
   * `start_date` - When the subscription schedule starts. We recommend using `now` so that it starts the subscription immediately, and to avoid unexpected behavior due to request delays or clock skew resulting in a slightly backdated or postdated start. You can also use a Unix timestamp to backdate the subscription so that it starts on a past date, or set a future date for the subscription to start on.
   """
@@ -25,6 +26,7 @@ defmodule Stripe.Params.SubscriptionScheduleCreateParams do
     :expand,
     :from_subscription,
     :metadata,
+    :pause_schedules,
     :phases,
     :start_date
   ]

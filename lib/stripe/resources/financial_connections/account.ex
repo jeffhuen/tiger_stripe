@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.FinancialConnections.Account do
   @moduledoc """
-  BankConnectionsResourceLinkedAccount
+  Account
 
   A Financial Connections Account represents an account that exists outside of Stripe, to which you have been granted some degree of access.
   """

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.FinancialConnections.Session do
   @moduledoc """
-  BankConnectionsResourceLinkAccountSession
+  Session
 
   A Financial Connections Session is the secure way to programmatically launch the client-side Stripe.js modal that lets your users link their accounts.
   """
@@ -66,7 +66,6 @@ defmodule Stripe.Resources.FinancialConnections.Session do
       "filters" => %{
         fields: %{
           "account_subcategories" => {:list, :scalar},
-          "countries" => {:list, :scalar},
           "country" => :scalar,
           "require_payment_method_support" => :scalar
         }

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Entitlements.ActiveEntitlementSummary do
   @moduledoc """
-  ActiveEntitlementSummary
+  Active Entitlement summary
 
   A summary of a customer's active entitlements.
   """

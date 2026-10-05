@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Issuing.Authorization do
   @moduledoc """
-  IssuingAuthorization
+  Authorization
 
   When an [issued card](https://docs.stripe.com/issuing) is used to make a purchase, an Issuing `Authorization`
   object is created. [Authorizations](https://docs.stripe.com/issuing/purchases/authorizations) must be approved for the

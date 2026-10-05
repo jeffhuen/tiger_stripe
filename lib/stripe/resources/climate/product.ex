@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Climate.Product do
   @moduledoc """
-  ClimateRemovalsProducts
+  Climate product
 
   A Climate product represents a type of carbon removal unit available for reservation.
   You can retrieve it to see the current price and availability.

@@ -11,8 +11,8 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
   * `billing_address_collection` - Configuration for collecting the customer's billing address. Defaults to `auto`. Possible values: `auto`, `required`.
   * `consent_collection` - Configure fields to gather active consent from customers.
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies) and supported by each line item's price. Format: ISO 4217 currency code.
-  * `custom_fields` - Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
-  * `custom_text` - Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+  * `custom_fields` - Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
+  * `custom_text` - Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
   * `customer_creation` - Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers). Possible values: `always`, `if_required`.
   * `expand` - Specifies which fields in the response should be expanded.
   * `inactive_message` - The custom message to be displayed to a customer when a payment link is no longer active. Max length: 500.

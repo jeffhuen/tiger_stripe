@@ -68,6 +68,7 @@ defmodule Stripe.Events.V1BillingMeterErrorReportTriggeredEvent do
     :object,
     :reason,
     :related_object,
+    :snapshot_event,
     :type
   ]
 

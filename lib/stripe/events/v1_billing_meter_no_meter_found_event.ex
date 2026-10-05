@@ -58,7 +58,18 @@ defmodule Stripe.Events.V1BillingMeterNoMeterFoundEvent do
           optional(String.t()) => term()
         }
 
-  defstruct [:changes, :context, :created, :data, :id, :livemode, :object, :reason, :type]
+  defstruct [
+    :changes,
+    :context,
+    :created,
+    :data,
+    :id,
+    :livemode,
+    :object,
+    :reason,
+    :snapshot_event,
+    :type
+  ]
 
   def lookup_type, do: "v1.billing.meter.no_meter_found"
 

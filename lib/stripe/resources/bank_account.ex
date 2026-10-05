@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.BankAccount do
   @moduledoc """
-  BankAccount
+  Bank Account
 
   These bank accounts are payment methods on `Customer` objects.
 

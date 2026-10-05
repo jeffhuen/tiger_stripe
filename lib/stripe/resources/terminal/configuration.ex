@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Terminal.Configuration do
   @moduledoc """
-  TerminalConfigurationConfiguration
+  Configuration
 
   A Configurations object represents how features should be configured for terminal readers.
   For information about how to use it, see the [Terminal configurations documentation](https://docs.stripe.com/terminal/fleet/configurations-overview).

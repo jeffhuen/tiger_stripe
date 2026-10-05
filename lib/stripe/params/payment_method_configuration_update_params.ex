@@ -50,6 +50,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationUpdateParams do
   * `payco` - PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
   * `paynow` - PayNow is a Singapore-based payment method that allows customers to make a payment using their preferred app from participating banks and participating non-bank financial institutions. Check this [page](https://docs.stripe.com/payments/paynow) for more details.
   * `paypal` - PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://docs.stripe.com/payments/paypal) for more details.
+  * `paypay` - Customers can pay with PayPay online or using the PayPay app.
   * `payto` - PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
   * `pix` - Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
   * `promptpay` - PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://docs.stripe.com/payments/promptpay) for more details.
@@ -118,6 +119,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationUpdateParams do
     :payco,
     :paynow,
     :paypal,
+    :paypay,
     :payto,
     :pix,
     :promptpay,

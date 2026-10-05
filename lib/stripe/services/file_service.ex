@@ -4,7 +4,7 @@ defmodule Stripe.Services.FileService do
   File
 
   This object represents files hosted on Stripe's servers. You can upload
-  files with the [create file](https://api.stripe.com#create_file) request
+  files with the [create file](https://docs.stripe.com/api#create_file) request
   (for example, when uploading dispute evidence). Stripe also
   creates files independently (for example, the results of a [Sigma scheduled
   query](#scheduled_queries)).

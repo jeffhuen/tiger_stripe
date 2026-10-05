@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Tax.SettingsService do
   @moduledoc """
-  TaxProductResourceTaxSettings
+  Tax Setting
 
   You can use Tax `Settings` to manage configurations used by Stripe Tax calculations.
 
@@ -23,7 +23,7 @@ defmodule Stripe.Services.Tax.SettingsService do
   @doc """
   Update settings
 
-  Updates Tax `Settings` parameters used in tax calculations. All parameters are editable but none can be removed once set.
+  Updates Tax `Settings` parameters used in tax calculations. All parameters are editable but none can be removed once set. Check the returned Tax `Settings` object and validate that its status is `active`.
   """
   @spec update(Client.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Tax.Settings.t()} | {:error, Stripe.Error.t()}

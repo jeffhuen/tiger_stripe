@@ -1,9 +1,9 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Treasury.ReceivedCreditService do
   @moduledoc """
-  TreasuryReceivedCreditsResourceReceivedCredit
+  ReceivedCredit
 
-  ReceivedCredits represent funds sent to a [FinancialAccount](https://api.stripe.com#financial_accounts) (for example, via ACH or wire). These money movements are not initiated from the FinancialAccount.
+  ReceivedCredits represent funds sent to a [FinancialAccount](https://docs.stripe.com/api#financial_accounts) (for example, via ACH or wire). These money movements are not initiated from the FinancialAccount.
   """
   alias Stripe.Client
 

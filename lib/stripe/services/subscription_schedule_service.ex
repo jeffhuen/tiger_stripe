@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.SubscriptionScheduleService do
   @moduledoc """
-  SubscriptionSchedule
+  Subscription Schedule
 
   A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.
 

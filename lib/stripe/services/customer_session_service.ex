@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.CustomerSessionService do
   @moduledoc """
-  CustomerSessionResourceCustomerSession
+  Customer Session
 
   A Customer Session allows you to grant Stripe's frontend SDKs (like Stripe.js) client-side access
   control over a Customer.

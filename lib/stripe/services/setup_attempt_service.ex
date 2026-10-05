@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.SetupAttemptService do
   @moduledoc """
-  PaymentFlowsSetupIntentSetupAttempt
+  SetupAttempt
 
   A SetupAttempt describes one attempted confirmation of a SetupIntent,
   whether that confirmation is successful or unsuccessful. You can use

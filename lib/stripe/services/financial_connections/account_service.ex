@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.FinancialConnections.AccountService do
   @moduledoc """
-  BankConnectionsResourceLinkedAccount
+  Account
 
   A Financial Connections Account represents an account that exists outside of Stripe, to which you have been granted some degree of access.
   """
@@ -58,7 +58,7 @@ defmodule Stripe.Services.FinancialConnections.AccountService do
   @doc """
   Retrieve an Account
 
-  Retrieves the details of an Financial Connections `Account`.
+  Retrieves the details of a Financial Connections `Account`.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.FinancialConnections.Account.t()} | {:error, Stripe.Error.t()}

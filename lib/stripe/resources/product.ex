@@ -5,7 +5,7 @@ defmodule Stripe.Resources.Product do
 
   Products describe the specific goods or services you offer to your customers.
   For example, you might offer a Standard and Premium version of your goods or service; each version would be a separate Product.
-  They can be used in conjunction with [Prices](https://api.stripe.com#prices) to configure pricing in Payment Links, Checkout, and Subscriptions.
+  They can be used in conjunction with [Prices](https://docs.stripe.com/api#prices) to configure pricing in Payment Links, Checkout, and Subscriptions.
 
   Related guides: [Set up a subscription](https://docs.stripe.com/billing/subscriptions/set-up-subscription),
   [share a Payment Link](https://docs.stripe.com/payment-links),
@@ -29,6 +29,7 @@ defmodule Stripe.Resources.Product do
   * `shippable` - Whether this product is shipped (i.e., physical goods). Nullable.
   * `statement_descriptor` - Extra information about a product which will appear on your customer's credit card statement. In the case that multiple products are billed at once, the first statement descriptor will be used. Only used for subscription payments. Max length: 5000. Nullable.
   * `tax_code` - A [tax code](https://docs.stripe.com/tax/tax-categories) ID. Nullable. Expandable.
+  * `tax_details` - Tax details for this product, including the [tax code](https://stripe.com/tax/tax-codes) and an optional performance location. Nullable. Expandable.
   * `type` - The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans. Possible values: `good`, `service`.
   * `unit_label` - A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. Max length: 5000. Nullable.
   * `updated` - Time at which the object was last updated. Measured in seconds since the Unix epoch. Format: Unix timestamp.
@@ -52,6 +53,7 @@ defmodule Stripe.Resources.Product do
     :shippable,
     :statement_descriptor,
     :tax_code,
+    :tax_details,
     :type,
     :unit_label,
     :updated,
@@ -62,7 +64,7 @@ defmodule Stripe.Resources.Product do
   def object_name, do: @object_name
 
   def expandable_fields,
-    do: ["default_price", "marketing_features", "package_dimensions", "tax_code"]
+    do: ["default_price", "marketing_features", "package_dimensions", "tax_code", "tax_details"]
 
   def __nested_fields__ do
     %{
@@ -77,6 +79,12 @@ defmodule Stripe.Resources.Product do
           "length" => :scalar,
           "weight" => :scalar,
           "width" => :scalar
+        }
+      },
+      "tax_details" => %{
+        fields: %{
+          "performance_location" => :scalar,
+          "tax_code" => :scalar
         }
       }
     }

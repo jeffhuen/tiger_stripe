@@ -57,11 +57,12 @@ defmodule Stripe.Resources.Subscription do
 
   A subscription that is currently in a trial period is `trialing` and moves to `active` when the trial period is over. 
 
-  A subscription can only enter a `paused` status [when a trial ends without a payment method](https://docs.stripe.com/billing/subscriptions/trials#create-free-trials-without-payment). A `paused` subscription doesn't generate invoices and can be resumed after your customer adds their payment method. The `paused` status is different from [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged. 
+  A subscription can only enter a `paused` status [when a trial ends without a payment method](https://docs.stripe.com/billing/subscriptions/trials/free-trials#create-free-trials-without-payment). A `paused` subscription doesn't generate invoices and can be resumed after your customer adds their payment method. The `paused` status is different from [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged. 
 
   If subscription `collection_method=charge_automatically`, it becomes `past_due` when payment is required but cannot be paid (due to failed payment or awaiting additional user actions). Once Stripe has exhausted all payment retry attempts, the subscription will become `canceled` or `unpaid` (depending on your subscriptions settings). 
 
   If subscription `collection_method=send_invoice` it becomes `past_due` when its invoice is not paid by the due date, and `canceled` or `unpaid` if it is still not paid by an additional deadline after that. Note that when a subscription has a status of `unpaid`, no subsequent invoices will be attempted (invoices will be created, but then immediately automatically closed). After receiving updated payment information from a customer, you may choose to reopen and pay their closed invoices. Possible values: `active`, `canceled`, `incomplete`, `incomplete_expired`, `past_due`, `paused`, `trialing`, `unpaid`.
+  * `status_details` - Expandable.
   * `test_clock` - ID of the test clock this subscription belongs to. Nullable. Expandable.
   * `transfer_data` - The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices. Nullable. Expandable.
   * `trial_end` - If the subscription has a trial, the end of that trial. Format: Unix timestamp. Nullable.
@@ -114,6 +115,7 @@ defmodule Stripe.Resources.Subscription do
     :schedule,
     :start_date,
     :status,
+    :status_details,
     :test_clock,
     :transfer_data,
     :trial_end,
@@ -150,6 +152,7 @@ defmodule Stripe.Resources.Subscription do
       "pending_update",
       "presentment_details",
       "schedule",
+      "status_details",
       "test_clock",
       "transfer_data",
       "trial_settings"
@@ -288,7 +291,37 @@ defmodule Stripe.Resources.Subscription do
                   "preferred_language" => :scalar
                 }
               },
-              "billie" => :scalar,
+              "billie" => %{
+                fields: %{
+                  "company_details" => %{
+                    fields: %{
+                      "registered_address" => %{
+                        fields: %{
+                          "city" => :scalar,
+                          "country" => :scalar,
+                          "line1" => :scalar,
+                          "line2" => :scalar,
+                          "postal_code" => :scalar,
+                          "state" => :scalar
+                        }
+                      },
+                      "registered_name" => :scalar,
+                      "registration_number" => :scalar,
+                      "registration_type" => :scalar,
+                      "vat" => :scalar
+                    }
+                  }
+                }
+              },
+              "blik" => %{
+                fields: %{
+                  "mandate_options" => %{
+                    fields: %{
+                      "expires_at" => :scalar
+                    }
+                  }
+                }
+              },
               "card" => %{
                 fields: %{
                   "mandate_options" => %{
@@ -401,6 +434,21 @@ defmodule Stripe.Resources.Subscription do
           "presentment_currency" => :scalar
         }
       },
+      "status_details" => %{
+        fields: %{
+          "paused" => %{
+            fields: %{
+              "subscription" => %{
+                fields: %{
+                  "type" => :scalar
+                }
+              },
+              "transitioned_at" => :scalar,
+              "type" => :scalar
+            }
+          }
+        }
+      },
       "transfer_data" => %{
         fields: %{
           "amount_percent" => :scalar,
@@ -411,6 +459,7 @@ defmodule Stripe.Resources.Subscription do
         fields: %{
           "end_behavior" => %{
             fields: %{
+              "billing_cycle_anchor" => :scalar,
               "missing_payment_method" => :scalar
             }
           }

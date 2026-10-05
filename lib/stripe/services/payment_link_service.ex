@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.PaymentLinkService do
   @moduledoc """
-  PaymentLink
+  Payment Link
 
   A payment link is a shareable URL that will take your customers to a hosted payment page. A payment link can be shared and used multiple times.
 

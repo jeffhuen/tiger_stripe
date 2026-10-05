@@ -6,7 +6,7 @@ defmodule Stripe.Resources.Invoice do
   Invoices are statements of amounts owed by a customer, and are either
   generated one-off, or generated periodically from a subscription.
 
-  They contain [invoice items](https://api.stripe.com#invoiceitems), and proration adjustments
+  They contain [invoice items](https://docs.stripe.com/api#invoiceitems), and proration adjustments
   that may be caused by subscription upgrades/downgrades (if necessary).
 
   If your invoice is configured to be billed through automatic charges,
@@ -107,12 +107,13 @@ defmodule Stripe.Resources.Invoice do
   * `post_payment_credit_notes_amount` - Total amount of all post-payment credit notes issued for this invoice.
   * `pre_payment_credit_notes_amount` - Total amount of all pre-payment credit notes issued for this invoice.
   * `receipt_number` - This is the transaction number that appears on email receipts sent for this invoice. Max length: 5000. Nullable.
-  * `rendering` - The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page. Nullable. Expandable.
+  * `rendering` - The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page. Nullable. Expandable.
   * `shipping_cost` - The details of the cost of shipping, including the ShippingRate applied on the invoice. Nullable. Expandable.
   * `shipping_details` - Shipping details for the invoice. The Invoice PDF will use the `shipping_details` value if it is set, otherwise the PDF will render the shipping address from the customer. Nullable. Expandable.
   * `starting_balance` - Starting customer balance before the invoice is finalized. If the invoice has not been finalized yet, this will be the current customer balance. For revision invoices, this also includes any customer balance that was applied to the original invoice.
   * `statement_descriptor` - Extra information about an invoice for the customer's credit card statement. Max length: 5000. Nullable.
   * `status` - The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://docs.stripe.com/billing/invoices/workflow#workflow-overview) Possible values: `draft`, `open`, `paid`, `uncollectible`, `void`. Nullable.
+  * `status_details` - Expandable.
   * `status_transitions` - Expandable.
   * `subscription` - Nullable. Expandable.
   * `subtotal` - Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated
@@ -196,6 +197,7 @@ defmodule Stripe.Resources.Invoice do
     :starting_balance,
     :statement_descriptor,
     :status,
+    :status_details,
     :status_transitions,
     :subscription,
     :subtotal,
@@ -240,6 +242,7 @@ defmodule Stripe.Resources.Invoice do
       "rendering",
       "shipping_cost",
       "shipping_details",
+      "status_details",
       "status_transitions",
       "subscription",
       "test_clock",
@@ -340,7 +343,30 @@ defmodule Stripe.Resources.Invoice do
                   "preferred_language" => :scalar
                 }
               },
-              "billie" => :scalar,
+              "billie" => %{
+                fields: %{
+                  "company_details" => %{
+                    fields: %{
+                      "registered_address" => %{
+                        fields: %{
+                          "city" => :scalar,
+                          "country" => :scalar,
+                          "line1" => :scalar,
+                          "line2" => :scalar,
+                          "postal_code" => :scalar,
+                          "state" => :scalar
+                        }
+                      },
+                      "registered_name" => :scalar,
+                      "registration_number" => :scalar,
+                      "registration_type" => :scalar,
+                      "vat" => :scalar
+                    }
+                  },
+                  "reference" => :scalar
+                }
+              },
+              "blik" => :scalar,
               "card" => %{
                 fields: %{
                   "installments" => %{
@@ -454,6 +480,15 @@ defmodule Stripe.Resources.Invoice do
                  "taxable_amount" => :scalar
                }
              }}
+        }
+      },
+      "status_details" => %{
+        fields: %{
+          "uncollectible" => %{
+            fields: %{
+              "reason" => :scalar
+            }
+          }
         }
       },
       "status_transitions" => %{

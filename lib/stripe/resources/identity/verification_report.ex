@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Identity.VerificationReport do
   @moduledoc """
-  GelatoVerificationReport
+  VerificationReport
 
   A VerificationReport is the result of an attempt to collect and verify data from a user.
   The collection of verification checks performed is determined from the `type` and `options`

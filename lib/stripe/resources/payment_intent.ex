@@ -40,12 +40,12 @@ defmodule Stripe.Resources.PaymentIntent do
 
   Payment methods attached to other Customers cannot be used with this PaymentIntent.
 
-  If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead. Nullable. Expandable.
+  If [setup_future_usage](https://docs.stripe.com/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead. Nullable. Expandable.
   * `customer_account` - ID of the Account representing the customer that this PaymentIntent belongs to, if one exists.
 
   Payment methods attached to other Accounts cannot be used with this PaymentIntent.
 
-  If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead. Max length: 5000. Nullable.
+  If [setup_future_usage](https://docs.stripe.com/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead. Max length: 5000. Nullable.
   * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 5000. Nullable.
   * `excluded_payment_method_types` - The list of payment method types to exclude from use with this payment. Nullable.
   * `hooks` - Expandable.
@@ -64,6 +64,7 @@ defmodule Stripe.Resources.PaymentIntent do
   * `payment_method_configuration_details` - Information about the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) used for this PaymentIntent. Nullable. Expandable.
   * `payment_method_options` - Payment-method-specific configuration for this PaymentIntent. Nullable. Expandable.
   * `payment_method_types` - The list of payment method types (e.g. card) that this PaymentIntent is allowed to use. A comprehensive list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
+  * `payment_record` - ID of the [Payment Record object](https://docs.stripe.com/api/payment-record) created by this PaymentIntent. Nullable. Expandable.
   * `presentment_details` - Expandable.
   * `processing` - If present, this property tells you about the processing state of the payment. Nullable. Expandable.
   * `receipt_email` - Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails). Max length: 5000. Nullable.
@@ -122,6 +123,7 @@ defmodule Stripe.Resources.PaymentIntent do
     :payment_method_configuration_details,
     :payment_method_options,
     :payment_method_types,
+    :payment_record,
     :presentment_details,
     :processing,
     :receipt_email,
@@ -155,6 +157,7 @@ defmodule Stripe.Resources.PaymentIntent do
       "payment_method",
       "payment_method_configuration_details",
       "payment_method_options",
+      "payment_record",
       "presentment_details",
       "processing",
       "review",
@@ -348,12 +351,37 @@ defmodule Stripe.Resources.PaymentIntent do
           },
           "billie" => %{
             fields: %{
-              "capture_method" => :scalar
+              "capture_method" => :scalar,
+              "company_details" => %{
+                fields: %{
+                  "registered_address" => %{
+                    fields: %{
+                      "city" => :scalar,
+                      "country" => :scalar,
+                      "line1" => :scalar,
+                      "line2" => :scalar,
+                      "postal_code" => :scalar,
+                      "state" => :scalar
+                    }
+                  },
+                  "registered_name" => :scalar,
+                  "registration_number" => :scalar,
+                  "registration_type" => :scalar,
+                  "vat" => :scalar
+                }
+              },
+              "reference" => :scalar
             }
           },
           "bizum" => :scalar,
           "blik" => %{
             fields: %{
+              "mandate_options" => %{
+                fields: %{
+                  "expires_at" => :scalar,
+                  "type" => :scalar
+                }
+              },
               "setup_future_usage" => :scalar
             }
           },
@@ -402,7 +430,6 @@ defmodule Stripe.Resources.PaymentIntent do
           },
           "card_present" => %{
             fields: %{
-              "aade_data" => {:resource, Stripe.Resources.AadeData},
               "capture_method" => :scalar,
               "request_extended_authorization" => :scalar,
               "request_incremental_authorization_support" => :scalar,
@@ -557,6 +584,7 @@ defmodule Stripe.Resources.PaymentIntent do
               "setup_future_usage" => :scalar
             }
           },
+          "paypay" => :scalar,
           "payto" => %{
             fields: %{
               "mandate_options" => %{

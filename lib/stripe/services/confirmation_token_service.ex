@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.ConfirmationTokenService do
   @moduledoc """
-  ConfirmationTokensResourceConfirmationToken
+  Confirmation Token
 
   ConfirmationTokens help transport client side data collected by Stripe JS over
   to your server for confirming a PaymentIntent or SetupIntent. If the confirmation

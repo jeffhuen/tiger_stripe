@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.TransferReversal do
   @moduledoc """
-  TransferReversal
+  Transfer Reversal
 
   [Stripe Connect](https://docs.stripe.com/connect) platforms can reverse transfers made to a
   connected account, either entirely or partially, and can also specify whether

@@ -13,12 +13,12 @@ defmodule Stripe.Params.PaymentIntentUpdateParams do
 
   Payment methods attached to other Customers cannot be used with this PaymentIntent.
 
-  If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead. Max length: 5000.
+  If [setup_future_usage](https://docs.stripe.com/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead. Max length: 5000.
   * `customer_account` - ID of the Account representing the customer that this PaymentIntent belongs to, if one exists.
 
   Payment methods attached to other Accounts cannot be used with this PaymentIntent.
 
-  If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead. Max length: 5000.
+  If [setup_future_usage](https://docs.stripe.com/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead. Max length: 5000.
   * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 1000.
   * `excluded_payment_method_types` - The list of payment method types to exclude from use with this payment.
   * `expand` - Specifies which fields in the response should be expanded.
@@ -31,7 +31,6 @@ defmodule Stripe.Params.PaymentIntentUpdateParams do
   in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method)
   property on the PaymentIntent.
   * `payment_method_options` - Payment-method-specific configuration for this PaymentIntent.
-  * `payment_method_types` - The list of payment method types (for example, card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
   * `receipt_email` - Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
   * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
 
@@ -71,7 +70,6 @@ defmodule Stripe.Params.PaymentIntentUpdateParams do
     :payment_method_configuration,
     :payment_method_data,
     :payment_method_options,
-    :payment_method_types,
     :receipt_email,
     :setup_future_usage,
     :shipping,

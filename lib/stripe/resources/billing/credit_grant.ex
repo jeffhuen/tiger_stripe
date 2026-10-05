@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Billing.CreditGrant do
   @moduledoc """
-  CreditGrant
+  Credit Grant
 
   A credit grant is an API resource that documents the allocation of some billing credits to a customer.
 

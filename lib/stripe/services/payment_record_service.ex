@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.PaymentRecordService do
   @moduledoc """
-  PaymentRecord
+  Payment Record
 
   A Payment Record is a resource that allows you to represent payments that occur on- or off-Stripe.
   For example, you can create a Payment Record to model a payment made on a different payment processor,

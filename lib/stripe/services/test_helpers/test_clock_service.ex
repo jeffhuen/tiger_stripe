@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.TestHelpers.TestClockService do
   @moduledoc """
-  TestClock
+  Test Clock
 
   A test clock enables deterministic control over objects in testmode. With a test clock, you can create
   objects at a frozen time in the past or future, and advance to a specific future time to observe webhooks and state changes. After the clock advances,

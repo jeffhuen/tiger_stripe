@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.PaymentMethodDomain do
   @moduledoc """
-  PaymentMethodDomainResourcePaymentMethodDomain
+  PaymentMethodDomain
 
   A payment method domain represents a web domain that you have registered with Stripe.
   Stripe Elements use registered payment method domains to control where certain payment methods are shown.

@@ -90,6 +90,22 @@ defmodule Stripe.Services.SubscriptionService do
   end
 
   @doc """
+  Pause a subscription
+
+  Pauses a subscription by transitioning it to the paused status. A paused subscription does not generate invoices and will not advance to new billing periods. The subscription can be resumed later using the resume endpoint. Cannot pause subscriptions with attached schedules.
+  """
+  @spec pause(Client.t(), String.t(), map(), keyword()) ::
+          {:ok, Stripe.Resources.Subscription.t()} | {:error, Stripe.Error.t()}
+  def pause(client, subscription, params \\ %{}, opts \\ []) do
+    Client.request(
+      client,
+      :post,
+      "/v1/subscriptions/#{subscription}/pause",
+      Keyword.merge(opts, params: params)
+    )
+  end
+
+  @doc """
   Resume a subscription
 
   Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. Resume is only available for subscriptions that use `charge_automatically` collection. If Stripe doesn’t generate a resumption invoice, the subscription becomes `active` immediately. When a resumption invoice is generated, Stripe finalizes it immediately. If the invoice is paid or marked uncollectible, the subscription becomes `active`. If the invoice is manually voided, the subscription stays `paused`. If there is no payment attempt within 23 hours, Stripe voids the invoice and the subscription stays `paused`. Learn more about [resuming subscriptions](https://docs.stripe.com/docs/billing/subscriptions/pause#resume-subscriptions).

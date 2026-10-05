@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Issuing.CardService do
   @moduledoc """
-  IssuingCard
+  Card
 
   You can [create physical or virtual cards](https://docs.stripe.com/issuing) that are issued to cardholders.
   """

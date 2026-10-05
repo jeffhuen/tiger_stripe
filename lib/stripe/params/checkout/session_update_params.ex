@@ -3,7 +3,7 @@ defmodule Stripe.Params.Checkout.SessionUpdateParams do
   @moduledoc "Parameters for session update."
 
   @typedoc """
-  * `collected_information` - Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
+  * `collected_information` - Information about the customer collected within the Checkout Session. Can only be set when updating `embedded_page` or `elements` sessions.
   * `expand` - Specifies which fields in the response should be expanded.
   * `line_items` - A list of items the customer is purchasing.
 

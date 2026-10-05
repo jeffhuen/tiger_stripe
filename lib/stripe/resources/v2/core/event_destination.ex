@@ -3,16 +3,16 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
   @moduledoc """
   Event Destination
 
-  Set up an event destination to receive events from Stripe across multiple destination types, including [webhook endpoints](https://docs.stripe.com/webhooks) and [Amazon EventBridge](https://docs.stripe.com/event-destinations/eventbridge). Event destinations support receiving [thin events](https://docs.stripe.com/api/v2/events) and [snapshot events](https://docs.stripe.com/api/events).
+  Set up an event destination to receive events from Stripe across multiple destination types, including [webhook endpoints](https://docs.stripe.com/webhooks), [Amazon EventBridge](https://docs.stripe.com/event-destinations/eventbridge), and [Azure Event Grid](https://docs.stripe.com/event-destinations/eventgrid). Event destinations support receiving [thin events](https://docs.stripe.com/api/v2/events) and [snapshot events](https://docs.stripe.com/api/events).
   """
 
   @typedoc """
-  * `amazon_eventbridge` - Amazon EventBridge configuration.
-  * `azure_event_grid` - Azure Event Grid configuration.
-  * `created` - Time at which the object was created. Format: date-time.
-  * `description` - An optional description of what the event destination is used for.
-  * `enabled_events` - The list of events to enable for this endpoint.
-  * `event_payload` - Payload type of events being subscribed to. Possible values: `snapshot`, `thin`.
+  * `amazon_eventbridge` - Configuration for delivering events through an Amazon EventBridge partner event source.
+  * `azure_event_grid` - Configuration for delivering events through an Azure Event Grid partner topic.
+  * `created` - The time when the destination was created. Format: date-time.
+  * `description` - An optional user-defined description of the destination's purpose.
+  * `enabled_events` - The list of event types enabled for delivery to this destination.
+  * `event_payload` - Whether to deliver as snapshot or thin events. Possible values: `snapshot`, `thin`.
   * `events_from` - Specifies which accounts' events route to this destination.
   `@self`: Receive events from the account that owns the event destination.
   `@accounts`: Receive events emitted from other accounts you manage which includes your v1 and v2 accounts.
@@ -20,15 +20,15 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
   `@organization_members/@accounts`: Receive events from all accounts connected to any platform accounts in the organization.
   * `id` - Unique identifier for the object.
   * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
-  * `metadata` - Metadata.
-  * `name` - Event destination name.
+  * `metadata` - User-defined key/value data for the destination; it has no effect on event matching or delivery.
+  * `name` - A user-defined label for identifying the destination in Stripe.
   * `object` - String representing the object's type. Objects of the same type share the same value of the object field. Possible values: `v2.core.event_destination`.
-  * `snapshot_api_version` - If using the snapshot event payload, the API version events are rendered as.
-  * `status` - Status. It can be set to either enabled or disabled. Possible values: `disabled`, `enabled`.
-  * `status_details` - Additional information about event destination status.
-  * `type` - Event destination type. Possible values: `amazon_eventbridge`, `azure_event_grid`, `webhook_endpoint`.
-  * `updated` - Time at which the object was last updated. Format: date-time.
-  * `webhook_endpoint` - Webhook endpoint configuration.
+  * `snapshot_api_version` - For snapshot events only, the Stripe API version used to render event objects. You can't change this value after you create the event destination. Thin events are not pinned to an API version.
+  * `status` - Whether Stripe currently attempts delivery. Stripe attempts delivery to enabled destinations when their provider configuration is active; disabled destinations do not receive delivery attempts. Possible values: `disabled`, `enabled`.
+  * `status_details` - Additional lifecycle context for the destination status, when available.
+  * `type` - The delivery transport. Chosen when the destination is created and cannot be changed by update. Possible values: `amazon_eventbridge`, `azure_event_grid`, `webhook_endpoint`.
+  * `updated` - The time when the destination object was last updated. Format: date-time.
+  * `webhook_endpoint` - Configuration for delivering events to a webhook endpoint. Live mode requires HTTPS; sandbox mode also supports HTTP.
   """
   @type t :: %__MODULE__{}
 

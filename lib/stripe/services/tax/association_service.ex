@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Tax.AssociationService do
   @moduledoc """
-  TaxProductResourceTaxAssociation
+  Tax Association
 
   A Tax Association exposes the Tax Transactions that Stripe attempted to create on your behalf based on the PaymentIntent input
   """

@@ -8,6 +8,7 @@ defmodule Stripe.Params.InvoiceItemUpdateParams do
   * `discountable` - Controls whether discounts apply to this invoice item. Defaults to false for prorations or negative invoice items, and true for all other invoice items. Cannot be set to true for prorations.
   * `discounts` - The coupons, promotion codes & existing discounts which apply to the invoice item or invoice line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
   * `expand` - Specifies which fields in the response should be expanded.
+  * `invoicing_rules` - Pass an empty string to remove previously-defined invoicing rules. Setting invoicing rules is not supported.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `period` - The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://docs.stripe.com/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://docs.stripe.com/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
   * `price_data` - Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
@@ -27,6 +28,7 @@ defmodule Stripe.Params.InvoiceItemUpdateParams do
     :discountable,
     :discounts,
     :expand,
+    :invoicing_rules,
     :metadata,
     :period,
     :price_data,

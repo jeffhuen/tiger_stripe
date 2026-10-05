@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Identity.VerificationSession do
   @moduledoc """
-  GelatoVerificationSession
+  VerificationSession
 
   A VerificationSession guides you through the process of collecting and verifying the identities
   of your users. It contains details about the type of verification, such as what [verification

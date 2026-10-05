@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Issuing.Cardholder do
   @moduledoc """
-  IssuingCardholder
+  Cardholder
 
   An Issuing `Cardholder` object represents an individual or business entity who is [issued](https://docs.stripe.com/issuing) cards.
 

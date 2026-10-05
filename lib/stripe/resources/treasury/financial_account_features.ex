@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Treasury.FinancialAccountFeatures do
   @moduledoc """
-  TreasuryFinancialAccountsResourceFinancialAccountFeatures
+  FinancialAccount Feature
 
   Encodes whether a FinancialAccount has access to a particular Feature, with a `status` enum and associated `status_details`.
   Stripe or the platform can control Features via the requested field.

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Reserve.Hold do
   @moduledoc """
-  ReservesReserveHoldsResourcesReserveHold
+  ReserveHold
 
   ReserveHolds are used to place a temporary ReserveHold on a merchant's funds.
   """
@@ -12,6 +12,7 @@ defmodule Stripe.Resources.Reserve.Hold do
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `created_by` - Indicates which party created this ReserveHold. Possible values: `application`, `stripe`.
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `destination` - The balance destination to which the reserved funds are sent. Possible values: `other`, `risk_reserved`, `settlement_reserved`.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `is_releasable` - Whether there are any funds available to release on this ReserveHold. Note that if the ReserveHold is in the process of being released, this could be false, even though the funds haven't been fully released yet.
   * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
@@ -32,6 +33,7 @@ defmodule Stripe.Resources.Reserve.Hold do
     :created,
     :created_by,
     :currency,
+    :destination,
     :id,
     :is_releasable,
     :livemode,

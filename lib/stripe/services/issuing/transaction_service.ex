@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Issuing.TransactionService do
   @moduledoc """
-  IssuingTransaction
+  Transaction
 
   Any use of an [issued card](https://docs.stripe.com/issuing) that results in funds entering or leaving
   your Stripe account, such as a completed purchase or refund, is represented by an Issuing

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.ConfirmationToken do
   @moduledoc """
-  ConfirmationTokensResourceConfirmationToken
+  Confirmation Token
 
   ConfirmationTokens help transport client side data collected by Stripe JS over
   to your server for confirming a PaymentIntent or SetupIntent. If the confirmation
@@ -213,7 +213,6 @@ defmodule Stripe.Resources.ConfirmationToken do
                               "transaction_status_information" => :scalar
                             }
                           },
-                          "retrieval_reference_number" => :scalar,
                           "wallet" => %{
                             fields: %{
                               "type" => :scalar
@@ -403,6 +402,7 @@ defmodule Stripe.Resources.ConfirmationToken do
               "payer_id" => :scalar
             }
           },
+          "paypay" => :scalar,
           "payto" => %{
             fields: %{
               "bsb_number" => :scalar,

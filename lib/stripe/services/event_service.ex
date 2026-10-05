@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.EventService do
   @moduledoc """
-  NotificationEvent
+  Event
 
   Snapshot events allow you to track and react to activity in your Stripe integration. When
   the state of another API resource changes, Stripe creates an `Event` object that contains

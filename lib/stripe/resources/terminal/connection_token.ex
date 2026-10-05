@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Terminal.ConnectionToken do
   @moduledoc """
-  TerminalConnectionToken
+  Connection Token
 
   A Connection Token is used by the Stripe Terminal SDK to connect to a reader.
 

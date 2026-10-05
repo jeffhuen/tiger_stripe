@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.AccountSessionService do
   @moduledoc """
-  ConnectEmbeddedMethodAccountSessionCreateMethodAccountSession
+  Account Session
 
   An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.
 
@@ -16,7 +16,7 @@ defmodule Stripe.Services.AccountSessionService do
   @doc """
   Create an Account Session
 
-  Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
+  Creates an AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
   """
   @spec create(Client.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.AccountSession.t()} | {:error, Stripe.Error.t()}

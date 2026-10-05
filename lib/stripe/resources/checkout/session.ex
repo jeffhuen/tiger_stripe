@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Checkout.Session do
   @moduledoc """
-  Session
+  Checkout Session
 
   A Checkout Session represents your customer's session as they pay for
   one-time purchases or subscriptions through [Checkout](https://docs.stripe.com/payments/checkout)
@@ -23,6 +23,7 @@ defmodule Stripe.Resources.Checkout.Session do
   * `adaptive_pricing` - Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing). Nullable. Expandable.
   * `after_expiration` - When set, provides configuration for actions to take if this Checkout Session expires. Nullable. Expandable.
   * `allow_promotion_codes` - Enables user redeemable promotion codes. Nullable.
+  * `allowed_payment_method_types` - A list of the types of payment methods (e.g., `card`) this Checkout Session can accept. Nullable.
   * `amount_subtotal` - Total of all items before discounts or taxes are applied. Nullable.
   * `amount_total` - Total of all items after discounts and taxes are applied. Nullable.
   * `automatic_tax` - Expandable.
@@ -40,7 +41,7 @@ defmodule Stripe.Resources.Checkout.Session do
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code. Nullable.
   * `currency_conversion` - Currency conversion details for [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing) sessions created before 2025-03-31. Nullable. Expandable.
-  * `custom_fields` - Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`. Expandable.
+  * `custom_fields` - Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`. Expandable.
   * `custom_text` - Expandable.
   * `customer` - The ID of the customer for this Session.
   For Checkout Sessions in `subscription` mode or Checkout Sessions with `customer_creation` set as `always` in `payment` mode, Checkout
@@ -114,6 +115,7 @@ defmodule Stripe.Resources.Checkout.Session do
     :adaptive_pricing,
     :after_expiration,
     :allow_promotion_codes,
+    :allowed_payment_method_types,
     :amount_subtotal,
     :amount_total,
     :automatic_tax,

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.PaymentIntentAmountDetailsLineItemService do
   @moduledoc """
-  PaymentFlowsAmountDetailsResourceLineItemsListResourceLineItem
+  PaymentIntent LineItem
   """
   alias Stripe.Client
 

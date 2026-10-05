@@ -6,6 +6,11 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
   * `adaptive_pricing` - Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
   * `after_expiration` - Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `elements`.
   * `allow_promotion_codes` - Enables user redeemable promotion codes.
+  * `allowed_payment_method_types` - A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
+
+  Unlike `payment_method_types`, this acts as a filter on the dynamically computed set of
+  eligible payment methods rather than an explicit static list. Only payment methods that
+  are both dynamically eligible and present in this list will be offered to the customer.
   * `automatic_tax` - Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
   * `billing_address_collection` - Specify whether Checkout should collect the customer's billing address. Defaults to `auto`. Possible values: `auto`, `required`.
   * `branding_settings` - The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `elements`.
@@ -15,8 +20,8 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
   session with your internal systems. Max length: 200.
   * `consent_collection` - Configure fields for the Checkout Session to gather active consent from customers.
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required in `setup` mode when `payment_method_types` is not set. Format: ISO 4217 currency code.
-  * `custom_fields` - Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
-  * `custom_text` - Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
+  * `custom_fields` - Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`.
+  * `custom_text` - Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `elements`.
   * `customer` - ID of an existing Customer, if one exists. In `payment` mode, the customer’s most recently saved card
   payment method will be used to prefill the email, name, card details, and billing address
   on the Checkout page. In `subscription` mode, the customer’s [default payment method](https://docs.stripe.com/api/customers/update#update_customer-invoice_settings-default_payment_method)
@@ -72,7 +77,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
 
   For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 
-  You can't set this parameter if `ui_mode` is `custom`.
+  You can't set this parameter if `ui_mode` is `elements` or `form`.
   * `origin_context` - Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `elements`. Possible values: `mobile_app`, `web`.
   * `payment_intent_data` - A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
   * `payment_method_collection` - Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.
@@ -84,18 +89,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
   * `payment_method_configuration` - The ID of the payment method configuration to use with this Checkout session. Max length: 100.
   * `payment_method_data` - This parameter allows you to set some attributes on the payment method created during a Checkout session.
   * `payment_method_options` - Payment-method-specific configuration.
-  * `payment_method_types` - A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
-
-  You can omit this attribute to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
-  See [Dynamic Payment Methods](https://docs.stripe.com/payments/payment-methods/integration-options#using-dynamic-payment-methods) for more details.
-
-  Read more about the supported payment methods and their requirements in our [payment
-  method details guide](https://docs.stripe.com/docs/payments/checkout/payment-methods).
-
-  If multiple payment methods are passed, Checkout will dynamically reorder them to
-  prioritize the most relevant payment methods based on the customer's location and
-  other characteristics.
-  * `permissions` - This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object. Can only be set when creating `embedded` or `custom` sessions.
+  * `permissions` - This property is used to set up permissions for various actions (for example, update) on the CheckoutSession object. Can only be set when creating `embedded_page` or `elements` sessions.
 
   For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
   * `phone_number_collection` - Controls phone number collection settings for the session.
@@ -131,6 +125,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     :adaptive_pricing,
     :after_expiration,
     :allow_promotion_codes,
+    :allowed_payment_method_types,
     :automatic_tax,
     :billing_address_collection,
     :branding_settings,
@@ -164,7 +159,6 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     :payment_method_configuration,
     :payment_method_data,
     :payment_method_options,
-    :payment_method_types,
     :permissions,
     :phone_number_collection,
     :redirect_on_completion,

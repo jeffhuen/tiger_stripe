@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.PaymentRecord do
   @moduledoc """
-  PaymentRecord
+  Payment Record
 
   A Payment Record is a resource that allows you to represent payments that occur on- or off-Stripe.
   For example, you can create a Payment Record to model a payment made on a different payment processor,
@@ -339,6 +339,7 @@ defmodule Stripe.Resources.PaymentRecord do
                   },
                   "dynamic_last4" => :scalar,
                   "google_pay" => :scalar,
+                  "link" => :scalar,
                   "type" => :scalar
                 }
               }
@@ -384,7 +385,6 @@ defmodule Stripe.Resources.PaymentRecord do
                   "transaction_status_information" => :scalar
                 }
               },
-              "retrieval_reference_number" => :scalar,
               "wallet" => %{
                 fields: %{
                   "type" => :scalar
@@ -498,7 +498,8 @@ defmodule Stripe.Resources.PaymentRecord do
           "kr_card" => {:resource, Stripe.Resources.KrCard},
           "link" => %{
             fields: %{
-              "country" => :scalar
+              "country" => :scalar,
+              "funding_source_group" => :scalar
             }
           },
           "mb_way" => {:resource, Stripe.Resources.MbWay},
@@ -515,6 +516,7 @@ defmodule Stripe.Resources.PaymentRecord do
               }
             }
           },
+          "momo" => {:resource, Stripe.Resources.Momo},
           "multibanco" => %{
             fields: %{
               "entity" => :scalar,
@@ -575,6 +577,7 @@ defmodule Stripe.Resources.PaymentRecord do
               "transaction_id" => :scalar
             }
           },
+          "paypay" => :scalar,
           "payto" => %{
             fields: %{
               "bsb_number" => :scalar,
