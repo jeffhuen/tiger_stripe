@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.InvoiceLineItemService do
   @moduledoc """
-  InvoiceLineItem
+  Invoice Line Item
 
   Invoice Line Items represent the individual lines within an [invoice](https://docs.stripe.com/api/invoices) and only exist within the context of an invoice.
 

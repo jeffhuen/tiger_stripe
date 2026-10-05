@@ -1,9 +1,9 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Treasury.InboundTransfer do
   @moduledoc """
-  TreasuryInboundTransfersResourceInboundTransfer
+  InboundTransfer
 
-  Use [InboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://api.stripe.com#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
+  Use [InboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://docs.stripe.com/api#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
 
   Related guide: [Moving money with Treasury using InboundTransfer objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers)
   """
@@ -14,7 +14,7 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
   * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 5000. Nullable.
-  * `failure_details` - Details about this InboundTransfer's failure. Only set when status is `failed`. Nullable. Expandable.
+  * `failure_details` - Details about this InboundTransfer's failure. Will be set when `status=failed` or `returned=true`. Nullable. Expandable.
   * `financial_account` - The FinancialAccount that received the funds. Max length: 5000.
   * `hosted_regulatory_receipt_url` - A [hosted transaction receipt](https://docs.stripe.com/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Radar.ValueListItemService do
   @moduledoc """
-  RadarListListItem
+  Value List Item
 
   Value list items allow you to add specific values to a given Radar value list, which can then be used in rules.
 

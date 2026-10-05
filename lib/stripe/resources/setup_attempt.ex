@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.SetupAttempt do
   @moduledoc """
-  PaymentFlowsSetupIntentSetupAttempt
+  SetupAttempt
 
   A SetupAttempt describes one attempted confirmation of a SetupIntent,
   whether that confirmation is successful or unsuccessful. You can use
@@ -75,6 +75,11 @@ defmodule Stripe.Resources.SetupAttempt do
           "au_becs_debit" => {:resource, Stripe.Resources.AuBecsDebit},
           "bacs_debit" => :scalar,
           "bancontact" => {:resource, Stripe.Resources.Bancontact},
+          "blik" => %{
+            fields: %{
+              "buyer_id" => :scalar
+            }
+          },
           "boleto" => :scalar,
           "card" => %{
             fields: %{

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.CreditNoteLineItemService do
   @moduledoc """
-  CreditNoteLineItem
+  Credit Note Line Item
 
   The credit note line item object
   """

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.FeeRefund do
   @moduledoc """
-  FeeRefund
+  Application Fee Refund
 
   `Application Fee Refund` objects allow you to refund an application fee that
   has previously been created but not yet refunded. Funds will be refunded to

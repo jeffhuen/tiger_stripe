@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Terminal.Reader do
   @moduledoc """
-  TerminalReaderReader
+  Reader
 
   A Reader represents a physical device for accepting payment details.
 
@@ -21,7 +21,7 @@ defmodule Stripe.Resources.Terminal.Reader do
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `terminal.reader`.
   * `serial_number` - Serial number of the reader. Max length: 5000.
-  * `status` - The networking status of the reader. We do not recommend using this field in flows that may block taking payments. Possible values: `offline`, `online`. Nullable.
+  * `status` - The networking status of the reader. This value is `null` for mobile readers. We do not recommend using this field in flows that may block taking payments. Possible values: `offline`, `online`. Nullable.
   """
   @type t :: %__MODULE__{}
 

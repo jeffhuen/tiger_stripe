@@ -25,7 +25,6 @@ defmodule Stripe.Params.SetupIntentUpdateParams do
   * `payment_method_data` - When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-payment_method)
   value in the SetupIntent.
   * `payment_method_options` - Payment method-specific configuration for this SetupIntent.
-  * `payment_method_types` - The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
   """
   @type t :: %__MODULE__{}
 
@@ -42,7 +41,6 @@ defmodule Stripe.Params.SetupIntentUpdateParams do
     :payment_method,
     :payment_method_configuration,
     :payment_method_data,
-    :payment_method_options,
-    :payment_method_types
+    :payment_method_options
   ]
 end

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.FinancialAddresses do
   @moduledoc """
-  TreasuryFinancialAccountsResourceFinancialAddressesFeatures
+  FinancialAddressesFeaturesResource
 
   Settings related to Financial Addresses features on a Financial Account
   """

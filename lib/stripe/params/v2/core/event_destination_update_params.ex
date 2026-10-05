@@ -3,12 +3,12 @@ defmodule Stripe.Params.V2.Core.EventDestinationUpdateParams do
   @moduledoc "Parameters for event destination update."
 
   @typedoc """
-  * `description` - An optional description of what the event destination is used for.
-  * `enabled_events` - The list of events to enable for this endpoint.
-  * `include` - Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
+  * `description` - An optional user-defined description of the destination's purpose; it does not control routing.
+  * `enabled_events` - The list of event types enabled for delivery to this destination. Event scopes are configured when the destination is created.
+  * `include` - Include the normally redacted `webhook_endpoint.url` in the response.
   * `metadata` - Metadata.
-  * `name` - Event destination name.
-  * `webhook_endpoint` - Webhook endpoint configuration.
+  * `name` - A user-defined label for identifying the destination; it does not control routing.
+  * `webhook_endpoint` - New delivery target for the webhook endpoint. Live mode requires HTTPS; sandbox mode also supports HTTP.
   """
   @type t :: %__MODULE__{}
 

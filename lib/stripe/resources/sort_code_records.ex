@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.SortCodeRecords do
   @moduledoc """
-  FundingInstructionsBankTransferSortCodeRecord
+  SortCodeRecord
 
   Sort Code Records contain U.K. bank account details per the sort code format.
   """

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Reporting.ReportType do
   @moduledoc """
-  reporting_report_type
+  Report Type
 
   The Report Type resource corresponds to a particular type of report, such as
   the "Activity summary" or "Itemized payouts" reports. These objects are

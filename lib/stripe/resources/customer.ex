@@ -8,7 +8,7 @@ defmodule Stripe.Resources.Customer do
   """
 
   @typedoc """
-  * `address` - The customer's address. Nullable. Expandable.
+  * `address` - The customer's billing address. Nullable. Expandable.
   * `balance` - The current balance, if any, that's stored on the customer in their default currency. If negative, the customer has credit to apply to their next invoice. If positive, the customer has an amount owed that's added to their next invoice. The balance only considers amounts that Stripe hasn't successfully applied to any invoice. It doesn't reflect unpaid invoices. This balance is only taken into account after invoices finalize. For multi-currency balances, see [invoice_credit_balance](https://docs.stripe.com/api/customers/object#customer_object-invoice_credit_balance).
   * `business_name` - The customer's business name. Max length: 150.
   * `cash_balance` - The current funds being held by Stripe on behalf of the customer. You can apply these funds towards payment intents when the source is "cash_balance". The `settings[reconciliation_mode]` field describes if these funds apply to these payment intents manually or automatically. Nullable. Expandable.

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.TaxCodeService do
   @moduledoc """
-  TaxProductResourceTaxCode
+  Tax Code
 
   [Tax codes](https://stripe.com/docs/tax/tax-categories) classify goods and services for tax purposes.
   """

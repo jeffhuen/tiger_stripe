@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.AccountLink do
   @moduledoc """
-  AccountLink
+  Account Link
 
   Account Links are the means by which a Connect platform grants a connected account permission to access
   Stripe-hosted applications, such as Connect Onboarding.

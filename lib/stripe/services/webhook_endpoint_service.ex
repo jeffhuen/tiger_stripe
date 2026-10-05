@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.WebhookEndpointService do
   @moduledoc """
-  NotificationWebhookEndpoint
+  Webhook Endpoint
 
   You can configure [webhook endpoints](https://docs.stripe.com/webhooks/) via the API to be
   notified about events that happen in your Stripe account or connected

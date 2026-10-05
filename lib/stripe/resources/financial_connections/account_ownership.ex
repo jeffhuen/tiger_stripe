@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.FinancialConnections.AccountOwnership do
   @moduledoc """
-  BankConnectionsResourceOwnership
+  Account Ownership
 
   Describes a snapshot of the owners of an account at a particular point in time.
   """

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Reporting.ReportRun do
   @moduledoc """
-  reporting_report_run
+  Report Run
 
   The Report Run object represents an instance of a report type generated with
   specific run parameters. Once the object is created, Stripe begins processing the report.

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.OutboundPayments do
   @moduledoc """
-  TreasuryFinancialAccountsResourceOutboundPayments
+  OutboundPaymentsResource
 
   Settings related to Outbound Payments features on a Financial Account
   """

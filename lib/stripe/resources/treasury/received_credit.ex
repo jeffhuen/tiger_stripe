@@ -1,9 +1,9 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Treasury.ReceivedCredit do
   @moduledoc """
-  TreasuryReceivedCreditsResourceReceivedCredit
+  ReceivedCredit
 
-  ReceivedCredits represent funds sent to a [FinancialAccount](https://api.stripe.com#financial_accounts) (for example, via ACH or wire). These money movements are not initiated from the FinancialAccount.
+  ReceivedCredits represent funds sent to a [FinancialAccount](https://docs.stripe.com/api#financial_accounts) (for example, via ACH or wire). These money movements are not initiated from the FinancialAccount.
   """
 
   @typedoc """
@@ -18,7 +18,7 @@ defmodule Stripe.Resources.Treasury.ReceivedCredit do
   * `initiating_payment_method_details` - Expandable.
   * `linked_flows` - Expandable.
   * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
-  * `network` - The rails used to send the funds. Possible values: `ach`, `card`, `stripe`, `us_domestic_wire`.
+  * `network` - The rails used to send the funds. Possible values: `ach`, `card`, `rtp`, `stripe`, `us_domestic_wire`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `treasury.received_credit`.
   * `reversal_details` - Details describing when a ReceivedCredit may be reversed. Nullable. Expandable.
   * `status` - Status of the ReceivedCredit. ReceivedCredits are created either `succeeded` (approved) or `failed` (declined). If a ReceivedCredit is declined, the failure reason can be found in the `failure_code` field. Possible values: `failed`, `succeeded`.

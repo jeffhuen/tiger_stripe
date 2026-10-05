@@ -1,9 +1,13 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Billing.FeedbackOption do
   @moduledoc """
-  FeedbackOptionsFeedbackOptions
+  Feedback Option
 
-  A resource for the feedback options model (for custom cancellation reasons)
+  A feedback option is a reason you can present to customers when they cancel a
+  subscription through the customer portal. Configure the set of options a customer
+  can choose from on a [portal configuration](https://docs.stripe.com/api/customer_portal/configuration).
+
+  Related guide: [Customer management](https://stripe.com/customer-management)
   """
 
   @typedoc """

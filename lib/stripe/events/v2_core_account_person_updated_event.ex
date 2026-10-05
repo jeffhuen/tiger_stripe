@@ -22,6 +22,7 @@ defmodule Stripe.Events.V2CoreAccountPersonUpdatedEvent do
     :object,
     :reason,
     :related_object,
+    :snapshot_event,
     :type
   ]
 

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.PaymentLink do
   @moduledoc """
-  PaymentLink
+  Payment Link
 
   A payment link is a shareable URL that will take your customers to a hosted payment page. A payment link can be shared and used multiple times.
 
@@ -21,7 +21,7 @@ defmodule Stripe.Resources.PaymentLink do
   * `billing_address_collection` - Configuration for collecting the customer's billing address. Defaults to `auto`. Possible values: `auto`, `required`.
   * `consent_collection` - When set, provides configuration to gather active consent from customers. Nullable. Expandable.
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
-  * `custom_fields` - Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`. Expandable.
+  * `custom_fields` - Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `elements`. Expandable.
   * `custom_text` - Expandable.
   * `customer_creation` - Configuration for Customer creation during checkout. Possible values: `always`, `if_required`.
   * `id` - Unique identifier for the object. Max length: 5000.

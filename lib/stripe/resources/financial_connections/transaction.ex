@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.FinancialConnections.Transaction do
   @moduledoc """
-  BankConnectionsResourceTransaction
+  Transaction
 
   A Transaction represents a real transaction that affects a Financial Connections Account balance.
   """

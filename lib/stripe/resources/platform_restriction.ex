@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.PlatformRestriction do
   @moduledoc """
-  TreasuryFinancialAccountsResourcePlatformRestrictions
+  FinancialAccountPlatformRestriction
 
   Restrictions that a Connect Platform has placed on this FinancialAccount.
   """

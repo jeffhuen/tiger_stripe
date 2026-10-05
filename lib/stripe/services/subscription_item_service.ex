@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.SubscriptionItemService do
   @moduledoc """
-  SubscriptionItem
+  Subscription Item
 
   Subscription items allow you to create customer subscriptions with more than
   one plan, making it easy to represent complex billing relationships.

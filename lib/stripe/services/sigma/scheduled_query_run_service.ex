@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Sigma.ScheduledQueryRunService do
   @moduledoc """
-  ScheduledQueryRun
+  Scheduled Query
 
   If you have [scheduled a Sigma query](https://docs.stripe.com/sigma/scheduled-queries), you'll
   receive a `sigma.scheduled_query_run.created` webhook each time the query
@@ -29,7 +29,7 @@ defmodule Stripe.Services.Sigma.ScheduledQueryRunService do
   @doc """
   Retrieve a scheduled query run
 
-  Retrieves the details of an scheduled query run.
+  Retrieves the details of a scheduled query run.
   """
   @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Sigma.ScheduledQueryRun.t()} | {:error, Stripe.Error.t()}

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Tax.Transaction do
   @moduledoc """
-  TaxProductResourceTaxTransaction
+  Tax Transaction
 
   A Tax Transaction records the tax collected from or refunded to your customer.
 

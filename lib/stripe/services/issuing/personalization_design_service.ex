@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Issuing.PersonalizationDesignService do
   @moduledoc """
-  IssuingPersonalizationDesign
+  Personalization Design
 
   A Personalization Design is a logical grouping of a Physical Bundle, card logo, and carrier text that represents a product line.
   """

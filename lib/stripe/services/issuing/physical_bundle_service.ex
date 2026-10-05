@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Issuing.PhysicalBundleService do
   @moduledoc """
-  IssuingPhysicalBundle
+  Physical Bundle
 
   A Physical Bundle represents the bundle of physical items - card stock, carrier letter, and envelope - that is shipped to a cardholder when you create a physical card.
   """

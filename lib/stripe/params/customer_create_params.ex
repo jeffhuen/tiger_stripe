@@ -11,7 +11,7 @@ defmodule Stripe.Params.CustomerCreateParams do
   * `email` - Customer's email address. It's displayed alongside the customer in your dashboard and can be useful for searching and tracking. This may be up to *512 characters*. Max length: 512.
   * `expand` - Specifies which fields in the response should be expanded.
   * `individual_name` - The customer's full name. This may be up to *150 characters*.
-  * `invoice_prefix` - The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers. Max length: 5000.
+  * `invoice_prefix` - The prefix for the customer used to generate unique invoice numbers. Must be 1–12 uppercase letters or numbers. Max length: 5000.
   * `invoice_settings` - Default invoice settings for this customer.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `name` - The customer's full name or business name. Max length: 256.

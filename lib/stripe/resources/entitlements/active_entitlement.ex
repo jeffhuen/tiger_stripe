@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Entitlements.ActiveEntitlement do
   @moduledoc """
-  ActiveEntitlement
+  Active Entitlement
 
   An active entitlement describes access to a feature for a customer.
   """

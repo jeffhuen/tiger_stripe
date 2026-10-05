@@ -1,9 +1,9 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Treasury.ReceivedDebit do
   @moduledoc """
-  TreasuryReceivedDebitsResourceReceivedDebit
+  ReceivedDebit
 
-  ReceivedDebits represent funds pulled from a [FinancialAccount](https://api.stripe.com#financial_accounts). These are not initiated from the FinancialAccount.
+  ReceivedDebits represent funds pulled from a [FinancialAccount](https://docs.stripe.com/api#financial_accounts). These are not initiated from the FinancialAccount.
   """
 
   @typedoc """

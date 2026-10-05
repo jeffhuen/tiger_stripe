@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Terminal.LocationService do
   @moduledoc """
-  TerminalLocationLocation
+  Location
 
   A Location represents a grouping of readers.
 

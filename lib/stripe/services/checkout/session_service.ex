@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Checkout.SessionService do
   @moduledoc """
-  Session
+  Checkout Session
 
   A Checkout Session represents your customer's session as they pay for
   one-time purchases or subscriptions through [Checkout](https://docs.stripe.com/payments/checkout)

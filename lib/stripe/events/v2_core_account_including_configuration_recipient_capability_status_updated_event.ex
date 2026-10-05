@@ -22,6 +22,7 @@ defmodule Stripe.Events.V2CoreAccountIncludingConfigurationRecipientCapabilitySt
     :object,
     :reason,
     :related_object,
+    :snapshot_event,
     :type
   ]
 

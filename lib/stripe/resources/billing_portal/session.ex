@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.BillingPortal.Session do
   @moduledoc """
-  PortalSession
+  Customer Portal Session
 
   The Billing customer portal is a Stripe-hosted UI for subscription and
   billing management.

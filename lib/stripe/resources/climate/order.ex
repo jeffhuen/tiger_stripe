@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Climate.Order do
   @moduledoc """
-  ClimateRemovalsOrders
+  Climate order
 
   Orders represent your intent to purchase a particular Climate product. When you create an order, the
   payment is deducted from your merchant balance.

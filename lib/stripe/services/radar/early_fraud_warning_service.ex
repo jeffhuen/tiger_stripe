@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Radar.EarlyFraudWarningService do
   @moduledoc """
-  RadarEarlyFraudWarning
+  Early Fraud Warning
 
   An early fraud warning indicates that the card issuer has notified us that a
   charge may be fraudulent.

@@ -9,7 +9,7 @@ defmodule Stripe.Params.TestHelpers.Treasury.ReceivedCreditCreateParams do
   * `expand` - Specifies which fields in the response should be expanded.
   * `financial_account` - The FinancialAccount to send funds to.
   * `initiating_payment_method_details` - Initiating payment method details for the object.
-  * `network` - Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://docs.stripe.com/treasury/money-movement/timelines) to learn more about money movement timelines for each network type. Possible values: `ach`, `us_domestic_wire`.
+  * `network` - Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://docs.stripe.com/treasury/money-movement/timelines) to learn more about money movement timelines for each network type. Possible values: `ach`, `rtp`, `us_domestic_wire`.
   """
   @type t :: %__MODULE__{}
 

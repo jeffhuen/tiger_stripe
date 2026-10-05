@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Billing.MeterEventSummary do
   @moduledoc """
-  BillingMeterEventSummary
+  Billing Meter Event Summary
 
   A billing meter event summary represents an aggregated view of a customer's billing meter events within a specified timeframe. It indicates how much
   usage was accrued by a customer for that period.

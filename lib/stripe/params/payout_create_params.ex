@@ -3,7 +3,7 @@ defmodule Stripe.Params.PayoutCreateParams do
   @moduledoc "Parameters for payout create."
 
   @typedoc """
-  * `amount` - A positive integer in cents representing how much to payout.
+  * `amount` - A positive integer in cents representing how much to pay out.
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
   * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 5000.
   * `destination` - The ID of a bank account or a card to send the payout to. If you don't provide a destination, we use the default external account for the specified currency.

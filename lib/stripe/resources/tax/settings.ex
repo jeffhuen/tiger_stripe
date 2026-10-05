@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Tax.Settings do
   @moduledoc """
-  TaxProductResourceTaxSettings
+  Tax Setting
 
   You can use Tax `Settings` to manage configurations used by Stripe Tax calculations.
 
@@ -13,7 +13,7 @@ defmodule Stripe.Resources.Tax.Settings do
   * `head_office` - The place where your business is located. Nullable. Expandable.
   * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `tax.settings`.
-  * `status` - The status of the Tax `Settings`. Possible values: `active`, `pending`.
+  * `status` - Whether these settings have the information Stripe Tax needs to calculate tax. It doesn't reflect whether your integration is ready to collect tax. Possible values: `active`, `pending`.
   * `status_details` - Expandable.
   """
   @type t :: %__MODULE__{}

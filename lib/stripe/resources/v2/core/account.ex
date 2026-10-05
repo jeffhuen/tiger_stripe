@@ -280,6 +280,19 @@ defmodule Stripe.Resources.V2.Core.Account do
                          }}
                     }
                   },
+                  "blik_recurring_payments" => %{
+                    fields: %{
+                      "status" => :scalar,
+                      "status_details" =>
+                        {:list,
+                         %{
+                           fields: %{
+                             "code" => :scalar,
+                             "resolution" => :scalar
+                           }
+                         }}
+                    }
+                  },
                   "boleto_payments" => %{
                     fields: %{
                       "status" => :scalar,
@@ -644,6 +657,19 @@ defmodule Stripe.Resources.V2.Core.Account do
                          }}
                     }
                   },
+                  "satispay_payments" => %{
+                    fields: %{
+                      "status" => :scalar,
+                      "status_details" =>
+                        {:list,
+                         %{
+                           fields: %{
+                             "code" => :scalar,
+                             "resolution" => :scalar
+                           }
+                         }}
+                    }
+                  },
                   "sepa_bank_transfer_payments" => %{
                     fields: %{
                       "status" => :scalar,
@@ -658,6 +684,19 @@ defmodule Stripe.Resources.V2.Core.Account do
                     }
                   },
                   "sepa_debit_payments" => %{
+                    fields: %{
+                      "status" => :scalar,
+                      "status_details" =>
+                        {:list,
+                         %{
+                           fields: %{
+                             "code" => :scalar,
+                             "resolution" => :scalar
+                           }
+                         }}
+                    }
+                  },
+                  "sequra_payments" => %{
                     fields: %{
                       "status" => :scalar,
                       "status_details" =>

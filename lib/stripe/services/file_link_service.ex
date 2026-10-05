@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.FileLinkService do
   @moduledoc """
-  FileLink
+  File Link
 
   To share the contents of a `File` object with non-Stripe users, you can
   create a `FileLink`. `FileLink`s contain a URL that you can use to

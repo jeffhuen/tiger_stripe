@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.SourceTransactionService do
   @moduledoc """
-  SourceTransaction
+  Source Transaction
 
   Some payment methods have no required amount that a customer must send.
   Customers can be instructed to send any amount, and it can be made up of

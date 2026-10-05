@@ -19,6 +19,7 @@ defmodule Stripe.Resources.Components do
   * `notification_banner` - Expandable.
   * `payment_details` - Expandable.
   * `payment_disputes` - Expandable.
+  * `payment_method_settings` - Expandable.
   * `payments` - Expandable.
   * `payout_details` - Expandable.
   * `payout_reconciliation_report` - Expandable.
@@ -44,6 +45,7 @@ defmodule Stripe.Resources.Components do
     :notification_banner,
     :payment_details,
     :payment_disputes,
+    :payment_method_settings,
     :payments,
     :payout_details,
     :payout_reconciliation_report,
@@ -72,6 +74,7 @@ defmodule Stripe.Resources.Components do
       "notification_banner",
       "payment_details",
       "payment_disputes",
+      "payment_method_settings",
       "payments",
       "payout_details",
       "payout_reconciliation_report",
@@ -98,6 +101,7 @@ defmodule Stripe.Resources.Components do
       "notification_banner" => {:resource, Stripe.Resources.AccountConfig},
       "payment_details" => {:resource, Stripe.Resources.PaymentsConfig},
       "payment_disputes" => {:resource, Stripe.Resources.PaymentDisputesConfig},
+      "payment_method_settings" => {:resource, Stripe.Resources.PaymentMethodSettingsConfig},
       "payments" => {:resource, Stripe.Resources.PaymentsConfig},
       "payout_details" => {:resource, Stripe.Resources.BaseConfig},
       "payout_reconciliation_report" => {:resource, Stripe.Resources.BaseConfig},

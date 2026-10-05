@@ -1,9 +1,9 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Treasury.InboundTransferService do
   @moduledoc """
-  TreasuryInboundTransfersResourceInboundTransfer
+  InboundTransfer
 
-  Use [InboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://api.stripe.com#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
+  Use [InboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://docs.stripe.com/api#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
 
   Related guide: [Moving money with Treasury using InboundTransfer objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers)
   """

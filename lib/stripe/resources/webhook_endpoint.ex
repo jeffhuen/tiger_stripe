@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.WebhookEndpoint do
   @moduledoc """
-  NotificationWebhookEndpoint
+  Webhook Endpoint
 
   You can configure [webhook endpoints](https://docs.stripe.com/webhooks/) via the API to be
   notified about events that happen in your Stripe account or connected
@@ -13,7 +13,7 @@ defmodule Stripe.Resources.WebhookEndpoint do
   """
 
   @typedoc """
-  * `api_version` - The API version events are rendered as for this webhook endpoint. Max length: 5000. Nullable.
+  * `api_version` - The API version that events are rendered as for this webhook endpoint. You can't change this value after you create the endpoint. Nullable.
   * `application` - The ID of the associated Connect application. Max length: 5000. Nullable.
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `description` - An optional description of what the webhook is used for. Max length: 5000. Nullable.

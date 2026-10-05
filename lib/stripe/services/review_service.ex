@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.ReviewService do
   @moduledoc """
-  RadarReview
+  Review
 
   Reviews can be used to supplement automated fraud detection with human expertise.
 

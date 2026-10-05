@@ -112,6 +112,7 @@ defmodule Stripe.Resources.Account do
           },
           "name" => :scalar,
           "product_description" => :scalar,
+          "specified_commercial_transactions_act_url" => :scalar,
           "support_address" => {:resource, Stripe.Resources.Address},
           "support_email" => :scalar,
           "support_phone" => :scalar,
@@ -134,6 +135,7 @@ defmodule Stripe.Resources.Account do
           "billie_payments" => :scalar,
           "bizum_payments" => :scalar,
           "blik_payments" => :scalar,
+          "blik_recurring_payments" => :scalar,
           "boleto_payments" => :scalar,
           "card_issuing" => :scalar,
           "card_payments" => :scalar,
@@ -166,6 +168,7 @@ defmodule Stripe.Resources.Account do
           "pay_by_bank_payments" => :scalar,
           "payco_payments" => :scalar,
           "paynow_payments" => :scalar,
+          "paypay_payments" => :scalar,
           "payto_payments" => :scalar,
           "pix_payments" => :scalar,
           "promptpay_payments" => :scalar,
@@ -437,6 +440,29 @@ defmodule Stripe.Resources.Account do
                 }
               },
               "statement_descriptor" => :scalar
+            }
+          },
+          "paypay_payments" => %{
+            fields: %{
+              "additional_files" => {:list, :scalar},
+              "goods_type" => :scalar,
+              "site" => %{
+                fields: %{
+                  "accessible" => :scalar,
+                  "in_development" => %{
+                    fields: %{
+                      "password_provided" => :scalar,
+                      "username" => :scalar
+                    }
+                  },
+                  "restricted" => %{
+                    fields: %{
+                      "payment_flow_file" => :scalar
+                    }
+                  },
+                  "type" => :scalar
+                }
+              }
             }
           },
           "sepa_debit_payments" => %{

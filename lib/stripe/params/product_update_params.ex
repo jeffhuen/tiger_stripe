@@ -18,6 +18,7 @@ defmodule Stripe.Params.ProductUpdateParams do
   This may be up to 22 characters. The statement description may not include `, `\\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
   It must contain at least one letter. May only be set if `type=service`. Only used for subscription payments. Max length: 22.
   * `tax_code` - A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+  * `tax_details` - Tax details for this product, including the [tax code](https://stripe.com/tax/tax-codes) and an optional performance location.
   * `unit_label` - A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. May only be set if `type=service`.
   * `url` - A URL of a publicly-accessible webpage for this product.
   """
@@ -36,6 +37,7 @@ defmodule Stripe.Params.ProductUpdateParams do
     :shippable,
     :statement_descriptor,
     :tax_code,
+    :tax_details,
     :unit_label,
     :url
   ]

@@ -1,7 +1,9 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Tax.TransactionLineItemService do
   @moduledoc """
-  TaxProductResourceTaxTransactionLineItem
+  Tax Transaction Line Item
+
+  A Tax Transaction Line Item represents an individual item in a Tax Transaction.
   """
   alias Stripe.Client
 

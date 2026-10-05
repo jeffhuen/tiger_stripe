@@ -14,6 +14,7 @@ defmodule Stripe.Events.V2CommerceProductCatalogImportsSucceededEvent do
     :object,
     :reason,
     :related_object,
+    :snapshot_event,
     :type
   ]
 

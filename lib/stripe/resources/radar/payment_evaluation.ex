@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Radar.PaymentEvaluation do
   @moduledoc """
-  InsightsResourcesPaymentEvaluation
+  Payment Evaluation
 
   Payment Evaluations represent the risk lifecycle of an externally processed payment. It includes the Radar risk score from Stripe, payment outcome taken by the merchant or processor, and any post transaction events, such as refunds or disputes. See the [Radar API guide](https://stripe.com/radar/multiprocessor) for integration steps.
   """
@@ -201,6 +201,20 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
       },
       "signals" => %{
         fields: %{
+          "early_fraud_warning" => %{
+            fields: %{
+              "evaluated_at" => :scalar,
+              "risk_level" => :scalar,
+              "score" => :scalar
+            }
+          },
+          "fraudulent_dispute" => %{
+            fields: %{
+              "evaluated_at" => :scalar,
+              "risk_level" => :scalar,
+              "score" => :scalar
+            }
+          },
           "fraudulent_payment" => %{
             fields: %{
               "evaluated_at" => :scalar,

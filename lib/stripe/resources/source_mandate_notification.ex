@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.SourceMandateNotification do
   @moduledoc """
-  SourceMandateNotification
+  Source Mandate Notification
 
   Source mandate notifications should be created when a notification related to
   a source mandate must be sent to the payer. They will trigger a webhook or

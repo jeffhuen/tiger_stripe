@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.ShippingRate do
   @moduledoc """
-  ShippingRate
+  Shipping Rate
 
   Shipping rates describe the price of shipping presented to your customers and
   applied to a purchase. For more information, see [Charge for shipping](https://docs.stripe.com/payments/during-payment/charge-shipping).

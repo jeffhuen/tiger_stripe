@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.SubscriptionSchedule do
   @moduledoc """
-  SubscriptionSchedule
+  Subscription Schedule
 
   A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.
 
@@ -23,6 +23,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
   * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `subscription_schedule`.
+  * `pause_schedules` - The pause schedules for this subscription schedule. Expandable.
   * `phases` - Configuration for the subscription schedule's phases. Expandable.
   * `released_at` - Time at which the subscription schedule was released. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
   * `released_subscription` - ID of the subscription once managed by the subscription schedule (if it is released). Max length: 5000. Nullable.
@@ -47,6 +48,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     :livemode,
     :metadata,
     :object,
+    :pause_schedules,
     :phases,
     :released_at,
     :released_subscription,
@@ -65,6 +67,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       "current_phase",
       "customer",
       "default_settings",
+      "pause_schedules",
       "phases",
       "subscription",
       "test_clock"
@@ -141,6 +144,70 @@ defmodule Stripe.Resources.SubscriptionSchedule do
             fields: %{
               "amount_percent" => :scalar,
               "destination" => {:resource, Stripe.Resources.Account}
+            }
+          }
+        }
+      },
+      "pause_schedules" => %{
+        fields: %{
+          "key" => :scalar,
+          "pause" => %{
+            fields: %{
+              "pause_at" => :scalar,
+              "settings" => %{
+                fields: %{
+                  "bill_for" => %{
+                    fields: %{
+                      "outstanding_usage_through" => %{
+                        fields: %{
+                          "type" => :scalar
+                        }
+                      },
+                      "unused_time_from" => %{
+                        fields: %{
+                          "type" => :scalar
+                        }
+                      }
+                    }
+                  },
+                  "invoicing_behavior" => :scalar,
+                  "type" => :scalar
+                }
+              },
+              "status" => %{
+                fields: %{
+                  "error" => %{
+                    fields: %{
+                      "code" => :scalar,
+                      "message" => :scalar
+                    }
+                  },
+                  "type" => :scalar
+                }
+              }
+            }
+          },
+          "resume" => %{
+            fields: %{
+              "resume_at" => :scalar,
+              "settings" => %{
+                fields: %{
+                  "billing_cycle_anchor" => :scalar,
+                  "payment_behavior" => :scalar,
+                  "proration_behavior" => :scalar
+                }
+              },
+              "status" => %{
+                fields: %{
+                  "error" => %{
+                    fields: %{
+                      "code" => :scalar,
+                      "message" => :scalar
+                    }
+                  },
+                  "type" => :scalar
+                }
+              }
             }
           }
         }

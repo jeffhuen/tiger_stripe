@@ -1,9 +1,9 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Treasury.TransactionEntry do
   @moduledoc """
-  TreasuryTransactionsResourceTransactionEntry
+  TransactionEntry
 
-  TransactionEntries represent individual units of money movements within a single [Transaction](https://api.stripe.com#transactions).
+  TransactionEntries represent individual units of money movements within a single [Transaction](https://docs.stripe.com/api#transactions).
   """
 
   @typedoc """

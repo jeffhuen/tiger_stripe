@@ -1,7 +1,9 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Tax.CalculationLineItemService do
   @moduledoc """
-  TaxProductResourceTaxCalculationLineItem
+  Tax Calculation Line Item
+
+  A Tax Calculation Line Item represents a single item in a tax calculation.
   """
   alias Stripe.Client
 

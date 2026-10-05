@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Capability do
   @moduledoc """
-  AccountCapability
+  Capability
 
   This is an object representing a capability for a Stripe account.
 

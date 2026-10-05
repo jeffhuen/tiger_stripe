@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.Billing.CreditBalanceTransactionService do
   @moduledoc """
-  CreditBalanceTransaction
+  Credit Balance Transaction
 
   A credit balance transaction is a resource representing a transaction (either a credit or a debit) against an existing credit grant.
   """

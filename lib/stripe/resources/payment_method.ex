@@ -61,6 +61,7 @@ defmodule Stripe.Resources.PaymentMethod do
   * `payco` - Expandable.
   * `paynow` - Expandable.
   * `paypal` - Expandable.
+  * `paypay` - Expandable.
   * `payto` - Expandable.
   * `pix` - Expandable.
   * `promptpay` - Expandable.
@@ -75,7 +76,7 @@ defmodule Stripe.Resources.PaymentMethod do
   * `sunbit` - Expandable.
   * `swish` - Expandable.
   * `twint` - Expandable.
-  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `bizum`, `blik`, `boleto`, `card`, `card_present`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `interac_present`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `scalapay`, `sepa_debit`, `sequra`, `sofort`, `sunbit`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `bizum`, `blik`, `boleto`, `card`, `card_present`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `interac_present`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `paypay`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `scalapay`, `sepa_debit`, `sequra`, `sofort`, `sunbit`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
   * `upi` - Expandable.
   * `us_bank_account` - Expandable.
   * `wechat_pay` - Expandable.
@@ -134,6 +135,7 @@ defmodule Stripe.Resources.PaymentMethod do
     :payco,
     :paynow,
     :paypal,
+    :paypay,
     :payto,
     :pix,
     :promptpay,
@@ -203,6 +205,7 @@ defmodule Stripe.Resources.PaymentMethod do
       "payco",
       "paynow",
       "paypal",
+      "paypay",
       "payto",
       "pix",
       "promptpay",
@@ -334,7 +337,6 @@ defmodule Stripe.Resources.PaymentMethod do
                           "transaction_status_information" => :scalar
                         }
                       },
-                      "retrieval_reference_number" => :scalar,
                       "wallet" => %{
                         fields: %{
                           "type" => :scalar

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.CreditNote do
   @moduledoc """
-  CreditNote
+  Credit Note
 
   Issue a credit note to adjust an invoice's amount after the invoice is finalized.
 

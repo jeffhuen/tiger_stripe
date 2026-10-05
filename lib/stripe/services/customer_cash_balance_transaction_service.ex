@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Services.CustomerCashBalanceTransactionService do
   @moduledoc """
-  CustomerCashBalanceTransaction
+  Cash Balance Transaction
 
   Customers with certain payments enabled have a cash balance, representing funds that were paid
   by the customer to a merchant, but have not yet been allocated to a payment. Cash Balance Transactions

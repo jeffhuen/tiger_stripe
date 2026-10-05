@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Climate.Supplier do
   @moduledoc """
-  ClimateRemovalsSuppliers
+  Climate supplier
 
   A supplier of carbon removal.
   """

@@ -30,7 +30,7 @@ defmodule Stripe.Params.InvoiceCreateParams do
   * `on_behalf_of` - The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://docs.stripe.com/billing/invoices/connect) documentation for details.
   * `payment_settings` - Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
   * `pending_invoice_items_behavior` - How to handle pending invoice items on invoice creation. Defaults to `exclude` if the parameter is omitted. Possible values: `exclude`, `include`.
-  * `rendering` - The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+  * `rendering` - The rendering-related settings that control how invoices render in customer-facing interfaces such as the PDF or hosted invoice page.
   * `shipping_cost` - Settings for the cost of shipping for this invoice.
   * `shipping_details` - Shipping details for the invoice. The Invoice PDF will use the `shipping_details` value if it is set, otherwise the PDF will render the shipping address from the customer.
   * `statement_descriptor` - Extra information about a charge for the customer's credit card statement. It must contain at least one letter. If not specified and this invoice is part of a subscription, the default `statement_descriptor` will be set to the first subscription item's product's `statement_descriptor`. Max length: 22.

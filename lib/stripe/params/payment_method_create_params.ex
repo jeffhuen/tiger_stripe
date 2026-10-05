@@ -8,8 +8,8 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
   * `afterpay_clearpay` - If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
   * `alipay` - If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
   * `allow_redisplay` - This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`. Possible values: `always`, `limited`, `unspecified`.
-  * `alma` - If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
-  * `amazon_pay` - If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+  * `alma` - If this is an Alma PaymentMethod, this hash contains details about the Alma payment method.
+  * `amazon_pay` - If this is an AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
   * `au_becs_debit` - If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
   * `bacs_debit` - If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
   * `bancontact` - If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
@@ -49,6 +49,7 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
   * `payment_method` - The PaymentMethod to share. Max length: 5000.
   * `paynow` - If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
   * `paypal` - If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
+  * `paypay` - If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
   * `payto` - If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
   * `pix` - If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
   * `promptpay` - If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -63,7 +64,7 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
   * `sunbit` - If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
   * `swish` - If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
   * `twint` - If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
-  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `bizum`, `blik`, `boleto`, `card`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `scalapay`, `sepa_debit`, `sequra`, `sofort`, `sunbit`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
+  * `type` - The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Possible values: `acss_debit`, `affirm`, `afterpay_clearpay`, `alipay`, `alma`, `amazon_pay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `billie`, `bizum`, `blik`, `boleto`, `card`, `cashapp`, `crypto`, `custom`, `customer_balance`, `eps`, `fpx`, `giropay`, `grabpay`, `ideal`, `kakao_pay`, `klarna`, `konbini`, `kr_card`, `link`, `mb_way`, `mobilepay`, `multibanco`, `naver_pay`, `nz_bank_account`, `oxxo`, `p24`, `pay_by_bank`, `payco`, `paynow`, `paypal`, `paypay`, `payto`, `pix`, `promptpay`, `revolut_pay`, `samsung_pay`, `satispay`, `scalapay`, `sepa_debit`, `sequra`, `sofort`, `sunbit`, `swish`, `twint`, `upi`, `us_bank_account`, `wechat_pay`, `zip`.
   * `upi` - If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
   * `us_bank_account` - If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
   * `wechat_pay` - If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -118,6 +119,7 @@ defmodule Stripe.Params.PaymentMethodCreateParams do
     :payment_method,
     :paynow,
     :paypal,
+    :paypay,
     :payto,
     :pix,
     :promptpay,

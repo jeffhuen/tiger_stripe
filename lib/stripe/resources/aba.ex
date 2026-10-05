@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Aba do
   @moduledoc """
-  TreasuryFinancialAccountsResourceABARecord
+  ABARecord
 
   ABA Records contain U.S. bank account details per the ABA format.
   """

@@ -19,12 +19,12 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
 
   Payment methods attached to other Customers cannot be used with this PaymentIntent.
 
-  If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead. Max length: 5000.
+  If [setup_future_usage](https://docs.stripe.com/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead. Max length: 5000.
   * `customer_account` - ID of the Account representing the customer that this PaymentIntent belongs to, if one exists.
 
   Payment methods attached to other Accounts cannot be used with this PaymentIntent.
 
-  If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead. Max length: 5000.
+  If [setup_future_usage](https://docs.stripe.com/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead. Max length: 5000.
   * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 1000.
   * `error_on_requires_action` - Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. Use this parameter for simpler integrations that don't handle customer actions, such as [saving cards without authentication](https://docs.stripe.com/payments/save-card-without-authentication). This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
   * `excluded_payment_method_types` - The list of payment method types to exclude from use with this payment.
@@ -39,14 +39,13 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
   * `payment_method` - ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
 
   If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
-  If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://api.stripe.com#create_payment_intent-customer) parameter of this PaymentIntent.
+  If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://docs.stripe.com/api#create_payment_intent-customer) parameter of this PaymentIntent.
   end Max length: 5000.
   * `payment_method_configuration` - The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this PaymentIntent. Max length: 100.
   * `payment_method_data` - If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
   in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method)
   property on the PaymentIntent.
   * `payment_method_options` - Payment method-specific configuration for this PaymentIntent.
-  * `payment_method_types` - The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
   * `radar_options` - Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
   * `receipt_email` - Email address to send the receipt to. If you specify `receipt_email` for a payment in live mode, you send a receipt regardless of your [email settings](https://dashboard.stripe.com/account/emails).
   * `return_url` - The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
@@ -97,7 +96,6 @@ defmodule Stripe.Params.PaymentIntentCreateParams do
     :payment_method_configuration,
     :payment_method_data,
     :payment_method_options,
-    :payment_method_types,
     :radar_options,
     :receipt_email,
     :return_url,

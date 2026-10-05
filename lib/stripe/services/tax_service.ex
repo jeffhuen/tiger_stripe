@@ -5,6 +5,7 @@ defmodule Stripe.Services.TaxService do
     :association,
     :calculation,
     :calculation_line_item,
+    :location,
     :registration,
     :settings,
     :transaction,

@@ -87,7 +87,17 @@ defmodule Stripe.Resources.Mandate do
               "url" => :scalar
             }
           },
-          "card" => :scalar,
+          "blik" => %{
+            fields: %{
+              "expires_at" => :scalar,
+              "type" => :scalar
+            }
+          },
+          "card" => %{
+            fields: %{
+              "india" => {:resource, Stripe.Resources.India}
+            }
+          },
           "cashapp" => {:resource, Stripe.Resources.Cashapp},
           "kakao_pay" => {:resource, Stripe.Resources.KakaoPay},
           "klarna" => :scalar,

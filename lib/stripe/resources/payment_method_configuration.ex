@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.PaymentMethodConfiguration do
   @moduledoc """
-  PaymentMethodConfigResourcePaymentMethodConfiguration
+  Payment Method Configuration
 
   PaymentMethodConfigurations control which payment methods are displayed to your customers when you don't explicitly specify payment method types. You can have multiple configurations with different sets of payment methods for different scenarios.
 
@@ -70,6 +70,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   * `payco` - Expandable.
   * `paynow` - Expandable.
   * `paypal` - Expandable.
+  * `paypay` - Expandable.
   * `payto` - Expandable.
   * `pix` - Expandable.
   * `promptpay` - Expandable.
@@ -141,6 +142,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     :payco,
     :paynow,
     :paypal,
+    :paypay,
     :payto,
     :pix,
     :promptpay,
@@ -207,6 +209,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
       "payco",
       "paynow",
       "paypal",
+      "paypay",
       "payto",
       "pix",
       "promptpay",
@@ -721,6 +724,18 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
         }
       },
       "paypal" => %{
+        fields: %{
+          "available" => :scalar,
+          "display_preference" => %{
+            fields: %{
+              "overridable" => :scalar,
+              "preference" => :scalar,
+              "value" => :scalar
+            }
+          }
+        }
+      },
+      "paypay" => %{
         fields: %{
           "available" => :scalar,
           "display_preference" => %{

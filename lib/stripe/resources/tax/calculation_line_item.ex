@@ -1,7 +1,9 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Tax.CalculationLineItem do
   @moduledoc """
-  TaxProductResourceTaxCalculationLineItem
+  Tax Calculation Line Item
+
+  A Tax Calculation Line Item represents a single item in a tax calculation.
   """
 
   @typedoc """
@@ -11,6 +13,7 @@ defmodule Stripe.Resources.Tax.CalculationLineItem do
   * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `tax.calculation_line_item`.
+  * `performance_location` - Indicates the line item represents a performance where the venue location might determine the tax, not the customer address. Leave empty if the tax code doesn't require a tax location. If you provide this value for tax codes with an `optional` location requirement, it overrides the customer address. Max length: 5000. Nullable.
   * `product` - The ID of an existing [Product](https://docs.stripe.com/api/products/object). Max length: 5000. Nullable.
   * `quantity` - The number of units of the item being purchased. For reversals, this is the quantity reversed.
   * `reference` - A custom identifier for this line item. Max length: 5000.
@@ -27,6 +30,7 @@ defmodule Stripe.Resources.Tax.CalculationLineItem do
     :livemode,
     :metadata,
     :object,
+    :performance_location,
     :product,
     :quantity,
     :reference,

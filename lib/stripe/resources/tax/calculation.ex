@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Tax.Calculation do
   @moduledoc """
-  TaxProductResourceTaxCalculation
+  Tax Calculation
 
   A Tax Calculation allows you to calculate the tax to collect from your customer.
 

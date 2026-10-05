@@ -3,7 +3,7 @@ defmodule Stripe.Params.V2.Core.EventDestinationListParams do
   @moduledoc "Parameters for event destination list."
 
   @typedoc """
-  * `include` - Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
+  * `include` - Include the normally redacted `webhook_endpoint.url` in each returned destination.
   * `limit` - The page size.
   """
   @type t :: %__MODULE__{}

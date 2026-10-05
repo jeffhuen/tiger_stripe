@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Sigma.ScheduledQueryRun do
   @moduledoc """
-  ScheduledQueryRun
+  Scheduled Query
 
   If you have [scheduled a Sigma query](https://docs.stripe.com/sigma/scheduled-queries), you'll
   receive a `sigma.scheduled_query_run.created` webhook each time the query

@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.Terminal.OnboardingLink do
   @moduledoc """
-  TerminalOnboardingLinkOnboardingLink
+  Onboarding Link
 
   Returns redirect links used for onboarding onto Tap to Pay on iPhone.
   """

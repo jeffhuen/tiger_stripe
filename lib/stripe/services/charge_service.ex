@@ -5,18 +5,14 @@ defmodule Stripe.Services.ChargeService do
 
   The `Charge` object represents a single attempt to move money into your Stripe account.
   PaymentIntent confirmation is the most common way to create Charges, but [Account Debits](https://docs.stripe.com/connect/account-debits) may also create Charges.
-  Some legacy payment flows create Charges directly, which is not recommended for new integrations.
+  The create and capture methods are deprecated and will be deleted soon. If your integration uses either of them, you need to update it to use a different payment flow, such as [the Payment Intents API](https://docs.stripe.com/payments/payment-intents).
   """
   alias Stripe.Client
 
   @doc """
   Capture a charge
 
-  Capture the payment of an existing, uncaptured charge that was created with the `capture` option set to false.
-
-  Uncaptured payments expire a set number of days after they are created ([7 by default](https://docs.stripe.com/docs/charges/placing-a-hold)), after which they are marked as refunded and capture attempts will fail.
-
-  Don’t use this method to capture a PaymentIntent-initiated charge. Use [Capture a PaymentIntent](https://docs.stripe.com/docs/api/payment_intents/capture).
+  This method is deprecated and will be removed soon. If your integration uses it, you need to update it to use a different payment flow, such as [the Payment Intents API](https://docs.stripe.com/docs/payments/payment-intents).
   """
   @spec capture(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Charge.t()} | {:error, Stripe.Error.t()}
@@ -32,9 +28,7 @@ defmodule Stripe.Services.ChargeService do
   @doc """
   Create a charge
 
-  This method is no longer recommended—use the [Payment Intents API](https://docs.stripe.com/docs/api/payment_intents)
-  to initiate a new payment instead. Confirmation of the PaymentIntent creates the `Charge`
-  object used to request payment.
+  This method is deprecated and will be removed soon. If your integration uses it, you need to update it to use a different payment flow, such as [the Payment Intents API](https://docs.stripe.com/docs/payments/payment-intents).
   """
   @spec create(Client.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Charge.t()} | {:error, Stripe.Error.t()}
