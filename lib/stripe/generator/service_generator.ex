@@ -5,7 +5,11 @@ defmodule Stripe.Generator.ServiceGenerator do
   alias Stripe.Generator.Naming
 
   @file_header "# File generated from our OpenAPI spec"
-  @deep_v2_namespace_packages ["V2.Commerce.ProductCatalog"]
+  @deep_v2_namespace_packages [
+    "V2.Commerce.ProductCatalog",
+    "V2.Core.Vault",
+    "V2.MoneyManagement.TestHelpers"
+  ]
 
   @doc """
   Generate service modules from parsed spec.

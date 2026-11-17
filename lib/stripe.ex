@@ -23,7 +23,9 @@ defmodule Stripe do
   ## Supported Client Options
 
     * `:api_key` - Stripe secret key (required)
-    * `:api_version` - Pin a specific Stripe API version
+    * `:api_version` - Stripe API version sent as `Stripe-Version` (default:
+      `Stripe.ApiVersion.current/0`, the version this SDK was generated against; pass
+      `nil` to use your account's default version)
     * `:stripe_account` - Default connected account ID (Stripe Connect)
     * `:client_id` - OAuth client ID
     * `:max_retries` - Maximum retry attempts (default: 2)

@@ -177,8 +177,16 @@ defmodule Stripe.Generator.OpenAPI do
       Enum.map(resources, fn resource ->
         updated_ops =
           Enum.map(resource.operations, fn op ->
-            resolved = resolve_op_service_class(op, resource.class_name, root_segment_map)
-            package = resolve_op_service_package(op.path, resource.package)
+            {resolved, package} =
+              case v2_test_helper_service(op.path) do
+                {package, class_name} ->
+                  {class_name, package}
+
+                nil ->
+                  {resolve_op_service_class(op, resource.class_name, root_segment_map),
+                   resolve_op_service_package(op.path, resource.package)}
+              end
+
             %{op | service_class: resolved, service_package: package}
           end)
 
@@ -269,6 +277,28 @@ defmodule Stripe.Generator.OpenAPI do
           _ ->
             "TestHelpers"
         end
+    end
+  end
+
+  # V2 test helpers are split out of their resource's service by path, the same
+  # way /v1/test_helpers/ is above. Ruby mirrors the path shape:
+  #
+  #   /v2/test_helpers/<group>/...            -> V2.TestHelpers / <Group>
+  #     ruby: v2/test_helpers/money_management_service.rb
+  #   /v2/<group>/test_helpers/<resource>/... -> V2.<Group>.TestHelpers / <Resource>
+  #     ruby: v2/money_management/test_helpers/financial_address_service.rb
+  #
+  # Returns `{package, service_class}` or nil when the path is not a V2 test helper.
+  defp v2_test_helper_service(path) do
+    case String.split(path, "/", trim: true) do
+      ["v2", "test_helpers", group | _] ->
+        {"V2.TestHelpers", Macro.camelize(group)}
+
+      ["v2", group, "test_helpers", resource | _] ->
+        {"V2.#{Macro.camelize(group)}.TestHelpers", camelize_segment(resource)}
+
+      _ ->
+        nil
     end
   end
 

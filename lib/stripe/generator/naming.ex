@@ -91,7 +91,13 @@ defmodule Stripe.Generator.Naming do
 
       iex> namespace_service_module("Billing")
       Stripe.Services.BillingService
+      iex> namespace_service_module("V2.TestHelpers")
+      Stripe.Services.V2.TestHelperService
   """
+  # Ruby names the V2 test-helpers namespace singular (v2/test_helper_service.rb)
+  # while its children live under v2/test_helpers/.
+  def namespace_service_module("V2.TestHelpers"), do: Stripe.Services.V2.TestHelperService
+
   def namespace_service_module(package) do
     # For "Billing" -> Stripe.Services.BillingService
     # For "TestHelpers.Issuing" -> Stripe.Services.TestHelpers.IssuingService

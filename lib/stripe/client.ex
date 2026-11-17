@@ -48,7 +48,7 @@ defmodule Stripe.Client do
 
   defstruct [
     :api_key,
-    api_version: nil,
+    api_version: Stripe.ApiVersion.current(),
     api_base: "https://api.stripe.com",
     connect_base: "https://connect.stripe.com",
     uploads_base: "https://files.stripe.com",
@@ -71,7 +71,9 @@ defmodule Stripe.Client do
     * `:params` - Request parameters (map)
     * `:base_address` - `:api` | `:connect` | `:files` | `:meter_events` (default `:api`)
     * `:api_mode` - `:v1` | `:v2` (default `:v1`)
-    * `:api_version` - Override API version for this request
+    * `:api_version` - Override API version for this request. Defaults to the client's
+      `:api_version` (`Stripe.ApiVersion.current/0` unless set); pass `nil` to omit the
+      `Stripe-Version` header and use the account's default version
     * `:stripe_account` - Override connected account for this request
     * `:stripe_context` - Override Stripe context for this request
     * `:idempotency_key` - Idempotency key for POST/DELETE requests

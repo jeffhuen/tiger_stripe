@@ -4,6 +4,13 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
+## [Unreleased]
+
+### Changed
+
+- **Breaking:** `Stripe.Client` now sends the API version the SDK was generated against (`Stripe.ApiVersion.current/0`) as the `Stripe-Version` header by default, matching stripe-ruby. Previously no header was sent and requests used the account's default API version. Pass `api_version: nil` to the client or to a request to keep the old behavior.
+- Add the generated `Stripe.ApiVersion.current/0`, taken from the OpenAPI spec's `info.version`.
+
 ## [0.4.1] - 2026-09-22
 
 ### Changed
