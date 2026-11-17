@@ -423,9 +423,11 @@ defmodule Stripe.Resources.PaymentIntent do
               "request_overcapture" => :scalar,
               "request_three_d_secure" => :scalar,
               "require_cvc_recollection" => :scalar,
+              "setup_credential_usage" => :scalar,
               "setup_future_usage" => :scalar,
               "statement_descriptor_suffix_kana" => :scalar,
-              "statement_descriptor_suffix_kanji" => :scalar
+              "statement_descriptor_suffix_kanji" => :scalar,
+              "stored_credential_usage" => :scalar
             }
           },
           "card_present" => %{

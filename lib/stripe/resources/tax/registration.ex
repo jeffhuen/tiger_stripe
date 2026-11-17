@@ -154,6 +154,11 @@ defmodule Stripe.Resources.Tax.Registration do
               "type" => :scalar
             }
           },
+          "bw" => %{
+            fields: %{
+              "type" => :scalar
+            }
+          },
           "by" => %{
             fields: %{
               "type" => :scalar
@@ -181,6 +186,11 @@ defmodule Stripe.Resources.Tax.Registration do
                   "place_of_supply_scheme" => :scalar
                 }
               },
+              "type" => :scalar
+            }
+          },
+          "ci" => %{
+            fields: %{
               "type" => :scalar
             }
           },
@@ -315,6 +325,11 @@ defmodule Stripe.Resources.Tax.Registration do
             }
           },
           "ge" => %{
+            fields: %{
+              "type" => :scalar
+            }
+          },
+          "gh" => %{
             fields: %{
               "type" => :scalar
             }
@@ -496,6 +511,11 @@ defmodule Stripe.Resources.Tax.Registration do
                   "place_of_supply_scheme" => :scalar
                 }
               },
+              "type" => :scalar
+            }
+          },
+          "mu" => %{
+            fields: %{
               "type" => :scalar
             }
           },
@@ -769,7 +789,12 @@ defmodule Stripe.Resources.Tax.Registration do
                   "jurisdiction" => :scalar
                 }
               },
-              "type" => :scalar
+              "type" => :scalar,
+              "utility_users_tax" => %{
+                fields: %{
+                  "jurisdiction" => :scalar
+                }
+              }
             }
           },
           "uy" => %{

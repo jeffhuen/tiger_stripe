@@ -19,9 +19,19 @@ defmodule Stripe.Params.Checkout.SessionUpdateParams do
 
   To reorder a line item, specify it at the desired position in the retransmitted array.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+  * `payment_intent_data` - A subset of parameters to apply to the PaymentIntent for Checkout Sessions in `payment` mode.
+
+  You can only update these parameters when `ui_mode` is `elements` and while the session is active. If the PaymentIntent requires customer action or confirmation, updating these parameters abandons the current payment attempt and returns the PaymentIntent to `requires_payment_method`. You can't update these parameters after the PaymentIntent begins processing, requires capture, succeeds, or is canceled.
   * `shipping_options` - The shipping rate options to apply to this Session. Up to a maximum of 5.
   """
   @type t :: %__MODULE__{}
 
-  defstruct [:collected_information, :expand, :line_items, :metadata, :shipping_options]
+  defstruct [
+    :collected_information,
+    :expand,
+    :line_items,
+    :metadata,
+    :payment_intent_data,
+    :shipping_options
+  ]
 end

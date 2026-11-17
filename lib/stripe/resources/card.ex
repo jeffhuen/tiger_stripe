@@ -7,11 +7,13 @@ defmodule Stripe.Resources.Card do
   later. You can also store multiple debit cards on a recipient in order to
   transfer to those cards later.
 
+  This API is deprecated. Use the [PaymentMethods API](https://docs.stripe.com/api/payment_methods) instead.
+
   Related guide: [Card payments with Sources](https://docs.stripe.com/sources/cards)
   """
 
   @typedoc """
-  * `account` - Nullable. Expandable.
+  * `account` - The account this card belongs to. Only applicable on Accounts (not customers or recipients) This property is only available when returned as an [External Account](https://docs.stripe.com/api/external_account_cards/object) where [controller.is_controller](https://docs.stripe.com/api/accounts/object#account_object-controller-is_controller) is `true`. Nullable. Expandable.
   * `address_city` - City/District/Suburb/Town/Village. Max length: 5000. Nullable.
   * `address_country` - Billing address country, if provided when creating card. Max length: 5000. Nullable.
   * `address_line1` - Address line 1 (Street address/PO Box/Company name). Max length: 5000. Nullable.

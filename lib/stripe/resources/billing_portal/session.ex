@@ -20,6 +20,7 @@ defmodule Stripe.Resources.BillingPortal.Session do
   """
 
   @typedoc """
+  * `after_expiration` - Behavior after the portal session expires. Nullable. Expandable.
   * `configuration` - The configuration used by this session, describing the features available. Expandable.
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `customer` - The ID of the customer for this session. Max length: 5000.
@@ -36,6 +37,7 @@ defmodule Stripe.Resources.BillingPortal.Session do
   @type t :: %__MODULE__{}
 
   defstruct [
+    :after_expiration,
     :configuration,
     :created,
     :customer,
@@ -53,10 +55,20 @@ defmodule Stripe.Resources.BillingPortal.Session do
   @object_name "billing_portal.session"
   def object_name, do: @object_name
 
-  def expandable_fields, do: ["configuration", "flow"]
+  def expandable_fields, do: ["after_expiration", "configuration", "flow"]
 
   def __nested_fields__ do
     %{
+      "after_expiration" => %{
+        fields: %{
+          "customer_login" => %{
+            fields: %{
+              "expires_at" => :scalar
+            }
+          },
+          "type" => :scalar
+        }
+      },
       "flow" => %{
         fields: %{
           "after_completion" => %{
@@ -87,6 +99,11 @@ defmodule Stripe.Resources.BillingPortal.Session do
                   "type" => :scalar
                 }
               },
+              "subscription" => :scalar
+            }
+          },
+          "subscription_pause" => %{
+            fields: %{
               "subscription" => :scalar
             }
           },

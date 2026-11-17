@@ -319,6 +319,7 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
                 }
               },
               "network_transaction_id" => :scalar,
+              "stored_credential_usage" => :scalar,
               "three_d_secure" => %{
                 fields: %{
                   "authentication_flow" => :scalar,

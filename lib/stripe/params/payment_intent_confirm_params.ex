@@ -18,7 +18,7 @@ defmodule Stripe.Params.PaymentIntentConfirmParams do
   * `mandate_data`
   * `off_session` - Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect payment method details and [charge them later](https://docs.stripe.com/payments/save-during-payment).
   * `payment_details` - Provides industry-specific information about the charge.
-  * `payment_method` - ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
+  * `payment_method` - The ID of a PaymentMethod to attach to this PaymentIntent.
   If the payment method is attached to a Customer, it must match the [customer](https://docs.stripe.com/api#create_payment_intent-customer) that is set on this PaymentIntent. Max length: 5000.
   * `payment_method_data` - If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
   in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method)

@@ -392,6 +392,8 @@ defmodule Stripe.Resources.Charge do
                 }
               },
               "regulated_status" => :scalar,
+              "setup_credential_usage" => :scalar,
+              "stored_credential_usage" => :scalar,
               "three_d_secure" => %{
                 fields: %{
                   "authentication_flow" => :scalar,

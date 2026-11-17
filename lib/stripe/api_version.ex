@@ -7,7 +7,7 @@ defmodule Stripe.ApiVersion do
   request sets `:api_version`.
   """
 
-  @current "2026-09-30.endive"
+  @current "2026-10-28.endive"
 
   @doc "Returns the API version the generated resources and params describe."
   @spec current() :: String.t()

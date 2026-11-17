@@ -6,9 +6,9 @@ defmodule Stripe.Services.TestHelpers.CustomerService do
   alias Stripe.Client
 
   @doc """
-  Fund a test mode cash balance
+  Fund a cash balance in sandbox
 
-  Create an incoming testmode bank transfer
+  Create a test incoming bank transfer
   """
   @spec fund_cash_balance(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.CustomerCashBalanceTransaction.t()} | {:error, Stripe.Error.t()}

@@ -190,6 +190,7 @@ defmodule Stripe.Resources.Account do
           "upi_payments" => :scalar,
           "us_bank_account_ach_payments" => :scalar,
           "us_bank_transfer_payments" => :scalar,
+          "wero_payments" => :scalar,
           "zip_payments" => :scalar
         }
       },
@@ -243,6 +244,7 @@ defmodule Stripe.Resources.Account do
           },
           "ownership_exemption_reason" => :scalar,
           "phone" => :scalar,
+          "physical_address" => {:resource, Stripe.Resources.Address},
           "principal_place_of_business" => {:resource, Stripe.Resources.Address},
           "registration_date" => %{
             fields: %{

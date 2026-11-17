@@ -25,7 +25,7 @@ defmodule Stripe.Resources.Payout do
   * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 5000. Nullable.
   * `destination` - ID of the bank account or card the payout is sent to. Nullable. Expandable.
   * `failure_balance_transaction` - If the payout fails or cancels, this is the ID of the balance transaction that reverses the initial balance transaction and returns the funds from the failed payout back in your balance. Nullable. Expandable.
-  * `failure_code` - Error code that provides a reason for a payout failure, if available. View our [list of failure codes](https://docs.stripe.com/api#payout_failures). Max length: 5000. Nullable.
+  * `failure_code` - Error code that provides a reason for a payout failure, if available. Max length: 5000. Nullable.
   * `failure_message` - Message that provides the reason for a payout failure, if available. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.

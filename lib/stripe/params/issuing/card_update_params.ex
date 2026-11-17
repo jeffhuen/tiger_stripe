@@ -5,6 +5,7 @@ defmodule Stripe.Params.Issuing.CardUpdateParams do
   @typedoc """
   * `cancellation_reason` - Reason why the `status` of this card is `canceled`. Possible values: `lost`, `stolen`.
   * `expand` - Specifies which fields in the response should be expanded.
+  * `financial_account` - The new financial account ID the card will be associated with. This field allows a card to be reassigned to a different financial account.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `personalization_design` - Max length: 5000.
   * `pin` - The desired new PIN for this card.
@@ -17,6 +18,7 @@ defmodule Stripe.Params.Issuing.CardUpdateParams do
   defstruct [
     :cancellation_reason,
     :expand,
+    :financial_account,
     :metadata,
     :personalization_design,
     :pin,

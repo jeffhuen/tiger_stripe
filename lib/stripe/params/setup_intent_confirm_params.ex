@@ -9,7 +9,7 @@ defmodule Stripe.Params.SetupIntentConfirmParams do
   If the provided ConfirmationToken contains properties that are also being provided in this request, such as `payment_method`, then the values in this request will take precedence. Max length: 5000.
   * `expand` - Specifies which fields in the response should be expanded.
   * `mandate_data`
-  * `payment_method` - ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent. Max length: 5000.
+  * `payment_method` - The ID of a PaymentMethod to attach to this SetupIntent. Max length: 5000.
   * `payment_method_data` - When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-payment_method)
   value in the SetupIntent.
   * `payment_method_options` - Payment method-specific configuration for this SetupIntent.

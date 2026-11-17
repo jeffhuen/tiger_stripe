@@ -117,11 +117,13 @@ defmodule Stripe.Resources.Issuing.Card do
               "eori_number" => :scalar
             }
           },
+          "delivered_at" => :scalar,
           "eta" => :scalar,
           "name" => :scalar,
           "phone_number" => :scalar,
           "require_signature" => :scalar,
           "service" => :scalar,
+          "shipped_at" => :scalar,
           "status" => :scalar,
           "tracking_number" => :scalar,
           "tracking_url" => :scalar,

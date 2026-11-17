@@ -25,7 +25,7 @@ defmodule Stripe.Params.PaymentIntentUpdateParams do
   * `hooks` - Automations to be run during the PaymentIntent lifecycle
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `payment_details` - Provides industry-specific information about the charge.
-  * `payment_method` - ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent. To unset this field to null, pass in an empty string. Max length: 5000.
+  * `payment_method` - The ID of a PaymentMethod to attach to this PaymentIntent. To unset this field to null, pass in an empty string. Max length: 5000.
   * `payment_method_configuration` - The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this PaymentIntent. Max length: 100.
   * `payment_method_data` - If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
   in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method)

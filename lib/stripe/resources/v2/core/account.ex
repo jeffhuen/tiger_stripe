@@ -872,6 +872,114 @@ defmodule Stripe.Resources.V2.Core.Account do
               "applied" => :scalar,
               "capabilities" => %{
                 fields: %{
+                  "bank_accounts" => %{
+                    fields: %{
+                      "ach" => %{
+                        fields: %{
+                          "status" => :scalar,
+                          "status_details" =>
+                            {:list,
+                             %{
+                               fields: %{
+                                 "code" => :scalar,
+                                 "resolution" => :scalar
+                               }
+                             }}
+                        }
+                      },
+                      "fedwire" => %{
+                        fields: %{
+                          "status" => :scalar,
+                          "status_details" =>
+                            {:list,
+                             %{
+                               fields: %{
+                                 "code" => :scalar,
+                                 "resolution" => :scalar
+                               }
+                             }}
+                        }
+                      },
+                      "fps" => %{
+                        fields: %{
+                          "status" => :scalar,
+                          "status_details" =>
+                            {:list,
+                             %{
+                               fields: %{
+                                 "code" => :scalar,
+                                 "resolution" => :scalar
+                               }
+                             }}
+                        }
+                      },
+                      "local" => %{
+                        fields: %{
+                          "status" => :scalar,
+                          "status_details" =>
+                            {:list,
+                             %{
+                               fields: %{
+                                 "code" => :scalar,
+                                 "resolution" => :scalar
+                               }
+                             }}
+                        }
+                      },
+                      "rtp" => %{
+                        fields: %{
+                          "status" => :scalar,
+                          "status_details" =>
+                            {:list,
+                             %{
+                               fields: %{
+                                 "code" => :scalar,
+                                 "resolution" => :scalar
+                               }
+                             }}
+                        }
+                      },
+                      "sepa" => %{
+                        fields: %{
+                          "status" => :scalar,
+                          "status_details" =>
+                            {:list,
+                             %{
+                               fields: %{
+                                 "code" => :scalar,
+                                 "resolution" => :scalar
+                               }
+                             }}
+                        }
+                      },
+                      "swift" => %{
+                        fields: %{
+                          "status" => :scalar,
+                          "status_details" =>
+                            {:list,
+                             %{
+                               fields: %{
+                                 "code" => :scalar,
+                                 "resolution" => :scalar
+                               }
+                             }}
+                        }
+                      }
+                    }
+                  },
+                  "cards" => %{
+                    fields: %{
+                      "status" => :scalar,
+                      "status_details" =>
+                        {:list,
+                         %{
+                           fields: %{
+                             "code" => :scalar,
+                             "resolution" => :scalar
+                           }
+                         }}
+                    }
+                  },
                   "stripe_balance" => %{
                     fields: %{
                       "payouts" => %{
@@ -912,6 +1020,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         fields: %{
           "currency" => :scalar,
           "locales" => {:list, :scalar},
+          "payout_methods" => {:map, :scalar},
           "profile" => %{
             fields: %{
               "business_url" => :scalar,
@@ -930,6 +1039,55 @@ defmodule Stripe.Resources.V2.Core.Account do
       },
       "future_requirements" => %{
         fields: %{
+          "alternatives" =>
+            {:list,
+             %{
+               fields: %{
+                 "options" =>
+                   {:list,
+                    %{
+                      fields: %{
+                        "entries" =>
+                          {:list,
+                           %{
+                             fields: %{
+                               "awaiting_action_from" => :scalar,
+                               "description" => :scalar,
+                               "errors" =>
+                                 {:list,
+                                  %{
+                                    fields: %{
+                                      "code" => :scalar,
+                                      "description" => :scalar
+                                    }
+                                  }},
+                               "reference" => %{
+                                 fields: %{
+                                   "inquiry" => :scalar,
+                                   "resource" => :scalar,
+                                   "type" => :scalar
+                                 }
+                               }
+                             }
+                           }}
+                      }
+                    }},
+                 "original_entries" =>
+                   {:list,
+                    %{
+                      fields: %{
+                        "description" => :scalar,
+                        "reference" => %{
+                          fields: %{
+                            "inquiry" => :scalar,
+                            "resource" => :scalar,
+                            "type" => :scalar
+                          }
+                        }
+                      }
+                    }}
+               }
+             }},
           "entries" =>
             {:list,
              %{
@@ -1410,6 +1568,55 @@ defmodule Stripe.Resources.V2.Core.Account do
       },
       "requirements" => %{
         fields: %{
+          "alternatives" =>
+            {:list,
+             %{
+               fields: %{
+                 "options" =>
+                   {:list,
+                    %{
+                      fields: %{
+                        "entries" =>
+                          {:list,
+                           %{
+                             fields: %{
+                               "awaiting_action_from" => :scalar,
+                               "description" => :scalar,
+                               "errors" =>
+                                 {:list,
+                                  %{
+                                    fields: %{
+                                      "code" => :scalar,
+                                      "description" => :scalar
+                                    }
+                                  }},
+                               "reference" => %{
+                                 fields: %{
+                                   "inquiry" => :scalar,
+                                   "resource" => :scalar,
+                                   "type" => :scalar
+                                 }
+                               }
+                             }
+                           }}
+                      }
+                    }},
+                 "original_entries" =>
+                   {:list,
+                    %{
+                      fields: %{
+                        "description" => :scalar,
+                        "reference" => %{
+                          fields: %{
+                            "inquiry" => :scalar,
+                            "resource" => :scalar,
+                            "type" => :scalar
+                          }
+                        }
+                      }
+                    }}
+               }
+             }},
           "entries" =>
             {:list,
              %{
