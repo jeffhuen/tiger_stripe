@@ -19,8 +19,8 @@ documentation. The **client layer** handles HTTP execution via Finch with
 connection pooling, automatic retries, request encoding, response
 deserialization, and telemetry.
 
-Together, the full V1 + V2 API surface is covered: 194 service modules,
-324 typed resource structs, 532 documented params modules, webhook signature
+Together, the full V1 + V2 API surface is covered: 221 service modules,
+347 typed resource structs, 581 documented params modules, webhook signature
 verification, OAuth, file uploads, streaming responses, and per-event typed
 modules.
 
@@ -108,7 +108,7 @@ Add `tiger_stripe` to your dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:tiger_stripe, "~> 0.4.0"}
+    {:tiger_stripe, "~> 0.5.0"}
   ]
 end
 ```
@@ -253,13 +253,13 @@ bash scripts/diff_ruby.sh
 ### Code Generation
 
 The SDK is auto-generated from Stripe's unified OpenAPI spec (`spec3.sdk.json`)
-via `mix stripe.generate`. The generator produces 1,078 files:
+via `mix stripe.generate`. The generator produces 1,480 files:
 
-- **194 service modules** (193 generated + 1 hand-written `OAuthService`)
-- **324 resource structs** with shallow `@type t`, expandable fields, and nested cast metadata
-- **532 params modules** with shallow `@type t` and `@typedoc` field annotations
-- **2 registries** (object types and event types)
-- **26 event files** (per-event typed modules, constants, and unknown fallback)
+- **221 service modules** (220 generated + 1 hand-written `OAuthService`)
+- **347 resource structs** with shallow `@type t`, expandable fields, and nested cast metadata
+- **581 params modules** with shallow `@type t` and `@typedoc` field annotations
+- **3 registries** (object types, event types, and the API version)
+- **328 event files** (per-event typed modules, constants, and unknown fallback)
 
 A small set of [overrides](lib/stripe/generator/overrides.ex) handle
 cases where the spec's metadata doesn't match the Ruby SDK's service layout.
