@@ -9,7 +9,7 @@ defmodule Stripe.Params.AccountPersonUpdateParams do
   * `address_kanji` - The Kanji variation of the person's address (Japan only).
   * `dob` - The person's date of birth.
   * `documents` - Documents that may be submitted to satisfy various informational requests.
-  * `email` - The person's email address.
+  * `email` - The person's email address. Max length: 800.
   * `expand` - Specifies which fields in the response should be expanded.
   * `first_name` - The person's first name. Max length: 5000.
   * `first_name_kana` - The Kana variation of the person's first name (Japan only). Max length: 5000.

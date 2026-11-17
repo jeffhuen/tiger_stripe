@@ -3,7 +3,7 @@ defmodule Stripe.Params.V2.Core.Accounts.PersonListParams do
   @moduledoc "Parameters for person list."
 
   @typedoc """
-  * `limit` - The upper limit on the number of accounts returned by the List Account request.
+  * `limit` - The maximum number of items returned by the list request.
   """
   @type t :: %__MODULE__{}
 

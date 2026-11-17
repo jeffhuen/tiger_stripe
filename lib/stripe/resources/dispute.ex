@@ -20,6 +20,7 @@ defmodule Stripe.Resources.Dispute do
   * `evidence` - Expandable.
   * `evidence_details` - Expandable.
   * `id` - Unique identifier for the object. Max length: 5000.
+  * `intended_submission_method` - Intended submission method for the dispute. Possible values: `manual`, `prefer_manual`, `prefer_smart_disputes`, `smart_disputes`. Nullable.
   * `is_charge_refundable` - If true, it's still possible to refund the disputed payment. After the payment has been fully refunded, no further funds are withdrawn from your Stripe account as a result of this dispute.
   * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -28,7 +29,7 @@ defmodule Stripe.Resources.Dispute do
   * `payment_intent` - ID of the PaymentIntent that's disputed. Nullable. Expandable.
   * `payment_method_details` - Expandable.
   * `reason` - Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `noncompliant`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://docs.stripe.com/disputes/categories). Max length: 5000.
-  * `status` - The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, `lost`, or `prevented`. Possible values: `lost`, `needs_response`, `prevented`, `under_review`, `warning_closed`, `warning_needs_response`, `warning_under_review`, `won`.
+  * `status` - The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `appeal_needs_response`, `appeal_under_review`, `won`, `lost`, or `prevented`. Possible values: `appeal_needs_response`, `appeal_under_review`, `lost`, `needs_response`, `prevented`, `under_review`, `warning_closed`, `warning_needs_response`, `warning_under_review`, `won`.
   """
   @type t :: %__MODULE__{}
 
@@ -42,6 +43,7 @@ defmodule Stripe.Resources.Dispute do
     :evidence,
     :evidence_details,
     :id,
+    :intended_submission_method,
     :is_charge_refundable,
     :livemode,
     :metadata,
@@ -71,6 +73,16 @@ defmodule Stripe.Resources.Dispute do
       "evidence" => %{
         fields: %{
           "access_activity_log" => :scalar,
+          "appeal" => %{
+            fields: %{
+              "card" => %{
+                fields: %{
+                  "reason_for_filing" => :scalar,
+                  "supporting_files" => {:list, :scalar}
+                }
+              }
+            }
+          },
           "billing_address" => :scalar,
           "cancellation_policy" => {:resource, Stripe.Resources.File},
           "cancellation_policy_disclosure" => :scalar,
@@ -186,7 +198,8 @@ defmodule Stripe.Resources.Dispute do
           },
           "has_evidence" => :scalar,
           "past_due" => :scalar,
-          "submission_count" => :scalar
+          "submission_count" => :scalar,
+          "submission_method" => :scalar
         }
       },
       "payment_method_details" => %{

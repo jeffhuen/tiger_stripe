@@ -5,7 +5,7 @@ defmodule Stripe.Params.Issuing.CardholderCreateParams do
   @typedoc """
   * `billing` - The cardholder's billing address.
   * `company` - Additional information about a `company` cardholder.
-  * `email` - The cardholder's email address.
+  * `email` - The cardholder's email address. Max length: 800.
   * `expand` - Specifies which fields in the response should be expanded.
   * `individual` - Additional information about an `individual` cardholder.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.

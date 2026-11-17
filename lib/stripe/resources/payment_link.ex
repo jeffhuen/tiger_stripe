@@ -345,6 +345,17 @@ defmodule Stripe.Resources.PaymentLink do
           "description" => :scalar,
           "invoice_settings" => %{
             fields: %{
+              "account_tax_ids" => {:list, {:resource, Stripe.Resources.TaxId}},
+              "custom_fields" =>
+                {:list,
+                 %{
+                   fields: %{
+                     "name" => :scalar,
+                     "value" => :scalar
+                   }
+                 }},
+              "description" => :scalar,
+              "footer" => :scalar,
               "issuer" => %{
                 fields: %{
                   "account" => {:resource, Stripe.Resources.Account},

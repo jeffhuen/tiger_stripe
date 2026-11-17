@@ -25,8 +25,11 @@ defmodule Stripe.Resources.Components do
   * `payout_reconciliation_report` - Expandable.
   * `payouts` - Expandable.
   * `payouts_list` - Expandable.
+  * `reporting_chart` - Expandable.
   * `tax_registrations` - Expandable.
   * `tax_settings` - Expandable.
+  * `terminal_hardware_orders` - Expandable.
+  * `terminal_hardware_shop` - Expandable.
   """
   @type t :: %__MODULE__{}
 
@@ -51,8 +54,11 @@ defmodule Stripe.Resources.Components do
     :payout_reconciliation_report,
     :payouts,
     :payouts_list,
+    :reporting_chart,
     :tax_registrations,
-    :tax_settings
+    :tax_settings,
+    :terminal_hardware_orders,
+    :terminal_hardware_shop
   ]
 
   @object_name "connect_embedded_account_session_create_components"
@@ -80,8 +86,11 @@ defmodule Stripe.Resources.Components do
       "payout_reconciliation_report",
       "payouts",
       "payouts_list",
+      "reporting_chart",
       "tax_registrations",
-      "tax_settings"
+      "tax_settings",
+      "terminal_hardware_orders",
+      "terminal_hardware_shop"
     ]
 
   def __nested_fields__ do
@@ -107,8 +116,11 @@ defmodule Stripe.Resources.Components do
       "payout_reconciliation_report" => {:resource, Stripe.Resources.BaseConfig},
       "payouts" => {:resource, Stripe.Resources.PayoutsConfig},
       "payouts_list" => {:resource, Stripe.Resources.BaseConfig},
+      "reporting_chart" => {:resource, Stripe.Resources.BaseConfig},
       "tax_registrations" => {:resource, Stripe.Resources.BaseConfig},
-      "tax_settings" => {:resource, Stripe.Resources.BaseConfig}
+      "tax_settings" => {:resource, Stripe.Resources.BaseConfig},
+      "terminal_hardware_orders" => {:resource, Stripe.Resources.BaseConfig},
+      "terminal_hardware_shop" => {:resource, Stripe.Resources.BaseConfig}
     }
   end
 end

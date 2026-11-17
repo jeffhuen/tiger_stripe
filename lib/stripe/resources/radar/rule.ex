@@ -13,6 +13,6 @@ defmodule Stripe.Resources.Radar.Rule do
 
   defstruct [:action, :id, :predicate]
 
-  @object_name "rule"
+  @object_name "radar.rule"
   def object_name, do: @object_name
 end

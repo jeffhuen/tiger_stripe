@@ -8,7 +8,7 @@ defmodule Stripe.Params.RefundCreateParams do
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
   * `customer` - Customer whose customer balance to refund from. Max length: 5000.
   * `expand` - Specifies which fields in the response should be expanded.
-  * `instructions_email` - For payment methods without native refund support (e.g., Konbini, PromptPay), use this email from the customer to receive refund instructions.
+  * `instructions_email` - For payment methods without native refund support (e.g., Konbini, PromptPay), use this email from the customer to receive refund instructions. Max length: 800.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
   * `origin` - Origin of the refund Possible values: `customer_balance`.
   * `payment_intent` - The identifier of the PaymentIntent to refund. Max length: 5000.

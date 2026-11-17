@@ -266,6 +266,20 @@ defmodule Stripe.EventTypes do
       "test_helpers.test_clock.internal_failure" =>
         "#/components/schemas/test_helpers.test_clock",
       "test_helpers.test_clock.ready" => "#/components/schemas/test_helpers.test_clock",
+      "three_d_secure.authentication.canceled" =>
+        "#/components/schemas/three_d_secure.authentication",
+      "three_d_secure.authentication.challenge_started" =>
+        "#/components/schemas/three_d_secure.authentication",
+      "three_d_secure.authentication.errored" =>
+        "#/components/schemas/three_d_secure.authentication",
+      "three_d_secure.authentication.failed" =>
+        "#/components/schemas/three_d_secure.authentication",
+      "three_d_secure.authentication.requires_challenge" =>
+        "#/components/schemas/three_d_secure.authentication",
+      "three_d_secure.authentication.requires_submission" =>
+        "#/components/schemas/three_d_secure.authentication",
+      "three_d_secure.authentication.succeeded" =>
+        "#/components/schemas/three_d_secure.authentication",
       "topup.canceled" => "#/components/schemas/topup",
       "topup.created" => "#/components/schemas/topup",
       "topup.failed" => "#/components/schemas/topup",
@@ -370,32 +384,58 @@ defmodule Stripe.EventTypes do
       "v1.customer.deleted" => nil,
       "v1.customer.discount.created" => nil,
       "v1.customer.discount.deleted" => nil,
+      "v1.customer.discount.source_changed" => nil,
       "v1.customer.discount.updated" => nil,
+      "v1.customer.subscription.active" => nil,
+      "v1.customer.subscription.cancel_at_changed" => nil,
       "v1.customer.subscription.created" => nil,
+      "v1.customer.subscription.default_payment_method_changed" => nil,
       "v1.customer.subscription.deleted" => nil,
+      "v1.customer.subscription.incomplete" => nil,
+      "v1.customer.subscription.incomplete_expired" => nil,
+      "v1.customer.subscription.item_added" => nil,
+      "v1.customer.subscription.item_price_changed" => nil,
+      "v1.customer.subscription.item_quantity_changed" => nil,
+      "v1.customer.subscription.item_removed" => nil,
+      "v1.customer.subscription.item_tax_rates_changed" => nil,
+      "v1.customer.subscription.past_due" => nil,
       "v1.customer.subscription.paused" => nil,
       "v1.customer.subscription.pending_update_applied" => nil,
       "v1.customer.subscription.pending_update_expired" => nil,
       "v1.customer.subscription.resumed" => nil,
       "v1.customer.subscription.trial_will_end" => nil,
+      "v1.customer.subscription.trialing" => nil,
+      "v1.customer.subscription.unpaid" => nil,
       "v1.customer.subscription.updated" => nil,
       "v1.customer.tax_id.created" => nil,
       "v1.customer.tax_id.deleted" => nil,
       "v1.customer.tax_id.updated" => nil,
       "v1.customer.updated" => nil,
       "v1.customer_cash_balance_transaction.created" => nil,
+      "v1.entitlements.active_entitlement_summary.entitlement_added" => nil,
+      "v1.entitlements.active_entitlement_summary.entitlement_removed" => nil,
       "v1.entitlements.active_entitlement_summary.updated" => nil,
       "v1.file.created" => nil,
       "v1.financial_connections.account.account_numbers_updated" => nil,
+      "v1.financial_connections.account.balance_refresh_failed" => nil,
+      "v1.financial_connections.account.balance_refresh_succeeded" => nil,
       "v1.financial_connections.account.created" => nil,
       "v1.financial_connections.account.deactivated" => nil,
       "v1.financial_connections.account.disconnected" => nil,
       "v1.financial_connections.account.expected_deactivation_date_updated" => nil,
+      "v1.financial_connections.account.inferred_balances_refresh_failed" => nil,
+      "v1.financial_connections.account.inferred_balances_refresh_succeeded" => nil,
+      "v1.financial_connections.account.ownership_refresh_failed" => nil,
+      "v1.financial_connections.account.ownership_refresh_succeeded" => nil,
       "v1.financial_connections.account.reactivated" => nil,
       "v1.financial_connections.account.refreshed_balance" => nil,
       "v1.financial_connections.account.refreshed_ownership" => nil,
       "v1.financial_connections.account.refreshed_transactions" => nil,
+      "v1.financial_connections.account.risk_intelligence_refresh_failed" => nil,
+      "v1.financial_connections.account.risk_intelligence_refresh_succeeded" => nil,
       "v1.financial_connections.account.supported_payment_method_types_updated" => nil,
+      "v1.financial_connections.account.transactions_refresh_failed" => nil,
+      "v1.financial_connections.account.transactions_refresh_succeeded" => nil,
       "v1.financial_connections.account.upcoming_account_number_expiry" => nil,
       "v1.financial_connections.account.upcoming_deactivation" => nil,
       "v1.identity.verification_session.canceled" => nil,
@@ -406,8 +446,14 @@ defmodule Stripe.EventTypes do
       "v1.identity.verification_session.verified" => nil,
       "v1.invoice.created" => nil,
       "v1.invoice.deleted" => nil,
+      "v1.invoice.discount_added" => nil,
+      "v1.invoice.discount_removed" => nil,
       "v1.invoice.finalization_failed" => nil,
       "v1.invoice.finalized" => nil,
+      "v1.invoice.line_item_added" => nil,
+      "v1.invoice.line_item_pricing_changed" => nil,
+      "v1.invoice.line_item_quantity_changed" => nil,
+      "v1.invoice.line_item_removed" => nil,
       "v1.invoice.marked_uncollectible" => nil,
       "v1.invoice.overdue" => nil,
       "v1.invoice.overpaid" => nil,
@@ -421,9 +467,14 @@ defmodule Stripe.EventTypes do
       "v1.invoice.updated" => nil,
       "v1.invoice.voided" => nil,
       "v1.invoice.will_be_due" => nil,
+      "v1.invoice_payment.canceled" => nil,
+      "v1.invoice_payment.open" => nil,
       "v1.invoice_payment.paid" => nil,
+      "v1.invoiceitem.amount_changed" => nil,
       "v1.invoiceitem.created" => nil,
       "v1.invoiceitem.deleted" => nil,
+      "v1.invoiceitem.discount_added" => nil,
+      "v1.invoiceitem.discount_removed" => nil,
       "v1.issuing_authorization.created" => nil,
       "v1.issuing_authorization.request" => nil,
       "v1.issuing_authorization.updated" => nil,
@@ -473,13 +524,22 @@ defmodule Stripe.EventTypes do
       "v1.plan.created" => nil,
       "v1.plan.deleted" => nil,
       "v1.plan.updated" => nil,
+      "v1.price.activated" => nil,
       "v1.price.created" => nil,
+      "v1.price.deactivated" => nil,
       "v1.price.deleted" => nil,
+      "v1.price.lookup_key_changed" => nil,
+      "v1.price.tax_behavior_changed" => nil,
       "v1.price.updated" => nil,
+      "v1.product.activated" => nil,
       "v1.product.created" => nil,
+      "v1.product.deactivated" => nil,
+      "v1.product.default_price_changed" => nil,
       "v1.product.deleted" => nil,
+      "v1.product.tax_code_changed" => nil,
       "v1.product.updated" => nil,
       "v1.promotion_code.created" => nil,
+      "v1.promotion_code.fully_redeemed" => nil,
       "v1.promotion_code.updated" => nil,
       "v1.quote.accepted" => nil,
       "v1.quote.canceled" => nil,
@@ -507,6 +567,11 @@ defmodule Stripe.EventTypes do
       "v1.subscription_schedule.completed" => nil,
       "v1.subscription_schedule.created" => nil,
       "v1.subscription_schedule.expiring" => nil,
+      "v1.subscription_schedule.phase_added" => nil,
+      "v1.subscription_schedule.phase_default_tax_rates_changed" => nil,
+      "v1.subscription_schedule.phase_end_date_changed" => nil,
+      "v1.subscription_schedule.phase_removed" => nil,
+      "v1.subscription_schedule.phase_trial_end_changed" => nil,
       "v1.subscription_schedule.released" => nil,
       "v1.subscription_schedule.updated" => nil,
       "v1.tax.settings.updated" => nil,
@@ -549,7 +614,42 @@ defmodule Stripe.EventTypes do
       "v2.core.account_person.created" => nil,
       "v2.core.account_person.deleted" => nil,
       "v2.core.account_person.updated" => nil,
-      "v2.core.event_destination.ping" => nil
+      "v2.core.event_destination.ping" => nil,
+      "v2.money_management.adjustment.created" => nil,
+      "v2.money_management.financial_account.created" => nil,
+      "v2.money_management.financial_account.updated" => nil,
+      "v2.money_management.financial_address.activated" => nil,
+      "v2.money_management.financial_address.failed" => nil,
+      "v2.money_management.inbound_transfer.available" => nil,
+      "v2.money_management.inbound_transfer.bank_debit_failed" => nil,
+      "v2.money_management.inbound_transfer.bank_debit_processing" => nil,
+      "v2.money_management.inbound_transfer.bank_debit_queued" => nil,
+      "v2.money_management.inbound_transfer.bank_debit_returned" => nil,
+      "v2.money_management.inbound_transfer.bank_debit_succeeded" => nil,
+      "v2.money_management.outbound_payment.canceled" => nil,
+      "v2.money_management.outbound_payment.created" => nil,
+      "v2.money_management.outbound_payment.failed" => nil,
+      "v2.money_management.outbound_payment.posted" => nil,
+      "v2.money_management.outbound_payment.returned" => nil,
+      "v2.money_management.outbound_payment.under_review" => nil,
+      "v2.money_management.outbound_payment.updated" => nil,
+      "v2.money_management.payout_intent.canceled" => nil,
+      "v2.money_management.payout_intent.created" => nil,
+      "v2.money_management.payout_intent.pending" => nil,
+      "v2.money_management.payout_intent.posted" => nil,
+      "v2.money_management.payout_intent.processing" => nil,
+      "v2.money_management.payout_intent.requires_action" => nil,
+      "v2.money_management.payout_intent.updated" => nil,
+      "v2.money_management.payout_method.created" => nil,
+      "v2.money_management.payout_method.updated" => nil,
+      "v2.money_management.received_credit.available" => nil,
+      "v2.money_management.received_credit.failed" => nil,
+      "v2.money_management.received_credit.returned" => nil,
+      "v2.money_management.received_credit.succeeded" => nil,
+      "v2.money_management.recipient_verification.created" => nil,
+      "v2.money_management.recipient_verification.updated" => nil,
+      "v2.money_management.transaction.created" => nil,
+      "v2.money_management.transaction.updated" => nil
     }
   end
 
@@ -624,9 +724,29 @@ defmodule Stripe.EventTypes do
       "v1.customer.deleted" => Stripe.Events.V1CustomerDeletedEvent,
       "v1.customer.discount.created" => Stripe.Events.V1CustomerDiscountCreatedEvent,
       "v1.customer.discount.deleted" => Stripe.Events.V1CustomerDiscountDeletedEvent,
+      "v1.customer.discount.source_changed" => Stripe.Events.V1CustomerDiscountSourceChangedEvent,
       "v1.customer.discount.updated" => Stripe.Events.V1CustomerDiscountUpdatedEvent,
+      "v1.customer.subscription.active" => Stripe.Events.V1CustomerSubscriptionActiveEvent,
+      "v1.customer.subscription.cancel_at_changed" =>
+        Stripe.Events.V1CustomerSubscriptionCancelAtChangedEvent,
       "v1.customer.subscription.created" => Stripe.Events.V1CustomerSubscriptionCreatedEvent,
+      "v1.customer.subscription.default_payment_method_changed" =>
+        Stripe.Events.V1CustomerSubscriptionDefaultPaymentMethodChangedEvent,
       "v1.customer.subscription.deleted" => Stripe.Events.V1CustomerSubscriptionDeletedEvent,
+      "v1.customer.subscription.incomplete" =>
+        Stripe.Events.V1CustomerSubscriptionIncompleteEvent,
+      "v1.customer.subscription.incomplete_expired" =>
+        Stripe.Events.V1CustomerSubscriptionIncompleteExpiredEvent,
+      "v1.customer.subscription.item_added" => Stripe.Events.V1CustomerSubscriptionItemAddedEvent,
+      "v1.customer.subscription.item_price_changed" =>
+        Stripe.Events.V1CustomerSubscriptionItemPriceChangedEvent,
+      "v1.customer.subscription.item_quantity_changed" =>
+        Stripe.Events.V1CustomerSubscriptionItemQuantityChangedEvent,
+      "v1.customer.subscription.item_removed" =>
+        Stripe.Events.V1CustomerSubscriptionItemRemovedEvent,
+      "v1.customer.subscription.item_tax_rates_changed" =>
+        Stripe.Events.V1CustomerSubscriptionItemTaxRatesChangedEvent,
+      "v1.customer.subscription.past_due" => Stripe.Events.V1CustomerSubscriptionPastDueEvent,
       "v1.customer.subscription.paused" => Stripe.Events.V1CustomerSubscriptionPausedEvent,
       "v1.customer.subscription.pending_update_applied" =>
         Stripe.Events.V1CustomerSubscriptionPendingUpdateAppliedEvent,
@@ -635,6 +755,8 @@ defmodule Stripe.EventTypes do
       "v1.customer.subscription.resumed" => Stripe.Events.V1CustomerSubscriptionResumedEvent,
       "v1.customer.subscription.trial_will_end" =>
         Stripe.Events.V1CustomerSubscriptionTrialWillEndEvent,
+      "v1.customer.subscription.trialing" => Stripe.Events.V1CustomerSubscriptionTrialingEvent,
+      "v1.customer.subscription.unpaid" => Stripe.Events.V1CustomerSubscriptionUnpaidEvent,
       "v1.customer.subscription.updated" => Stripe.Events.V1CustomerSubscriptionUpdatedEvent,
       "v1.customer.tax_id.created" => Stripe.Events.V1CustomerTaxIdCreatedEvent,
       "v1.customer.tax_id.deleted" => Stripe.Events.V1CustomerTaxIdDeletedEvent,
@@ -642,11 +764,19 @@ defmodule Stripe.EventTypes do
       "v1.customer.updated" => Stripe.Events.V1CustomerUpdatedEvent,
       "v1.customer_cash_balance_transaction.created" =>
         Stripe.Events.V1CustomerCashBalanceTransactionCreatedEvent,
+      "v1.entitlements.active_entitlement_summary.entitlement_added" =>
+        Stripe.Events.V1EntitlementsActiveEntitlementSummaryEntitlementAddedEvent,
+      "v1.entitlements.active_entitlement_summary.entitlement_removed" =>
+        Stripe.Events.V1EntitlementsActiveEntitlementSummaryEntitlementRemovedEvent,
       "v1.entitlements.active_entitlement_summary.updated" =>
         Stripe.Events.V1EntitlementsActiveEntitlementSummaryUpdatedEvent,
       "v1.file.created" => Stripe.Events.V1FileCreatedEvent,
       "v1.financial_connections.account.account_numbers_updated" =>
         Stripe.Events.V1FinancialConnectionsAccountAccountNumbersUpdatedEvent,
+      "v1.financial_connections.account.balance_refresh_failed" =>
+        Stripe.Events.V1FinancialConnectionsAccountBalanceRefreshFailedEvent,
+      "v1.financial_connections.account.balance_refresh_succeeded" =>
+        Stripe.Events.V1FinancialConnectionsAccountBalanceRefreshSucceededEvent,
       "v1.financial_connections.account.created" =>
         Stripe.Events.V1FinancialConnectionsAccountCreatedEvent,
       "v1.financial_connections.account.deactivated" =>
@@ -655,6 +785,14 @@ defmodule Stripe.EventTypes do
         Stripe.Events.V1FinancialConnectionsAccountDisconnectedEvent,
       "v1.financial_connections.account.expected_deactivation_date_updated" =>
         Stripe.Events.V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEvent,
+      "v1.financial_connections.account.inferred_balances_refresh_failed" =>
+        Stripe.Events.V1FinancialConnectionsAccountInferredBalancesRefreshFailedEvent,
+      "v1.financial_connections.account.inferred_balances_refresh_succeeded" =>
+        Stripe.Events.V1FinancialConnectionsAccountInferredBalancesRefreshSucceededEvent,
+      "v1.financial_connections.account.ownership_refresh_failed" =>
+        Stripe.Events.V1FinancialConnectionsAccountOwnershipRefreshFailedEvent,
+      "v1.financial_connections.account.ownership_refresh_succeeded" =>
+        Stripe.Events.V1FinancialConnectionsAccountOwnershipRefreshSucceededEvent,
       "v1.financial_connections.account.reactivated" =>
         Stripe.Events.V1FinancialConnectionsAccountReactivatedEvent,
       "v1.financial_connections.account.refreshed_balance" =>
@@ -663,8 +801,16 @@ defmodule Stripe.EventTypes do
         Stripe.Events.V1FinancialConnectionsAccountRefreshedOwnershipEvent,
       "v1.financial_connections.account.refreshed_transactions" =>
         Stripe.Events.V1FinancialConnectionsAccountRefreshedTransactionsEvent,
+      "v1.financial_connections.account.risk_intelligence_refresh_failed" =>
+        Stripe.Events.V1FinancialConnectionsAccountRiskIntelligenceRefreshFailedEvent,
+      "v1.financial_connections.account.risk_intelligence_refresh_succeeded" =>
+        Stripe.Events.V1FinancialConnectionsAccountRiskIntelligenceRefreshSucceededEvent,
       "v1.financial_connections.account.supported_payment_method_types_updated" =>
         Stripe.Events.V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent,
+      "v1.financial_connections.account.transactions_refresh_failed" =>
+        Stripe.Events.V1FinancialConnectionsAccountTransactionsRefreshFailedEvent,
+      "v1.financial_connections.account.transactions_refresh_succeeded" =>
+        Stripe.Events.V1FinancialConnectionsAccountTransactionsRefreshSucceededEvent,
       "v1.financial_connections.account.upcoming_account_number_expiry" =>
         Stripe.Events.V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEvent,
       "v1.financial_connections.account.upcoming_deactivation" =>
@@ -683,8 +829,16 @@ defmodule Stripe.EventTypes do
         Stripe.Events.V1IdentityVerificationSessionVerifiedEvent,
       "v1.invoice.created" => Stripe.Events.V1InvoiceCreatedEvent,
       "v1.invoice.deleted" => Stripe.Events.V1InvoiceDeletedEvent,
+      "v1.invoice.discount_added" => Stripe.Events.V1InvoiceDiscountAddedEvent,
+      "v1.invoice.discount_removed" => Stripe.Events.V1InvoiceDiscountRemovedEvent,
       "v1.invoice.finalization_failed" => Stripe.Events.V1InvoiceFinalizationFailedEvent,
       "v1.invoice.finalized" => Stripe.Events.V1InvoiceFinalizedEvent,
+      "v1.invoice.line_item_added" => Stripe.Events.V1InvoiceLineItemAddedEvent,
+      "v1.invoice.line_item_pricing_changed" =>
+        Stripe.Events.V1InvoiceLineItemPricingChangedEvent,
+      "v1.invoice.line_item_quantity_changed" =>
+        Stripe.Events.V1InvoiceLineItemQuantityChangedEvent,
+      "v1.invoice.line_item_removed" => Stripe.Events.V1InvoiceLineItemRemovedEvent,
       "v1.invoice.marked_uncollectible" => Stripe.Events.V1InvoiceMarkedUncollectibleEvent,
       "v1.invoice.overdue" => Stripe.Events.V1InvoiceOverdueEvent,
       "v1.invoice.overpaid" => Stripe.Events.V1InvoiceOverpaidEvent,
@@ -698,9 +852,14 @@ defmodule Stripe.EventTypes do
       "v1.invoice.updated" => Stripe.Events.V1InvoiceUpdatedEvent,
       "v1.invoice.voided" => Stripe.Events.V1InvoiceVoidedEvent,
       "v1.invoice.will_be_due" => Stripe.Events.V1InvoiceWillBeDueEvent,
+      "v1.invoice_payment.canceled" => Stripe.Events.V1InvoicePaymentCanceledEvent,
+      "v1.invoice_payment.open" => Stripe.Events.V1InvoicePaymentOpenEvent,
       "v1.invoice_payment.paid" => Stripe.Events.V1InvoicePaymentPaidEvent,
+      "v1.invoiceitem.amount_changed" => Stripe.Events.V1InvoiceitemAmountChangedEvent,
       "v1.invoiceitem.created" => Stripe.Events.V1InvoiceitemCreatedEvent,
       "v1.invoiceitem.deleted" => Stripe.Events.V1InvoiceitemDeletedEvent,
+      "v1.invoiceitem.discount_added" => Stripe.Events.V1InvoiceitemDiscountAddedEvent,
+      "v1.invoiceitem.discount_removed" => Stripe.Events.V1InvoiceitemDiscountRemovedEvent,
       "v1.issuing_authorization.created" => Stripe.Events.V1IssuingAuthorizationCreatedEvent,
       "v1.issuing_authorization.request" => Stripe.Events.V1IssuingAuthorizationRequestEvent,
       "v1.issuing_authorization.updated" => Stripe.Events.V1IssuingAuthorizationUpdatedEvent,
@@ -757,13 +916,22 @@ defmodule Stripe.EventTypes do
       "v1.plan.created" => Stripe.Events.V1PlanCreatedEvent,
       "v1.plan.deleted" => Stripe.Events.V1PlanDeletedEvent,
       "v1.plan.updated" => Stripe.Events.V1PlanUpdatedEvent,
+      "v1.price.activated" => Stripe.Events.V1PriceActivatedEvent,
       "v1.price.created" => Stripe.Events.V1PriceCreatedEvent,
+      "v1.price.deactivated" => Stripe.Events.V1PriceDeactivatedEvent,
       "v1.price.deleted" => Stripe.Events.V1PriceDeletedEvent,
+      "v1.price.lookup_key_changed" => Stripe.Events.V1PriceLookupKeyChangedEvent,
+      "v1.price.tax_behavior_changed" => Stripe.Events.V1PriceTaxBehaviorChangedEvent,
       "v1.price.updated" => Stripe.Events.V1PriceUpdatedEvent,
+      "v1.product.activated" => Stripe.Events.V1ProductActivatedEvent,
       "v1.product.created" => Stripe.Events.V1ProductCreatedEvent,
+      "v1.product.deactivated" => Stripe.Events.V1ProductDeactivatedEvent,
+      "v1.product.default_price_changed" => Stripe.Events.V1ProductDefaultPriceChangedEvent,
       "v1.product.deleted" => Stripe.Events.V1ProductDeletedEvent,
+      "v1.product.tax_code_changed" => Stripe.Events.V1ProductTaxCodeChangedEvent,
       "v1.product.updated" => Stripe.Events.V1ProductUpdatedEvent,
       "v1.promotion_code.created" => Stripe.Events.V1PromotionCodeCreatedEvent,
+      "v1.promotion_code.fully_redeemed" => Stripe.Events.V1PromotionCodeFullyRedeemedEvent,
       "v1.promotion_code.updated" => Stripe.Events.V1PromotionCodeUpdatedEvent,
       "v1.quote.accepted" => Stripe.Events.V1QuoteAcceptedEvent,
       "v1.quote.canceled" => Stripe.Events.V1QuoteCanceledEvent,
@@ -795,6 +963,16 @@ defmodule Stripe.EventTypes do
       "v1.subscription_schedule.completed" => Stripe.Events.V1SubscriptionScheduleCompletedEvent,
       "v1.subscription_schedule.created" => Stripe.Events.V1SubscriptionScheduleCreatedEvent,
       "v1.subscription_schedule.expiring" => Stripe.Events.V1SubscriptionScheduleExpiringEvent,
+      "v1.subscription_schedule.phase_added" =>
+        Stripe.Events.V1SubscriptionSchedulePhaseAddedEvent,
+      "v1.subscription_schedule.phase_default_tax_rates_changed" =>
+        Stripe.Events.V1SubscriptionSchedulePhaseDefaultTaxRatesChangedEvent,
+      "v1.subscription_schedule.phase_end_date_changed" =>
+        Stripe.Events.V1SubscriptionSchedulePhaseEndDateChangedEvent,
+      "v1.subscription_schedule.phase_removed" =>
+        Stripe.Events.V1SubscriptionSchedulePhaseRemovedEvent,
+      "v1.subscription_schedule.phase_trial_end_changed" =>
+        Stripe.Events.V1SubscriptionSchedulePhaseTrialEndChangedEvent,
       "v1.subscription_schedule.released" => Stripe.Events.V1SubscriptionScheduleReleasedEvent,
       "v1.subscription_schedule.updated" => Stripe.Events.V1SubscriptionScheduleUpdatedEvent,
       "v1.tax.settings.updated" => Stripe.Events.V1TaxSettingsUpdatedEvent,
@@ -853,7 +1031,77 @@ defmodule Stripe.EventTypes do
       "v2.core.account_person.created" => Stripe.Events.V2CoreAccountPersonCreatedEvent,
       "v2.core.account_person.deleted" => Stripe.Events.V2CoreAccountPersonDeletedEvent,
       "v2.core.account_person.updated" => Stripe.Events.V2CoreAccountPersonUpdatedEvent,
-      "v2.core.event_destination.ping" => Stripe.Events.V2CoreEventDestinationPingEvent
+      "v2.core.event_destination.ping" => Stripe.Events.V2CoreEventDestinationPingEvent,
+      "v2.money_management.adjustment.created" =>
+        Stripe.Events.V2MoneyManagementAdjustmentCreatedEvent,
+      "v2.money_management.financial_account.created" =>
+        Stripe.Events.V2MoneyManagementFinancialAccountCreatedEvent,
+      "v2.money_management.financial_account.updated" =>
+        Stripe.Events.V2MoneyManagementFinancialAccountUpdatedEvent,
+      "v2.money_management.financial_address.activated" =>
+        Stripe.Events.V2MoneyManagementFinancialAddressActivatedEvent,
+      "v2.money_management.financial_address.failed" =>
+        Stripe.Events.V2MoneyManagementFinancialAddressFailedEvent,
+      "v2.money_management.inbound_transfer.available" =>
+        Stripe.Events.V2MoneyManagementInboundTransferAvailableEvent,
+      "v2.money_management.inbound_transfer.bank_debit_failed" =>
+        Stripe.Events.V2MoneyManagementInboundTransferBankDebitFailedEvent,
+      "v2.money_management.inbound_transfer.bank_debit_processing" =>
+        Stripe.Events.V2MoneyManagementInboundTransferBankDebitProcessingEvent,
+      "v2.money_management.inbound_transfer.bank_debit_queued" =>
+        Stripe.Events.V2MoneyManagementInboundTransferBankDebitQueuedEvent,
+      "v2.money_management.inbound_transfer.bank_debit_returned" =>
+        Stripe.Events.V2MoneyManagementInboundTransferBankDebitReturnedEvent,
+      "v2.money_management.inbound_transfer.bank_debit_succeeded" =>
+        Stripe.Events.V2MoneyManagementInboundTransferBankDebitSucceededEvent,
+      "v2.money_management.outbound_payment.canceled" =>
+        Stripe.Events.V2MoneyManagementOutboundPaymentCanceledEvent,
+      "v2.money_management.outbound_payment.created" =>
+        Stripe.Events.V2MoneyManagementOutboundPaymentCreatedEvent,
+      "v2.money_management.outbound_payment.failed" =>
+        Stripe.Events.V2MoneyManagementOutboundPaymentFailedEvent,
+      "v2.money_management.outbound_payment.posted" =>
+        Stripe.Events.V2MoneyManagementOutboundPaymentPostedEvent,
+      "v2.money_management.outbound_payment.returned" =>
+        Stripe.Events.V2MoneyManagementOutboundPaymentReturnedEvent,
+      "v2.money_management.outbound_payment.under_review" =>
+        Stripe.Events.V2MoneyManagementOutboundPaymentUnderReviewEvent,
+      "v2.money_management.outbound_payment.updated" =>
+        Stripe.Events.V2MoneyManagementOutboundPaymentUpdatedEvent,
+      "v2.money_management.payout_intent.canceled" =>
+        Stripe.Events.V2MoneyManagementPayoutIntentCanceledEvent,
+      "v2.money_management.payout_intent.created" =>
+        Stripe.Events.V2MoneyManagementPayoutIntentCreatedEvent,
+      "v2.money_management.payout_intent.pending" =>
+        Stripe.Events.V2MoneyManagementPayoutIntentPendingEvent,
+      "v2.money_management.payout_intent.posted" =>
+        Stripe.Events.V2MoneyManagementPayoutIntentPostedEvent,
+      "v2.money_management.payout_intent.processing" =>
+        Stripe.Events.V2MoneyManagementPayoutIntentProcessingEvent,
+      "v2.money_management.payout_intent.requires_action" =>
+        Stripe.Events.V2MoneyManagementPayoutIntentRequiresActionEvent,
+      "v2.money_management.payout_intent.updated" =>
+        Stripe.Events.V2MoneyManagementPayoutIntentUpdatedEvent,
+      "v2.money_management.payout_method.created" =>
+        Stripe.Events.V2MoneyManagementPayoutMethodCreatedEvent,
+      "v2.money_management.payout_method.updated" =>
+        Stripe.Events.V2MoneyManagementPayoutMethodUpdatedEvent,
+      "v2.money_management.received_credit.available" =>
+        Stripe.Events.V2MoneyManagementReceivedCreditAvailableEvent,
+      "v2.money_management.received_credit.failed" =>
+        Stripe.Events.V2MoneyManagementReceivedCreditFailedEvent,
+      "v2.money_management.received_credit.returned" =>
+        Stripe.Events.V2MoneyManagementReceivedCreditReturnedEvent,
+      "v2.money_management.received_credit.succeeded" =>
+        Stripe.Events.V2MoneyManagementReceivedCreditSucceededEvent,
+      "v2.money_management.recipient_verification.created" =>
+        Stripe.Events.V2MoneyManagementRecipientVerificationCreatedEvent,
+      "v2.money_management.recipient_verification.updated" =>
+        Stripe.Events.V2MoneyManagementRecipientVerificationUpdatedEvent,
+      "v2.money_management.transaction.created" =>
+        Stripe.Events.V2MoneyManagementTransactionCreatedEvent,
+      "v2.money_management.transaction.updated" =>
+        Stripe.Events.V2MoneyManagementTransactionUpdatedEvent
     }
   end
 end

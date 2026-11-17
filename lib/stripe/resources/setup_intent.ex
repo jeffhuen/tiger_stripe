@@ -200,7 +200,8 @@ defmodule Stripe.Resources.SetupIntent do
             fields: %{
               "mandate_options" => {:resource, Stripe.Resources.MandateOptions},
               "network" => :scalar,
-              "request_three_d_secure" => :scalar
+              "request_three_d_secure" => :scalar,
+              "setup_credential_usage" => :scalar
             }
           },
           "card_present" => :scalar,

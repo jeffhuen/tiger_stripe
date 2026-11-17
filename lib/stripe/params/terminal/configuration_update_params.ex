@@ -9,9 +9,11 @@ defmodule Stripe.Params.Terminal.ConfigurationUpdateParams do
   * `expand` - Specifies which fields in the response should be expanded.
   * `name` - Name of the configuration Max length: 100.
   * `offline` - Configurations for collecting transactions offline.
+  * `reader_security` - Configurations for reader security settings.
   * `reboot_window` - Reboot time settings for readers. that support customized reboot time configuration.
   * `stripe_s700` - An object containing device type specific settings for Stripe S700 readers.
   * `stripe_s710` - An object containing device type specific settings for Stripe S710 readers.
+  * `stripe_t600` - An object containing device type specific settings for Stripe T600 readers.
   * `tipping` - Tipping configurations for readers that support on-reader tips.
   * `verifone_m425` - An object containing device type specific settings for Verifone M425 readers.
   * `verifone_p400` - An object containing device type specific settings for Verifone P400 readers.
@@ -29,9 +31,11 @@ defmodule Stripe.Params.Terminal.ConfigurationUpdateParams do
     :expand,
     :name,
     :offline,
+    :reader_security,
     :reboot_window,
     :stripe_s700,
     :stripe_s710,
+    :stripe_t600,
     :tipping,
     :verifone_m425,
     :verifone_p400,

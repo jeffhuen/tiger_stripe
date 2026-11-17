@@ -17,9 +17,11 @@ defmodule Stripe.Resources.Terminal.Configuration do
   * `name` - String indicating the name of the Configuration object, set by the user Max length: 5000. Nullable.
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `terminal.configuration`.
   * `offline` - Expandable.
+  * `reader_security` - Expandable.
   * `reboot_window` - Expandable.
   * `stripe_s700` - Expandable.
   * `stripe_s710` - Expandable.
+  * `stripe_t600` - Expandable.
   * `tipping` - Expandable.
   * `verifone_m425` - Expandable.
   * `verifone_p400` - Expandable.
@@ -40,9 +42,11 @@ defmodule Stripe.Resources.Terminal.Configuration do
     :name,
     :object,
     :offline,
+    :reader_security,
     :reboot_window,
     :stripe_s700,
     :stripe_s710,
+    :stripe_t600,
     :tipping,
     :verifone_m425,
     :verifone_p400,
@@ -61,9 +65,11 @@ defmodule Stripe.Resources.Terminal.Configuration do
       "bbpos_wisepos_e",
       "cellular",
       "offline",
+      "reader_security",
       "reboot_window",
       "stripe_s700",
       "stripe_s710",
+      "stripe_t600",
       "tipping",
       "verifone_m425",
       "verifone_p400",
@@ -95,6 +101,11 @@ defmodule Stripe.Resources.Terminal.Configuration do
           "enabled" => :scalar
         }
       },
+      "reader_security" => %{
+        fields: %{
+          "admin_menu_passcode" => :scalar
+        }
+      },
       "reboot_window" => %{
         fields: %{
           "end_hour" => :scalar,
@@ -107,6 +118,11 @@ defmodule Stripe.Resources.Terminal.Configuration do
         }
       },
       "stripe_s710" => %{
+        fields: %{
+          "splashscreen" => {:resource, Stripe.Resources.File}
+        }
+      },
+      "stripe_t600" => %{
         fields: %{
           "splashscreen" => {:resource, Stripe.Resources.File}
         }

@@ -3,6 +3,7 @@ defmodule Stripe.Params.BillingPortal.SessionCreateParams do
   @moduledoc "Parameters for session create."
 
   @typedoc """
+  * `after_expiration` - Behavior after the portal session expires.
   * `configuration` - The ID of an existing [configuration](https://docs.stripe.com/api/customer_portal/configurations) to use for this session, describing its functionality and features. If not specified, the session uses the default configuration. Max length: 5000.
   * `customer` - The ID of an existing customer. Max length: 5000.
   * `customer_account` - The ID of an existing account. Max length: 5000.
@@ -15,6 +16,7 @@ defmodule Stripe.Params.BillingPortal.SessionCreateParams do
   @type t :: %__MODULE__{}
 
   defstruct [
+    :after_expiration,
     :configuration,
     :customer,
     :customer_account,

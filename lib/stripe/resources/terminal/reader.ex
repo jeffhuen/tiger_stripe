@@ -11,7 +11,7 @@ defmodule Stripe.Resources.Terminal.Reader do
   @typedoc """
   * `action` - The most recent action performed by the reader. Nullable. Expandable.
   * `device_sw_version` - The current software version of the reader. Max length: 5000. Nullable.
-  * `device_type` - Device type of the reader. Possible values: `bbpos_chipper2x`, `bbpos_wisepad3`, `bbpos_wisepos_e`, `mobile_phone_reader`, `simulated_stripe_s700`, `simulated_stripe_s710`, `simulated_verifone_m425`, `simulated_verifone_p630`, `simulated_verifone_ux700`, `simulated_verifone_v660p`, `simulated_wisepos_e`, `stripe_m2`, `stripe_s700`, `stripe_s710`, `verifone_P400`, `verifone_m425`, `verifone_p630`, `verifone_ux700`, `verifone_v660p`.
+  * `device_type` - Device type of the reader. Possible values: `bbpos_chipper2x`, `bbpos_wisepad3`, `bbpos_wisepos_e`, `mobile_phone_reader`, `simulated_stripe_s700`, `simulated_stripe_s710`, `simulated_stripe_t600`, `simulated_verifone_m425`, `simulated_verifone_p630`, `simulated_verifone_ux700`, `simulated_verifone_v660p`, `simulated_wisepos_e`, `stripe_m2`, `stripe_s700`, `stripe_s710`, `stripe_t600`, `verifone_P400`, `verifone_m425`, `verifone_p630`, `verifone_ux700`, `verifone_v660p`.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `ip_address` - The local IP address of the reader. Max length: 5000. Nullable.
   * `label` - Custom label given to the reader for easier identification. Max length: 5000.

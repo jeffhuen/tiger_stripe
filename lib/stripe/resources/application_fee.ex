@@ -1,7 +1,13 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Resources.ApplicationFee do
   @moduledoc """
-  PlatformFee
+  Application Fee
+
+  When you collect a transaction fee on top of a charge made for your user
+  (using [Connect](https://docs.stripe.com/connect)), an `Application Fee` object is created in
+  your account. You can list, retrieve, and refund application fees.
+
+  Related guide: [Collecting application fees](https://docs.stripe.com/connect/direct-charges#collect-fees)
   """
 
   @typedoc """

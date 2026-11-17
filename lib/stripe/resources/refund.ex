@@ -90,7 +90,12 @@ defmodule Stripe.Resources.Refund do
       "destination_details" => %{
         fields: %{
           "affirm" => :scalar,
-          "afterpay_clearpay" => :scalar,
+          "afterpay_clearpay" => %{
+            fields: %{
+              "reference" => :scalar,
+              "reference_status" => :scalar
+            }
+          },
           "alipay" => :scalar,
           "alma" => :scalar,
           "amazon_pay" => :scalar,
@@ -144,7 +149,12 @@ defmodule Stripe.Resources.Refund do
               "reference_status" => :scalar
             }
           },
-          "klarna" => :scalar,
+          "klarna" => %{
+            fields: %{
+              "reference" => :scalar,
+              "reference_status" => :scalar
+            }
+          },
           "mb_way" => %{
             fields: %{
               "reference" => :scalar,
@@ -173,7 +183,9 @@ defmodule Stripe.Resources.Refund do
           "paynow" => :scalar,
           "paypal" => %{
             fields: %{
-              "network_decline_code" => :scalar
+              "network_decline_code" => :scalar,
+              "reference" => :scalar,
+              "reference_status" => :scalar
             }
           },
           "pix" => :scalar,

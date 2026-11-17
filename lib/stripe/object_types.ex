@@ -262,6 +262,7 @@ defmodule Stripe.ObjectTypes do
       "quote" => Stripe.Resources.Quote,
       "radar.early_fraud_warning" => Stripe.Resources.Radar.EarlyFraudWarning,
       "radar.payment_evaluation" => Stripe.Resources.Radar.PaymentEvaluation,
+      "radar.rule" => Stripe.Resources.Radar.Rule,
       "radar.value_list" => Stripe.Resources.Radar.ValueList,
       "radar.value_list_item" => Stripe.Resources.Radar.ValueListItem,
       "received_payment_method_details_financial_account" => Stripe.Resources.FinancialAccount,
@@ -273,7 +274,6 @@ defmodule Stripe.ObjectTypes do
       "reserve.release" => Stripe.Resources.Reserve.Release,
       "reserve_transaction" => Stripe.Resources.ReserveTransaction,
       "review" => Stripe.Resources.Review,
-      "rule" => Stripe.Resources.Radar.Rule,
       "scheduled_query_run" => Stripe.Resources.Sigma.ScheduledQueryRun,
       "setup_attempt" => Stripe.Resources.SetupAttempt,
       "setup_attempt_payment_method_details_au_becs_debit" => Stripe.Resources.AuBecsDebit,
@@ -387,7 +387,32 @@ defmodule Stripe.ObjectTypes do
       "v2.core.account_person_token" => Stripe.Resources.V2.Core.AccountPersonToken,
       "v2.core.account_token" => Stripe.Resources.V2.Core.AccountToken,
       "v2.core.event" => Stripe.Resources.V2.Core.Event,
-      "v2.core.event_destination" => Stripe.Resources.V2.Core.EventDestination
+      "v2.core.event_destination" => Stripe.Resources.V2.Core.EventDestination,
+      "v2.core.vault.gb_bank_account" => Stripe.Resources.V2.Core.Vault.GbBankAccount,
+      "v2.core.vault.us_bank_account" => Stripe.Resources.V2.Core.Vault.UsBankAccount,
+      "v2.money_management.adjustment" => Stripe.Resources.V2.MoneyManagement.Adjustment,
+      "v2.money_management.financial_account" =>
+        Stripe.Resources.V2.MoneyManagement.FinancialAccount,
+      "v2.money_management.financial_address" =>
+        Stripe.Resources.V2.MoneyManagement.FinancialAddress,
+      "v2.money_management.financial_address_credit_simulation" =>
+        Stripe.Resources.V2.MoneyManagement.FinancialAddressCreditSimulation,
+      "v2.money_management.inbound_transfer" =>
+        Stripe.Resources.V2.MoneyManagement.InboundTransfer,
+      "v2.money_management.outbound_payment" =>
+        Stripe.Resources.V2.MoneyManagement.OutboundPayment,
+      "v2.money_management.outbound_setup_intent" =>
+        Stripe.Resources.V2.MoneyManagement.OutboundSetupIntent,
+      "v2.money_management.payout_intent" => Stripe.Resources.V2.MoneyManagement.PayoutIntent,
+      "v2.money_management.payout_method" => Stripe.Resources.V2.MoneyManagement.PayoutMethod,
+      "v2.money_management.payout_methods_bank_account_spec" =>
+        Stripe.Resources.V2.MoneyManagement.PayoutMethodsBankAccountSpec,
+      "v2.money_management.received_credit" => Stripe.Resources.V2.MoneyManagement.ReceivedCredit,
+      "v2.money_management.recipient_verification" =>
+        Stripe.Resources.V2.MoneyManagement.RecipientVerification,
+      "v2.money_management.transaction" => Stripe.Resources.V2.MoneyManagement.Transaction,
+      "v2.money_management.transaction_entry" =>
+        Stripe.Resources.V2.MoneyManagement.TransactionEntry
     }
   end
 end

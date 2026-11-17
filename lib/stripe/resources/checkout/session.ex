@@ -65,7 +65,7 @@ defmodule Stripe.Resources.Checkout.Session do
   * `invoice_creation` - Details on the state of invoice creation for the Checkout Session. Nullable. Expandable.
   * `line_items` - The line items purchased by the customer. Expandable.
   * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
-  * `locale` - The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used. Possible values: `auto`, `bg`, `cs`, `da`, `de`, `el`, `en`, `en-GB`, `es`, `es-419`, `et`, `fi`, `fil`, `fr`, `fr-CA`, `hr`, `hu`, `id`, `it`, `ja`, `ko`, `lt`, `lv`, `ms`, `mt`, `nb`, `nl`, `pl`, `pt`, `pt-BR`, `ro`, `ru`, `sk`, `sl`, `sv`, `th`, `tr`, `vi`, `zh`, `zh-HK`, `zh-TW`. Nullable.
+  * `locale` - The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used. Possible values: `auto`, `bg`, `cs`, `da`, `de`, `el`, `en`, `en-GB`, `es`, `es-419`, `et`, `fi`, `fil`, `fr`, `fr-CA`, `hi-IN`, `hr`, `hu`, `id`, `it`, `ja`, `ko`, `lt`, `lv`, `ms`, `mt`, `nb`, `nl`, `pl`, `pt`, `pt-BR`, `ro`, `ru`, `sk`, `sl`, `sv`, `th`, `tr`, `vi`, `zh`, `zh-HK`, `zh-TW`. Nullable.
   * `managed_payments` - Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object). Nullable. Expandable.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
   * `mode` - The mode of the Checkout Session. Possible values: `payment`, `setup`, `subscription`.
@@ -75,7 +75,7 @@ defmodule Stripe.Resources.Checkout.Session do
   * `origin_context` - Where the user is coming from. This informs the optimizations that are applied to the session. Possible values: `mobile_app`, `web`. Nullable.
   * `payment_intent` - The ID of the PaymentIntent for Checkout Sessions in `payment` mode. You can't confirm or cancel the PaymentIntent for a Checkout Session. To cancel, [expire the Checkout Session](https://docs.stripe.com/api/checkout/sessions/expire) instead. Nullable. Expandable.
   * `payment_link` - The ID of the Payment Link that created this Session. Nullable. Expandable.
-  * `payment_method_collection` - Configure whether a Checkout Session should collect a payment method for sessions with mode `payment`. Defaults to `always`. Possible values: `always`, `if_required`. Nullable.
+  * `payment_method_collection` - Configure whether a Checkout Session should collect a payment method. Can only be set in `subscription` mode. Defaults to `always`. Possible values: `always`, `if_required`. Nullable.
   * `payment_method_configuration_details` - Information about the payment method configuration used for this Checkout session if using dynamic payment methods. Nullable. Expandable.
   * `payment_method_options` - Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession. Nullable. Expandable.
   * `payment_method_types` - A list of the types of payment methods (e.g. card) this Checkout

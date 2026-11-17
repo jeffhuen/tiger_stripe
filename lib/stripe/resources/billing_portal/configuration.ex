@@ -89,6 +89,24 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
               "proration_behavior" => :scalar
             }
           },
+          "subscription_pause" => %{
+            fields: %{
+              "duration" => %{
+                fields: %{
+                  "interval_options" =>
+                    {:list,
+                     %{
+                       fields: %{
+                         "interval" => :scalar,
+                         "interval_count" => :scalar
+                       }
+                     }},
+                  "type" => :scalar
+                }
+              },
+              "enabled" => :scalar
+            }
+          },
           "subscription_update" => %{
             fields: %{
               "billing_cycle_anchor" => :scalar,
