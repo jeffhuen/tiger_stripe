@@ -222,6 +222,31 @@ defmodule Stripe.ClientTest do
       assert {:ok, _} = Client.request(client, :get, "/v1/balance")
     end
 
+    test "sends the generated API version by default" do
+      Stripe.Test.stub(fn %{headers: headers} ->
+        assert List.keyfind(headers, "stripe-version", 0) ==
+                 {"stripe-version", Stripe.ApiVersion.current()}
+
+        {200, [], ~s({"ok": true})}
+      end)
+
+      client = Stripe.Test.client("sk_test_123")
+      assert {:ok, _} = Client.request(client, :get, "/v1/balance")
+    end
+
+    test "omits stripe-version when api_version is nil" do
+      Stripe.Test.stub(fn %{headers: headers} ->
+        refute List.keymember?(headers, "stripe-version", 0)
+        {200, [], ~s({"ok": true})}
+      end)
+
+      client = Stripe.Test.client("sk_test_123", api_version: nil)
+      assert {:ok, _} = Client.request(client, :get, "/v1/balance")
+
+      client = Stripe.Test.client("sk_test_123")
+      assert {:ok, _} = Client.request(client, :get, "/v1/balance", api_version: nil)
+    end
+
     test "sends stripe-account header when set" do
       Stripe.Test.stub(fn %{headers: headers} ->
         assert List.keyfind(headers, "stripe-account", 0) == {"stripe-account", "acct_connect"}

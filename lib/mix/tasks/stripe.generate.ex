@@ -31,7 +31,8 @@ defmodule Mix.Tasks.Stripe.Generate do
   @generated_files [
     "lib/stripe/object_types.ex",
     "lib/stripe/event_types.ex",
-    "lib/stripe/events.ex"
+    "lib/stripe/events.ex",
+    "lib/stripe/api_version.ex"
   ]
 
   @impl Mix.Task

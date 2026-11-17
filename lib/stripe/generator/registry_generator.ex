@@ -6,11 +6,44 @@ defmodule Stripe.Generator.RegistryGenerator do
   @file_header "# File generated from our OpenAPI spec"
 
   @doc """
-  Generate registry modules (ObjectTypes, EventTypes).
+  Generate registry modules (ObjectTypes, EventTypes) and the ApiVersion constant.
   Returns `[{file_path, content}]`.
   """
   def generate(spec) do
-    [generate_object_types(spec.resources), generate_event_types(spec.event_types)]
+    [
+      generate_object_types(spec.resources),
+      generate_event_types(spec.event_types),
+      generate_api_version(spec.api_version)
+    ]
+  end
+
+  # The spec's info.version is the API version the generated resources and params
+  # describe. Stripe.Client sends it by default, like stripe-ruby's
+  # Stripe::ApiVersion::CURRENT.
+  defp generate_api_version(version) when is_binary(version) and version != "" do
+    content = ~s'''
+    #{@file_header}
+    defmodule Stripe.ApiVersion do
+      @moduledoc """
+      The Stripe API version this SDK was generated against.
+
+      `Stripe.Client` sends it as the `Stripe-Version` header unless the client or
+      request sets `:api_version`.
+      """
+
+      @current #{inspect(version)}
+
+      @doc "Returns the API version the generated resources and params describe."
+      @spec current() :: String.t()
+      def current, do: @current
+    end
+    '''
+
+    {"lib/stripe/api_version.ex", content}
+  end
+
+  defp generate_api_version(version) do
+    raise ArgumentError, "OpenAPI spec is missing info.version (got: #{inspect(version)})"
   end
 
   defp generate_object_types(resources) do

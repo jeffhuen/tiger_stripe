@@ -81,6 +81,15 @@ defmodule Stripe.ParityTest do
     end
   end
 
+  describe "api version" do
+    test "Stripe.ApiVersion matches the spec's API version" do
+      {:ok, json} = File.read("priv/openapi/spec3.sdk.json")
+      {:ok, spec} = JSON.decode(json)
+
+      assert Stripe.ApiVersion.current() == spec["info"]["version"]
+    end
+  end
+
   # -- Helpers ----------------------------------------------------------------
 
   defp spec_endpoints do

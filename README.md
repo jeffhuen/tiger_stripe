@@ -139,13 +139,17 @@ Client options can be passed when constructing the client:
 
 ```elixir
 Stripe.client("sk_test_...",
-  api_version: "2026-08-26.dahlia",  # pin API version
+  api_version: "2026-08-26.dahlia",  # override the default (Stripe.ApiVersion.current/0)
   client_id: "ca_...",               # OAuth client ID (Connect platforms)
   max_retries: 3,                    # default: 2
   open_timeout: 30_000,              # connection timeout in ms
   read_timeout: 80_000               # read timeout in ms
 )
 ```
+
+By default the client sends the API version the SDK was generated against
+(`Stripe.ApiVersion.current/0`) as the `Stripe-Version` header, so responses match the
+generated structs. Pass `api_version: nil` to use your account's default version instead.
 
 ## Quick Start
 

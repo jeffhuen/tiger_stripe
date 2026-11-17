@@ -48,6 +48,8 @@ Method signatures: `method(client, params \\ %{}, opts \\ [])` or
 `method(client, id, params \\ %{}, opts \\ [])` for resource-specific endpoints.
 
 Per-request overrides go in opts: `stripe_account:`, `idempotency_key:`, `api_version:`.
+The client sends `Stripe.ApiVersion.current/0` (the version the generated structs describe) as
+`Stripe-Version` unless `api_version:` says otherwise; `api_version: nil` omits the header.
 
 ## Pagination
 
