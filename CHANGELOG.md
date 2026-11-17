@@ -4,12 +4,17 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
-## [Unreleased]
+## [0.5.0] - 2026-11-17
 
 ### Changed
 
 - **Breaking:** `Stripe.Client` now sends the API version the SDK was generated against (`Stripe.ApiVersion.current/0`) as the `Stripe-Version` header by default, matching stripe-ruby. Previously no header was sent and requests used the account's default API version. Pass `api_version: nil` to the client or to a request to keep the old behavior.
-- Add the generated `Stripe.ApiVersion.current/0`, taken from the OpenAPI spec's `info.version`.
+- Sync OpenAPI spec to v2600 and stripe-ruby parity fixture to v21.0.0. The API version moves from `2026-08-26.dahlia` to `2026-10-28.endive`.
+- Refresh generated V1 + V2 coverage to 221 service modules, 347 resource structs, 581 params modules, and 328 event files.
+- Add `Stripe.ApiVersion.current/0`, generated from the OpenAPI spec's `info.version`.
+- Add V2 core vault services (`Stripe.Services.V2.Core.VaultService`) and V2 test helper services (`Stripe.Services.V2.TestHelperService`, `V2.TestHelpers.MoneyManagementService`, `V2.MoneyManagement.TestHelpersService`, `V2.MoneyManagement.TestHelpers.FinancialAddressService`), matching the stripe-ruby layout.
+- **Breaking:** `Stripe.Resources.AadeData` is no longer generated.
+- Params modules no longer list `payment_method_types` (PaymentIntent create/confirm/update, SetupIntent create, Checkout Session create) or `payto` (PaymentMethod update), following the spec.
 
 ## [0.4.1] - 2026-09-22
 
@@ -190,6 +195,7 @@ The format is based on [Common Changelog](https://common-changelog.org/).
 - Add telemetry events for request lifecycle observability
 - Add Finch HTTP client with connection pooling (Mint + NimblePool)
 
+[0.5.0]: https://github.com/jeffhuen/tiger_stripe/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/jeffhuen/tiger_stripe/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/jeffhuen/tiger_stripe/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/jeffhuen/tiger_stripe/compare/v0.2.0...v0.3.0

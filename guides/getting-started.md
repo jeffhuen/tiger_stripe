@@ -34,7 +34,7 @@ Add `tiger_stripe` to your dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:tiger_stripe, "~> 0.4.0"}
+    {:tiger_stripe, "~> 0.5.0"}
   ]
 end
 ```
