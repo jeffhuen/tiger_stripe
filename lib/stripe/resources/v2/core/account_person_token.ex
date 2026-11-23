@@ -4,6 +4,8 @@ defmodule Stripe.Resources.V2.Core.AccountPersonToken do
   Person Token
 
   Person Tokens are single-use tokens which tokenize person information, and are used for creating or updating a Person.
+  In live mode, you must create person tokens using a live publishable key.
+  In a sandbox, you can create person tokens with secret or publishable keys.
   """
 
   @typedoc """

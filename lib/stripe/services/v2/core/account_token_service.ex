@@ -3,7 +3,9 @@ defmodule Stripe.Services.V2.Core.AccountTokenService do
   @moduledoc """
   Account Token
 
-  Account tokens are single-use tokens which tokenize an account's contact_email, display_name, contact_phone, and identity.
+  Account tokens are single-use tokens which tokenize an account's `contact_email`, `display_name`, `contact_phone`, and `identity`.
+  In live mode, you must create account tokens using a live publishable key.
+  In a sandbox, you can create account tokens with secret or publishable keys.
   """
   alias Stripe.Client
 
@@ -13,8 +15,8 @@ defmodule Stripe.Services.V2.Core.AccountTokenService do
   Create an account token with a publishable key and pass it to the Accounts v2 API to
   create or update an account without its data touching your server.
   Learn more about [account tokens](https://docs.stripe.com/connect/account-tokens).
-  In live mode, you can only create account tokens with your application's publishable key.
-  In test mode, you can create account tokens with your secret key or publishable key.
+  In live mode, you must create account tokens using a live publishable key.
+  In a sandbox, you can create account tokens with secret or publishable keys.
   """
   @spec create(Client.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.V2.Core.AccountToken.t()} | {:error, Stripe.Error.t()}

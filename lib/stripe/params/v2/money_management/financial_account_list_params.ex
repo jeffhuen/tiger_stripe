@@ -4,7 +4,7 @@ defmodule Stripe.Params.V2.MoneyManagement.FinancialAccountListParams do
 
   @typedoc """
   * `include` - Additional fields to include in the response.
-  * `limit` - The page limit.
+  * `limit` - Maximum number of results to return. Default: 10. Valid range: 1-20.
   * `statuses` - Return FinancialAccounts whose `status` matches any of the provided values.
   If omitted, closed FinancialAccounts are not returned.
   """

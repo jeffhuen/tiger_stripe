@@ -18,7 +18,7 @@ defmodule Stripe.Resources.Issuing.Card do
   * `financial_account` - The financial account this card is attached to. Max length: 5000. Nullable.
   * `id` - Unique identifier for the object. Max length: 5000.
   * `last4` - The last 4 digits of the card number. Max length: 5000.
-  * `latest_fraud_warning` - Stripe’s assessment of whether this card’s details have been compromised. If this property isn't null, cancel and reissue the card to prevent fraudulent activity risk. Nullable. Expandable.
+  * `latest_fraud_warning` - Stripe’s assessment of whether this card’s details have been compromised. If this property isn’t null, cancel and reissue the card to reduce the risk of fraudulent activity. Stripe may remove a fraud warning if the cardholder confirms that the activity on the card is legitimate. Nullable. Expandable.
   * `lifecycle_controls` - Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://stripe.com/issuing/controls/lifecycle-controls) for more details. Nullable. Expandable.
   * `livemode` - If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
   * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

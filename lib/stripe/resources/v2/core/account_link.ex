@@ -3,7 +3,7 @@ defmodule Stripe.Resources.V2.Core.AccountLink do
   @moduledoc """
   Account Link
 
-  Account Links let a platform create a temporary, single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information.
+  Account Links let a platform create a temporary, single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information, or to access its Stripe-hosted Dashboard.
   """
 
   @typedoc """
@@ -26,6 +26,11 @@ defmodule Stripe.Resources.V2.Core.AccountLink do
     %{
       "use_case" => %{
         fields: %{
+          "account_dashboard" => %{
+            fields: %{
+              "refresh_url" => :scalar
+            }
+          },
           "account_onboarding" => %{
             fields: %{
               "collection_options" => %{

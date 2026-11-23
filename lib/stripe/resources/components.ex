@@ -107,7 +107,7 @@ defmodule Stripe.Resources.Components do
       "instant_payouts_promotion" => {:resource, Stripe.Resources.InstantPayoutsPromotionConfig},
       "issuing_card" => {:resource, Stripe.Resources.IssuingCardConfig},
       "issuing_cards_list" => {:resource, Stripe.Resources.IssuingCardsListConfig},
-      "notification_banner" => {:resource, Stripe.Resources.AccountConfig},
+      "notification_banner" => {:resource, Stripe.Resources.NotificationBannerConfig},
       "payment_details" => {:resource, Stripe.Resources.PaymentsConfig},
       "payment_disputes" => {:resource, Stripe.Resources.PaymentDisputesConfig},
       "payment_method_settings" => {:resource, Stripe.Resources.PaymentMethodSettingsConfig},

@@ -415,7 +415,59 @@ defmodule Stripe.Resources.Charge do
                   "google_pay" => :scalar,
                   "link" => %{
                     fields: %{
-                      "funding_source_group" => :scalar
+                      "funding_source_group" => :scalar,
+                      "funding_sources" =>
+                        {:list,
+                         %{
+                           fields: %{
+                             "card" => %{
+                               fields: %{
+                                 "amount_authorized" => :scalar,
+                                 "authorization_code" => :scalar,
+                                 "brand" => :scalar,
+                                 "checks" => %{
+                                   fields: %{
+                                     "address_line1_check" => :scalar,
+                                     "address_postal_code_check" => :scalar,
+                                     "cvc_check" => :scalar
+                                   }
+                                 },
+                                 "country" => :scalar,
+                                 "description" => :scalar,
+                                 "electronic_commerce_indicator" => :scalar,
+                                 "exp_month" => :scalar,
+                                 "exp_year" => :scalar,
+                                 "fingerprint" => :scalar,
+                                 "funding" => :scalar,
+                                 "iin" => :scalar,
+                                 "issuer" => :scalar,
+                                 "last4" => :scalar,
+                                 "network" => :scalar,
+                                 "network_token" => %{
+                                   fields: %{
+                                     "used" => :scalar
+                                   }
+                                 },
+                                 "network_transaction_id" => :scalar,
+                                 "regulated_status" => :scalar,
+                                 "three_d_secure" => %{
+                                   fields: %{
+                                     "authentication_flow" => :scalar,
+                                     "electronic_commerce_indicator" => :scalar,
+                                     "exemption_indicator" => :scalar,
+                                     "exemption_indicator_applied" => :scalar,
+                                     "result" => :scalar,
+                                     "result_reason" => :scalar,
+                                     "transaction_id" => :scalar,
+                                     "version" => :scalar
+                                   }
+                                 },
+                                 "transaction_link_id" => :scalar
+                               }
+                             },
+                             "type" => :scalar
+                           }
+                         }}
                     }
                   },
                   "masterpass" => %{
@@ -588,7 +640,59 @@ defmodule Stripe.Resources.Charge do
           "link" => %{
             fields: %{
               "country" => :scalar,
-              "funding_source_group" => :scalar
+              "funding_source_group" => :scalar,
+              "funding_sources" =>
+                {:list,
+                 %{
+                   fields: %{
+                     "card" => %{
+                       fields: %{
+                         "amount_authorized" => :scalar,
+                         "authorization_code" => :scalar,
+                         "brand" => :scalar,
+                         "checks" => %{
+                           fields: %{
+                             "address_line1_check" => :scalar,
+                             "address_postal_code_check" => :scalar,
+                             "cvc_check" => :scalar
+                           }
+                         },
+                         "country" => :scalar,
+                         "description" => :scalar,
+                         "electronic_commerce_indicator" => :scalar,
+                         "exp_month" => :scalar,
+                         "exp_year" => :scalar,
+                         "fingerprint" => :scalar,
+                         "funding" => :scalar,
+                         "iin" => :scalar,
+                         "issuer" => :scalar,
+                         "last4" => :scalar,
+                         "network" => :scalar,
+                         "network_token" => %{
+                           fields: %{
+                             "used" => :scalar
+                           }
+                         },
+                         "network_transaction_id" => :scalar,
+                         "regulated_status" => :scalar,
+                         "three_d_secure" => %{
+                           fields: %{
+                             "authentication_flow" => :scalar,
+                             "electronic_commerce_indicator" => :scalar,
+                             "exemption_indicator" => :scalar,
+                             "exemption_indicator_applied" => :scalar,
+                             "result" => :scalar,
+                             "result_reason" => :scalar,
+                             "transaction_id" => :scalar,
+                             "version" => :scalar
+                           }
+                         },
+                         "transaction_link_id" => :scalar
+                       }
+                     },
+                     "type" => :scalar
+                   }
+                 }}
             }
           },
           "mb_way" => {:resource, Stripe.Resources.MbWay},
@@ -659,7 +763,11 @@ defmodule Stripe.Resources.Charge do
               "transaction_id" => :scalar
             }
           },
-          "paypay" => :scalar,
+          "paypay" => %{
+            fields: %{
+              "fingerprint" => :scalar
+            }
+          },
           "payto" => %{
             fields: %{
               "bsb_number" => :scalar,

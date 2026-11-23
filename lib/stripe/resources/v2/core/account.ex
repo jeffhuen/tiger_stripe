@@ -14,7 +14,7 @@ defmodule Stripe.Resources.V2.Core.Account do
   * `contact_email` - The primary contact email address for the Account.
   * `contact_phone` - The default contact phone for the Account.
   * `created` - Time at which the object was created. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z. Format: date-time.
-  * `dashboard` - A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account. Possible values: `express`, `full`, `none`.
+  * `dashboard` - Specifies the account's Stripe-hosted Dashboard access. Available values depend on the configurations enabled for the account. Learn more about [configuring Dashboard access](https://docs.stripe.com/connect/accounts-v2/connected-account-configuration#set-dashboard-access). Possible values: `express`, `full`, `none`.
   * `defaults` - Default values for settings shared across Account configurations.
   * `display_name` - A descriptive name for the Account. This name will be surfaced in the Stripe Dashboard and on any invoices sent to the Account.
   * `future_requirements` - Information about the future requirements for the Account that will eventually come into effect, including what information needs to be collected, and by when.
@@ -267,6 +267,19 @@ defmodule Stripe.Resources.V2.Core.Account do
                          }}
                     }
                   },
+                  "billie_payments" => %{
+                    fields: %{
+                      "status" => :scalar,
+                      "status_details" =>
+                        {:list,
+                         %{
+                           fields: %{
+                             "code" => :scalar,
+                             "resolution" => :scalar
+                           }
+                         }}
+                    }
+                  },
                   "blik_payments" => %{
                     fields: %{
                       "status" => :scalar,
@@ -501,6 +514,19 @@ defmodule Stripe.Resources.V2.Core.Account do
                          }}
                     }
                   },
+                  "mb_way_payments" => %{
+                    fields: %{
+                      "status" => :scalar,
+                      "status_details" =>
+                        {:list,
+                         %{
+                           fields: %{
+                             "code" => :scalar,
+                             "resolution" => :scalar
+                           }
+                         }}
+                    }
+                  },
                   "mobilepay_payments" => %{
                     fields: %{
                       "status" => :scalar,
@@ -541,6 +567,19 @@ defmodule Stripe.Resources.V2.Core.Account do
                     }
                   },
                   "naver_pay_payments" => %{
+                    fields: %{
+                      "status" => :scalar,
+                      "status_details" =>
+                        {:list,
+                         %{
+                           fields: %{
+                             "code" => :scalar,
+                             "resolution" => :scalar
+                           }
+                         }}
+                    }
+                  },
+                  "nz_bank_account_becs_debit_payments" => %{
                     fields: %{
                       "status" => :scalar,
                       "status_details" =>
@@ -606,6 +645,32 @@ defmodule Stripe.Resources.V2.Core.Account do
                     }
                   },
                   "paynow_payments" => %{
+                    fields: %{
+                      "status" => :scalar,
+                      "status_details" =>
+                        {:list,
+                         %{
+                           fields: %{
+                             "code" => :scalar,
+                             "resolution" => :scalar
+                           }
+                         }}
+                    }
+                  },
+                  "paypay_payments" => %{
+                    fields: %{
+                      "status" => :scalar,
+                      "status_details" =>
+                        {:list,
+                         %{
+                           fields: %{
+                             "code" => :scalar,
+                             "resolution" => :scalar
+                           }
+                         }}
+                    }
+                  },
+                  "pix_payments" => %{
                     fields: %{
                       "status" => :scalar,
                       "status_details" =>
@@ -805,6 +870,7 @@ defmodule Stripe.Resources.V2.Core.Account do
               },
               "konbini_payments" => %{
                 fields: %{
+                  "additional_material" => :scalar,
                   "support" => %{
                     fields: %{
                       "email" => :scalar,
@@ -820,6 +886,30 @@ defmodule Stripe.Resources.V2.Core.Account do
                 }
               },
               "mcc" => :scalar,
+              "paypay_payments" => %{
+                fields: %{
+                  "additional_files" => {:list, :scalar},
+                  "goods_type" => :scalar,
+                  "site" => %{
+                    fields: %{
+                      "accessible" => :scalar,
+                      "in_development" => %{
+                        fields: %{
+                          "password_provided" => :scalar,
+                          "username" => :scalar
+                        }
+                      },
+                      "restricted" => %{
+                        fields: %{
+                          "payment_flow_file" => :scalar
+                        }
+                      },
+                      "type" => :scalar
+                    }
+                  },
+                  "specified_commercial_transactions_act_url" => :scalar
+                }
+              },
               "script_statement_descriptor" => %{
                 fields: %{
                   "kana" => %{

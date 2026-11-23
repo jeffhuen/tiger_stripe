@@ -27,7 +27,7 @@ defmodule Stripe.Services.EventService do
   @doc """
   List all events
 
-  List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) `api_version` attribute (not according to your current Stripe API version or `Stripe-Version` header).
+  List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) `api_version` attribute (not according to your current Stripe API version or `Stripe-Version` header). The list includes only events for the account that makes the request. A platform’s list doesn’t include events from its connected accounts. To list a connected account’s events, make the request [as the connected account](https://docs.stripe.com/connect/authentication) using the `Stripe-Account` header.
   """
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Stripe.ListObject.t()} | {:error, Stripe.Error.t()}

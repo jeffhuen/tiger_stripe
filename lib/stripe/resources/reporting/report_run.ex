@@ -61,6 +61,7 @@ defmodule Stripe.Resources.Reporting.ReportRun do
           "interval_start" => :scalar,
           "payout" => :scalar,
           "reporting_category" => :scalar,
+          "tax_invoice_month" => :scalar,
           "timezone" => :scalar
         }
       },

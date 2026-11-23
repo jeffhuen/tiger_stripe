@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Events.V2CoreAccountClosedEvent do
   @moduledoc """
-  This event occurs when an account is closed.
+  Occurs when an Account is closed.
   """
 
   defstruct [

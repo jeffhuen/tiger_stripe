@@ -3,14 +3,14 @@ defmodule Stripe.Services.V2.Core.AccountLinkService do
   @moduledoc """
   Account Link
 
-  Account Links let a platform create a temporary, single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information.
+  Account Links let a platform create a temporary, single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information, or to access its Stripe-hosted Dashboard.
   """
   alias Stripe.Client
 
   @doc """
   Create an account link
 
-  Creates an AccountLink object that includes a single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information.
+  Creates an AccountLink object that includes a single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information, or to access its Stripe-hosted Dashboard.
   """
   @spec create(Client.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.V2.Core.AccountLink.t()} | {:error, Stripe.Error.t()}

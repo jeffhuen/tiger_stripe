@@ -7,7 +7,7 @@ defmodule Stripe.Params.V2.Core.AccountUpdateParams do
   * `configuration` - An Account Configuration which allows the Account to take on a key persona across Stripe products.
   * `contact_email` - The primary contact email address for the Account.
   * `contact_phone` - The default contact phone for the Account.
-  * `dashboard` - A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account. Possible values: `express`, `full`, `none`.
+  * `dashboard` - Specifies the account's Stripe-hosted Dashboard access. Available values depend on the configurations enabled for the account. Learn more about [configuring Dashboard access](https://docs.stripe.com/connect/accounts-v2/connected-account-configuration#set-dashboard-access). Possible values: `express`, `full`, `none`.
   * `defaults` - Default values to be used on Account Configurations.
   * `display_name` - A descriptive name for the Account. This name will be surfaced in the Stripe Dashboard and on any invoices sent to the Account.
   * `identity` - Information about the company, individual, and business represented by the Account.

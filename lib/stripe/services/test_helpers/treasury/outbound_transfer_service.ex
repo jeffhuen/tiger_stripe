@@ -6,9 +6,9 @@ defmodule Stripe.Services.TestHelpers.Treasury.OutboundTransferService do
   alias Stripe.Client
 
   @doc """
-  Test mode: Fail an OutboundTransfer
+  Test helper: Fail an OutboundTransfer
 
-  Transitions a test mode created OutboundTransfer to the `failed` status. The OutboundTransfer must already be in the `processing` state.
+  Transitions a test `OutboundTransfer` to the `failed` status. The `OutboundTransfer` must already be in the `processing` state.
   """
   @spec fail(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Treasury.OutboundTransfer.t()} | {:error, Stripe.Error.t()}
@@ -22,9 +22,9 @@ defmodule Stripe.Services.TestHelpers.Treasury.OutboundTransferService do
   end
 
   @doc """
-  Test mode: Post an OutboundTransfer
+  Test helper: Post an OutboundTransfer
 
-  Transitions a test mode created OutboundTransfer to the `posted` status. The OutboundTransfer must already be in the `processing` state.
+  Transitions a test `OutboundTransfer` to the `posted` status. The `OutboundTransfer` must already be in the `processing` state.
   """
   @spec post(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Treasury.OutboundTransfer.t()} | {:error, Stripe.Error.t()}
@@ -38,9 +38,9 @@ defmodule Stripe.Services.TestHelpers.Treasury.OutboundTransferService do
   end
 
   @doc """
-  Test mode: Return an OutboundTransfer
+  Test helper: Return an OutboundTransfer
 
-  Transitions a test mode created OutboundTransfer to the `returned` status. The OutboundTransfer must already be in the `processing` state.
+  Transitions a test `OutboundTransfer` to the `returned` status. The `OutboundTransfer` must already be in the `posted` state.
   """
   @spec return_outbound_transfer(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Treasury.OutboundTransfer.t()} | {:error, Stripe.Error.t()}
@@ -54,9 +54,9 @@ defmodule Stripe.Services.TestHelpers.Treasury.OutboundTransferService do
   end
 
   @doc """
-  Test mode: Update an OutboundTransfer
+  Test helper: Update an OutboundTransfer
 
-  Updates a test mode created OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and cannot be in the `canceled` or `failed` states.
+  Updates a test `OutboundTransfer` with tracking details. The `OutboundTransfer` must not be cancelable, and can’t be in the `canceled` or `failed` states.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Treasury.OutboundTransfer.t()} | {:error, Stripe.Error.t()}
