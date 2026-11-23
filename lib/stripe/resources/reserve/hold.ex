@@ -3,7 +3,7 @@ defmodule Stripe.Resources.Reserve.Hold do
   @moduledoc """
   ReserveHold
 
-  ReserveHolds are used to place a temporary ReserveHold on a merchant's funds.
+  A ReserveHold holds a portion of an account's funds until it's released. Stripe or the account's platform can create a ReserveHold directly, and a ReservePlan creates ReserveHolds automatically from incoming Charges.
   """
 
   @typedoc """

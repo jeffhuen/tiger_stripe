@@ -281,6 +281,11 @@ defmodule Stripe.Resources.Tax.Registration do
           },
           "es" => %{
             fields: %{
+              "igic" => %{
+                fields: %{
+                  "place_of_supply_scheme" => :scalar
+                }
+              },
               "standard" => %{
                 fields: %{
                   "place_of_supply_scheme" => :scalar

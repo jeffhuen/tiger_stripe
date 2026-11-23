@@ -12,7 +12,7 @@ defmodule Stripe.Resources.Dispute do
 
   @typedoc """
   * `amount` - Disputed amount. Usually the amount of the charge, but it can differ (usually because of currency fluctuation or because only part of the order is disputed).
-  * `balance_transactions` - List of zero, one, or two balance transactions that show funds withdrawn and reinstated to your Stripe account as a result of this dispute. Expandable.
+  * `balance_transactions` - List of balance transactions that show funds withdrawn and reinstated to your Stripe account as a result of this dispute. Expandable.
   * `charge` - ID of the charge that's disputed. Expandable.
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
   * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.

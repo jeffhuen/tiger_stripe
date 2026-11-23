@@ -273,7 +273,214 @@ defmodule Stripe.Resources.PaymentIntent do
       },
       "payment_details" => %{
         fields: %{
+          "car_rental_data" =>
+            {:list,
+             %{
+               fields: %{
+                 "affiliate" => %{
+                   fields: %{
+                     "code" => :scalar,
+                     "name" => :scalar
+                   }
+                 },
+                 "booking_number" => :scalar,
+                 "carrier_name" => :scalar,
+                 "customer_service_phone_number" => :scalar,
+                 "days_rented" => :scalar,
+                 "distance" => %{
+                   fields: %{
+                     "amount" => :scalar,
+                     "unit" => :scalar
+                   }
+                 },
+                 "drivers" =>
+                   {:list,
+                    %{
+                      fields: %{
+                        "date_of_birth" => %{
+                          fields: %{
+                            "day" => :scalar,
+                            "month" => :scalar,
+                            "year" => :scalar
+                          }
+                        },
+                        "driver_identification_number" => :scalar,
+                        "driver_tax_number" => :scalar,
+                        "name" => :scalar
+                      }
+                    }},
+                 "drop_off" => %{
+                   fields: %{
+                     "address" => {:resource, Stripe.Resources.Address},
+                     "location_name" => :scalar,
+                     "time" => :scalar
+                   }
+                 },
+                 "insurances" =>
+                   {:list,
+                    %{
+                      fields: %{
+                        "amount" => :scalar,
+                        "currency" => :scalar,
+                        "insurance_company_name" => :scalar,
+                        "insurance_type" => :scalar
+                      }
+                    }},
+                 "no_show_indicator" => :scalar,
+                 "pickup" => %{
+                   fields: %{
+                     "address" => {:resource, Stripe.Resources.Address},
+                     "location_name" => :scalar,
+                     "time" => :scalar
+                   }
+                 },
+                 "renter_name" => :scalar,
+                 "total" => %{
+                   fields: %{
+                     "amount" => :scalar,
+                     "currency" => :scalar,
+                     "discounts" => %{
+                       fields: %{
+                         "corporate_client_code" => :scalar,
+                         "coupon" => :scalar,
+                         "maximum_free_miles_or_kilometers" => :scalar
+                       }
+                     },
+                     "extra_charges" =>
+                       {:list,
+                        %{
+                          fields: %{
+                            "amount" => :scalar,
+                            "type" => :scalar
+                          }
+                        }},
+                     "rate_per_unit" => :scalar,
+                     "rate_unit" => :scalar,
+                     "tax" => %{
+                       fields: %{
+                         "tax_exempt_indicator" => :scalar,
+                         "tax_items" =>
+                           {:list,
+                            %{
+                              fields: %{
+                                "amount" => :scalar,
+                                "rate" => :scalar,
+                                "type" => :scalar
+                              }
+                            }}
+                       }
+                     }
+                   }
+                 },
+                 "vehicle" => %{
+                   fields: %{
+                     "make" => :scalar,
+                     "model" => :scalar,
+                     "odometer" => :scalar,
+                     "type" => :scalar,
+                     "vehicle_class" => :scalar,
+                     "vehicle_identification_number" => :scalar
+                   }
+                 }
+               }
+             }},
           "customer_reference" => :scalar,
+          "lodging_data" =>
+            {:list,
+             %{
+               fields: %{
+                 "accommodation" => %{
+                   fields: %{
+                     "accommodation_type" => :scalar,
+                     "bed_type" => :scalar,
+                     "daily_rate_amount" => :scalar,
+                     "nights" => :scalar,
+                     "number_of_rooms" => :scalar,
+                     "rate_type" => :scalar,
+                     "smoking_indicator" => :scalar
+                   }
+                 },
+                 "affiliate" => %{
+                   fields: %{
+                     "code" => :scalar,
+                     "name" => :scalar
+                   }
+                 },
+                 "booking_number" => :scalar,
+                 "checkin_at" => :scalar,
+                 "checkout_at" => :scalar,
+                 "customer_service_phone_number" => :scalar,
+                 "fire_safety_act_compliance_indicator" => :scalar,
+                 "guests" =>
+                   {:list,
+                    %{
+                      fields: %{
+                        "name" => :scalar
+                      }
+                    }},
+                 "host" => %{
+                   fields: %{
+                     "address" => {:resource, Stripe.Resources.Address},
+                     "country_of_domicile" => :scalar,
+                     "host_reference" => :scalar,
+                     "host_type" => :scalar,
+                     "name" => :scalar,
+                     "number_of_reservations" => :scalar,
+                     "property_phone_number" => :scalar,
+                     "registered_at" => :scalar
+                   }
+                 },
+                 "insurances" =>
+                   {:list,
+                    %{
+                      fields: %{
+                        "amount" => :scalar,
+                        "currency" => :scalar,
+                        "insurance_company_name" => :scalar,
+                        "insurance_type" => :scalar
+                      }
+                    }},
+                 "no_show_indicator" => :scalar,
+                 "renter_id_number" => :scalar,
+                 "renter_name" => :scalar,
+                 "total" => %{
+                   fields: %{
+                     "amount" => :scalar,
+                     "cash_advances" => :scalar,
+                     "currency" => :scalar,
+                     "discounts" => %{
+                       fields: %{
+                         "corporate_client_code" => :scalar,
+                         "coupon" => :scalar
+                       }
+                     },
+                     "extra_charges" =>
+                       {:list,
+                        %{
+                          fields: %{
+                            "amount" => :scalar,
+                            "type" => :scalar
+                          }
+                        }},
+                     "prepaid_amount" => :scalar,
+                     "tax" => %{
+                       fields: %{
+                         "tax_exempt_indicator" => :scalar,
+                         "tax_items" =>
+                           {:list,
+                            %{
+                              fields: %{
+                                "amount" => :scalar,
+                                "rate" => :scalar,
+                                "type" => :scalar
+                              }
+                            }}
+                       }
+                     }
+                   }
+                 }
+               }
+             }},
           "order_reference" => :scalar
         }
       },

@@ -70,6 +70,7 @@ defmodule Stripe.Resources.Product do
     %{
       "marketing_features" => %{
         fields: %{
+          "loss_message" => :scalar,
           "name" => :scalar
         }
       },

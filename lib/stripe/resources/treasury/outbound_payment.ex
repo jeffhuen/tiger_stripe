@@ -95,6 +95,16 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
       "returned_details" => %{
         fields: %{
           "code" => :scalar,
+          "network_details" => %{
+            fields: %{
+              "ach" => %{
+                fields: %{
+                  "return_code" => :scalar,
+                  "return_reason" => :scalar
+                }
+              }
+            }
+          },
           "transaction" => {:resource, Stripe.Resources.Treasury.Transaction}
         }
       },

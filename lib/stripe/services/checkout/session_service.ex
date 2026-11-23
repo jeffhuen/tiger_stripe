@@ -24,6 +24,8 @@ defmodule Stripe.Services.Checkout.SessionService do
   Create a Checkout Session
 
   Creates a Checkout Session object.
+
+  Validate requests on your server and protect your application’s Session-creation endpoint with access controls and limits on repeated creation. See [Protect your Session-creation endpoint](https://docs.stripe.com/payments/accept-a-payment?payment-ui=elements&api-integration=checkout#protect-session-creation).
   """
   @spec create(Client.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Checkout.Session.t()} | {:error, Stripe.Error.t()}

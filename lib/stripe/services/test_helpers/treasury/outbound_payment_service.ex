@@ -6,9 +6,9 @@ defmodule Stripe.Services.TestHelpers.Treasury.OutboundPaymentService do
   alias Stripe.Client
 
   @doc """
-  Test mode: Fail an OutboundPayment
+  Test helper: Fail an OutboundPayment
 
-  Transitions a test mode created OutboundPayment to the `failed` status. The OutboundPayment must already be in the `processing` state.
+  Transitions a test `OutboundPayment` to the `failed` status. The `OutboundPayment` must already be in the `processing` state.
   """
   @spec fail(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Treasury.OutboundPayment.t()} | {:error, Stripe.Error.t()}
@@ -22,9 +22,9 @@ defmodule Stripe.Services.TestHelpers.Treasury.OutboundPaymentService do
   end
 
   @doc """
-  Test mode: Post an OutboundPayment
+  Test helper: Post an OutboundPayment
 
-  Transitions a test mode created OutboundPayment to the `posted` status. The OutboundPayment must already be in the `processing` state.
+  Transitions a test `OutboundPayment` to the `posted` status. The `OutboundPayment` must already be in the `processing` state.
   """
   @spec post(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Treasury.OutboundPayment.t()} | {:error, Stripe.Error.t()}
@@ -38,9 +38,9 @@ defmodule Stripe.Services.TestHelpers.Treasury.OutboundPaymentService do
   end
 
   @doc """
-  Test mode: Return an OutboundPayment
+  Test helper: Return an OutboundPayment
 
-  Transitions a test mode created OutboundPayment to the `returned` status. The OutboundPayment must already be in the `processing` state.
+  Transitions a test `OutboundPayment` to the `returned` status. The `OutboundPayment` must already be in the `posted` state.
   """
   @spec return_outbound_payment(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Treasury.OutboundPayment.t()} | {:error, Stripe.Error.t()}
@@ -54,9 +54,9 @@ defmodule Stripe.Services.TestHelpers.Treasury.OutboundPaymentService do
   end
 
   @doc """
-  Test mode: Update an OutboundPayment
+  Test helper: Update an OutboundPayment
 
-  Updates a test mode created OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and cannot be in the `canceled` or `failed` states.
+  Updates a test `OutboundPayment` with tracking details. The `OutboundPayment` must not be cancelable, and can’t be in the `canceled` or `failed` states.
   """
   @spec update(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Stripe.Resources.Treasury.OutboundPayment.t()} | {:error, Stripe.Error.t()}

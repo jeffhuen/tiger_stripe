@@ -578,7 +578,11 @@ defmodule Stripe.Resources.PaymentRecord do
               "transaction_id" => :scalar
             }
           },
-          "paypay" => :scalar,
+          "paypay" => %{
+            fields: %{
+              "fingerprint" => :scalar
+            }
+          },
           "payto" => %{
             fields: %{
               "bsb_number" => :scalar,

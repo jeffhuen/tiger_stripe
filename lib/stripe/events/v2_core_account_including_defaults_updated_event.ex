@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec
 defmodule Stripe.Events.V2CoreAccountIncludingDefaultsUpdatedEvent do
   @moduledoc """
-  This event occurs when account defaults are created or updated.
+  Occurs when an Account's defaults are created or updated.
   """
 
   defstruct [

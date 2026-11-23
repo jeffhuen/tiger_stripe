@@ -73,7 +73,17 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
     %{
       "failure_details" => %{
         fields: %{
-          "code" => :scalar
+          "code" => :scalar,
+          "network_details" => %{
+            fields: %{
+              "ach" => %{
+                fields: %{
+                  "return_code" => :scalar,
+                  "return_reason" => :scalar
+                }
+              }
+            }
+          }
         }
       },
       "linked_flows" => %{

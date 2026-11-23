@@ -17,7 +17,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `radar.payment_evaluation`.
   * `outcome` - Indicates the final outcome for the payment evaluation. Nullable. Expandable.
   * `payment_details` - Expandable.
-  * `recommended_action` - Recommended action based on the score of the `fraudulent_payment` signal. Possible values are `block`, `continue` and `request_three_d_secure`. Possible values: `block`, `continue`.
+  * `recommended_action` - Recommended action for this payment based on its evaluated signals and rules. Possible values: `block`, `continue`.
   * `signals` - Expandable.
   """
   @type t :: %__MODULE__{}

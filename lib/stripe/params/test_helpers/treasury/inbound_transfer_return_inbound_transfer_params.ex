@@ -4,8 +4,9 @@ defmodule Stripe.Params.TestHelpers.Treasury.InboundTransferReturnInboundTransfe
 
   @typedoc """
   * `expand` - Specifies which fields in the response should be expanded.
+  * `failure_details` - Details about a returned InboundTransfer.
   """
   @type t :: %__MODULE__{}
 
-  defstruct [:expand]
+  defstruct [:expand, :failure_details]
 end

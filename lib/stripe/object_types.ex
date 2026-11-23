@@ -66,6 +66,9 @@ defmodule Stripe.ObjectTypes do
       "connect_embedded_issuing_cards_list_config_claim" =>
         Stripe.Resources.IssuingCardsListConfig,
       "connect_embedded_issuing_cards_list_features" => Stripe.Resources.IssuingCardsListFeatures,
+      "connect_embedded_notification_banner_config" => Stripe.Resources.NotificationBannerConfig,
+      "connect_embedded_notification_banner_features" =>
+        Stripe.Resources.NotificationBannerFeatures,
       "connect_embedded_payment_disputes_config" => Stripe.Resources.PaymentDisputesConfig,
       "connect_embedded_payment_disputes_features" => Stripe.Resources.PaymentDisputesFeatures,
       "connect_embedded_payment_method_settings_config_claim" =>
@@ -386,6 +389,7 @@ defmodule Stripe.ObjectTypes do
       "v2.core.account_person" => Stripe.Resources.V2.Core.AccountPerson,
       "v2.core.account_person_token" => Stripe.Resources.V2.Core.AccountPersonToken,
       "v2.core.account_token" => Stripe.Resources.V2.Core.AccountToken,
+      "v2.core.claimable_sandbox" => Stripe.Resources.V2.Core.ClaimableSandbox,
       "v2.core.event" => Stripe.Resources.V2.Core.Event,
       "v2.core.event_destination" => Stripe.Resources.V2.Core.EventDestination,
       "v2.core.vault.gb_bank_account" => Stripe.Resources.V2.Core.Vault.GbBankAccount,

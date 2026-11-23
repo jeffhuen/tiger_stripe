@@ -12,6 +12,7 @@ defmodule Stripe.Resources.Refund do
 
   @typedoc """
   * `amount` - Amount, in cents (or local equivalent).
+  * `application` - ID of the Connect application that created the refund. This can differ from the application on the associated Charge or PaymentIntent. A null value does not necessarily mean the refund was created without a Connect application. Nullable. Expandable.
   * `balance_transaction` - Balance transaction that describes the impact on your account balance. Nullable. Expandable.
   * `charge` - ID of the charge that's refunded. Nullable. Expandable.
   * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
@@ -41,6 +42,7 @@ defmodule Stripe.Resources.Refund do
 
   defstruct [
     :amount,
+    :application,
     :balance_transaction,
     :charge,
     :created,
@@ -72,6 +74,7 @@ defmodule Stripe.Resources.Refund do
 
   def expandable_fields,
     do: [
+      "application",
       "balance_transaction",
       "charge",
       "customer",
@@ -100,6 +103,12 @@ defmodule Stripe.Resources.Refund do
           "alma" => :scalar,
           "amazon_pay" => :scalar,
           "au_bank_transfer" => :scalar,
+          "bizum" => %{
+            fields: %{
+              "reference" => :scalar,
+              "reference_status" => :scalar
+            }
+          },
           "blik" => %{
             fields: %{
               "network_decline_code" => :scalar,
@@ -207,6 +216,12 @@ defmodule Stripe.Resources.Refund do
           },
           "twint" => :scalar,
           "type" => :scalar,
+          "upi" => %{
+            fields: %{
+              "reference" => :scalar,
+              "reference_status" => :scalar
+            }
+          },
           "us_bank_transfer" => %{
             fields: %{
               "reference" => :scalar,

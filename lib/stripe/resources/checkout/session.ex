@@ -246,6 +246,7 @@ defmodule Stripe.Resources.Checkout.Session do
       },
       "automatic_tax" => %{
         fields: %{
+          "address_collection_precision" => :scalar,
           "enabled" => :scalar,
           "liability" => %{
             fields: %{
